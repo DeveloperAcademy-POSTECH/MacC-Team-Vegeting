@@ -2,7 +2,7 @@ name: Swift
 
 on:
   push:
-    branches: [ "main", "feature/**", "test/action" ]
+    branches: [ "main", "feature/**"]
   pull_request:
     branches: [ "main", "develop" ]
 
@@ -15,4 +15,4 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Set Default Scheme
-        run: xcodebuild clean test -project Vegeting.xcodeproj -scheme "Vegeting" -destination "platform=iOS Simulator,name=iPhone 13 Pro,OS=15.0" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO
+        run: xcodebuild clean test -project Vegeting.xcodeproj -scheme "Vegeting" -destination "platform=iOS Simulator,name=iPhone 13 Pro,OS=15.2" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO
