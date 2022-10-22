@@ -23,7 +23,7 @@ final class GroupCategoryView: UIView {
         return collectionView
     }()
     
-    private let categoryList: [String] = ["행사", "맛집", "친목", "공부", "기타", "하나더"]
+    private let categoryList: [String] = ["행사", "맛집", "친목", "공부", "기타"]
     
     // MARK: - init
     
@@ -49,7 +49,6 @@ final class GroupCategoryView: UIView {
         categoryCollectionView.dataSource = self
         categoryCollectionView.delegate = self
         categoryCollectionView.register(GroupCategoryCollectionViewCell.self, forCellWithReuseIdentifier: GroupCategoryCollectionViewCell.className)
-        
     }
 }
 
@@ -76,10 +75,12 @@ extension GroupCategoryView: UICollectionViewDelegateFlowLayout {
 
 extension GroupCategoryView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("하이")
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GroupCategoryCollectionViewCell.className, for: indexPath) as? GroupCategoryCollectionViewCell else { return }
-                
-        cell.applySelectedState(true)
+        guard let cell = collectionView.cellForItem(at: indexPath) as? GroupCategoryCollectionViewCell else { return }
+        cell.applySelectedState()
+    }
     
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? GroupCategoryCollectionViewCell else { return }
+        cell.applySelectedState()
     }
 }
