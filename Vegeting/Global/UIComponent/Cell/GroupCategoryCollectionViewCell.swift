@@ -14,7 +14,7 @@ final class GroupCategoryCollectionViewCell: UICollectionViewCell {
     private let backgroundContentView: UIView = {
         let view = UIView()
         view.layer.masksToBounds = true
-        view.backgroundColor = .white
+        view.backgroundColor = .systemGray3
         return view
     }()
     
@@ -54,15 +54,10 @@ final class GroupCategoryCollectionViewCell: UICollectionViewCell {
         layer.masksToBounds = false
         let cellCornerRadius = (self.bounds.size.width * (self.bounds.size.height / self.bounds.size.width)) / 2
         backgroundContentView.layer.cornerRadius = cellCornerRadius
-        
-        makeShadow(color: .black,
-                   opacity: 0.3,
-                   offset: CGSize(width: 0, height: 2),
-                   radius: 2)
     }
     
     func applySelectedState() {
-        backgroundContentView.backgroundColor = isSelected ? .black : .white
+        backgroundContentView.backgroundColor = isSelected ? .black : .systemGray3
         itemLabel.textColor = isSelected ? .white : .black
         itemLabel.font = isSelected ? .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .bold)) : .preferredFont(forTextStyle:.subheadline)
     }

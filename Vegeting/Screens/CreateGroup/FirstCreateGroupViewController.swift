@@ -44,6 +44,6 @@ final class FirstCreateGroupViewController: UIViewController {
     }
 
     private func configureUI() {
-        view.backgroundColor = .yellow
+        view.backgroundColor = .white
     }
 }
