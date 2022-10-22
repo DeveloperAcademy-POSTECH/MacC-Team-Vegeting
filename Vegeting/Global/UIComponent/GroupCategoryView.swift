@@ -76,11 +76,13 @@ extension GroupCategoryView: UICollectionViewDelegateFlowLayout {
 extension GroupCategoryView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? GroupCategoryCollectionViewCell else { return }
+        print(indexPath, "hi")
         cell.applySelectedState()
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? GroupCategoryCollectionViewCell else { return }
+        print(indexPath, "hi")
         cell.applySelectedState()
     }
 }
