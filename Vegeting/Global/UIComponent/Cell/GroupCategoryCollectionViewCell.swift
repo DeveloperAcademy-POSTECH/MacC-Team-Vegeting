@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GroupCategoryCollectionViewCell: UICollectionViewCell {
+final class GroupCategoryCollectionViewCell: UICollectionViewCell {
     
     // MARK: - properties
     
@@ -43,14 +43,11 @@ class GroupCategoryCollectionViewCell: UICollectionViewCell {
     private func setupLayout() {
         addSubview(backgroundContentView)
         backgroundContentView.constraint(to: self)
-        
         backgroundContentView.addSubview(itemLabel)
-        let itemConstraints = itemLabel.constraint(leading: self.leadingAnchor,
-                                                   trailing: self.trailingAnchor,
+        itemLabel.constraint(leading: backgroundContentView.leadingAnchor,
+                                                   trailing: backgroundContentView.trailingAnchor,
                                                    centerY: self.centerYAnchor,
                                                    padding: UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14))
-        itemConstraints[.leading]?.priority = UILayoutPriority(999)
-        itemConstraints[.trailing]?.priority = UILayoutPriority(999)
     }
     
     private func configureUI() {
