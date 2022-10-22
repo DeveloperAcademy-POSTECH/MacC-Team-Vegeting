@@ -1,4 +1,4 @@
- # auto-assign.yml
+# auto-assign.yml
     
  # Set to true to add reviewers to pull requests
  addReviewers: true
