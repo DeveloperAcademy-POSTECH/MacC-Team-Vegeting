@@ -82,17 +82,17 @@
 		4A31CD222903D61900E5E422 /* CreateGroup */ = {
 			isa = PBXGroup;
 			children = (
-				4A31CD2B2903DE2E00E5E422 /* VC */,
+				4A31CD2B2903DE2E00E5E422 /* ViewController */,
 			);
 			path = CreateGroup;
 			sourceTree = "<group>";
 		};
-		4A31CD2B2903DE2E00E5E422 /* VC */ = {
+		4A31CD2B2903DE2E00E5E422 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
 				4A31CD232903D73D00E5E422 /* FirstCreateGroupViewController.swift */,
 			);
-			path = VC;
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		4ADC12D229017A3B00C0FFB6 /* Global */ = {
@@ -186,9 +186,17 @@
 		4ADC12F5290212C100C0FFB6 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				A7C8DF272901274500F38AD7 /* ViewController.swift */,
+				4AFA58AB2904244400679142 /* ViewController */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		4AFA58AB2904244400679142 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				A7C8DF272901274500F38AD7 /* ViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		76B027EF2901726E002C9DF7 /* VegetingTests */ = {
