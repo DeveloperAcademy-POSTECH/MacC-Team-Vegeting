@@ -73,3 +73,13 @@ extension GroupCategoryView: UICollectionViewDelegateFlowLayout {
         return CGSize(width: width, height: 34)
     }
 }
+
+extension GroupCategoryView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("하이")
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GroupCategoryCollectionViewCell.className, for: indexPath) as? GroupCategoryCollectionViewCell else { return }
+                
+        cell.applySelectedState(true)
+    
+    }
+}

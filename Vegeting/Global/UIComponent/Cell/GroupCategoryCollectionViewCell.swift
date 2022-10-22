@@ -25,6 +25,8 @@ final class GroupCategoryCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    private var isCellSelected = false
+    
     // MARK: - init
     
     override init(frame: CGRect) {
@@ -65,6 +67,7 @@ final class GroupCategoryCollectionViewCell: UICollectionViewCell {
         backgroundContentView.backgroundColor = isSelected ? .black : .white
         itemLabel.textColor = isSelected ? .white : .black
         itemLabel.font = isSelected ? .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .bold)) : .preferredFont(forTextStyle:.subheadline)
+        isCellSelected = isSelected
     }
     
     func setItemLabel(with itemText: String) {
