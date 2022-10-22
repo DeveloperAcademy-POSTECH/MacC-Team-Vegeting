@@ -82,9 +82,17 @@
 		4A31CD222903D61900E5E422 /* CreateGroup */ = {
 			isa = PBXGroup;
 			children = (
-				4A31CD232903D73D00E5E422 /* FirstCreateGroupViewController.swift */,
+				4A31CD2B2903DE2E00E5E422 /* VC */,
 			);
 			path = CreateGroup;
+			sourceTree = "<group>";
+		};
+		4A31CD2B2903DE2E00E5E422 /* VC */ = {
+			isa = PBXGroup;
+			children = (
+				4A31CD232903D73D00E5E422 /* FirstCreateGroupViewController.swift */,
+			);
+			path = VC;
 			sourceTree = "<group>";
 		};
 		4ADC12D229017A3B00C0FFB6 /* Global */ = {
