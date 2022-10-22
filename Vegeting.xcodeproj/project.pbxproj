@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A31CD242903D73D00E5E422 /* FirstCreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD232903D73D00E5E422 /* FirstCreateGroupViewController.swift */; };
 		4ADC12DD2901800D00C0FFB6 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12DC2901800D00C0FFB6 /* UIColor+Extension.swift */; };
 		4ADC12E12901813900C0FFB6 /* NSObject+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12E02901813900C0FFB6 /* NSObject+Extension.swift */; };
 		4ADC12E32901815C00C0FFB6 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12E22901815C00C0FFB6 /* UIViewController+Extension.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A31CD232903D73D00E5E422 /* FirstCreateGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstCreateGroupViewController.swift; sourceTree = "<group>"; };
 		4ADC12DC2901800D00C0FFB6 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		4ADC12E02901813900C0FFB6 /* NSObject+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Extension.swift"; sourceTree = "<group>"; };
 		4ADC12E22901815C00C0FFB6 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -77,6 +79,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A31CD222903D61900E5E422 /* CreateGroup */ = {
+			isa = PBXGroup;
+			children = (
+				4A31CD232903D73D00E5E422 /* FirstCreateGroupViewController.swift */,
+			);
+			path = CreateGroup;
+			sourceTree = "<group>";
+		};
 		4ADC12D229017A3B00C0FFB6 /* Global */ = {
 			isa = PBXGroup;
 			children = (
@@ -151,6 +161,7 @@
 		4ADC12DA29017B9E00C0FFB6 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				4A31CD222903D61900E5E422 /* CreateGroup */,
 				4ADC12F5290212C100C0FFB6 /* Main */,
 			);
 			path = Screens;
@@ -317,6 +328,7 @@
 			files = (
 				4ADC12E32901815C00C0FFB6 /* UIViewController+Extension.swift in Sources */,
 				4ADC12E12901813900C0FFB6 /* NSObject+Extension.swift in Sources */,
+				4A31CD242903D73D00E5E422 /* FirstCreateGroupViewController.swift in Sources */,
 				A7C8DF282901274500F38AD7 /* ViewController.swift in Sources */,
 				4ADC12ED2901838200C0FFB6 /* ImageLiteral.swift in Sources */,
 				4ADC12E52901817800C0FFB6 /* UILabel+Extension.swift in Sources */,
