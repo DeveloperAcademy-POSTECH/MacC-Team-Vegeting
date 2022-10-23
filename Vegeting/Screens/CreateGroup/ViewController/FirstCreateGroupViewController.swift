@@ -22,7 +22,7 @@ final class FirstCreateGroupViewController: UIViewController {
     
     private let locationTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "지역을 선택해주세요"
+        label.text = "지역을 선택해주세요."
         label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
         return label
     }()
@@ -42,7 +42,7 @@ final class FirstCreateGroupViewController: UIViewController {
     
     private let dateTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "날짜를 선택해주세요"
+        label.text = "날짜를 선택해주세요."
         label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
         return label
     }()
@@ -56,6 +56,15 @@ final class FirstCreateGroupViewController: UIViewController {
         datePicker.maximumDate = Date().addingTimeInterval(2678400)
         return datePicker
     }()
+    
+    private let numberOfGroupPeopleTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "모임 인원을 선택해주세요."
+        label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
+        return label
+    }()
+    
+    private let numberOfGroupCollectionView = NumberOfGroupPeopleView()
     
     //MARK: - lifeCycle
     
@@ -71,7 +80,8 @@ final class FirstCreateGroupViewController: UIViewController {
         view.addSubview(categoryTitleLabel)
         categoryTitleLabel.constraint(top: view.safeAreaLayoutGuide.topAnchor,
                                       leading: view.leadingAnchor,
-                                      padding: UIEdgeInsets(top: 23, left: 24, bottom: 0, right: 0))
+                                      trailing: view.trailingAnchor,
+                                      padding: UIEdgeInsets(top: 23, left: 24, bottom: 0, right: 24))
         
         view.addSubview(categoryCollectionView)
         categoryCollectionView.constraint(top: categoryTitleLabel.bottomAnchor,
@@ -101,6 +111,15 @@ final class FirstCreateGroupViewController: UIViewController {
                               leading: view.leadingAnchor,
                               padding: UIEdgeInsets(top: 10, left: 24, bottom: 0, right: 0))
         
+        view.addSubview(numberOfGroupPeopleTitleLabel)
+        numberOfGroupPeopleTitleLabel.constraint(top: datePicker.bottomAnchor,
+                                                 leading: view.leadingAnchor,
+                                                 padding: UIEdgeInsets(top: 49, left: 24, bottom: 0, right: 0))
+        
+        view.addSubview(numberOfGroupCollectionView)
+        numberOfGroupCollectionView.constraint(top: numberOfGroupPeopleTitleLabel.bottomAnchor,
+                                               leading: view.leadingAnchor,
+                                               padding: UIEdgeInsets(top: 24, left: 24, bottom: 0, right: 0))
     }
     
     private func configureUI() {
