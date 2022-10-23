@@ -16,7 +16,7 @@ struct Chat: Identifiable, Decodable {
 }
 
 struct Message: Identifiable, Decodable {
-    var id: String { UUID().uuidString }
+    var id: String?
     let senderID, senderName: String
     let senderImageURL: String?
     let contentType: String
