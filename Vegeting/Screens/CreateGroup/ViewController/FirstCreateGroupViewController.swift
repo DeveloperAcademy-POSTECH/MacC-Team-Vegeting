@@ -12,13 +12,50 @@ final class FirstCreateGroupViewController: UIViewController {
     //MARK: - properties
     
     private let categoryTitleLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.text = "모임의 목적을 선택해주세요."
         label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
         return label
     }()
     
     private let categoryCollectionView = GroupCategoryView()
+    
+    private let locationTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "지역을 선택해주세요"
+        label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
+        return label
+    }()
+    
+    private let locationContrainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray6
+        view.layer.cornerRadius = 7
+        return view
+    }()
+    
+    private let locationLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .body)
+        return label
+    }()
+    
+    private let dateTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "날짜를 선택해주세요"
+        label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
+        return label
+    }()
+    
+    private lazy var datePicker: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .dateAndTime
+        datePicker.preferredDatePickerStyle = .compact
+        datePicker.locale = Locale(identifier: "ko-KR")
+        datePicker.minimumDate = Date()
+        datePicker.maximumDate = Date().addingTimeInterval(2678400)
+        return datePicker
+    }()
     
     //MARK: - lifeCycle
     
@@ -41,8 +78,31 @@ final class FirstCreateGroupViewController: UIViewController {
                                           leading: view.leadingAnchor,
                                           trailing: view.trailingAnchor,
                                           padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
+        
+        view.addSubview(locationTitleLabel)
+        locationTitleLabel.constraint(top: categoryCollectionView.bottomAnchor,
+                                      leading: view.leadingAnchor,
+                                      padding: UIEdgeInsets(top: 49, left: 24, bottom: 0, right: 0))
+        
+        view.addSubview(locationContrainerView)
+        locationContrainerView.constraint(top: locationTitleLabel.bottomAnchor,
+                                          leading: view.leadingAnchor,
+                                          trailing: view.trailingAnchor,
+                                          padding: UIEdgeInsets(top: 10, left: 24, bottom: 0, right: 24))
+        locationContrainerView.constraint(.heightAnchor, constant: 44)
+        
+        view.addSubview(dateTitleLabel)
+        dateTitleLabel.constraint(top: locationContrainerView.bottomAnchor,
+                                  leading: view.leadingAnchor,
+                                  padding: UIEdgeInsets(top: 49, left: 24, bottom: 0, right: 0))
+        
+        view.addSubview(datePicker)
+        datePicker.constraint(top: dateTitleLabel.bottomAnchor,
+                              leading: view.leadingAnchor,
+                              padding: UIEdgeInsets(top: 10, left: 24, bottom: 0, right: 0))
+        
     }
-
+    
     private func configureUI() {
         view.backgroundColor = .white
     }
