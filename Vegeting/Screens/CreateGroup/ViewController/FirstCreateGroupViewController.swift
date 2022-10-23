@@ -12,7 +12,7 @@ final class FirstCreateGroupViewController: UIViewController {
     //MARK: - properties
     
     private let categoryTitleLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.text = "모임의 목적을 선택해주세요."
         label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
         return label
@@ -42,7 +42,7 @@ final class FirstCreateGroupViewController: UIViewController {
                                           trailing: view.trailingAnchor,
                                           padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
     }
-
+    
     private func configureUI() {
         view.backgroundColor = .white
     }
