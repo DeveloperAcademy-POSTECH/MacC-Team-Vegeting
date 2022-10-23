@@ -31,7 +31,6 @@ final class GroupCategoryCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         setupLayout()
         configureUI()
-        
     }
     
     required init?(coder: NSCoder) {
