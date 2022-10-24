@@ -24,7 +24,7 @@ final class GroupCategoryView: UIView {
         return collectionView
     }()
     
-    private let categoryList: [String] = ["행사", "맛집", "친목", "공부", "기타"]
+    private var categoryList: [String] = ["행사", "맛집", "친목", "공부", "기타"]
     
     // MARK: - init
     
@@ -49,6 +49,10 @@ final class GroupCategoryView: UIView {
     private func configureCollectionView() {
         categoryCollectionView.dataSource = self
         categoryCollectionView.delegate = self
+    }
+    
+    func changeCategoryList(with list: [String]) {
+        categoryList = list
     }
 }
 
