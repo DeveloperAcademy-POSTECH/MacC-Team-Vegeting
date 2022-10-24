@@ -10,6 +10,8 @@
 		4A31CD242903D73D00E5E422 /* FirstCreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD232903D73D00E5E422 /* FirstCreateGroupViewController.swift */; };
 		4A31CD272903D86200E5E422 /* GroupCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD262903D86200E5E422 /* GroupCategoryView.swift */; };
 		4A31CD2A2903D89600E5E422 /* GroupCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD292903D89600E5E422 /* GroupCategoryCollectionViewCell.swift */; };
+		4AC8F0632906BD18007D3946 /* LocationSearchingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC8F0622906BD18007D3946 /* LocationSearchingViewController.swift */; };
+		4AC8F0652906C5E0007D3946 /* SearchedLocationResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC8F0642906C5E0007D3946 /* SearchedLocationResultTableViewCell.swift */; };
 		4ADC12DD2901800D00C0FFB6 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12DC2901800D00C0FFB6 /* UIColor+Extension.swift */; };
 		4ADC12E12901813900C0FFB6 /* NSObject+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12E02901813900C0FFB6 /* NSObject+Extension.swift */; };
 		4ADC12E32901815C00C0FFB6 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12E22901815C00C0FFB6 /* UIViewController+Extension.swift */; };
@@ -48,6 +50,8 @@
 		4A31CD232903D73D00E5E422 /* FirstCreateGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstCreateGroupViewController.swift; sourceTree = "<group>"; };
 		4A31CD262903D86200E5E422 /* GroupCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCategoryView.swift; sourceTree = "<group>"; };
 		4A31CD292903D89600E5E422 /* GroupCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
+		4AC8F0622906BD18007D3946 /* LocationSearchingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchingViewController.swift; sourceTree = "<group>"; };
+		4AC8F0642906C5E0007D3946 /* SearchedLocationResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedLocationResultTableViewCell.swift; sourceTree = "<group>"; };
 		4ADC12DC2901800D00C0FFB6 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		4ADC12E02901813900C0FFB6 /* NSObject+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Extension.swift"; sourceTree = "<group>"; };
 		4ADC12E22901815C00C0FFB6 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -124,6 +128,7 @@
 			isa = PBXGroup;
 			children = (
 				4A31CD232903D73D00E5E422 /* FirstCreateGroupViewController.swift */,
+				4AC8F0622906BD18007D3946 /* LocationSearchingViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -248,6 +253,7 @@
 			isa = PBXGroup;
 			children = (
 				4AFA58B42905280F00679142 /* NumberOfPeopleCollectionViewCell.swift */,
+				4AC8F0642906C5E0007D3946 /* SearchedLocationResultTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -408,6 +414,7 @@
 				4ADC12F12901856B00C0FFB6 /* UIView+Constraint.swift in Sources */,
 				4A31CD272903D86200E5E422 /* GroupCategoryView.swift in Sources */,
 				4ADC12EB2901833F00C0FFB6 /* StringLiteral.swift in Sources */,
+				4AC8F0632906BD18007D3946 /* LocationSearchingViewController.swift in Sources */,
 				A7C8DF242901274500F38AD7 /* AppDelegate.swift in Sources */,
 				4AFA58AA2903EA6400679142 /* UIView+Extension.swift in Sources */,
 				4ADC12E92901819800C0FFB6 /* UIScreen+Extension.swift in Sources */,
@@ -416,6 +423,7 @@
 				4ADC12E72901818900C0FFB6 /* UIStackView+Extention.swift in Sources */,
 				4ADC12DD2901800D00C0FFB6 /* UIColor+Extension.swift in Sources */,
 				4AFA58AD29050B3800679142 /* Date+Extension.swift in Sources */,
+				4AC8F0652906C5E0007D3946 /* SearchedLocationResultTableViewCell.swift in Sources */,
 				4ADC12F32901857F00C0FFB6 /* UIViewController+Alert.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
