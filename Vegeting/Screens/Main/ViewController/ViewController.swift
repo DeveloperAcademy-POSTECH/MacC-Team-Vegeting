@@ -12,8 +12,11 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+        navigationItem.title = "로그인 상태"
+        navigationItem.largeTitleDisplayMode = .always
     }
-    
+        
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         

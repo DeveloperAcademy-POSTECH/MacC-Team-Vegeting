@@ -19,7 +19,7 @@ class SignInViewController: UIViewController {
         
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Create your account"
+        label.text = "아이디를 로그인하세요!(없으면 자동생성됨)"
         label.font = .systemFont(ofSize: 32, weight: .bold)
         return label
     }()
@@ -48,7 +48,7 @@ class SignInViewController: UIViewController {
 
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("등록완료", for: .normal)
+        button.setTitle("로그인", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
         button.backgroundColor = UIColor(red: 29/255, green: 161/255, blue: 242/255, alpha: 1)
         button.tintColor = .white
