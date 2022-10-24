@@ -18,12 +18,19 @@ class SecondCreateGroupViewController: UIViewController {
     private lazy var titleTextField: UITextField = {
         var textField = UITextField()
         textField.placeholder = "제목을 입력해주세요"
-//        textField.layer.borderWidth = 0.5
+        textField.font = .preferredFont(forTextStyle: .body)
         textField.layer.cornerRadius = 5
-//        textField.layer.borderColor = UIColor.black.cgColor
         textField.layer.backgroundColor = UIColor.systemGray4.cgColor
-        
+        textField.addLeftPadding()
         return textField
+    }()
+    
+    private lazy var contentTextview: UITextView = {
+        var textView = UITextView()
+        textView.layer.cornerRadius = 5
+        textView.layer.backgroundColor = UIColor.systemGray4.cgColor
+        textView.font = .preferredFont(forTextStyle: .body)
+        return textView
     }()
 
     override func viewDidLoad() {
@@ -51,6 +58,15 @@ class SecondCreateGroupViewController: UIViewController {
             titleTextField.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 24),
             titleTextField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             titleTextField.heightAnchor.constraint(equalToConstant: 40)
+        ])
+        
+        view.addSubview(contentTextview)
+        contentTextview.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            contentTextview.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 30),
+            contentTextview.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 24),
+            contentTextview.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            contentTextview.heightAnchor.constraint(equalToConstant: 150)
         ])
     }
     
