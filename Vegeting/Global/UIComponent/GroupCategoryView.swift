@@ -20,10 +20,11 @@ final class GroupCategoryView: UIView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.register(GroupCategoryCollectionViewCell.self, forCellWithReuseIdentifier: GroupCategoryCollectionViewCell.className)
         return collectionView
     }()
     
-    private let categoryList: [String] = ["행사", "맛집", "친목", "공부", "기타"]
+    private var categoryList: [String] = ["행사", "맛집", "친목", "공부", "기타"]
     
     // MARK: - init
     
@@ -48,7 +49,10 @@ final class GroupCategoryView: UIView {
     private func configureCollectionView() {
         categoryCollectionView.dataSource = self
         categoryCollectionView.delegate = self
-        categoryCollectionView.register(GroupCategoryCollectionViewCell.self, forCellWithReuseIdentifier: GroupCategoryCollectionViewCell.className)
+    }
+    
+    func changeCategoryList(with list: [String]) {
+        categoryList = list
     }
 }
 
@@ -58,7 +62,7 @@ extension GroupCategoryView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GroupCategoryCollectionViewCell.className, for: indexPath) as? GroupCategoryCollectionViewCell else { return UICollectionViewCell()}
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GroupCategoryCollectionViewCell.className, for: indexPath) as? GroupCategoryCollectionViewCell else { return UICollectionViewCell() }
         
         cell.setItemLabel(with: categoryList[indexPath.item])
         return cell
