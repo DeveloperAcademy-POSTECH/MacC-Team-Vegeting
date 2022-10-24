@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 import FirebaseFirestoreSwift
 
 struct Chat: Identifiable, Codable {
