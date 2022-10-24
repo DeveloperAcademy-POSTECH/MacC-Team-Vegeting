@@ -20,7 +20,7 @@ class SignInViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "아이디를 로그인하세요!(없으면 자동생성됨)"
-        label.font = .systemFont(ofSize: 32, weight: .bold)
+        label.font = .systemFont(ofSize: 20 , weight: .bold)
         return label
     }()
     
