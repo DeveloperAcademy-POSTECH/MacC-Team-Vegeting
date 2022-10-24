@@ -27,16 +27,19 @@ final class FirstCreateGroupViewController: UIViewController {
         return label
     }()
     
-    private let locationContrainerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemGray6
-        view.layer.cornerRadius = 7
-        return view
+    private lazy var locationSearchingButton: UIButton = {
+        let button = UIButton(primaryAction: UIAction { _ in
+            self.navigationController?.pushViewController(LocationSearchingViewController(), animated: true)
+        })
+        button.backgroundColor = .systemGray6
+        button.layer.cornerRadius = 7
+        return button
     }()
     
     private let locationLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
+        label.text = "지곡동 지곡로 지국구"
         return label
     }()
     
@@ -80,7 +83,7 @@ final class FirstCreateGroupViewController: UIViewController {
         view.addSubviews(categoryTitleLabel,
                          categoryCollectionView,
                          locationTitleLabel,
-                         locationContrainerView,
+                         locationSearchingButton,
                          dateTitleLabel,
                          datePicker,
                          numberOfGroupPeopleTitleLabel,
@@ -100,13 +103,18 @@ final class FirstCreateGroupViewController: UIViewController {
                                       leading: view.leadingAnchor,
                                       padding: UIEdgeInsets(top: 49, left: 24, bottom: 0, right: 0))
         
-        locationContrainerView.constraint(top: locationTitleLabel.bottomAnchor,
+        locationSearchingButton.constraint(top: locationTitleLabel.bottomAnchor,
                                           leading: view.leadingAnchor,
                                           trailing: view.trailingAnchor,
                                           padding: UIEdgeInsets(top: 10, left: 24, bottom: 0, right: 24))
-        locationContrainerView.constraint(.heightAnchor, constant: 44)
+        locationSearchingButton.constraint(.heightAnchor, constant: 44)
         
-        dateTitleLabel.constraint(top: locationContrainerView.bottomAnchor,
+        locationSearchingButton.addSubview(locationLabel)
+        locationLabel.constraint(leading: locationSearchingButton.leadingAnchor,
+                                 centerY: locationSearchingButton.centerYAnchor,
+                                 padding: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0))
+        
+        dateTitleLabel.constraint(top: locationSearchingButton.bottomAnchor,
                                   leading: view.leadingAnchor,
                                   padding: UIEdgeInsets(top: 49, left: 24, bottom: 0, right: 0))
         
@@ -126,4 +134,5 @@ final class FirstCreateGroupViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .white
     }
+
 }

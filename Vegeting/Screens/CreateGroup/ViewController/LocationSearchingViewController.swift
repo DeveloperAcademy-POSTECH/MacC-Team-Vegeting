@@ -22,6 +22,7 @@ final class LocationSearchingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
+        configureUI()
     }
     
     // MARK: - func
@@ -38,10 +39,10 @@ final class LocationSearchingViewController: UIViewController {
         self.navigationItem.searchController = searchController
     }
     
-    private func configureTableView() {
-        resultTableView.delegate = self
-        resultTableView.dataSource = self
-    }
+//    private func configureTableView() {
+//        resultTableView.delegate = self
+//        resultTableView.dataSource = self
+//    }
     
     private func configureUI() {
         view.backgroundColor = .white
@@ -52,3 +53,4 @@ final class LocationSearchingViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
 }
+
