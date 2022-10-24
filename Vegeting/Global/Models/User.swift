@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-struct User: Identifiable, Decodable {
+struct User: Identifiable, Codable {
     @DocumentID var id: String?
     let uid: String
     let imageURL: String?
@@ -16,14 +16,12 @@ struct User: Identifiable, Decodable {
     let participatedClubs: [ParticipatedClub]?
 }
 
-struct ParticipatedChat: Identifiable, Decodable {
-    var id: String { chatID }
+struct ParticipatedChat: Codable {
     let chatID, chatName: String
     let imageURL: String?
 }
 
-struct ParticipatedClub: Identifiable, Decodable {
-    var id: String { clubID }
+struct ParticipatedClub: Codable {
     let clubID, clubName: String
     let imageURL: String?
 }

@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-struct Club: Identifiable, Decodable {
+struct Club: Identifiable, Codable {
     @DocumentID var id: String?
     let clubID, clubTitle, clubCharacter, hostID: String
     let participants: [Participant]?

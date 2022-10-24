@@ -7,8 +7,7 @@
 
 import Foundation
 
-struct Participant: Identifiable, Decodable {
-    var id: String { uid }
+struct Participant: Codable {
     let uid: String
     let name: String
     var imageURL: String?

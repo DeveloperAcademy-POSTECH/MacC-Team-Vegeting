@@ -8,15 +8,14 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-struct Chat: Identifiable, Decodable {
+struct Chat: Identifiable, Codable {
     @DocumentID var id: String?
     let chatID,chatName: String
     let participants: [Participant]?
     let messages: [Message]?
 }
 
-struct Message: Identifiable, Decodable {
-    var id: String?
+struct Message: Codable {
     let senderID, senderName: String
     let senderImageURL: String?
     let contentType: String
