@@ -17,7 +17,7 @@ struct Chat: Identifiable, Codable {
 
 struct Message: Codable {
     let senderID, senderName: String
-    let senderImageURL: String?
+    let senderProfileImageURL: String?
     let contentType: String
     let imageURL: String?
     let content: String?
