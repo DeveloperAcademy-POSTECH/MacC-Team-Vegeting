@@ -21,8 +21,10 @@
 		4ADC12F32901857F00C0FFB6 /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12F22901857F00C0FFB6 /* UIViewController+Alert.swift */; };
 		7645E74A290700E5009E2E3B /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E749290700E5009E2E3B /* SignInViewController.swift */; };
 		7645E74E29070241009E2E3B /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E74D29070241009E2E3B /* UIView+Extension.swift */; };
+		7645E7512907031D009E2E3B /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E7502907031D009E2E3B /* SignInViewModel.swift */; };
+		7645E75729070FC6009E2E3B /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E75629070FC6009E2E3B /* FirebaseManager.swift */; };
 		76B027F12901726E002C9DF7 /* VegetingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B027F02901726E002C9DF7 /* VegetingTests.swift */; };
-		76B0282629051FC9002C9DF7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B0282529051FC9002C9DF7 /* User.swift */; };
+		76B0282629051FC9002C9DF7 /* VUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B0282529051FC9002C9DF7 /* VUser.swift */; };
 		76B02829290520BB002C9DF7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76B02828290520BB002C9DF7 /* GoogleService-Info.plist */; };
 		76B0282A290520C5002C9DF7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76B02828290520BB002C9DF7 /* GoogleService-Info.plist */; };
 		76B0282D29052209002C9DF7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 76B0282C29052209002C9DF7 /* FirebaseAuth */; };
@@ -65,9 +67,11 @@
 		4ADC12F22901857F00C0FFB6 /* UIViewController+Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
 		7645E749290700E5009E2E3B /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		7645E74D29070241009E2E3B /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		7645E7502907031D009E2E3B /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		7645E75629070FC6009E2E3B /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		76B027EE2901726E002C9DF7 /* VegetingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VegetingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		76B027F02901726E002C9DF7 /* VegetingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VegetingTests.swift; sourceTree = "<group>"; };
-		76B0282529051FC9002C9DF7 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		76B0282529051FC9002C9DF7 /* VUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VUser.swift; sourceTree = "<group>"; };
 		76B02828290520BB002C9DF7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		76B02838290526AF002C9DF7 /* Club.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Club.swift; sourceTree = "<group>"; };
 		76B0283A290528F8002C9DF7 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
@@ -123,6 +127,7 @@
 		4ADC12D229017A3B00C0FFB6 /* Global */ = {
 			isa = PBXGroup;
 			children = (
+				7645E75529070FBF009E2E3B /* Manager */,
 				76B0282429051FAC002C9DF7 /* Models */,
 				4ADC12D929017A9800C0FFB6 /* Base */,
 				4ADC12D829017A9600C0FFB6 /* Literals */,
@@ -231,6 +236,7 @@
 		7645E748290700CD009E2E3B /* SignIn */ = {
 			isa = PBXGroup;
 			children = (
+				7645E74F2907030D009E2E3B /* ViewModel */,
 				7645E74B290700EA009E2E3B /* ViewControllers */,
 			);
 			path = SignIn;
@@ -244,6 +250,22 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
+		7645E74F2907030D009E2E3B /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				7645E7502907031D009E2E3B /* SignInViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		7645E75529070FBF009E2E3B /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				7645E75629070FC6009E2E3B /* FirebaseManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 		76B027EF2901726E002C9DF7 /* VegetingTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,7 +277,7 @@
 		76B0282429051FAC002C9DF7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				76B0282529051FC9002C9DF7 /* User.swift */,
+				76B0282529051FC9002C9DF7 /* VUser.swift */,
 				76B02838290526AF002C9DF7 /* Club.swift */,
 				76B0283A290528F8002C9DF7 /* Chat.swift */,
 				76B0283C29052937002C9DF7 /* Participant.swift */,
@@ -414,10 +436,11 @@
 				4ADC12E12901813900C0FFB6 /* NSObject+Extension.swift in Sources */,
 				4A31CD242903D73D00E5E422 /* FirstCreateGroupViewController.swift in Sources */,
 				A7C8DF282901274500F38AD7 /* ViewController.swift in Sources */,
-				76B0282629051FC9002C9DF7 /* User.swift in Sources */,
+				76B0282629051FC9002C9DF7 /* VUser.swift in Sources */,
 				76B0283D29052937002C9DF7 /* Participant.swift in Sources */,
 				4ADC12ED2901838200C0FFB6 /* ImageLiteral.swift in Sources */,
 				4ADC12E52901817800C0FFB6 /* UILabel+Extension.swift in Sources */,
+				7645E7512907031D009E2E3B /* SignInViewModel.swift in Sources */,
 				7645E74A290700E5009E2E3B /* SignInViewController.swift in Sources */,
 				4ADC12EF290183F500C0FFB6 /* BaseViewController.swift in Sources */,
 				4ADC12F12901856B00C0FFB6 /* UIView+Constraint.swift in Sources */,
@@ -429,6 +452,7 @@
 				76B0283B290528F8002C9DF7 /* Chat.swift in Sources */,
 				4ADC12E72901818900C0FFB6 /* UIStackView+Extention.swift in Sources */,
 				76B02839290526AF002C9DF7 /* Club.swift in Sources */,
+				7645E75729070FC6009E2E3B /* FirebaseManager.swift in Sources */,
 				4ADC12DD2901800D00C0FFB6 /* UIColor+Extension.swift in Sources */,
 				4ADC12F32901857F00C0FFB6 /* UIViewController+Alert.swift in Sources */,
 			);
