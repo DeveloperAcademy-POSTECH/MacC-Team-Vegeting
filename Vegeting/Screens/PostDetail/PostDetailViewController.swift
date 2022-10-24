@@ -77,7 +77,7 @@ class PostDetailViewController: UIViewController {
     }
     
     private func setupNavBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .done, target: self, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .done, target: self, action: #selector(showActionSheet))
         navigationController?.navigationBar.tintColor = .label
     }
     
@@ -119,5 +119,28 @@ class PostDetailViewController: UIViewController {
             contentTextLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             contentTextLabel.heightAnchor.constraint(equalToConstant: 200)
         ])
+    }
+    
+    @objc
+    private func showActionSheet() {
+        let actionSheet = UIAlertController(title: .none, message: .none, preferredStyle: .actionSheet)
+        
+        let deletePost = UIAlertAction(title: "게시글 삭제", style: .default) { action in
+            //TODO: 게시글 삭제 action 연결
+        }
+        
+        let modifyPost = UIAlertAction(title: "게시글 수정", style: .default) { action in
+            //TODO: 게시글 수정 action 연결
+        }
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel) { action in
+            //TODO: 액션시트 취소 action 연결
+        }
+        
+        [deletePost, modifyPost, cancel].forEach { action in
+            actionSheet.addAction(action)
+        }
+        
+        present(actionSheet, animated: true, completion: nil)
     }
 }
