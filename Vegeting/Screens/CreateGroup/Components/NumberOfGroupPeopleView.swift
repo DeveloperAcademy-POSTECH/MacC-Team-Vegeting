@@ -13,12 +13,13 @@ final class NumberOfGroupPeopleView: UIView {
     
     private let numberCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.minimumInteritemSpacing = 18
+        layout.minimumInteritemSpacing = 15
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.register(NumberOfPeopleCollectionViewCell.self, forCellWithReuseIdentifier: NumberOfPeopleCollectionViewCell.className)
         return collectionView
     }()
     
@@ -41,14 +42,12 @@ final class NumberOfGroupPeopleView: UIView {
         addSubview(numberCollectionView)
         numberCollectionView.constraint(to: self)
         numberCollectionView.constraint(.heightAnchor, constant: 80)
-        numberCollectionView.constraint(.widthAnchor, constant: 310)
-        numberCollectionView.layoutIfNeeded()
+        numberCollectionView.constraint(.widthAnchor, constant: 290)
     }
     
     private func configureCollectionView() {
         numberCollectionView.dataSource = self
         numberCollectionView.delegate = self
-        numberCollectionView.register(NumberOfPeopleCollectionViewCell.self, forCellWithReuseIdentifier: NumberOfPeopleCollectionViewCell.className)
     }
 }
 
@@ -67,8 +66,8 @@ extension NumberOfGroupPeopleView: UICollectionViewDataSource {
 
 extension NumberOfGroupPeopleView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = numberList[indexPath.item].size(withAttributes: [.font : UIFont.preferredFont(forTextStyle: .subheadline)]).width + 40
-        return CGSize(width: width, height: 34)
+        
+        return CGSize(width: 60, height: 34)
     }
 }
 
