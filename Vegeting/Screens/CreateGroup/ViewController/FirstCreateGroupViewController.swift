@@ -77,7 +77,15 @@ final class FirstCreateGroupViewController: UIViewController {
     //MARK: - func
     
     private func setupLayout() {
-        view.addSubviews(categoryTitleLabel, categoryCollectionView)
+        view.addSubviews(categoryTitleLabel,
+                         categoryCollectionView,
+                         locationTitleLabel,
+                         locationContrainerView,
+                         dateTitleLabel,
+                         datePicker,
+                         numberOfGroupPeopleTitleLabel,
+                         numberOfGroupCollectionView)
+        
         categoryTitleLabel.constraint(top: view.safeAreaLayoutGuide.topAnchor,
                                       leading: view.leadingAnchor,
                                       trailing: view.trailingAnchor,
@@ -88,34 +96,28 @@ final class FirstCreateGroupViewController: UIViewController {
                                           trailing: view.trailingAnchor,
                                           padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         
-        view.addSubview(locationTitleLabel)
         locationTitleLabel.constraint(top: categoryCollectionView.bottomAnchor,
                                       leading: view.leadingAnchor,
                                       padding: UIEdgeInsets(top: 49, left: 24, bottom: 0, right: 0))
         
-        view.addSubview(locationContrainerView)
         locationContrainerView.constraint(top: locationTitleLabel.bottomAnchor,
                                           leading: view.leadingAnchor,
                                           trailing: view.trailingAnchor,
                                           padding: UIEdgeInsets(top: 10, left: 24, bottom: 0, right: 24))
         locationContrainerView.constraint(.heightAnchor, constant: 44)
         
-        view.addSubview(dateTitleLabel)
         dateTitleLabel.constraint(top: locationContrainerView.bottomAnchor,
                                   leading: view.leadingAnchor,
                                   padding: UIEdgeInsets(top: 49, left: 24, bottom: 0, right: 0))
         
-        view.addSubview(datePicker)
         datePicker.constraint(top: dateTitleLabel.bottomAnchor,
                               leading: view.leadingAnchor,
                               padding: UIEdgeInsets(top: 10, left: 24, bottom: 0, right: 0))
         
-        view.addSubview(numberOfGroupPeopleTitleLabel)
         numberOfGroupPeopleTitleLabel.constraint(top: datePicker.bottomAnchor,
                                                  leading: view.leadingAnchor,
                                                  padding: UIEdgeInsets(top: 49, left: 24, bottom: 0, right: 0))
         
-        view.addSubview(numberOfGroupCollectionView)
         numberOfGroupCollectionView.constraint(top: numberOfGroupPeopleTitleLabel.bottomAnchor,
                                                leading: view.leadingAnchor,
                                                padding: UIEdgeInsets(top: 24, left: 24, bottom: 0, right: 0))
