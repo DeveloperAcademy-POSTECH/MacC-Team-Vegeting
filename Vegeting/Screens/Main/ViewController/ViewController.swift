@@ -15,6 +15,7 @@ class ViewController: UIViewController {
         view.backgroundColor = .systemBackground
         navigationItem.title = "로그인 상태"
         navigationItem.largeTitleDisplayMode = .always
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
         
     override func viewWillAppear(_ animated: Bool) {
