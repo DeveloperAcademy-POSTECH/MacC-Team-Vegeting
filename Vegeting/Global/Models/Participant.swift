@@ -8,7 +8,7 @@
 import Foundation
 
 struct Participant: Codable {
-    let uid: String
+    let userID: String
     let name: String
     var imageURL: String?
 }

@@ -10,7 +10,7 @@ import FirebaseFirestoreSwift
 
 struct Chat: Identifiable, Codable {
     @DocumentID var id: String?
-    let chatID,chatName: String
+    let chatRoomID,chatRoomName: String
     let participants: [Participant]?
     let messages: [Message]?
 }

@@ -10,19 +10,19 @@ import FirebaseFirestoreSwift
 
 struct User: Identifiable, Codable {
     @DocumentID var id: String?
-    let uid: String
+    let userID: String
     let imageURL: String?
-    let participatedChats: [ParticipatedChat]?
+    let participatedChats: [ParticipatedChatRoom]?
     let participatedClubs: [ParticipatedClub]?
 }
 
-struct ParticipatedChat: Codable {
+struct ParticipatedChatRoom: Codable {
     let chatID, chatName: String
     let imageURL: String?
 }
 
 struct ParticipatedClub: Codable {
     let clubID, clubName: String
-    let imageURL: String?
+    let profileImageURL: String?
 }
 
