@@ -6,10 +6,9 @@
 //
 
 import Foundation
-
 import FirebaseFirestoreSwift
 
-struct User: Identifiable, Codable {
+struct VUser: Identifiable, Codable {
     @DocumentID var id: String?
     let userID: String
     let imageURL: String?
