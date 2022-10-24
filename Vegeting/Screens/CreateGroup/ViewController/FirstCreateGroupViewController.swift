@@ -31,12 +31,11 @@ final class FirstCreateGroupViewController: UIViewController {
     //MARK: - func
     
     private func setupLayout() {
-        view.addSubview(categoryTitleLabel)
+        view.addSubviews(categoryTitleLabel, categoryCollectionView)
         categoryTitleLabel.constraint(top: view.safeAreaLayoutGuide.topAnchor,
                                       leading: view.leadingAnchor,
                                       padding: UIEdgeInsets(top: 23, left: 24, bottom: 0, right: 0))
         
-        view.addSubview(categoryCollectionView)
         categoryCollectionView.constraint(top: categoryTitleLabel.bottomAnchor,
                                           leading: view.leadingAnchor,
                                           trailing: view.trailingAnchor,

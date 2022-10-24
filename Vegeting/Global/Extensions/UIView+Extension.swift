@@ -19,4 +19,10 @@ extension UIView {
         layer.shadowRadius = radius
         return self
     }
+    
+    func addSubviews (_ views: UIView...) {
+        views.forEach { [weak self] view in
+            self?.addSubview(view)
+        }
+    }
 }
