@@ -25,11 +25,16 @@ class SecondCreateGroupViewController: UIViewController {
         return textField
     }()
     
+    let textViewPlaceHolder = "모임의 상세정보를 설명해주세요"
     private lazy var contentTextview: UITextView = {
         var textView = UITextView()
         textView.layer.cornerRadius = 5
         textView.layer.backgroundColor = UIColor.systemGray4.cgColor
+        textView.textContainerInset = UIEdgeInsets(top: 16.0, left: 10.0, bottom: 16.0, right: 10.0)
         textView.font = .preferredFont(forTextStyle: .body)
+        textView.text = textViewPlaceHolder
+        textView.textColor = .lightGray
+        textView.delegate = self
         return textView
     }()
 
@@ -97,6 +102,22 @@ extension SecondCreateGroupViewController: PHPickerViewControllerDelegate {
                     self.coverPickerView.label.text = ""
                 }
             }
+        }
+    }
+}
+
+extension SecondCreateGroupViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == textViewPlaceHolder {
+            textView.text = nil
+            textView.textColor = .black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            textView.text = textViewPlaceHolder
+            textView.textColor = .lightGray
         }
     }
 }
