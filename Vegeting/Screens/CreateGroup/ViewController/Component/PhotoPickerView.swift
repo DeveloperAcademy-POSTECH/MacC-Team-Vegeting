@@ -24,6 +24,8 @@ class PhotoPickerView: UIView {
     func configureUI() {
         backgroundColor = .systemGray4
         label.textColor = .white
+        self.clipsToBounds = true
+        selectedImage.contentMode = .scaleAspectFill
     }
     
     private func setupLayout() {
