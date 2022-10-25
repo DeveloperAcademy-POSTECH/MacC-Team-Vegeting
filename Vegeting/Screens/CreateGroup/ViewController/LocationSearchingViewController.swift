@@ -11,11 +11,6 @@ import SwiftyJSON
 
 final class LocationSearchingViewController: UIViewController {
     
-    private enum ResultType {
-        case Address(addressName: String, longitudeX: String, latitudeY: String)
-        case Place(placeName: String, addressName: String, longitudeX: String, latitudeY: String)
-    }
-    
     // MARK: - properties
     
     private let resultTableView: UITableView = {
@@ -24,18 +19,17 @@ final class LocationSearchingViewController: UIViewController {
         return tableView
     }()
     
-    private var resultList: [ResultType] = []
-//    private var addressResultList: [Address] = []
-//    private var placeResultList: [Place] = []
+    private var addressResultList: [Address] = []
+    private var placeResultList: [Place] = []
     
     // MARK: - lifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
+        setupLayout()
+        configureTableView()
         configureUI()
-        requestAddress()
-        requestPlace()
     }
     
     // MARK: - func
@@ -49,13 +43,23 @@ final class LocationSearchingViewController: UIViewController {
         
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.placeholder = "구, 동, 장소를 입력해주세요."
+        searchController.searchBar.delegate = self
         self.navigationItem.searchController = searchController
+        self.navigationItem.hidesSearchBarWhenScrolling = false
     }
     
-//        private func configureTableView() {
-//            resultTableView.delegate = self
-//            resultTableView.dataSource = self
-//        }
+    private func configureTableView() {
+        //        resultTableView.delegate = self
+        resultTableView.dataSource = self
+    }
+    
+    private func setupLayout() {
+        view.addSubview(resultTableView)
+        resultTableView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
+                                   leading: view.safeAreaLayoutGuide.leadingAnchor,
+                                   bottom:view.bottomAnchor,
+                                   trailing: view.trailingAnchor)
+    }
     
     private func configureUI() {
         view.backgroundColor = .white
@@ -66,15 +70,15 @@ final class LocationSearchingViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    func requestAddress() {
+    func requestAddress(keyword: String) async {
         let headers: HTTPHeaders = [
             "Authorization": "KakaoAK 0af518ebd6f6d9b7b526a91fbabeadc1"
         ]
         
         let parameters: [String: Any] = [
-            "query": "포항 효자동",
+            "query": keyword,
             "page": 1,
-            "size": 5
+            "size": 3
         ]
         
         Session.default.request("https://dapi.kakao.com/v2/local/search/address.json",
@@ -83,32 +87,37 @@ final class LocationSearchingViewController: UIViewController {
                                 headers: headers).responseJSON(completionHandler: { response in
             switch response.result {
             case .success(let value):
+                var list: [Address] = []
                 if let detailsPlace = JSON(value)["documents"].array{
                     for item in detailsPlace{
                         let addressName = item["address"]["address_name"].string ?? ""
                         let longitudeX = item["x"].string ?? ""
                         let latitudeY = item["y"].string ?? ""
-                        self.resultList.append(ResultType.Address(addressName: addressName,
+                        list.append(Address(addressName: addressName,
                                                               longitudeX: longitudeX,
                                                               latitudeY: latitudeY))
                     }
                 }
-                
+                self.addressResultList = list
+                self.resultTableView.reloadData()
+                print(self.addressResultList)
             case .failure(let error):
                 print(error)
             }
         })
+        print("끝남")
     }
     
-    func requestPlace() {
+    func requestPlace(keyword: String) {
+        print("시작")
         let headers: HTTPHeaders = [
             "Authorization": "KakaoAK 0af518ebd6f6d9b7b526a91fbabeadc1"
         ]
         
         let parameters: [String: Any] = [
-            "query": "포항 효자동",
+            "query": keyword,
             "page": 1,
-            "size": 10
+            "size": 5
         ]
         
         Session.default.request("https://dapi.kakao.com/v2/local/search/keyword.json",
@@ -117,18 +126,21 @@ final class LocationSearchingViewController: UIViewController {
                                 headers: headers).responseJSON(completionHandler: { response in
             switch response.result {
             case .success(let value):
+                var list: [Place] = []
                 if let detailsPlace = JSON(value)["documents"].array{
                     for item in detailsPlace{
                         let placeName = item["place_name"].string ?? ""
                         let addressName = item["address_name"].string ?? ""
                         let longitudeX = item["x"].string ?? ""
                         let latitudeY = item["y"].string ?? ""
-                        self.resultList.append(ResultType.Place(placeName: placeName,
-                                                          addressName: addressName,
-                                                          longitudeX: longitudeX,
-                                                          latitudeY: latitudeY))
+                        list.append(Place(placeName: placeName,
+                                          addressName: addressName,
+                                          longitudeX: longitudeX,
+                                          latitudeY: latitudeY))
                     }
                 }
+                self.placeResultList = list
+                self.resultTableView.reloadData()
                 
             case .failure(let error):
                 print(error)
@@ -136,18 +148,35 @@ final class LocationSearchingViewController: UIViewController {
         })
     }
 }
-//
-//extension LocationSearchingViewController: UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return placeResultList.count() + addressResultList.count()
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        <#code#>
-//    }
-//
-//}
-//
-//extension LocationSearchingViewController: UITableViewDelegate {
-//
-//}
+
+extension LocationSearchingViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return addressResultList.count + placeResultList.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = resultTableView.dequeueReusableCell(withIdentifier: SearchedLocationResultTableViewCell.className, for: indexPath) as? SearchedLocationResultTableViewCell else { return UITableViewCell() }
+        let totalAddress = addressResultList.count
+        print(addressResultList, placeResultList, "마지막")
+        if indexPath.row < totalAddress {
+            cell.configure(with: addressResultList[indexPath.row])
+        } else {
+            cell.configure(with: placeResultList[indexPath.row - totalAddress])
+        }
+        
+        return cell
+    }
+    
+}
+
+extension LocationSearchingViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        addressResultList = []
+        placeResultList = []
+        Task {
+            await requestAddress(keyword: searchText)
+            requestPlace(keyword: searchText)
+        }
+       
+    }
+}
