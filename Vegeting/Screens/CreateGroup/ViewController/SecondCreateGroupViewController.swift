@@ -15,6 +15,11 @@ class SecondCreateGroupViewController: BaseViewController {
         return pickerView
     }()
     
+    private lazy var groupInfoStackView: GroupInfoView = {
+        var stackView = GroupInfoView()
+        return stackView
+    }()
+    
     private lazy var titleTextField: UITextField = {
         var textField = UITextField()
         textField.placeholder = StringLiteral.secondCreateGroupViewControllerTitle
@@ -64,8 +69,11 @@ class SecondCreateGroupViewController: BaseViewController {
     }
     
     override func setupLayout() {
-        view.addSubview(coverPickerView)
-        coverPickerView.translatesAutoresizingMaskIntoConstraints = false
+        [coverPickerView, groupInfoStackView, titleTextField, titleWordsCountLabel, contentTextview, contentWordsCountLabel].forEach {
+            view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+        
         NSLayoutConstraint.activate([
             coverPickerView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 30),
             coverPickerView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
@@ -73,25 +81,26 @@ class SecondCreateGroupViewController: BaseViewController {
             coverPickerView.heightAnchor.constraint(equalToConstant: 150)
         ])
         
-        view.addSubview(titleTextField)
-        titleTextField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            titleTextField.topAnchor.constraint(equalTo: coverPickerView.bottomAnchor, constant: 30),
+            groupInfoStackView.topAnchor.constraint(equalTo: coverPickerView.bottomAnchor, constant: 30),
+            groupInfoStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 32),
+            groupInfoStackView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            groupInfoStackView.heightAnchor.constraint(equalToConstant: 30)
+        ])
+        
+        NSLayoutConstraint.activate([
+            titleTextField.topAnchor.constraint(equalTo: groupInfoStackView.bottomAnchor, constant: 30),
             titleTextField.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 24),
             titleTextField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             titleTextField.heightAnchor.constraint(equalToConstant: 40)
         ])
         
-        view.addSubview(titleWordsCountLabel)
-        titleWordsCountLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             titleWordsCountLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 8),
             titleWordsCountLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 24),
             titleWordsCountLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         ])
         
-        view.addSubview(contentTextview)
-        contentTextview.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             contentTextview.topAnchor.constraint(equalTo: titleWordsCountLabel.bottomAnchor, constant: 30),
             contentTextview.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 24),
@@ -99,8 +108,6 @@ class SecondCreateGroupViewController: BaseViewController {
             contentTextview.heightAnchor.constraint(equalToConstant: 150)
         ])
         
-        view.addSubview(contentWordsCountLabel)
-        contentWordsCountLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             contentWordsCountLabel.topAnchor.constraint(equalTo: contentTextview.bottomAnchor, constant: 8),
             contentWordsCountLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 24),
