@@ -21,10 +21,10 @@ class PhotoPickerView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUI() {
+    private func configureUI() {
         backgroundColor = .systemGray4
         label.textColor = .white
-        self.clipsToBounds = true
+        clipsToBounds = true
         selectedImage.contentMode = .scaleAspectFill
     }
     

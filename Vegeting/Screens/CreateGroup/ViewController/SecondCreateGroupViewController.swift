@@ -8,16 +8,16 @@
 import UIKit
 import PhotosUI
 
-class SecondCreateGroupViewController: UIViewController {
+class SecondCreateGroupViewController: BaseViewController {
     private lazy var coverPickerView: PhotoPickerView = {
         var pickerView = PhotoPickerView()
-        pickerView.label.text = "사진을 선택해주세요"
+        pickerView.label.text = StringLiteral.secondCreateGroupViewControllerPhoto
         return pickerView
     }()
     
     private lazy var titleTextField: UITextField = {
         var textField = UITextField()
-        textField.placeholder = "제목을 입력해주세요"
+        textField.placeholder = StringLiteral.secondCreateGroupViewControllerTitle
         textField.font = .preferredFont(forTextStyle: .body)
         textField.layer.cornerRadius = 5
         textField.layer.backgroundColor = UIColor.systemGray4.cgColor
@@ -25,10 +25,9 @@ class SecondCreateGroupViewController: UIViewController {
         return textField
     }()
     
-    let textViewPlaceHolder = "모임의 상세정보를 설명해주세요"
     private lazy var contentTextview: UITextView = {
         var textView = UITextView()
-        textView.text = textViewPlaceHolder
+        textView.text = StringLiteral.secondCreateGroupViewControllerContent
         textView.textColor = .lightGray
         textView.font = .preferredFont(forTextStyle: .body)
         textView.layer.cornerRadius = 5
@@ -54,9 +53,7 @@ class SecondCreateGroupViewController: UIViewController {
         setupLayout()
     }
     
-    private func setupLayout() {
-        let safeArea = view.safeAreaLayoutGuide
-        
+    override func setupLayout() {
         view.addSubview(coverPickerView)
         coverPickerView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -80,7 +77,7 @@ class SecondCreateGroupViewController: UIViewController {
         NSLayoutConstraint.activate([
             contentTextview.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 30),
             contentTextview.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 24),
-            contentTextview.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            contentTextview.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             contentTextview.heightAnchor.constraint(equalToConstant: 150)
         ])
         
@@ -93,8 +90,8 @@ class SecondCreateGroupViewController: UIViewController {
         ])
     }
     
-    private func configureUI() {
-        view.backgroundColor = .systemBackground
+    override func configureUI() {
+        super.configureUI()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapPhotoPicker(sender:)))
         coverPickerView.addGestureRecognizer(tapGesture)
     }
@@ -106,7 +103,7 @@ class SecondCreateGroupViewController: UIViewController {
         configuration.filter = .images
         let PHPicker = PHPickerViewController(configuration: configuration)
         PHPicker.delegate = self
-        self.present(PHPicker, animated: true, completion: nil)
+        present(PHPicker, animated: true, completion: nil)
     }
     
     private func updateCountLabel(characterCount: Int) {
@@ -131,7 +128,7 @@ extension SecondCreateGroupViewController: PHPickerViewControllerDelegate {
 
 extension SecondCreateGroupViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == textViewPlaceHolder {
+        if textView.text == StringLiteral.secondCreateGroupViewControllerContent {
             textView.text = nil
             textView.textColor = .black
         }
@@ -139,7 +136,7 @@ extension SecondCreateGroupViewController: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = textViewPlaceHolder
+            textView.text = StringLiteral.secondCreateGroupViewControllerContent
             textView.textColor = .lightGray
         } else {
             if textView.text.count > 500 {
@@ -168,7 +165,7 @@ extension SecondCreateGroupViewController: UITextViewDelegate {
             return false
         } else {
             if newLength == 501 {
-                    newLength = 500
+                newLength = 500
             }
             updateCountLabel(characterCount: newLength)
             return true
