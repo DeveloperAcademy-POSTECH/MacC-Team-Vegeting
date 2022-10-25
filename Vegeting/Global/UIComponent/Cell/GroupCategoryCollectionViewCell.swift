@@ -61,7 +61,7 @@ final class GroupCategoryCollectionViewCell: UICollectionViewCell {
         itemLabel.font = isSelected ? .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .bold)) : .preferredFont(forTextStyle:.subheadline)
     }
     
-    func setItemLabel(with itemText: String) {
+    func configure(with itemText: String) {
         itemLabel.text = itemText
     }
 }
