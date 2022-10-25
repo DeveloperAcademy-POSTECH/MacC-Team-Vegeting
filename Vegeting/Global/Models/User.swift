@@ -12,7 +12,7 @@ import FirebaseFirestoreSwift
 struct User: Identifiable, Codable {
     @DocumentID var id: String?
     let userID: String
-    let imageURL: String?
+    let profileImageURL: String?
     let participatedChats: [ParticipatedChatRoom]?
     let participatedClubs: [ParticipatedClub]?
 }
