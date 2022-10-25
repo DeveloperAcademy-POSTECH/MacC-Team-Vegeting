@@ -41,6 +41,11 @@ class SearchedLocationResultTableViewCell: UITableViewCell {
         
     }
     
+    override func prepareForReuse() {
+        locationLabel.text = ""
+        placeLabel.text = ""
+    }
+    
     private func setupLayoutForAddress() {
         addSubview(locationLabel)
         locationLabel.constraint(top: self.topAnchor,
@@ -65,6 +70,8 @@ class SearchedLocationResultTableViewCell: UITableViewCell {
         locationLabel.text = address.addressName
         locationLabel.textColor = .black
         self.setupLayoutForAddress()
+        print(address, "하이")
+        print(locationLabel.text, placeLabel.text, "하이")
     }
     
     func configure(with place: Place) {
