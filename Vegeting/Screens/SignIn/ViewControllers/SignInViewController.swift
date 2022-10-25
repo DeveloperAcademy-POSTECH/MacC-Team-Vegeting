@@ -69,8 +69,24 @@ class SignInViewController: UIViewController {
     /// view를 바인딩 할 때 사용합니다.
     private func bindViews() {
         registerButton.addTarget(self, action: #selector(didTapRegisterButton), for: .touchUpInside)
-        emailTextField.addTarget(self, action: #selector(didChangeEmailTextField), for: .editingChanged)
-        passwordTextField.addTarget(self, action: #selector(didChangePasswordTextField), for: .editingChanged)
+        
+        NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification, object: emailTextField).sink { _ in
+        } receiveValue: { [weak self] notification in
+            guard let textField = notification.object as? UITextField, let text = textField.text else {
+                return
+            }
+            self?.viewModel.email = text
+            self?.viewModel.validateRegistrationForm()
+        }.store(in: &cancelBag)
+        
+        NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification, object: passwordTextField).sink { _ in
+        } receiveValue: { [weak self] notification in
+            guard let textField = notification.object as? UITextField, let text = textField.text else {
+                return
+            }
+            self?.viewModel.password = text
+            self?.viewModel.validateRegistrationForm()
+        }.store(in: &cancelBag)
         
         viewModel.$isRegistrationFormValid.sink { [weak self] validationState in
             self?.registerButton.isEnabled = validationState
@@ -132,19 +148,8 @@ extension SignInViewController {
 // MARK: UI component Delegate 지정
 extension SignInViewController {
     
-    @objc private func didChangeEmailTextField() {
-        viewModel.email = emailTextField.text
-        viewModel.validateRegistrationForm()
-    }
-    
-    @objc private func didChangePasswordTextField() {
-        viewModel.password = passwordTextField.text
-        viewModel.validateRegistrationForm()
-    }
-    
     @objc private func didTapRegisterButton() {
         viewModel.createUser()
     }
-    
-    
+        
 }
