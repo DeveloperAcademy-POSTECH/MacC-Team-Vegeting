@@ -28,7 +28,12 @@ class BaseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
-        configUI()
+        configureUI()
+        hideKeyboardWhenTappedAround()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -39,8 +44,8 @@ class BaseViewController: UIViewController {
         // Override Layout
     }
     
-    func configUI() {
+    func configureUI() {
         // Override Component
+        view.backgroundColor = .backgroundColor
     }
-
 }
