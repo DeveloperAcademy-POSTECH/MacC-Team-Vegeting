@@ -25,6 +25,16 @@ class SecondCreateGroupViewController: BaseViewController {
         return textField
     }()
     
+    private lazy var titleWordsCountLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.text = "0/20"
+        label.font = .preferredFont(forTextStyle: .caption1)
+        label.textColor = .lightGray
+        label.textAlignment = .right
+        return label
+    }()
+    
     private lazy var contentTextview: UITextView = {
         var textView = UITextView()
         textView.text = StringLiteral.secondCreateGroupViewControllerContent
@@ -72,10 +82,18 @@ class SecondCreateGroupViewController: BaseViewController {
             titleTextField.heightAnchor.constraint(equalToConstant: 40)
         ])
         
+        view.addSubview(titleWordsCountLabel)
+        titleWordsCountLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            titleWordsCountLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 8),
+            titleWordsCountLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 24),
+            titleWordsCountLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+        ])
+        
         view.addSubview(contentTextview)
         contentTextview.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            contentTextview.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 30),
+            contentTextview.topAnchor.constraint(equalTo: titleWordsCountLabel.bottomAnchor, constant: 30),
             contentTextview.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 24),
             contentTextview.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             contentTextview.heightAnchor.constraint(equalToConstant: 150)
@@ -94,6 +112,7 @@ class SecondCreateGroupViewController: BaseViewController {
         super.configureUI()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapPhotoPicker(sender:)))
         coverPickerView.addGestureRecognizer(tapGesture)
+        titleTextField.delegate = self
     }
     
     @objc
@@ -106,7 +125,11 @@ class SecondCreateGroupViewController: BaseViewController {
         present(PHPicker, animated: true, completion: nil)
     }
     
-    private func updateCountLabel(characterCount: Int) {
+    private func updateTitleCountLabel(characterCount: Int) {
+        titleWordsCountLabel.text = "\(characterCount)/20"
+    }
+    
+    private func updateContentCountLabel(characterCount: Int) {
         contentWordsCountLabel.text = "\(characterCount)/500"
     }
 }
@@ -141,33 +164,62 @@ extension SecondCreateGroupViewController: UITextViewDelegate {
         } else {
             if textView.text.count > 500 {
                 textView.text.removeLast()
-                updateCountLabel(characterCount: textView.text.count)
+                updateContentCountLabel(characterCount: 500)
             }
         }
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let textWithoutWhiteSpace = text.trimmingCharacters(in: .whitespaces)
-        var newLength = textView.text.count - range.length + textWithoutWhiteSpace.count
-        let contentMaxCount = 500 + 1
-        if newLength > contentMaxCount {
-            let overflow = newLength - contentMaxCount
+        let newLength = textView.text.count - range.length + textWithoutWhiteSpace.count
+        let contentMaxCount = 500
+        if newLength > contentMaxCount + 1 {
+            let overflow = newLength - (contentMaxCount + 1)
             let index = textWithoutWhiteSpace.index(textWithoutWhiteSpace.endIndex, offsetBy: -overflow)
             let newText = textWithoutWhiteSpace[..<index]
             guard let startPosition = textView.position(from: textView.beginningOfDocument, offset: range.location) else { return false }
             guard let endPosition = textView.position(from: textView.beginningOfDocument, offset: NSMaxRange(range)) else { return false }
             guard let textRange = textView.textRange(from: startPosition, to: endPosition) else { return false }
             textView.replace(textRange, withText: String(newText))
-            if textView.text.count > 500 {
+            if textView.text.count > contentMaxCount {
                 textView.text.removeLast()
             }
-            updateCountLabel(characterCount: 500)
+            updateContentCountLabel(characterCount: contentMaxCount)
             return false
         } else {
-            if newLength == 501 {
-                newLength = 500
+            updateContentCountLabel(characterCount: newLength)
+            return true
+        }
+    }
+}
+
+extension SecondCreateGroupViewController: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let count = textField.text?.count  else { return }
+        if count > 20 {
+            textField.text?.removeLast()
+            updateTitleCountLabel(characterCount: 20)
+        }
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let textWithoutWhiteSpace = string.trimmingCharacters(in: .whitespaces)
+        let newLength = (textField.text?.count ?? 0) - range.length + textWithoutWhiteSpace.count
+        let titleMaxCount = 20
+        if newLength > titleMaxCount + 1 {
+            let overflow = newLength - (titleMaxCount + 1)
+            let index = textWithoutWhiteSpace.index(textWithoutWhiteSpace.endIndex, offsetBy: -overflow)
+            let newText = textWithoutWhiteSpace[..<index]
+            guard let startPosition = textField.position(from: textField.beginningOfDocument, offset: range.location) else { return false }
+            guard let endPosition = textField.position(from: textField.beginningOfDocument, offset: NSMaxRange(range)) else { return false }
+            guard let textRange = textField.textRange(from: startPosition, to: endPosition) else { return false }
+            textField.replace(textRange, withText: String(newText))
+            if textField.text?.count ?? 0 > titleMaxCount {
+                textField.text?.removeLast()
             }
-            updateCountLabel(characterCount: newLength)
+            updateTitleCountLabel(characterCount: titleMaxCount)
+            return false
+        } else {
+            updateTitleCountLabel(characterCount: newLength)
             return true
         }
     }
