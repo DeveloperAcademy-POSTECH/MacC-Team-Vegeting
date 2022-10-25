@@ -18,7 +18,6 @@ class SearchedLocationResultTableViewCell: UITableViewCell {
     
     private lazy var placeLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .subheadline)
         return label
     }()
     
@@ -42,8 +41,8 @@ class SearchedLocationResultTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
-        locationLabel.text = ""
-        placeLabel.text = ""
+        locationLabel.removeFromSuperview()
+        placeLabel.removeFromSuperview()
     }
     
     private func setupLayoutForAddress() {
@@ -59,25 +58,26 @@ class SearchedLocationResultTableViewCell: UITableViewCell {
         placeLabel.constraint(top: self.topAnchor,
                               leading: self.leadingAnchor,
                               padding: UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 0))
+        placeLabel.constraint(.heightAnchor, constant: placeLabel.intrinsicContentSize.height)
         
         locationLabel.constraint(top: placeLabel.bottomAnchor,
                                  leading: self.leadingAnchor,
                                  bottom: self.bottomAnchor,
                                  padding: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 0))
+        locationLabel.constraint(.heightAnchor, constant: locationLabel.intrinsicContentSize.height)
     }
     
     func configure(with address: Address) {
         locationLabel.text = address.addressName
         locationLabel.textColor = .black
         self.setupLayoutForAddress()
-        print(address, "하이")
-        print(locationLabel.text, placeLabel.text, "하이")
     }
     
     func configure(with place: Place) {
         locationLabel.text = place.addressName
-        placeLabel.text = place.placeName
         locationLabel.textColor = .gray
+        locationLabel.font = .preferredFont(forTextStyle: .subheadline)
+        placeLabel.text = place.placeName
         self.setupLayoutForPlace()
     }
     
