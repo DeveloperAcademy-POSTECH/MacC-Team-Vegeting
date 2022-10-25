@@ -11,6 +11,11 @@ import SwiftyJSON
 
 final class LocationSearchingViewController: UIViewController {
     
+    private enum ResultType {
+        case Address(addressName: String, longitudeX: String, latitudeY: String)
+        case Place(placeName: String, addressName: String, longitudeX: String, latitudeY: String)
+    }
+    
     // MARK: - properties
     
     private let resultTableView: UITableView = {
@@ -19,7 +24,9 @@ final class LocationSearchingViewController: UIViewController {
         return tableView
     }()
     
-    var resultList: [Place] = []
+    private var resultList: [ResultType] = []
+//    private var addressResultList: [Address] = []
+//    private var placeResultList: [Place] = []
     
     // MARK: - lifeCycle
     
@@ -27,7 +34,8 @@ final class LocationSearchingViewController: UIViewController {
         super.viewDidLoad()
         setupNavigationBar()
         configureUI()
-        requestLocation()
+        requestAddress()
+        requestPlace()
     }
     
     // MARK: - func
@@ -44,10 +52,10 @@ final class LocationSearchingViewController: UIViewController {
         self.navigationItem.searchController = searchController
     }
     
-    //    private func configureTableView() {
-    //        resultTableView.delegate = self
-    //        resultTableView.dataSource = self
-    //    }
+//        private func configureTableView() {
+//            resultTableView.delegate = self
+//            resultTableView.dataSource = self
+//        }
     
     private func configureUI() {
         view.backgroundColor = .white
@@ -58,7 +66,41 @@ final class LocationSearchingViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    func requestLocation() {
+    func requestAddress() {
+        let headers: HTTPHeaders = [
+            "Authorization": "KakaoAK 0af518ebd6f6d9b7b526a91fbabeadc1"
+        ]
+        
+        let parameters: [String: Any] = [
+            "query": "포항 효자동",
+            "page": 1,
+            "size": 5
+        ]
+        
+        Session.default.request("https://dapi.kakao.com/v2/local/search/address.json",
+                                method: .get,
+                                parameters: parameters,
+                                headers: headers).responseJSON(completionHandler: { response in
+            switch response.result {
+            case .success(let value):
+                if let detailsPlace = JSON(value)["documents"].array{
+                    for item in detailsPlace{
+                        let addressName = item["address"]["address_name"].string ?? ""
+                        let longitudeX = item["x"].string ?? ""
+                        let latitudeY = item["y"].string ?? ""
+                        self.resultList.append(ResultType.Address(addressName: addressName,
+                                                              longitudeX: longitudeX,
+                                                              latitudeY: latitudeY))
+                    }
+                }
+                
+            case .failure(let error):
+                print(error)
+            }
+        })
+    }
+    
+    func requestPlace() {
         let headers: HTTPHeaders = [
             "Authorization": "KakaoAK 0af518ebd6f6d9b7b526a91fbabeadc1"
         ]
@@ -69,34 +111,43 @@ final class LocationSearchingViewController: UIViewController {
             "size": 10
         ]
         
-        Session.default.request("https://dapi.kakao.com/v2/local/search/address.json", method: .get,
-                                parameters: parameters, headers: headers)
-        .responseJSON(completionHandler: { response in
+        Session.default.request("https://dapi.kakao.com/v2/local/search/keyword.json",
+                                method: .get,
+                                parameters: parameters,
+                                headers: headers).responseJSON(completionHandler: { response in
             switch response.result {
             case .success(let value):
                 if let detailsPlace = JSON(value)["documents"].array{
                     for item in detailsPlace{
                         let placeName = item["place_name"].string ?? ""
-//                        let firstRegion = item["address"]["region_1depth_name"].string ?? ""
-//                        let secondRegion = item["address"]["region_2depth_name"].string ?? ""
-//                        let thirdRegion = item["address"]["region_3depth_name"].string ?? ""
-                        let addressName = item["address"]["address_name"].string ?? ""
-//                        let roadAdressName = item["road_address_name"].string ?? ""
+                        let addressName = item["address_name"].string ?? ""
                         let longitudeX = item["x"].string ?? ""
                         let latitudeY = item["y"].string ?? ""
-                        self.resultList.append(Place(placeName: placeName,
-                                                     region: addressName,
-                                                     longitudeX: longitudeX,
-                                                     latitudeY: latitudeY))
+                        self.resultList.append(ResultType.Place(placeName: placeName,
+                                                          addressName: addressName,
+                                                          longitudeX: longitudeX,
+                                                          latitudeY: latitudeY))
                     }
                 }
-                print(self.resultList)
                 
             case .failure(let error):
-                print("에러")
                 print(error)
             }
         })
     }
 }
-
+//
+//extension LocationSearchingViewController: UITableViewDataSource {
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//        return placeResultList.count() + addressResultList.count()
+//    }
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        <#code#>
+//    }
+//
+//}
+//
+//extension LocationSearchingViewController: UITableViewDelegate {
+//
+//}

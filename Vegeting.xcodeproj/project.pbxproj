@@ -11,8 +11,9 @@
 		4A31CD272903D86200E5E422 /* GroupCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD262903D86200E5E422 /* GroupCategoryView.swift */; };
 		4A31CD2A2903D89600E5E422 /* GroupCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD292903D89600E5E422 /* GroupCategoryCollectionViewCell.swift */; };
 		4AB5C27429078A910064C41E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 4AB5C27329078A910064C41E /* Alamofire */; };
-		4AB5C27729078AE90064C41E /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB5C27629078AE90064C41E /* Place.swift */; };
+		4AB5C27729078AE90064C41E /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB5C27629078AE90064C41E /* Address.swift */; };
 		4AB5C27A29078DB20064C41E /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 4AB5C27929078DB20064C41E /* SwiftyJSON */; };
+		4AB5C27C2907A9CE0064C41E /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB5C27B2907A9CE0064C41E /* Place.swift */; };
 		4AC8F0632906BD18007D3946 /* LocationSearchingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC8F0622906BD18007D3946 /* LocationSearchingViewController.swift */; };
 		4AC8F0652906C5E0007D3946 /* SearchedLocationResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC8F0642906C5E0007D3946 /* SearchedLocationResultTableViewCell.swift */; };
 		4ADC12DD2901800D00C0FFB6 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12DC2901800D00C0FFB6 /* UIColor+Extension.swift */; };
@@ -53,7 +54,8 @@
 		4A31CD232903D73D00E5E422 /* FirstCreateGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstCreateGroupViewController.swift; sourceTree = "<group>"; };
 		4A31CD262903D86200E5E422 /* GroupCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCategoryView.swift; sourceTree = "<group>"; };
 		4A31CD292903D89600E5E422 /* GroupCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
-		4AB5C27629078AE90064C41E /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		4AB5C27629078AE90064C41E /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
+		4AB5C27B2907A9CE0064C41E /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		4AC8F0622906BD18007D3946 /* LocationSearchingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchingViewController.swift; sourceTree = "<group>"; };
 		4AC8F0642906C5E0007D3946 /* SearchedLocationResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedLocationResultTableViewCell.swift; sourceTree = "<group>"; };
 		4ADC12DC2901800D00C0FFB6 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
@@ -143,7 +145,8 @@
 		4AB5C27529078ADF0064C41E /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				4AB5C27629078AE90064C41E /* Place.swift */,
+				4AB5C27629078AE90064C41E /* Address.swift */,
+				4AB5C27B2907A9CE0064C41E /* Place.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -425,6 +428,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4ADC12E32901815C00C0FFB6 /* UIViewController+Extension.swift in Sources */,
+				4AB5C27C2907A9CE0064C41E /* Place.swift in Sources */,
 				4ADC12E12901813900C0FFB6 /* NSObject+Extension.swift in Sources */,
 				4A31CD242903D73D00E5E422 /* FirstCreateGroupViewController.swift in Sources */,
 				A7C8DF282901274500F38AD7 /* ViewController.swift in Sources */,
@@ -443,7 +447,7 @@
 				4ADC12E92901819800C0FFB6 /* UIScreen+Extension.swift in Sources */,
 				A7C8DF262901274500F38AD7 /* SceneDelegate.swift in Sources */,
 				4AFA58B2290526C300679142 /* NumberOfGroupPeopleView.swift in Sources */,
-				4AB5C27729078AE90064C41E /* Place.swift in Sources */,
+				4AB5C27729078AE90064C41E /* Address.swift in Sources */,
 				4ADC12E72901818900C0FFB6 /* UIStackView+Extention.swift in Sources */,
 				4ADC12DD2901800D00C0FFB6 /* UIColor+Extension.swift in Sources */,
 				4AFA58AD29050B3800679142 /* Date+Extension.swift in Sources */,

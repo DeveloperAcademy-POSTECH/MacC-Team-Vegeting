@@ -7,10 +7,8 @@
 
 import Foundation
 
-struct Place{
-    let placeName: String
+struct Address {
     let addressName: String
     let longitudeX: String
     let latitudeY: String
 }
-
