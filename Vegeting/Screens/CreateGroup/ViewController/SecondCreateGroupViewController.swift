@@ -38,11 +38,11 @@ class SecondCreateGroupViewController: UIViewController {
         return textView
     }()
     
-    private lazy var contentWorkdsCountLabel: UILabel = {
+    private lazy var contentWordsCountLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
         label.text = "0/500"
-        label.font = .preferredFont(forTextStyle: .callout)
+        label.font = .preferredFont(forTextStyle: .caption1)
         label.textColor = .lightGray
         label.textAlignment = .right
         return label
@@ -83,6 +83,14 @@ class SecondCreateGroupViewController: UIViewController {
             contentTextview.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             contentTextview.heightAnchor.constraint(equalToConstant: 150)
         ])
+        
+        view.addSubview(contentWordsCountLabel)
+        contentWordsCountLabel.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            contentWordsCountLabel.topAnchor.constraint(equalTo: contentTextview.bottomAnchor, constant: 8),
+            contentWordsCountLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 24),
+            contentWordsCountLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+        ])
     }
     
     private func configureUI() {
@@ -91,13 +99,18 @@ class SecondCreateGroupViewController: UIViewController {
         coverPickerView.addGestureRecognizer(tapGesture)
     }
     
-    @objc private func tapPhotoPicker(sender: UITapGestureRecognizer) {
+    @objc
+    private func tapPhotoPicker(sender: UITapGestureRecognizer) {
         var configuration = PHPickerConfiguration()
         configuration.selectionLimit = 1
         configuration.filter = .images
         let PHPicker = PHPickerViewController(configuration: configuration)
         PHPicker.delegate = self
         self.present(PHPicker, animated: true, completion: nil)
+    }
+    
+    private func updateCountLabel(characterCount: Int) {
+        contentWordsCountLabel.text = "\(characterCount)/500"
     }
 }
 
@@ -125,9 +138,40 @@ extension SecondCreateGroupViewController: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+        if textView.text.isEmpty {
             textView.text = textViewPlaceHolder
             textView.textColor = .lightGray
+        } else {
+            if textView.text.count > 500 {
+                textView.text.removeLast()
+                updateCountLabel(characterCount: textView.text.count)
+            }
+        }
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let textWithoutWhiteSpace = text.trimmingCharacters(in: .whitespaces)
+        var newLength = textView.text.count - range.length + textWithoutWhiteSpace.count
+        let contentMaxCount = 500 + 1
+        if newLength > contentMaxCount {
+            let overflow = newLength - contentMaxCount
+            let index = textWithoutWhiteSpace.index(textWithoutWhiteSpace.endIndex, offsetBy: -overflow)
+            let newText = textWithoutWhiteSpace[..<index]
+            guard let startPosition = textView.position(from: textView.beginningOfDocument, offset: range.location) else { return false }
+            guard let endPosition = textView.position(from: textView.beginningOfDocument, offset: NSMaxRange(range)) else { return false }
+            guard let textRange = textView.textRange(from: startPosition, to: endPosition) else { return false }
+            textView.replace(textRange, withText: String(newText))
+            if textView.text.count > 500 {
+                textView.text.removeLast()
+            }
+            updateCountLabel(characterCount: 500)
+            return false
+        } else {
+            if newLength == 501 {
+                    newLength = 500
+            }
+            updateCountLabel(characterCount: newLength)
+            return true
         }
     }
 }
