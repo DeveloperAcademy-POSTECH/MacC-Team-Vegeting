@@ -9,6 +9,10 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
+protocol LocationSearchingViewControllerDelegate: AnyObject {
+    func configureLocationText(with text: String)
+}
+
 final class LocationSearchingViewController: UIViewController {
     
     // MARK: - properties
@@ -21,6 +25,8 @@ final class LocationSearchingViewController: UIViewController {
     
     private var addressResultList: [Address] = []
     private var placeResultList: [Place] = []
+    
+    weak var delegate: LocationSearchingViewControllerDelegate?
     
     // MARK: - lifeCycle
     
@@ -49,7 +55,7 @@ final class LocationSearchingViewController: UIViewController {
     }
     
     private func configureTableView() {
-        //        resultTableView.delegate = self
+        resultTableView.delegate = self
         resultTableView.dataSource = self
     }
     
@@ -70,7 +76,7 @@ final class LocationSearchingViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    func requestAddress(keyword: String) async {
+    private func requestAddress(keyword: String) async {
         let headers: HTTPHeaders = [
             "Authorization": "KakaoAK 0af518ebd6f6d9b7b526a91fbabeadc1"
         ]
@@ -94,22 +100,20 @@ final class LocationSearchingViewController: UIViewController {
                         let longitudeX = item["x"].string ?? ""
                         let latitudeY = item["y"].string ?? ""
                         list.append(Address(addressName: addressName,
-                                                              longitudeX: longitudeX,
-                                                              latitudeY: latitudeY))
+                                            longitudeX: longitudeX,
+                                            latitudeY: latitudeY))
                     }
                 }
                 self.addressResultList = list
                 self.resultTableView.reloadData()
-                print(self.addressResultList)
+                
             case .failure(let error):
                 print(error)
             }
         })
-        print("끝남")
     }
     
-    func requestPlace(keyword: String) {
-        print("시작")
+    private func requestPlace(keyword: String) {
         let headers: HTTPHeaders = [
             "Authorization": "KakaoAK 0af518ebd6f6d9b7b526a91fbabeadc1"
         ]
@@ -120,10 +124,10 @@ final class LocationSearchingViewController: UIViewController {
             "size": 5
         ]
         
-        Session.default.request("https://dapi.kakao.com/v2/local/search/keyword.json",
-                                method: .get,
-                                parameters: parameters,
-                                headers: headers).responseJSON(completionHandler: { response in
+        AF.request("https://dapi.kakao.com/v2/local/search/keyword.json",
+                   method: .get,
+                   parameters: parameters,
+                   headers: headers).responseJSON(completionHandler: { response in
             switch response.result {
             case .success(let value):
                 var list: [Place] = []
@@ -157,7 +161,7 @@ extension LocationSearchingViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = resultTableView.dequeueReusableCell(withIdentifier: SearchedLocationResultTableViewCell.className, for: indexPath) as? SearchedLocationResultTableViewCell else { return UITableViewCell() }
         let totalAddress = addressResultList.count
-        print(addressResultList, placeResultList, "마지막")
+        
         if indexPath.row < totalAddress {
             cell.configure(with: addressResultList[indexPath.row])
         } else {
@@ -169,6 +173,21 @@ extension LocationSearchingViewController: UITableViewDataSource {
     
 }
 
+extension LocationSearchingViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        var text = ""
+        if indexPath.row < addressResultList.count {
+            text = addressResultList[indexPath.row].addressName
+        } else {
+            text = placeResultList[indexPath.row].placeName
+        }
+        
+        delegate?.configureLocationText(with: text)
+        self.navigationController?.popViewController(animated: true)
+    }
+}
+                                                
 extension LocationSearchingViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         addressResultList = []
@@ -177,6 +196,7 @@ extension LocationSearchingViewController: UISearchBarDelegate {
             await requestAddress(keyword: searchText)
             requestPlace(keyword: searchText)
         }
-       
+        
     }
 }
+

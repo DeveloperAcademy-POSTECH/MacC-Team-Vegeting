@@ -11,7 +11,7 @@ class SearchedLocationResultTableViewCell: UITableViewCell {
     
     // MARK: - properties
     
-    private let locationLabel: UILabel = {
+    let locationLabel: UILabel = {
         let label = UILabel()
         return label
     }()
@@ -20,7 +20,6 @@ class SearchedLocationResultTableViewCell: UITableViewCell {
         let label = UILabel()
         return label
     }()
-    
     
     // MARK: - init
     
@@ -41,6 +40,7 @@ class SearchedLocationResultTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        locationLabel.font = .preferredFont(forTextStyle: .body)
         locationLabel.removeFromSuperview()
         placeLabel.removeFromSuperview()
     }
@@ -68,12 +68,14 @@ class SearchedLocationResultTableViewCell: UITableViewCell {
     }
     
     func configure(with address: Address) {
+        print("1, 아이고")
         locationLabel.text = address.addressName
         locationLabel.textColor = .black
         self.setupLayoutForAddress()
     }
     
     func configure(with place: Place) {
+        print("2, 아이고")
         locationLabel.text = place.addressName
         locationLabel.textColor = .gray
         locationLabel.font = .preferredFont(forTextStyle: .subheadline)

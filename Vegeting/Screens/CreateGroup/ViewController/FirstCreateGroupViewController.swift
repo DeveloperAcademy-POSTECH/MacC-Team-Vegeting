@@ -29,7 +29,9 @@ final class FirstCreateGroupViewController: UIViewController {
     
     private lazy var locationSearchingButton: UIButton = {
         let button = UIButton(primaryAction: UIAction { _ in
-            self.navigationController?.pushViewController(LocationSearchingViewController(), animated: true)
+            let viewController = LocationSearchingViewController()
+            viewController.delegate = self
+            self.navigationController?.pushViewController(viewController, animated: true)
         })
         button.backgroundColor = .systemGray6
         button.layer.cornerRadius = 7
@@ -39,7 +41,6 @@ final class FirstCreateGroupViewController: UIViewController {
     private let locationLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
-        label.text = "지곡동 지곡로 지국구"
         return label
     }()
     
@@ -78,7 +79,7 @@ final class FirstCreateGroupViewController: UIViewController {
     }
     
     //MARK: - func
-    
+
     private func setupLayout() {
         view.addSubviews(categoryTitleLabel,
                          categoryCollectionView,
@@ -135,4 +136,12 @@ final class FirstCreateGroupViewController: UIViewController {
         view.backgroundColor = .white
     }
 
+}
+
+extension FirstCreateGroupViewController: LocationSearchingViewControllerDelegate {
+    func configureLocationText(with text: String) {
+        print("하이")
+        locationLabel.text = text
+    }
+    
 }
