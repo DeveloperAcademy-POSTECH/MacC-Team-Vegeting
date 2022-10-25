@@ -17,10 +17,27 @@ class ViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .always
         navigationController?.navigationBar.prefersLargeTitles = true
     }
-        
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
+        signInChecker()
+        setNavigationBar()
+    }
+    
+    private func setNavigationBar() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "로그아웃", style: .done, target: self, action: #selector(didTapSignOut(_:)))
+    }
+    
+    @objc func didTapSignOut(_ sender: UIBarButtonItem) {
+        do {
+            try Auth.auth().signOut()
+            signInChecker()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    private func signInChecker() {
         if Auth.auth().currentUser == nil {
             let SignInViewController = UINavigationController(rootViewController: SignInViewController())
             SignInViewController.modalPresentationStyle = .fullScreen
@@ -28,6 +45,7 @@ class ViewController: UIViewController {
         } else {
             print(Auth.auth().currentUser?.uid)
         }
+        
     }
 
 }
