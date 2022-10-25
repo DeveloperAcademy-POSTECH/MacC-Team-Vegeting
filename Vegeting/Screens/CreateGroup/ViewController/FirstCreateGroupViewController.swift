@@ -140,7 +140,6 @@ final class FirstCreateGroupViewController: UIViewController {
 
 extension FirstCreateGroupViewController: LocationSearchingViewControllerDelegate {
     func configureLocationText(with text: String) {
-        print("하이")
         locationLabel.text = text
     }
     

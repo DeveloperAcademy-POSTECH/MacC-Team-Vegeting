@@ -68,14 +68,12 @@ class SearchedLocationResultTableViewCell: UITableViewCell {
     }
     
     func configure(with address: Address) {
-        print("1, 아이고")
         locationLabel.text = address.addressName
         locationLabel.textColor = .black
         self.setupLayoutForAddress()
     }
     
     func configure(with place: Place) {
-        print("2, 아이고")
         locationLabel.text = place.addressName
         locationLabel.textColor = .gray
         locationLabel.font = .preferredFont(forTextStyle: .subheadline)
