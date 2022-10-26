@@ -9,13 +9,23 @@ import UIKit
 import FirebaseAuth
 
 class ViewController: UIViewController {
-
+    
+    var test: Int = 0
+    var user: VFUser?
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         navigationItem.title = "로그인 상태"
         navigationItem.largeTitleDisplayMode = .always
         navigationController?.navigationBar.prefersLargeTitles = true
+        
+        dataLoad()
+    }
+    private func dataLoad() {
+        Task {
+            user = await FirebaseManager.shared.requestUser()
+        }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -30,13 +40,14 @@ class ViewController: UIViewController {
     }
     
     @objc func didTapWrite(_ sender: Any) {
-        Task {
-            let user = VFUser(id: nil, userID: "", userName: "이유돈", imageURL: nil, participatedChats: nil, participatedClubs: nil)
-            FirebaseManager.shared.requestUserInformation(with: user)
-            FirebaseManager.shared.requestPost(with: Club(clubID: nil, clubTitle: "vegeting", clubCategory: "veget", hostID: "", participants: nil, createdAt: Date(), maxNumberOfPeople: 3))
-            let data = try await FirebaseManager.shared.requestClubInformation()
-            print(data)
-        }
+        
+        guard let user = user else { return }
+        
+        let club = Club(clubID: nil, chatID: nil, clubTitle: "비건 뼤스타 가까요 \(test)", clubCategory: "맛집", hostID: nil, participants: nil, createdAt: Date(), maxNumberOfPeople: 3)
+        let chat = Chat(chatRoomID: nil, clubID: nil, chatRoomName: "비건 페스타 단톡", participants: nil, messages: nil, coverImageURL: nil)
+        FirebaseManager.shared.requestPost(user: user, club: club, chat: chat)
+        test += 1
+        
     }
     @objc func didTapSignOut(_ sender: UIBarButtonItem) {
         do {
@@ -57,6 +68,6 @@ class ViewController: UIViewController {
         }
         
     }
-
+    
 }
 
