@@ -53,7 +53,7 @@ final class PostDetailViewController: UIViewController {
     
     private let capacityLabel: UILabel = {
         let label = UILabel()
-        label.text = "2/4"
+        label.text = "5/6"
         label.backgroundColor = .gray
         return label
     }()
@@ -80,7 +80,7 @@ final class PostDetailViewController: UIViewController {
     
     private let participantsLabel: UILabel = {
         let label = UILabel()
-        label.text = "참여하는 회원"
+        label.text = "참여하는 회원 5/6"
         label.font = .systemFont(ofSize: 20, weight: .semibold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
