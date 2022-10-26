@@ -36,14 +36,14 @@ class GroupListViewController: ViewController {
         configureCollectionView()
         configureUI()
         setupLayout()
-        clubList = [Club(clubID: "", clubTitle: "club1", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 10),
-                    Club(clubID: "", clubTitle: "club2", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 11),
-                    Club(clubID: "", clubTitle: "club3", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 12),
-                    Club(clubID: "", clubTitle: "club4", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 13),
-                    Club(clubID: "", clubTitle: "club5", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 14),
-                    Club(clubID: "", clubTitle: "club6", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 15),
-                    Club(clubID: "", clubTitle: "club7", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 16),
-                    Club(clubID: "", clubTitle: "club8", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 17)
+        clubList = [Club(clubID: "", clubTitle: "동물해방 같이 읽어요.", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 10),
+                    Club(clubID: "", clubTitle: "매주 금요일마다 플로깅 하러 가실 분??", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 11),
+                    Club(clubID: "", clubTitle: "매주 금요일마다 플로깅 하러 가실 분??", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 12),
+                    Club(clubID: "", clubTitle: "남미플랜트랩하고 거북이 먹으러 가요~!", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 13),
+                    Club(clubID: "", clubTitle: "같이 비건 식당 탐방하실 분?", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 14),
+                    Club(clubID: "", clubTitle: "동물권 관련 스터디", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 15),
+                    Club(clubID: "", clubTitle: "기사 읽어보실 분~~", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 16),
+                    Club(clubID: "", clubTitle: "비건 카페 가실분 계신가요?", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 17)
         ]
     }
     
