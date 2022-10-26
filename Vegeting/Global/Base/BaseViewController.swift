@@ -46,6 +46,6 @@ class BaseViewController: UIViewController {
     
     func configureUI() {
         // Override Component
-        view.backgroundColor = .backgroundColor
+        view.backgroundColor = .systemBackground
     }
 }

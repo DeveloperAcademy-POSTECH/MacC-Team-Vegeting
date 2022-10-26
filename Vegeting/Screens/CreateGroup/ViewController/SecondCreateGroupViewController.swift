@@ -67,10 +67,7 @@ final class SecondCreateGroupViewController: BaseViewController {
     }
     
     override func setupLayout() {
-        [coverPickerView, groupInfoStackView, titleTextField, titleWordsCountLabel, contentTextview, contentWordsCountLabel].forEach {
-            view.addSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
+        view.addSubviews(coverPickerView, groupInfoStackView, titleTextField, titleWordsCountLabel, contentTextview, contentWordsCountLabel)
         
         NSLayoutConstraint.activate([
             coverPickerView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 30),
