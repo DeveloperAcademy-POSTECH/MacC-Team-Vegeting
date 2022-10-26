@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4A31CD242903D73D00E5E422 /* FirstCreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD232903D73D00E5E422 /* FirstCreateGroupViewController.swift */; };
+		4A31CD272903D86200E5E422 /* GroupCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD262903D86200E5E422 /* GroupCategoryView.swift */; };
+		4A31CD2A2903D89600E5E422 /* GroupCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD292903D89600E5E422 /* GroupCategoryCollectionViewCell.swift */; };
 		4ADC12DD2901800D00C0FFB6 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12DC2901800D00C0FFB6 /* UIColor+Extension.swift */; };
 		4ADC12E12901813900C0FFB6 /* NSObject+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12E02901813900C0FFB6 /* NSObject+Extension.swift */; };
 		4ADC12E32901815C00C0FFB6 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12E22901815C00C0FFB6 /* UIViewController+Extension.swift */; };
@@ -19,6 +21,7 @@
 		4ADC12EF290183F500C0FFB6 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12EE290183F500C0FFB6 /* BaseViewController.swift */; };
 		4ADC12F12901856B00C0FFB6 /* UIView+Constraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12F02901856B00C0FFB6 /* UIView+Constraint.swift */; };
 		4ADC12F32901857F00C0FFB6 /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12F22901857F00C0FFB6 /* UIViewController+Alert.swift */; };
+		4AFA58AA2903EA6400679142 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA58A92903EA6400679142 /* UIView+Extension.swift */; };
 		76B027F12901726E002C9DF7 /* VegetingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B027F02901726E002C9DF7 /* VegetingTests.swift */; };
 		76B0282629051FC9002C9DF7 /* VFUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B0282529051FC9002C9DF7 /* VFUser.swift */; };
 		76B02829290520BB002C9DF7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76B02828290520BB002C9DF7 /* GoogleService-Info.plist */; };
@@ -50,6 +53,8 @@
 
 /* Begin PBXFileReference section */
 		4A31CD232903D73D00E5E422 /* FirstCreateGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstCreateGroupViewController.swift; sourceTree = "<group>"; };
+		4A31CD262903D86200E5E422 /* GroupCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCategoryView.swift; sourceTree = "<group>"; };
+		4A31CD292903D89600E5E422 /* GroupCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		4ADC12DC2901800D00C0FFB6 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		4ADC12E02901813900C0FFB6 /* NSObject+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Extension.swift"; sourceTree = "<group>"; };
 		4ADC12E22901815C00C0FFB6 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -61,6 +66,7 @@
 		4ADC12EE290183F500C0FFB6 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		4ADC12F02901856B00C0FFB6 /* UIView+Constraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Constraint.swift"; sourceTree = "<group>"; };
 		4ADC12F22901857F00C0FFB6 /* UIViewController+Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
+		4AFA58A92903EA6400679142 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		76B027EE2901726E002C9DF7 /* VegetingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VegetingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		76B027F02901726E002C9DF7 /* VegetingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VegetingTests.swift; sourceTree = "<group>"; };
 		76B0282529051FC9002C9DF7 /* VFUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VFUser.swift; sourceTree = "<group>"; };
@@ -108,6 +114,23 @@
 			path = CreateGroup;
 			sourceTree = "<group>";
 		};
+		4A31CD252903D83200E5E422 /* UIComponent */ = {
+			isa = PBXGroup;
+			children = (
+				4A31CD282903D86E00E5E422 /* Cell */,
+				4A31CD262903D86200E5E422 /* GroupCategoryView.swift */,
+			);
+			path = UIComponent;
+			sourceTree = "<group>";
+		};
+		4A31CD282903D86E00E5E422 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				4A31CD292903D89600E5E422 /* GroupCategoryCollectionViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		4A31CD2B2903DE2E00E5E422 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -120,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				76B0282429051FAC002C9DF7 /* Models */,
+				4A31CD252903D83200E5E422 /* UIComponent */,
 				4ADC12D929017A9800C0FFB6 /* Base */,
 				4ADC12D829017A9600C0FFB6 /* Literals */,
 				4ADC12D729017A9300C0FFB6 /* Utils */,
@@ -159,6 +183,7 @@
 				4ADC12E42901817800C0FFB6 /* UILabel+Extension.swift */,
 				4ADC12E62901818900C0FFB6 /* UIStackView+Extention.swift */,
 				4ADC12E82901819800C0FFB6 /* UIScreen+Extension.swift */,
+				4AFA58A92903EA6400679142 /* UIView+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -396,10 +421,13 @@
 				76B0283D29052937002C9DF7 /* Participant.swift in Sources */,
 				4ADC12ED2901838200C0FFB6 /* ImageLiteral.swift in Sources */,
 				4ADC12E52901817800C0FFB6 /* UILabel+Extension.swift in Sources */,
+				4A31CD2A2903D89600E5E422 /* GroupCategoryCollectionViewCell.swift in Sources */,
 				4ADC12EF290183F500C0FFB6 /* BaseViewController.swift in Sources */,
 				4ADC12F12901856B00C0FFB6 /* UIView+Constraint.swift in Sources */,
+				4A31CD272903D86200E5E422 /* GroupCategoryView.swift in Sources */,
 				4ADC12EB2901833F00C0FFB6 /* StringLiteral.swift in Sources */,
 				A7C8DF242901274500F38AD7 /* AppDelegate.swift in Sources */,
+				4AFA58AA2903EA6400679142 /* UIView+Extension.swift in Sources */,
 				4ADC12E92901819800C0FFB6 /* UIScreen+Extension.swift in Sources */,
 				A7C8DF262901274500F38AD7 /* SceneDelegate.swift in Sources */,
 				76B0283B290528F8002C9DF7 /* Chat.swift in Sources */,
