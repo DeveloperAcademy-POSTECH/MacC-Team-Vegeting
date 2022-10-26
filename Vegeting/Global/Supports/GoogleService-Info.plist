@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>70912293072-kl8q8j4v02iknneig9fq7mit8t0u8ld9.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.70912293072-kl8q8j4v02iknneig9fq7mit8t0u8ld9</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBfsGUJPCifYrKpMwlpK1atA5O6FQYom2A</string>
+	<key>GCM_SENDER_ID</key>
+	<string>70912293072</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.PigGarden.Vegeting</string>
+	<key>PROJECT_ID</key>
+	<string>vegeting-fecc8</string>
+	<key>STORAGE_BUCKET</key>
+	<string>vegeting-fecc8.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:70912293072:ios:7fcbf6a5022e9ead6786d5</string>
+</dict>
+</plist>
