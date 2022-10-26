@@ -37,8 +37,10 @@ final class LocationSearchingViewController: UIViewController {
     private var placeResultList: [Place] = [] {
         didSet {
             if placeResultList != oldValue {
-                self.resultTableView.reloadData()
-                checkEmptyResultState()
+                DispatchQueue.main.async { [weak self] in
+                    self?.resultTableView.reloadData()
+                    self?.checkEmptyResultState()
+                }
             }
         }
     }
