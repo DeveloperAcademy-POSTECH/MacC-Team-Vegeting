@@ -241,19 +241,19 @@ final class PostDetailViewController: UIViewController {
     private func showActionSheet() {
         let actionSheet = UIAlertController(title: .none, message: .none, preferredStyle: .actionSheet)
         
-        let deletePostAlert = UIAlertAction(title: "게시글 삭제", style: .default) { action in
+        let deletePostAlertAction = UIAlertAction(title: "게시글 삭제", style: .default) { action in
             //TODO: 게시글 삭제 action 연결
         }
         
-        let modifyPostAlert = UIAlertAction(title: "게시글 수정", style: .default) { action in
+        let modifyPostAlertAction = UIAlertAction(title: "게시글 수정", style: .default) { action in
             //TODO: 게시글 수정 action 연결
         }
         
-        let cancelAlert = UIAlertAction(title: "취소", style: .cancel) { action in
+        let cancelAlertAction = UIAlertAction(title: "취소", style: .cancel) { action in
             //TODO: 액션시트 취소 action 연결
         }
         
-        [deletePostAlert, modifyPostAlert, cancelAlert].forEach { action in
+        [deletePostAlertAction, modifyPostAlertAction, cancelAlertAction].forEach { action in
             actionSheet.addAction(action)
         }
         
