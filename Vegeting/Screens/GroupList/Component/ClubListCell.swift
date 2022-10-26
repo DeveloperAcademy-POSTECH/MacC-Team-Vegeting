@@ -16,7 +16,7 @@ class ClubListCell: UICollectionViewCell {
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "???"
+        label.numberOfLines = 2
         label.tintColor = .black
         return label
     }()
