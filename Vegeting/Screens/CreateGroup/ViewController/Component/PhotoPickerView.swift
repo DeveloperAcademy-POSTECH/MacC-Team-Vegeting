@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PhotoPickerView: UIView {
+final class PhotoPickerView: UIView {
     var selectedImage = UIImageView()
     var label = UILabel()
     

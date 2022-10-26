@@ -8,7 +8,7 @@
 import UIKit
 import PhotosUI
 
-class SecondCreateGroupViewController: BaseViewController {
+final class SecondCreateGroupViewController: BaseViewController {
     private lazy var coverPickerView: PhotoPickerView = {
         var pickerView = PhotoPickerView()
         pickerView.label.text = StringLiteral.secondCreateGroupViewControllerPhoto
