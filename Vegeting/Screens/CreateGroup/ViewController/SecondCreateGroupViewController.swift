@@ -8,10 +8,10 @@
 import UIKit
 import PhotosUI
 
-class SecondCreateGroupViewController: BaseViewController {
+final class SecondCreateGroupViewController: BaseViewController {
     private lazy var coverPickerView: PhotoPickerView = {
         var pickerView = PhotoPickerView()
-        pickerView.label.text = StringLiteral.secondCreateGroupViewControllerPhoto
+        pickerView.setLabelText(text: StringLiteral.secondCreateGroupViewControllerPhoto)
         return pickerView
     }()
     
@@ -64,8 +64,6 @@ class SecondCreateGroupViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI()
-        setupLayout()
     }
     
     override func setupLayout() {
@@ -148,8 +146,8 @@ extension SecondCreateGroupViewController: PHPickerViewControllerDelegate {
             itemProvider.loadObject(ofClass: UIImage.self) { image, error in
                 DispatchQueue.main.async {
                     guard let image = image as? UIImage else { return }
-                    self.coverPickerView.selectedImage.image = image
-                    self.coverPickerView.label.text = ""
+                    self.coverPickerView.setImageView(image: image)
+                    self.coverPickerView.setLabelText(text: "")
                 }
             }
         }
