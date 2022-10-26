@@ -266,6 +266,8 @@
 				A73AAAF22904E26D0050CA81 /* PostDetailViewController.swift */,
 			);
 			path = PostDetail;
+			sourceTree = "<group>";
+		};
 		76B0282429051FAC002C9DF7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
