@@ -15,4 +15,6 @@ enum StringLiteral {
     static let secondCreateGroupViewControllerPhoto = "사진을 선택해주세요"
     static let secondCreateGroupViewControllerTitle = "모임의 제목을 입력해주세요"
     static let secondCreateGroupViewControllerContent = "모임의 상세설명을 입력해주세요"
+    static let secondCreateGroupViewControllerRegisterButton = "등록하기"
+    
 }
