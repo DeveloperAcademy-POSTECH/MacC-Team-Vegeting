@@ -13,7 +13,7 @@ final class FirstCreateGroupViewController: UIViewController {
     
     private let categoryTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "모임의 목적을 선택해주세요."
+        label.text = "모임 주제는 무엇인가요?"
         label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
         return label
     }()
@@ -26,9 +26,20 @@ final class FirstCreateGroupViewController: UIViewController {
     
     private let locationTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "지역을 선택해주세요."
+        label.text = "모임 지역은 어디인가요?"
         label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
         label.isHidden = true
+        return label
+    }()
+    
+    private let locationFooterLabel: UILabel = {
+        let label = UILabel()
+        label.text = "구체적인 장소가 정해지지 않았다면 구, 동 단위로 입력해도 좋아요!"
+        label.numberOfLines = 0
+        label.textColor = .gray
+        label.font = .preferredFont(forTextStyle: .subheadline)
+        label.isHidden = true
+        label.lineBreakMode = .byCharWrapping
         return label
     }()
     
@@ -70,7 +81,7 @@ final class FirstCreateGroupViewController: UIViewController {
         return datePicker
     }()
     
-    private let datePickerBottomLabel: UILabel = {
+    private let datePickerFooterLabel: UILabel = {
         let label = UILabel()
         label.text = "오늘부터 한달 이내로만 모임을 만들 수 있어요."
         label.font = .preferredFont(forTextStyle: .subheadline)
@@ -106,12 +117,13 @@ final class FirstCreateGroupViewController: UIViewController {
     private func showLocationView() {
         locationTitleLabel.isHidden = false
         locationSearchingButton.isHidden = false
+        locationFooterLabel.isHidden = false
     }
     
     private func showDateView() {
         dateTitleLabel.isHidden = false
         datePicker.isHidden = false
-        datePickerBottomLabel.isHidden = false
+        datePickerFooterLabel.isHidden = false
     }
     
     @objc
@@ -121,13 +133,15 @@ final class FirstCreateGroupViewController: UIViewController {
     }
     
     private func setupLayout() {
+        
         view.addSubviews(categoryTitleLabel,
                          categoryCollectionView,
                          locationTitleLabel,
                          locationSearchingButton,
+                         locationFooterLabel,
                          dateTitleLabel,
                          datePicker,
-                         datePickerBottomLabel,
+                         datePickerFooterLabel,
                          numberOfGroupPeopleTitleLabel,
                          numberOfGroupCollectionView)
         
@@ -143,12 +157,12 @@ final class FirstCreateGroupViewController: UIViewController {
         
         locationTitleLabel.constraint(top: categoryCollectionView.bottomAnchor,
                                       leading: view.leadingAnchor,
-                                      padding: UIEdgeInsets(top: 49, left: 20, bottom: 0, right: 0))
+                                      padding: UIEdgeInsets(top: 45, left: 20, bottom: 0, right: 0))
         
         locationSearchingButton.constraint(top: locationTitleLabel.bottomAnchor,
-                                          leading: view.leadingAnchor,
-                                          trailing: view.trailingAnchor,
-                                          padding: UIEdgeInsets(top: 10, left: 20, bottom: 0, right: 20))
+                                           leading: view.leadingAnchor,
+                                           trailing: view.trailingAnchor,
+                                           padding: UIEdgeInsets(top: 11, left: 20, bottom: 0, right: 20))
         locationSearchingButton.constraint(.heightAnchor, constant: 44)
         
         locationSearchingButton.addSubview(locationLabel)
@@ -156,19 +170,24 @@ final class FirstCreateGroupViewController: UIViewController {
                                  centerY: locationSearchingButton.centerYAnchor,
                                  padding: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0))
         
-        dateTitleLabel.constraint(top: locationSearchingButton.bottomAnchor,
+        locationFooterLabel.constraint(top: locationSearchingButton.bottomAnchor,
+                                       leading: view.leadingAnchor,
+                                       trailing: view.trailingAnchor,
+                                       padding: UIEdgeInsets(top: 10, left: 20, bottom: 0, right: 20))
+        
+        dateTitleLabel.constraint(top: locationFooterLabel.bottomAnchor,
                                   leading: view.leadingAnchor,
-                                  padding: UIEdgeInsets(top: 49, left: 20, bottom: 0, right: 0))
+                                  padding: UIEdgeInsets(top: 28, left: 20, bottom: 0, right: 0))
         
         datePicker.constraint(top: dateTitleLabel.bottomAnchor,
                               leading: view.leadingAnchor,
                               padding: UIEdgeInsets(top: 10, left: 20, bottom: 0, right: 0))
         
-        datePickerBottomLabel.constraint(top: datePicker.bottomAnchor,
+        datePickerFooterLabel.constraint(top: datePicker.bottomAnchor,
                                          leading: view.leadingAnchor,
                                          padding: UIEdgeInsets(top: 10, left: 20, bottom: 0, right: 0))
         
-        numberOfGroupPeopleTitleLabel.constraint(top: datePickerBottomLabel.bottomAnchor,
+        numberOfGroupPeopleTitleLabel.constraint(top: datePickerFooterLabel.bottomAnchor,
                                                  leading: view.leadingAnchor,
                                                  padding: UIEdgeInsets(top: 49, left: 20, bottom: 0, right: 0))
         
@@ -180,7 +199,7 @@ final class FirstCreateGroupViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .white
     }
-
+    
 }
 
 extension FirstCreateGroupViewController: LocationSearchingViewControllerDelegate {
