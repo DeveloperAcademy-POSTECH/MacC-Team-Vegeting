@@ -23,8 +23,25 @@ final class LocationSearchingViewController: UIViewController {
         return tableView
     }()
     
-    private var addressResultList: [Address] = []
-    private var placeResultList: [Place] = []
+    private let initialSearchingView = InitialLocationSearchingView()
+    
+    private lazy var emptyResultView = EmptyResultView() {
+        didSet {
+            setupEmptyResultViewLayout()
+        }
+    }
+    
+    private var addressResultList: [Address] = [] {
+        didSet {
+            self.resultTableView.reloadData()
+        }
+    }
+    private var placeResultList: [Place] = [] {
+        didSet {
+            self.resultTableView.reloadData()
+            checkEmptyResultState()
+        }
+    }
     
     weak var delegate: LocationSearchingViewControllerDelegate?
     
@@ -33,7 +50,8 @@ final class LocationSearchingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
-        setupLayout()
+        setupResultTableViewLayout()
+//        setupInitialSearchingViewLayout()
         configureTableView()
         configureUI()
     }
@@ -59,7 +77,31 @@ final class LocationSearchingViewController: UIViewController {
         resultTableView.dataSource = self
     }
     
-    private func setupLayout() {
+    private func checkEmptyResultState() {
+        if addressResultList.isEmpty && placeResultList.isEmpty {
+            emptyResultView = EmptyResultView()
+        } else {
+            emptyResultView.removeFromSuperview()
+        }
+    }
+    
+    private func setupInitialSearchingViewLayout() {
+        view.addSubview(initialSearchingView)
+        initialSearchingView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
+                                   leading: view.leadingAnchor,
+                                   bottom: view.bottomAnchor,
+                                   trailing: view.trailingAnchor)
+    }
+    
+    private func setupEmptyResultViewLayout() {
+        view.addSubview(emptyResultView)
+        emptyResultView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
+                                   leading: view.leadingAnchor,
+                                   bottom: view.bottomAnchor,
+                                   trailing: view.trailingAnchor)
+    }
+    
+    private func setupResultTableViewLayout() {
         view.addSubview(resultTableView)
         resultTableView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
                                    leading: view.safeAreaLayoutGuide.leadingAnchor,
@@ -76,6 +118,22 @@ final class LocationSearchingViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
+//    private func requestAddressAPI(keyword: String) async {
+//        let url = "https://dapi.kakao.com/v2/local/search/address.json"
+//        guard let url = URL(string: url) else {
+//            print("Error: url is not exist")
+//            return
+//        }
+//
+//        var request = try URLRequest(url: url, method: .get)
+//
+//        URLSession.shared.dataTask(with: request) { data, response, error in
+//            guard let error = error else {
+//
+//            }
+//        }
+//
+//    }
     private func requestAddress(keyword: String) async {
         let headers: HTTPHeaders = [
             "Authorization": StringLiteral.kakaoRestAPIKey
@@ -105,7 +163,7 @@ final class LocationSearchingViewController: UIViewController {
                     }
                 }
                 self.addressResultList = list
-                self.resultTableView.reloadData()
+                
                 
             case .failure(let error):
                 print(error)
@@ -121,7 +179,7 @@ final class LocationSearchingViewController: UIViewController {
         let parameters: [String: Any] = [
             "query": keyword,
             "page": 1,
-            "size": 5
+            "size": 10
         ]
         
         AF.request("https://dapi.kakao.com/v2/local/search/keyword.json",
@@ -189,14 +247,16 @@ extension LocationSearchingViewController: UITableViewDelegate {
 }
                                                 
 extension LocationSearchingViewController: UISearchBarDelegate {
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+//        initialSearchingView.removeFromSuperview()
+    }
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        addressResultList = []
-        placeResultList = []
         Task {
             await requestAddress(keyword: searchText)
             requestPlace(keyword: searchText)
         }
-        
     }
 }
 
