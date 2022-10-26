@@ -17,4 +17,5 @@ enum StringLiteral {
     static let secondCreateGroupViewControllerContent = "모임의 상세설명을 입력해주세요"
     static let secondCreateGroupViewControllerRegisterButton = "등록하기"
     
+    static let kakaoAPIKey = Bundle.main.object(forInfoDictionaryKey: "API_KEY")
 }
