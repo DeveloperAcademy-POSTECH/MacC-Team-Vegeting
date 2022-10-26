@@ -25,6 +25,7 @@ class LabelWithImage: UIStackView {
     private lazy var label: UILabel = {
         let label = UILabel()
         label.tintColor = .black
+        label.font = .preferredFont(forTextStyle: .callout)
         label.text = ""
         return label
     }()
@@ -41,7 +42,7 @@ class LabelWithImage: UIStackView {
     
     private func configureUI() {
         axis = .horizontal
-        alignment = .leading
+        alignment = .center
         spacing = 5
     }
     
@@ -52,7 +53,7 @@ class LabelWithImage: UIStackView {
     }
     
     private func setCoverImage() {
-        imageView.image = UIImage(systemName: imageName ?? "pin") ?? UIImage()
+        imageView.image = UIImage(systemName: imageName ?? "pin")?.resize(to: CGSize(width: 15, height: 15)) ?? UIImage()
     }
     
     private func setLabelText() {
