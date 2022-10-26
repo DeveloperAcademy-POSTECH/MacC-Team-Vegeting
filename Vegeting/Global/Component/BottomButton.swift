@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ButtomButton: UIButton {
+class BottomButton: UIButton {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
