@@ -18,12 +18,17 @@ final class FirstCreateGroupViewController: UIViewController {
         return label
     }()
     
-    private let categoryCollectionView = GroupCategoryView()
+    private lazy var categoryCollectionView: GroupCategoryView = {
+        let view = GroupCategoryView()
+        view.delegate = self
+        return view
+    }()
     
     private let locationTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "지역을 선택해주세요."
         label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
+        label.isHidden = true
         return label
     }()
     
@@ -35,6 +40,7 @@ final class FirstCreateGroupViewController: UIViewController {
         })
         button.backgroundColor = .systemGray6
         button.layer.cornerRadius = 7
+        button.isHidden = true
         return button
     }()
     
@@ -48,6 +54,7 @@ final class FirstCreateGroupViewController: UIViewController {
         let label = UILabel()
         label.text = "날짜를 선택해주세요."
         label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
+        label.isHidden = true
         return label
     }()
     
@@ -58,6 +65,8 @@ final class FirstCreateGroupViewController: UIViewController {
         datePicker.locale = Locale(identifier: "ko-KR")
         datePicker.minimumDate = Date()
         datePicker.maximumDate = Date().addingTimeInterval(2678400)
+        datePicker.isHidden = true
+        datePicker.addTarget(self, action: #selector(showNumberOfGroupPeopleView), for: .valueChanged)
         return datePicker
     }()
     
@@ -65,10 +74,15 @@ final class FirstCreateGroupViewController: UIViewController {
         let label = UILabel()
         label.text = "모임 인원을 선택해주세요."
         label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
+        label.isHidden = true
         return label
     }()
     
-    private let numberOfGroupCollectionView = NumberOfGroupPeopleView()
+    private let numberOfGroupCollectionView: NumberOfGroupPeopleView = {
+        let view = NumberOfGroupPeopleView()
+        view.isHidden = true
+        return view
+    }()
     
     //MARK: - lifeCycle
     
@@ -79,7 +93,23 @@ final class FirstCreateGroupViewController: UIViewController {
     }
     
     //MARK: - func
-
+    
+    private func showLocationView() {
+        locationTitleLabel.isHidden = false
+        locationSearchingButton.isHidden = false
+    }
+    
+    private func showDateView() {
+        dateTitleLabel.isHidden = false
+        datePicker.isHidden = false
+    }
+    
+    @objc
+    private func showNumberOfGroupPeopleView() {
+        numberOfGroupPeopleTitleLabel.isHidden = false
+        numberOfGroupCollectionView.isHidden = false
+    }
+    
     private func setupLayout() {
         view.addSubviews(categoryTitleLabel,
                          categoryCollectionView,
@@ -141,6 +171,14 @@ final class FirstCreateGroupViewController: UIViewController {
 extension FirstCreateGroupViewController: LocationSearchingViewControllerDelegate {
     func configureLocationText(with text: String) {
         locationLabel.text = text
+        self.showDateView()
+    }
+    
+}
+
+extension FirstCreateGroupViewController: GroupCategoryViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.showLocationView()
     }
     
 }
