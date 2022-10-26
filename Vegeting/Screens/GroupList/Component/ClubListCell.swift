@@ -63,15 +63,15 @@ class ClubListCell: UICollectionViewCell {
         ])
         
         NSLayoutConstraint.activate([
-            placeLabelWithImage.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 30),
             placeLabelWithImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            placeLabelWithImage.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+            placeLabelWithImage.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            placeLabelWithImage.bottomAnchor.constraint(equalTo: countLabelWithImage.topAnchor, constant: -10)
         ])
         
         NSLayoutConstraint.activate([
-            countLabelWithImage.topAnchor.constraint(equalTo: placeLabelWithImage.bottomAnchor, constant: 10),
             countLabelWithImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            countLabelWithImage.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+            countLabelWithImage.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            countLabelWithImage.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10)
         ])
     }
     
