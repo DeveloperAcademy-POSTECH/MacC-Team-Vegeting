@@ -22,9 +22,8 @@ class GroupListViewController: ViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumInteritemSpacing = 8
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
-        
+        layout.minimumInteritemSpacing = 20
+        layout.minimumLineSpacing = 20
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.register(ClubListCell.self, forCellWithReuseIdentifier: ClubListCell.className)
@@ -65,8 +64,8 @@ class GroupListViewController: ViewController {
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
     }
 }
@@ -92,16 +91,6 @@ extension GroupListViewController: UICollectionViewDataSource {
 
 extension GroupListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let sectionInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        let width = collectionView.frame.width
-        let height = collectionView.frame.height
-        let itemsPerRow: CGFloat = 2
-        let widthPadding = sectionInsets.left * (itemsPerRow + 1)
-        let itemsPerColumn: CGFloat = 3.5
-        let heightPadding = sectionInsets.top * (itemsPerColumn + 1)
-        let cellWidth = (width - widthPadding) / itemsPerRow
-        let cellHeight = (height - heightPadding) / itemsPerColumn
-        
-        return CGSize(width: cellWidth, height: cellHeight)
+        return CGSize(width: (collectionView.frame.width - 20) / 2, height: 210)
     }
 }
