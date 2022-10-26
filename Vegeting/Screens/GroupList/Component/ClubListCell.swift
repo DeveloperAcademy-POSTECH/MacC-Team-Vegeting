@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GroupListCell: UICollectionViewCell {
+class ClubListCell: UICollectionViewCell {
     private lazy var coverImage: UIImageView = {
         let imageView = UIImageView()
         return imageView
