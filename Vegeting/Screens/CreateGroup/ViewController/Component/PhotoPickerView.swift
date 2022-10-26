@@ -8,8 +8,8 @@
 import UIKit
 
 final class PhotoPickerView: UIView {
-    var selectedImage = UIImageView()
-    var label = UILabel()
+    private let selectedImage = UIImageView()
+    private let label = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,9 +23,9 @@ final class PhotoPickerView: UIView {
     
     private func configureUI() {
         backgroundColor = .systemGray4
-        label.textColor = .white
         clipsToBounds = true
         selectedImage.contentMode = .scaleAspectFill
+        label.textColor = .white
     }
     
     private func setupLayout() {
@@ -46,4 +46,11 @@ final class PhotoPickerView: UIView {
         ])
     }
 
+    func setImageView(image: UIImage) {
+        selectedImage.image = image
+    }
+    
+    func setLabelText(text: String) {
+        label.text = text
+    }
 }
