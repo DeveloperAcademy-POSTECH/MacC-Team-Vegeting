@@ -14,6 +14,11 @@ class GroupListViewController: ViewController {
         }
     }
     
+    let participants = [Participant(userID: "a", name: "aa"),
+                        Participant(userID: "b", name: "bb"),
+                        Participant(userID: "c", name: "cc"),
+                        Participant(userID: "d", name: "dd")]
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -31,6 +36,15 @@ class GroupListViewController: ViewController {
         configureCollectionView()
         configureUI()
         setupLayout()
+        clubList = [Club(clubID: "", clubTitle: "club1", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 10),
+                    Club(clubID: "", clubTitle: "club2", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 11),
+                    Club(clubID: "", clubTitle: "club3", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 12),
+                    Club(clubID: "", clubTitle: "club4", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 13),
+                    Club(clubID: "", clubTitle: "club5", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 14),
+                    Club(clubID: "", clubTitle: "club6", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 15),
+                    Club(clubID: "", clubTitle: "club7", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 16),
+                    Club(clubID: "", clubTitle: "club8", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 17)
+        ]
     }
     
     private func configureCollectionView() {
@@ -59,7 +73,7 @@ class GroupListViewController: ViewController {
 
 extension GroupListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-            print(clubList[indexPath.item])
+        print(clubList[indexPath.item])
     }
 }
 
