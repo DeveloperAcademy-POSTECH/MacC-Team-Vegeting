@@ -24,7 +24,7 @@
 		7645E7512907031D009E2E3B /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E7502907031D009E2E3B /* SignInViewModel.swift */; };
 		7645E75729070FC6009E2E3B /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E75629070FC6009E2E3B /* FirebaseManager.swift */; };
 		76B027F12901726E002C9DF7 /* VegetingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B027F02901726E002C9DF7 /* VegetingTests.swift */; };
-		76B0282629051FC9002C9DF7 /* VUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B0282529051FC9002C9DF7 /* VUser.swift */; };
+		76B0282629051FC9002C9DF7 /* VFUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B0282529051FC9002C9DF7 /* VFUser.swift */; };
 		76B02829290520BB002C9DF7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76B02828290520BB002C9DF7 /* GoogleService-Info.plist */; };
 		76B0282A290520C5002C9DF7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76B02828290520BB002C9DF7 /* GoogleService-Info.plist */; };
 		76B0282D29052209002C9DF7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 76B0282C29052209002C9DF7 /* FirebaseAuth */; };
@@ -71,7 +71,7 @@
 		7645E75629070FC6009E2E3B /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		76B027EE2901726E002C9DF7 /* VegetingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VegetingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		76B027F02901726E002C9DF7 /* VegetingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VegetingTests.swift; sourceTree = "<group>"; };
-		76B0282529051FC9002C9DF7 /* VUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VUser.swift; sourceTree = "<group>"; };
+		76B0282529051FC9002C9DF7 /* VFUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VFUser.swift; sourceTree = "<group>"; };
 		76B02828290520BB002C9DF7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		76B02838290526AF002C9DF7 /* Club.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Club.swift; sourceTree = "<group>"; };
 		76B0283A290528F8002C9DF7 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
@@ -277,7 +277,7 @@
 		76B0282429051FAC002C9DF7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				76B0282529051FC9002C9DF7 /* VUser.swift */,
+				76B0282529051FC9002C9DF7 /* VFUser.swift */,
 				76B02838290526AF002C9DF7 /* Club.swift */,
 				76B0283A290528F8002C9DF7 /* Chat.swift */,
 				76B0283C29052937002C9DF7 /* Participant.swift */,
@@ -436,7 +436,7 @@
 				4ADC12E12901813900C0FFB6 /* NSObject+Extension.swift in Sources */,
 				4A31CD242903D73D00E5E422 /* FirstCreateGroupViewController.swift in Sources */,
 				A7C8DF282901274500F38AD7 /* ViewController.swift in Sources */,
-				76B0282629051FC9002C9DF7 /* VUser.swift in Sources */,
+				76B0282629051FC9002C9DF7 /* VFUser.swift in Sources */,
 				76B0283D29052937002C9DF7 /* Participant.swift in Sources */,
 				4ADC12ED2901838200C0FFB6 /* ImageLiteral.swift in Sources */,
 				4ADC12E52901817800C0FFB6 /* UILabel+Extension.swift in Sources */,
