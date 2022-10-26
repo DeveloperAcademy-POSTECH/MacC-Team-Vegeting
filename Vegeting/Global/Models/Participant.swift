@@ -10,5 +10,5 @@ import Foundation
 struct Participant: Codable {
     let userID: String
     let name: String
-    var imageURL: String?
+    var profileImageURL: String?
 }
