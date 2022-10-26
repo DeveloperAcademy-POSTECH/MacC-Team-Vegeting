@@ -51,7 +51,6 @@ final class LocationSearchingViewController: UIViewController {
         super.viewDidLoad()
         setupNavigationBar()
         setupResultTableViewLayout()
-        setupEmptyResultViewLayout()
         configureTableView()
         configureUI()
     }
