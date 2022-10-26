@@ -323,6 +323,8 @@
 				A2F369D629090D12007F3732 /* BottomButton.swift */,
 			);
 			path = Component;
+				sourceTree = "<group>";
+		};
 		A75F9E1D2904DC3700CFD884 /* PostDetail */ = {
 			isa = PBXGroup;
 			children = (
