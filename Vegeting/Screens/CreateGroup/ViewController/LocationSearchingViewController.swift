@@ -111,7 +111,7 @@ final class LocationSearchingViewController: UIViewController {
     
     private func requestAddress(keyword: String) async {
         let headers: HTTPHeaders = [
-            "Authorization": StringLiteral.kakaoRestAPIKey
+            "Authorization":  "test"
         ]
         
         let parameters: [String: Any] = [
@@ -148,7 +148,7 @@ final class LocationSearchingViewController: UIViewController {
     
     private func requestPlace(keyword: String) async {
         let headers: HTTPHeaders = [
-            "Authorization": StringLiteral.kakaoRestAPIKey
+            "Authorization": "test"
         ]
         
         let parameters: [String: Any] = [
