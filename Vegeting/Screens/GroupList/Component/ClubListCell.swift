@@ -8,13 +8,16 @@
 import UIKit
 
 class ClubListCell: UICollectionViewCell {
-    private lazy var coverImage: UIImageView = {
+    lazy var coverImage: UIImageView = {
         let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "star")
         return imageView
     }()
     
-    private lazy var titleLabel: UILabel = {
+    lazy var titleLabel: UILabel = {
         let label = UILabel()
+        label.text = "???"
+        label.tintColor = .black
         return label
     }()
     
@@ -32,6 +35,8 @@ class ClubListCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupLayout()
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
@@ -44,11 +49,43 @@ class ClubListCell: UICollectionViewCell {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
+        NSLayoutConstraint.activate([
+            coverImage.topAnchor.constraint(equalTo: self.topAnchor),
+            coverImage.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            coverImage.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            coverImage.heightAnchor.constraint(equalToConstant: 100)
+        ])
+        
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: coverImage.bottomAnchor, constant: 10),
+            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10)
+        ])
+        
+        NSLayoutConstraint.activate([
+            placeLabelWithImage.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 30),
+            placeLabelWithImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            placeLabelWithImage.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            countLabelWithImage.topAnchor.constraint(equalTo: placeLabelWithImage.bottomAnchor, constant: 10),
+            countLabelWithImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            countLabelWithImage.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+        ])
     }
     
     private func configureUI() {
-        layer.masksToBounds = false
-        let cellCornerRadius = (self.bounds.size.width * (self.bounds.size.height / self.bounds.size.width)) / 2
-        layer.cornerRadius = cellCornerRadius
+        clipsToBounds = true
+        self.layer.cornerRadius = 12
+    }
+    
+    func configure(with item: Club) {
+        coverImage.image = UIImage(systemName: "star")
+        coverImage.backgroundColor = .gray
+        titleLabel.text = item.clubTitle
+        placeLabelWithImage.labelText = "place"
+        let participantsCount = item.participants?.count ?? 0
+        countLabelWithImage.labelText = "\(participantsCount)/\(item.maxNumberOfPeople)"
     }
 }
