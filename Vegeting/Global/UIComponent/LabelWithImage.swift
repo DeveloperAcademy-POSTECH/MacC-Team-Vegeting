@@ -24,6 +24,7 @@ class LabelWithImage: UIStackView {
     
     private lazy var label: UILabel = {
         let label = UILabel()
+        label.tintColor = .black
         label.text = ""
         return label
     }()
@@ -40,8 +41,8 @@ class LabelWithImage: UIStackView {
     
     private func configureUI() {
         axis = .horizontal
-        alignment = .center
-        distribution = .equalSpacing
+        alignment = .leading
+        spacing = 5
     }
     
     private func setupLayout() {
