@@ -121,7 +121,7 @@ final class LocationSearchingViewController: UIViewController {
             "size": 3
         ]
         
-        Session.default.request("https://dapi.kakao.com/v2/local/search/address.json",
+        Session.default.request(StringLiteral.kakaoRestAPIAddress,
                                 method: .get,
                                 parameters: parameters,
                                 headers: headers).responseJSON(completionHandler: { response in
@@ -149,7 +149,7 @@ final class LocationSearchingViewController: UIViewController {
     
     private func requestPlace(keyword: String) async {
         let headers: HTTPHeaders = [
-            "Authorization": "KakaoAK 0af518ebd6f6d9b7b526a91fbabeadc1"
+            "Authorization": StringLiteral.kakaoRestAPIKey
         ]
         
         let parameters: [String: Any] = [
@@ -158,7 +158,7 @@ final class LocationSearchingViewController: UIViewController {
             "size": 10
         ]
         
-        AF.request("https://dapi.kakao.com/v2/local/search/keyword.json",
+        AF.request(StringLiteral.kakaoRestAPIKeyword,
                    method: .get,
                    parameters: parameters,
                    headers: headers).responseJSON(completionHandler: { response in
