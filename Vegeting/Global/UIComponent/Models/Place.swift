@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Place{
+struct Place: Equatable {
     let placeName: String
     let addressName: String
     let longitudeX: String

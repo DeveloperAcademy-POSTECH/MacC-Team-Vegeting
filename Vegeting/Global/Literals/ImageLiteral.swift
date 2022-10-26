@@ -13,7 +13,6 @@ enum ImageLiteral {
     
     static var backwardChevronSymbol: UIImage { .load(systemName: "chevron.backward") }
     static var exclamationMarkSymbol: UIImage { .load(systemName: "exclamationmark.circle") }
-    static var mappinSymbol: UIImage { .load(systemName: "mappin.and.ellipse") }
 }
 
 extension UIImage {

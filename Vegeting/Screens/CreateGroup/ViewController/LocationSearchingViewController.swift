@@ -23,8 +23,6 @@ final class LocationSearchingViewController: UIViewController {
         return tableView
     }()
     
-    private let initialSearchingView = InitialLocationSearchingView()
-    
     private lazy var emptyResultView = EmptyResultView() {
         didSet {
             setupEmptyResultViewLayout()
@@ -38,8 +36,10 @@ final class LocationSearchingViewController: UIViewController {
     }
     private var placeResultList: [Place] = [] {
         didSet {
-            self.resultTableView.reloadData()
-            checkEmptyResultState()
+            if placeResultList != oldValue {
+                self.resultTableView.reloadData()
+                checkEmptyResultState()
+            }
         }
     }
     
@@ -51,7 +51,7 @@ final class LocationSearchingViewController: UIViewController {
         super.viewDidLoad()
         setupNavigationBar()
         setupResultTableViewLayout()
-//        setupInitialSearchingViewLayout()
+        setupEmptyResultViewLayout()
         configureTableView()
         configureUI()
     }
@@ -85,14 +85,6 @@ final class LocationSearchingViewController: UIViewController {
         }
     }
     
-    private func setupInitialSearchingViewLayout() {
-        view.addSubview(initialSearchingView)
-        initialSearchingView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
-                                   leading: view.leadingAnchor,
-                                   bottom: view.bottomAnchor,
-                                   trailing: view.trailingAnchor)
-    }
-    
     private func setupEmptyResultViewLayout() {
         view.addSubview(emptyResultView)
         emptyResultView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
@@ -118,22 +110,6 @@ final class LocationSearchingViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-//    private func requestAddressAPI(keyword: String) async {
-//        let url = "https://dapi.kakao.com/v2/local/search/address.json"
-//        guard let url = URL(string: url) else {
-//            print("Error: url is not exist")
-//            return
-//        }
-//
-//        var request = try URLRequest(url: url, method: .get)
-//
-//        URLSession.shared.dataTask(with: request) { data, response, error in
-//            guard let error = error else {
-//
-//            }
-//        }
-//
-//    }
     private func requestAddress(keyword: String) async {
         let headers: HTTPHeaders = [
             "Authorization": StringLiteral.kakaoRestAPIKey
@@ -171,7 +147,7 @@ final class LocationSearchingViewController: UIViewController {
         })
     }
     
-    private func requestPlace(keyword: String) {
+    private func requestPlace(keyword: String) async {
         let headers: HTTPHeaders = [
             "Authorization": "KakaoAK 0af518ebd6f6d9b7b526a91fbabeadc1"
         ]
@@ -235,27 +211,24 @@ extension LocationSearchingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         var text = ""
-        if indexPath.row < addressResultList.count {
+        let addressResultNumer = addressResultList.count
+        if indexPath.row < addressResultNumer {
             text = addressResultList[indexPath.row].addressName
         } else {
-            text = placeResultList[indexPath.row].placeName
+            text = placeResultList[indexPath.row - addressResultNumer].placeName
         }
         
         delegate?.configureLocationText(with: text)
         self.navigationController?.popViewController(animated: true)
     }
 }
-                                                
+
 extension LocationSearchingViewController: UISearchBarDelegate {
-    
-    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-//        initialSearchingView.removeFromSuperview()
-    }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         Task {
             await requestAddress(keyword: searchText)
-            requestPlace(keyword: searchText)
+            await requestPlace(keyword: searchText)
         }
     }
 }
