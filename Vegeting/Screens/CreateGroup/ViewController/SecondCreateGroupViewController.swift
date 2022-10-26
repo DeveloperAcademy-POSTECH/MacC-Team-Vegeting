@@ -64,8 +64,6 @@ final class SecondCreateGroupViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI()
-        setupLayout()
     }
     
     override func setupLayout() {
