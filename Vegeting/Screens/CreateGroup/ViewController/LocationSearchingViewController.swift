@@ -181,7 +181,9 @@ final class LocationSearchingViewController: UIViewController {
                     }
                 }
                 self.placeResultList = list
-                self.resultTableView.reloadData()
+                DispatchQueue.main.async { [weak self] in
+                    self?.resultTableView.reloadData()
+                }
                 
             case .failure(let error):
                 print(error)
