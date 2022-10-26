@@ -34,6 +34,8 @@
 		76B02839290526AF002C9DF7 /* Club.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B02838290526AF002C9DF7 /* Club.swift */; };
 		76B0283B290528F8002C9DF7 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B0283A290528F8002C9DF7 /* Chat.swift */; };
 		76B0283D29052937002C9DF7 /* Participant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B0283C29052937002C9DF7 /* Participant.swift */; };
+		A26198762909539B00ECCC4F /* GroupListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26198752909539B00ECCC4F /* GroupListCell.swift */; };
+		A26198782909567100ECCC4F /* LabelWithImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26198772909567100ECCC4F /* LabelWithImage.swift */; };
 		A2F369DD290948BB007F3732 /* GroupListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F369DC290948BB007F3732 /* GroupListViewController.swift */; };
 		A7C8DF242901274500F38AD7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C8DF232901274500F38AD7 /* AppDelegate.swift */; };
 		A7C8DF262901274500F38AD7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C8DF252901274500F38AD7 /* SceneDelegate.swift */; };
@@ -75,6 +77,8 @@
 		76B02838290526AF002C9DF7 /* Club.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Club.swift; sourceTree = "<group>"; };
 		76B0283A290528F8002C9DF7 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		76B0283C29052937002C9DF7 /* Participant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Participant.swift; sourceTree = "<group>"; };
+		A26198752909539B00ECCC4F /* GroupListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListCell.swift; sourceTree = "<group>"; };
+		A26198772909567100ECCC4F /* LabelWithImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelWithImage.swift; sourceTree = "<group>"; };
 		A2F369DC290948BB007F3732 /* GroupListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListViewController.swift; sourceTree = "<group>"; };
 		A7C8DF202901274500F38AD7 /* Vegeting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vegeting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7C8DF232901274500F38AD7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -121,6 +125,7 @@
 			children = (
 				4A31CD282903D86E00E5E422 /* Cell */,
 				4A31CD262903D86200E5E422 /* GroupCategoryView.swift */,
+				A26198772909567100ECCC4F /* LabelWithImage.swift */,
 			);
 			path = UIComponent;
 			sourceTree = "<group>";
@@ -269,9 +274,18 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		A26198742909537300ECCC4F /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				A26198752909539B00ECCC4F /* GroupListCell.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
 		A2F369DA29094877007F3732 /* GroupList */ = {
 			isa = PBXGroup;
 			children = (
+				A26198742909537300ECCC4F /* Component */,
 				A2F369DB29094889007F3732 /* ViewController */,
 			);
 			path = GroupList;
@@ -439,12 +453,14 @@
 				76B0282629051FC9002C9DF7 /* VFUser.swift in Sources */,
 				76B0283D29052937002C9DF7 /* Participant.swift in Sources */,
 				4ADC12ED2901838200C0FFB6 /* ImageLiteral.swift in Sources */,
+				A26198762909539B00ECCC4F /* GroupListCell.swift in Sources */,
 				A2F369DD290948BB007F3732 /* GroupListViewController.swift in Sources */,
 				4ADC12E52901817800C0FFB6 /* UILabel+Extension.swift in Sources */,
 				4A31CD2A2903D89600E5E422 /* GroupCategoryCollectionViewCell.swift in Sources */,
 				4ADC12EF290183F500C0FFB6 /* BaseViewController.swift in Sources */,
 				4ADC12F12901856B00C0FFB6 /* UIView+Constraint.swift in Sources */,
 				4A31CD272903D86200E5E422 /* GroupCategoryView.swift in Sources */,
+				A26198782909567100ECCC4F /* LabelWithImage.swift in Sources */,
 				4ADC12EB2901833F00C0FFB6 /* StringLiteral.swift in Sources */,
 				A7C8DF242901274500F38AD7 /* AppDelegate.swift in Sources */,
 				4AFA58AA2903EA6400679142 /* UIView+Extension.swift in Sources */,
