@@ -26,8 +26,18 @@ class ViewController: UIViewController {
     
     private func setNavigationBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "로그아웃", style: .done, target: self, action: #selector(didTapSignOut(_:)))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "게시글쓰기", style: .done, target: self, action: #selector(didTapWrite(_:)))
     }
     
+    @objc func didTapWrite(_ sender: Any) {
+        Task {
+            let user = VFUser(id: nil, userID: "", userName: "이유돈", imageURL: nil, participatedChats: nil, participatedClubs: nil)
+            FirebaseManager.shared.requestUserInformation(with: user)
+            FirebaseManager.shared.requestPost(with: Club(clubID: nil, clubTitle: "vegeting", clubCategory: "veget", hostID: "", participants: nil, createdAt: Date(), maxNumberOfPeople: 3))
+            let data = try await FirebaseManager.shared.requestClubInformation()
+            print(data)
+        }
+    }
     @objc func didTapSignOut(_ sender: UIBarButtonItem) {
         do {
             try Auth.auth().signOut()
