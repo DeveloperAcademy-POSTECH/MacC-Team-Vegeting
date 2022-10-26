@@ -17,8 +17,8 @@ class LabelWithImage: UIStackView {
     }
     
     private lazy var imageView: UIImageView = {
-        guard let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "pin") else { return UIImage() }
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "pin")
         return imageView
     }()
     
@@ -45,7 +45,7 @@ class LabelWithImage: UIStackView {
     }
     
     private func setupLayout() {
-        [image, label].forEach {
+        [imageView, label].forEach {
             addArrangedSubviews($0)
         }
     }
