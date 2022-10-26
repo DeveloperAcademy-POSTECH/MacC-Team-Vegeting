@@ -15,7 +15,6 @@
 		4AB5C27729078AE90064C41E /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB5C27629078AE90064C41E /* Address.swift */; };
 		4AB5C27A29078DB20064C41E /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 4AB5C27929078DB20064C41E /* SwiftyJSON */; };
 		4AB5C27C2907A9CE0064C41E /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB5C27B2907A9CE0064C41E /* Place.swift */; };
-		4AB5C27E2907B7360064C41E /* LocationResultType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB5C27D2907B7360064C41E /* LocationResultType.swift */; };
 		4AC8F0632906BD18007D3946 /* LocationSearchingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC8F0622906BD18007D3946 /* LocationSearchingViewController.swift */; };
 		4AC8F0652906C5E0007D3946 /* SearchedAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC8F0642906C5E0007D3946 /* SearchedAddressTableViewCell.swift */; };
 		4ADC12DD2901800D00C0FFB6 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12DC2901800D00C0FFB6 /* UIColor+Extension.swift */; };
@@ -67,11 +66,10 @@
 		4A31CD232903D73D00E5E422 /* FirstCreateGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstCreateGroupViewController.swift; sourceTree = "<group>"; };
 		4A31CD262903D86200E5E422 /* GroupCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCategoryView.swift; sourceTree = "<group>"; };
 		4A31CD292903D89600E5E422 /* GroupCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
-		4A50D5A929094D8900D1ADE4 /* Secret.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secret.xcconfig; sourceTree = "<group>"; };
 		4A50D5A42908E03600D1ADE4 /* EmptyResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResultView.swift; sourceTree = "<group>"; };
+		4A50D5A929094D8900D1ADE4 /* Secret.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secret.xcconfig; sourceTree = "<group>"; };
 		4AB5C27629078AE90064C41E /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		4AB5C27B2907A9CE0064C41E /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
-		4AB5C27D2907B7360064C41E /* LocationResultType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationResultType.swift; sourceTree = "<group>"; };
 		4AC8F0622906BD18007D3946 /* LocationSearchingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchingViewController.swift; sourceTree = "<group>"; };
 		4AC8F0642906C5E0007D3946 /* SearchedAddressTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedAddressTableViewCell.swift; sourceTree = "<group>"; };
 		4ADC12DC2901800D00C0FFB6 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
@@ -173,7 +171,6 @@
 			children = (
 				4AB5C27629078AE90064C41E /* Address.swift */,
 				4AB5C27B2907A9CE0064C41E /* Place.swift */,
-				4AB5C27D2907B7360064C41E /* LocationResultType.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -506,7 +503,6 @@
 				76B02839290526AF002C9DF7 /* Club.swift in Sources */,
 				4ADC12DD2901800D00C0FFB6 /* UIColor+Extension.swift in Sources */,
 				4AFA58AD29050B3800679142 /* Date+Extension.swift in Sources */,
-				4AB5C27E2907B7360064C41E /* LocationResultType.swift in Sources */,
 				4AC8F0652906C5E0007D3946 /* SearchedAddressTableViewCell.swift in Sources */,
 				4ADC12F32901857F00C0FFB6 /* UIViewController+Alert.swift in Sources */,
 			);
@@ -787,15 +783,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		76B0282B29052209002C9DF7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 9.0.0;
-			};
-		};
-        4AB5C27229078A910064C41E /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+		4AB5C27229078A910064C41E /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
@@ -811,9 +799,27 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		76B0282B29052209002C9DF7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4AB5C27329078A910064C41E /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4AB5C27229078A910064C41E /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		4AB5C27929078DB20064C41E /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4AB5C27829078DB20064C41E /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
 		76B0282C29052209002C9DF7 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 76B0282B29052209002C9DF7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
@@ -838,16 +844,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 76B0282B29052209002C9DF7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestoreSwift;
-		};
-        4AB5C27329078A910064C41E /* Alamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4AB5C27229078A910064C41E /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = Alamofire;
-		};
-		4AB5C27929078DB20064C41E /* SwiftyJSON */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4AB5C27829078DB20064C41E /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
-			productName = SwiftyJSON;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
