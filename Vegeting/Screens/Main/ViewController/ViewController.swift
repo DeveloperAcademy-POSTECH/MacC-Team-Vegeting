@@ -21,7 +21,6 @@ class ViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         signInChecker()
-        setNavigationBar()
     }
     
     private func setNavigationBar() {
