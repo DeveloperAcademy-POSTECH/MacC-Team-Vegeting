@@ -142,6 +142,8 @@
 		4A31CD252903D83200E5E422 /* UIComponent */ = {
 			isa = PBXGroup;
 			children = (
+				A2F369D629090D12007F3732 /* BottomButton.swift */,
+				A2F369D02908258B007F3732 /* GroupInfoView.swift */,
 				4A31CD282903D86E00E5E422 /* Cell */,
 				4A31CD262903D86200E5E422 /* GroupCategoryView.swift */,
 			);
@@ -169,7 +171,6 @@
 		4ADC12D229017A3B00C0FFB6 /* Global */ = {
 			isa = PBXGroup;
 			children = (
-				A2F369CF29082540007F3732 /* Component */,
 				76B0282429051FAC002C9DF7 /* Models */,
 				4A31CD252903D83200E5E422 /* UIComponent */,
 				4ADC12D929017A9800C0FFB6 /* Base */,
@@ -320,15 +321,6 @@
 			isa = PBXGroup;
 			children = (
 				A215B29B2906DB6400DD60B2 /* PhotoPickerView.swift */,
-			);
-			path = Component;
-			sourceTree = "<group>";
-		};
-		A2F369CF29082540007F3732 /* Component */ = {
-			isa = PBXGroup;
-			children = (
-				A2F369D02908258B007F3732 /* GroupInfoView.swift */,
-				A2F369D629090D12007F3732 /* BottomButton.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
