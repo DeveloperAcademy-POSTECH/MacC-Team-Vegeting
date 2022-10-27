@@ -10,5 +10,5 @@ import Foundation
 enum StringLiteral {
     
     static let exampleString = "안녕하세요"
-    
+    static let kakaoAPIKey = Bundle.main.object(forInfoDictionaryKey: "API_KEY")
 }
