@@ -1,24 +1,24 @@
 //
-//  ButtomButton.swift
+//  BottomButton.swift
 //  Vegeting
 //
-//  Created by kelly on 2022/10/26.
+//  Created by kelly on 2022/10/27.
 //
 
 import UIKit
 
 class BottomButton: UIButton {
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLayout()
         configureUI()
     }
-    
+
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private func configureUI() {
         layer.masksToBounds = true
         layer.cornerRadius = 10
@@ -28,7 +28,7 @@ class BottomButton: UIButton {
         setTitleColor(.white, for: .normal)
         setTitleColor(.white, for: .disabled)
     }
-    
+
     private func setupLayout() {
         self.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
