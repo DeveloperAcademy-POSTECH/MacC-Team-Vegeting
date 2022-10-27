@@ -16,7 +16,7 @@ final class FirstCreateGroupViewController: UIViewController {
         label.text = "모임의 목적을 선택해주세요."
         label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
         return label
-    }()
+    }() 
     
     private let categoryCollectionView = GroupCategoryView()
     

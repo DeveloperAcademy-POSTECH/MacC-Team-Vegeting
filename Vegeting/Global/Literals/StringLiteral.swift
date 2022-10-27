@@ -14,4 +14,10 @@ enum StringLiteral {
     static let kakaoRestAPIAddress = "https://dapi.kakao.com/v2/local/search/address.json"
     static let kakaoRestAPIKeyword = "https://dapi.kakao.com/v2/local/search/keyword.json"
     
+    // MARK: - SecondCreateGroupViewController
+    static let secondCreateGroupViewControllerPhoto = "사진을 선택해주세요"
+    static let secondCreateGroupViewControllerTitle = "모임의 제목을 입력해주세요"
+    static let secondCreateGroupViewControllerContent = "모임의 상세설명을 입력해주세요"
+    static let secondCreateGroupViewControllerRegisterButton = "등록하기"
+    
 }

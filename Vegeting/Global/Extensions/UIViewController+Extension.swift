@@ -17,4 +17,10 @@ extension UIViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+    
+    func constraintsActivate(_ constraints: [NSLayoutConstraint]...) {
+        for constraint in constraints {
+            NSLayoutConstraint.activate(constraint)
+        }
+    }
 }
