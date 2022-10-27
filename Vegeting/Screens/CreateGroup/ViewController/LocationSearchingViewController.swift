@@ -19,6 +19,7 @@ final class LocationSearchingViewController: UIViewController {
     
     private let resultTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
+        tableView.showsVerticalScrollIndicator = false
         tableView.register(SearchedLocationResultTableViewCell.self, forCellReuseIdentifier: SearchedLocationResultTableViewCell.className)
         return tableView
     }()
