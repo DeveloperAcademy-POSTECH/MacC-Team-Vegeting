@@ -176,9 +176,6 @@ final class PostDetailViewController: UIViewController {
     }
     
     private func setupLayout() {
-        
-        
-        
         NSLayoutConstraint.activate([
             coverImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             coverImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
