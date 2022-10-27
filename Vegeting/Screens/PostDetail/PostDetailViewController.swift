@@ -65,6 +65,7 @@ final class PostDetailViewController: UIViewController {
         let button = UIButton()
         button.setTitle("맛집", for: .normal)
         button.setTitleColor(.label, for: .normal)
+        button.titleLabel?.font = .preferredFont(forTextStyle: .subheadline)
         button.backgroundColor = .lightGray
         button.layer.cornerRadius = 15
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -74,7 +75,7 @@ final class PostDetailViewController: UIViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "남미플랜트랩하고 거북이 먹으러 가요"
-        label.font = .systemFont(ofSize: 20, weight: .semibold)
+        label.font = .preferredFont(forTextStyle: .title3)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -82,7 +83,8 @@ final class PostDetailViewController: UIViewController {
     private let locationLabel: UILabel = {
         let label = UILabel()
         label.text = "서울시 동대문구"
-        label.font = .systemFont(ofSize: 15, weight: .thin)
+        label.font = .preferredFont(forTextStyle: .subheadline)
+        label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -90,7 +92,8 @@ final class PostDetailViewController: UIViewController {
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.text = "· 12월 19일"
-        label.font = .systemFont(ofSize: 15, weight: .thin)
+        label.font = .preferredFont(forTextStyle: .subheadline)
+        label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -99,23 +102,15 @@ final class PostDetailViewController: UIViewController {
         let label = VerticalAlignLabel()
         label.numberOfLines = 0
         label.text = "저번에 너무 가고싶엇는데~~ 긴급휴무로 못 가서 너무 아쉬웠어여. 유명 맛집이라던데 갔다가 옆에 있는 거북이까지 갔다 오면 좋을 것 같아요!! 날짜는 10월 내에 토요일 중에 가능한 날짜 맞춰서 다녀오려고 해요~ㅎㅎ 같이 맛난 점심먹어용! 나머지는 긴내용을 채우귀 위함위하다다다다 로렌아킬리나 짱~!!!! 너무너무 좋아요. 한국에서도 콘서트 열어주세요,,,,"
-        label.font = .systemFont(ofSize: 15, weight: .regular)
+        label.font = .preferredFont(forTextStyle: .callout)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    private let participantsLabel: UILabel = {
+    private let participantsCapacityLabel: UILabel = {
         let label = UILabel()
-        label.text = "참여하는 회원"
-        label.font = .systemFont(ofSize: 20, weight: .semibold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let capacityLabel: UILabel = {
-        let label = UILabel()
-        label.text = "5/6"
-        label.font = .systemFont(ofSize: 20, weight: .semibold)
+        label.text = "참여하는 회원 5/6"
+        label.font = .preferredFont(forTextStyle: .title3)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -129,8 +124,10 @@ final class PostDetailViewController: UIViewController {
         layout.scrollDirection = .horizontal
     
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(ProfileCollectionViewCell.self, forCellWithReuseIdentifier: ProfileCollectionViewCell.identifier)
+        collectionView.register(ProfileCollectionViewCell.self, forCellWithReuseIdentifier: ProfileCollectionViewCell.className)
+        collectionView.showsHorizontalScrollIndicator = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
         return collectionView
     }()
     
@@ -139,7 +136,7 @@ final class PostDetailViewController: UIViewController {
         button.backgroundColor = .black
         button.setTitle("참여하기", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 17)
+        button.titleLabel?.font = .preferredFont(forTextStyle: .body)
         button.layer.cornerRadius = 8
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -148,12 +145,10 @@ final class PostDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        profileCollectionView.delegate = self
-        profileCollectionView.dataSource = self
-        
-        configureAddSubviews()
         configureUI()
         configureNavBar()
+        configureCollectionView()
+        configureAddSubviews()
         setupLayout()
     }
     
@@ -168,14 +163,22 @@ final class PostDetailViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .label
     }
     
+    private func configureCollectionView() {
+        profileCollectionView.delegate = self
+        profileCollectionView.dataSource = self
+    }
+    
     private func configureAddSubviews() {
         [coverImageView, categoryLabel, titleLabel, locationLabel, dateLabel, contentTextLabel,
-         participantsLabel, capacityLabel, profileCollectionView, enterButton].forEach { subView in
+         participantsCapacityLabel, profileCollectionView, enterButton].forEach { subView in
             view.addSubview(subView)
         }
     }
     
     private func setupLayout() {
+        
+        
+        
         NSLayoutConstraint.activate([
             coverImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             coverImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -213,17 +216,12 @@ final class PostDetailViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            participantsLabel.topAnchor.constraint(equalTo: contentTextLabel.bottomAnchor, constant: 15),
-            participantsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
+            participantsCapacityLabel.topAnchor.constraint(equalTo: contentTextLabel.bottomAnchor, constant: 15),
+            participantsCapacityLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
         ])
         
         NSLayoutConstraint.activate([
-            capacityLabel.topAnchor.constraint(equalTo: contentTextLabel.bottomAnchor, constant: 15),
-            capacityLabel.leadingAnchor.constraint(equalTo: participantsLabel.trailingAnchor, constant: 10)
-        ])
-        
-        NSLayoutConstraint.activate([
-            profileCollectionView.topAnchor.constraint(equalTo: participantsLabel.bottomAnchor),
+            profileCollectionView.topAnchor.constraint(equalTo: participantsCapacityLabel.bottomAnchor),
             profileCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             profileCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             profileCollectionView.heightAnchor.constraint(equalToConstant: 115)
@@ -267,10 +265,9 @@ extension PostDetailViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCollectionViewCell.identifier, for: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCollectionViewCell.className, for: indexPath)
                 as? ProfileCollectionViewCell else { return UICollectionViewCell() }
-        cell.profileImage.image = UIImage(named: profileImages[indexPath.row])
-        cell.participantsName.text = participantsNames[indexPath.row]
+        cell.configure(with: ParticipantsInfo(profileImage: UIImage(named: profileImages[indexPath.row]), participantsName: participantsNames[indexPath.row]))
         return cell
     }
 }

@@ -7,16 +7,19 @@
 
 import UIKit
 
-struct Constants {
+private enum Constants {
     static let profileImageSize = 80.0
     static let profileImageCGSize = CGSize(width: Constants.profileImageSize, height: Constants.profileImageSize)
     static let borderWidth = 2.0
     static let spacing = 4.0
 }
 
+struct ParticipantsInfo {
+    let profileImage: UIImage!
+    let participantsName: String
+}
+
 class ProfileCollectionViewCell: UICollectionViewCell {
-    
-    static let identifier = "ProfileCollectionViewCell"
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,7 +41,7 @@ class ProfileCollectionViewCell: UICollectionViewCell {
     
     let participantsName: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 15)
+        label.font = .preferredFont(forTextStyle: .subheadline)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -58,5 +61,10 @@ class ProfileCollectionViewCell: UICollectionViewCell {
             participantsName.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 5),
             participantsName.widthAnchor.constraint(equalToConstant: Constants.profileImageSize)
         ])
+    }
+    
+    func configure(with data: ParticipantsInfo) {
+        profileImage.image = data.profileImage
+        participantsName.text = data.participantsName
     }
 }
