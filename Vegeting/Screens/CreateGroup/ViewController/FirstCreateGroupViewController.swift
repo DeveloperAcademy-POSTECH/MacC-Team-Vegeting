@@ -16,7 +16,7 @@ final class FirstCreateGroupViewController: UIViewController {
         label.text = "모임 주제는 무엇인가요?"
         label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
         return label
-    }()
+    }() 
     
     private lazy var categoryCollectionView: GroupCategoryView = {
         let view = GroupCategoryView()
