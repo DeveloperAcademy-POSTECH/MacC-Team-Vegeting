@@ -169,10 +169,8 @@ final class PostDetailViewController: UIViewController {
     }
     
     private func configureAddSubviews() {
-        [coverImageView, categoryLabel, titleLabel, locationLabel, dateLabel, contentTextLabel,
-         participantsCapacityLabel, profileCollectionView, enterButton].forEach { subView in
-            view.addSubview(subView)
-        }
+        view.addSubviews(coverImageView, categoryLabel, titleLabel, locationLabel, dateLabel,
+                         contentTextLabel,participantsCapacityLabel, profileCollectionView, enterButton)
     }
     
     private func setupLayout() {
