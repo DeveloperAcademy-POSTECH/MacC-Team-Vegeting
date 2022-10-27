@@ -5,7 +5,9 @@
 //  Created by 최동권 on 2022/10/24.
 //
 
+import MapKit
 import UIKit
+
 import Alamofire
 import SwiftyJSON
 
@@ -43,6 +45,10 @@ final class LocationSearchingViewController: UIViewController {
         }
     }
     
+    private var autoSearchCompleter = MKLocalSearchCompleter()
+    
+    private var autoSearchResults = [MKLocalSearchCompletion]()
+    
     weak var delegate: LocationSearchingViewControllerDelegate?
     
     // MARK: - lifeCycle
@@ -51,11 +57,17 @@ final class LocationSearchingViewController: UIViewController {
         super.viewDidLoad()
         setupNavigationBar()
         setupResultTableViewLayout()
+//        configureDelegate()
         configureTableView()
         configureUI()
     }
     
     // MARK: - func
+    
+    private func configureDelegate() {
+        autoSearchCompleter.delegate = self
+        autoSearchCompleter.resultTypes = .address
+    }
     
     private func setupNavigationBar() {
         let backButton = UIBarButtonItem(image: ImageLiteral.backwardChevronSymbol,
@@ -231,6 +243,8 @@ extension LocationSearchingViewController: UITableViewDelegate {
 
 extension LocationSearchingViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        print(searchText)
+        autoSearchCompleter.queryFragment = searchText
         Task {
             await requestAddress(keyword: searchText)
             await requestPlace(keyword: searchText)
@@ -242,4 +256,16 @@ extension LocationSearchingViewController: UISearchControllerDelegate {
    func didPresentSearchController(searchController: UISearchController) {
       searchController.searchBar.becomeFirstResponder()
    }
+}
+
+extension LocationSearchingViewController: MKLocalSearchCompleterDelegate {
+    
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        autoSearchResults = completer.results
+        print(autoSearchResults)
+    }
+    
+    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
+        print(error.localizedDescription)
+    }
 }
