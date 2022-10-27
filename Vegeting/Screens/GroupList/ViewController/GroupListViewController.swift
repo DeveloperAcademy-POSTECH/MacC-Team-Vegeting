@@ -26,7 +26,8 @@ class GroupListViewController: ViewController {
         layout.minimumLineSpacing = 20
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
-        collectionView.register(ClubListCell.self, forCellWithReuseIdentifier: ClubListCell.className)
+        collectionView.register(ClubListCollectionViewCell.self, forCellWithReuseIdentifier: ClubListCollectionViewCell.className)
+        collectionView.showsVerticalScrollIndicator = false
         return collectionView
     }()
     
@@ -82,7 +83,7 @@ extension GroupListViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClubListCell.className, for: indexPath) as? ClubListCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClubListCollectionViewCell.className, for: indexPath) as? ClubListCollectionViewCell else { return UICollectionViewCell() }
         cell.configure(with: clubList[indexPath.item])
         cell.layer.backgroundColor = UIColor.init(hex: "#e3e3e3").cgColor
         return cell

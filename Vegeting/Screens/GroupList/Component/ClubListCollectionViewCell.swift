@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ClubListCell: UICollectionViewCell {
+final class ClubListCollectionViewCell: UICollectionViewCell {
     lazy var coverImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "star")
