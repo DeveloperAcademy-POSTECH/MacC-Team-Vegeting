@@ -146,6 +146,7 @@
 				A2F369D02908258B007F3732 /* GroupInfoView.swift */,
 				4A31CD282903D86E00E5E422 /* Cell */,
 				4A31CD262903D86200E5E422 /* GroupCategoryView.swift */,
+				A2F369D02908258B007F3732 /* GroupInfoView.swift */,
 			);
 			path = UIComponent;
 			sourceTree = "<group>";
@@ -218,6 +219,7 @@
 				4AFA58A92903EA6400679142 /* UIView+Extension.swift */,
 				4AFA58AC29050B3800679142 /* Date+Extension.swift */,
 				4AFA58AE29050B5C00679142 /* String+Extension.swift */,
+				A215B29D2906FA3E00DD60B2 /* UITextField+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -498,6 +500,7 @@
 				A2F369D729090D12007F3732 /* BottomButton.swift in Sources */,
 				A73AAAF32904E26D0050CA81 /* PostDetailViewController.swift in Sources */,
 				4A31CD272903D86200E5E422 /* GroupCategoryView.swift in Sources */,
+				A2F369D12908258B007F3732 /* GroupInfoView.swift in Sources */,
 				4ADC12EB2901833F00C0FFB6 /* StringLiteral.swift in Sources */,
 				A215B29E2906FA3E00DD60B2 /* UITextField+Extension.swift in Sources */,
 				A7C8DF242901274500F38AD7 /* AppDelegate.swift in Sources */,
@@ -507,11 +510,13 @@
 				A215B29929069D9600DD60B2 /* SecondCreateGroupViewController.swift in Sources */,
 				76B0283B290528F8002C9DF7 /* Chat.swift in Sources */,
 				4AFA58B2290526C300679142 /* NumberOfGroupPeopleView.swift in Sources */,
+				A215B29929069D9600DD60B2 /* SecondCreateGroupViewController.swift in Sources */,
 				4ADC12E72901818900C0FFB6 /* UIStackView+Extention.swift in Sources */,
 				76B02839290526AF002C9DF7 /* Club.swift in Sources */,
 				4ADC12DD2901800D00C0FFB6 /* UIColor+Extension.swift in Sources */,
 				A215B29C2906DB6400DD60B2 /* PhotoPickerView.swift in Sources */,
 				4AFA58AD29050B3800679142 /* Date+Extension.swift in Sources */,
+				A215B29C2906DB6400DD60B2 /* PhotoPickerView.swift in Sources */,
 				4ADC12F32901857F00C0FFB6 /* UIViewController+Alert.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
