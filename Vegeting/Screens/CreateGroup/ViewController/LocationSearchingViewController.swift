@@ -40,7 +40,7 @@ final class LocationSearchingViewController: UIViewController {
         didSet {
             if placeResultList != oldValue {
                 self.resultTableView.reloadData()
-                checkEmptyResultState()
+//                checkEmptyResultState()
             }
         }
     }
@@ -57,7 +57,7 @@ final class LocationSearchingViewController: UIViewController {
         super.viewDidLoad()
         setupNavigationBar()
         setupResultTableViewLayout()
-//        configureDelegate()
+        configureDelegate()
         configureTableView()
         configureUI()
     }
@@ -196,7 +196,9 @@ final class LocationSearchingViewController: UIViewController {
                     }
                 }
                 self.placeResultList = list
+                print("리로드로케이션")
                 self.resultTableView.reloadData()
+                self.autoSearchCompleter.queryFragment = keyword
                 
             case .failure(let error):
                 print(error)
@@ -207,19 +209,31 @@ final class LocationSearchingViewController: UIViewController {
 
 extension LocationSearchingViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return addressResultList.count + placeResultList.count
+        let totalCount = addressResultList.count + placeResultList.count
+        if totalCount == 0 {
+            print("리로드 나 보여줘", autoSearchResults.count)
+            return autoSearchResults.count
+        } else {
+            print("리로드 나 보여줘2", totalCount)
+            return addressResultList.count + placeResultList.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = resultTableView.dequeueReusableCell(withIdentifier: SearchedLocationResultTableViewCell.className, for: indexPath) as? SearchedLocationResultTableViewCell else { return UITableViewCell() }
         let totalAddress = addressResultList.count
+        let totalCount = addressResultList.count + placeResultList.count
         
-        if indexPath.row < totalAddress {
-            cell.configure(with: addressResultList[indexPath.row])
+        if totalCount == 0 {
+            cell.configure(with: autoSearchResults[indexPath.row].title)
         } else {
-            cell.configure(with: placeResultList[indexPath.row - totalAddress])
+            if indexPath.row < totalAddress {
+                cell.configure(with: addressResultList[indexPath.row])
+            } else {
+                cell.configure(with: placeResultList[indexPath.row - totalAddress])
+            }
         }
-        
+       
         return cell
     }
     
@@ -243,12 +257,14 @@ extension LocationSearchingViewController: UITableViewDelegate {
 
 extension LocationSearchingViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print(searchText)
-        autoSearchCompleter.queryFragment = searchText
         Task {
             await requestAddress(keyword: searchText)
             await requestPlace(keyword: searchText)
         }
+//
+//        DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
+//            self.autoSearchCompleter.queryFragment = searchText
+//        }
     }
 }
 
@@ -262,7 +278,8 @@ extension LocationSearchingViewController: MKLocalSearchCompleterDelegate {
     
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
         autoSearchResults = completer.results
-        print(autoSearchResults)
+        print(completer.results.count, "리로드리로드")
+        resultTableView.reloadData()
     }
     
     func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
