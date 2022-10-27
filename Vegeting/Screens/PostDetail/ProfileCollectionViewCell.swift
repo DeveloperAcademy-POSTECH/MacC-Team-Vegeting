@@ -24,6 +24,7 @@ class ProfileCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        configureAddSubviews()
         setupLayout()
     }
     
@@ -52,6 +53,7 @@ class ProfileCollectionViewCell: UICollectionViewCell {
     }
     
     func setupLayout() {
+        contentView.addSubview(profileImage)
         NSLayoutConstraint.activate([
             profileImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.spacing),
             profileImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.spacing),
@@ -59,6 +61,7 @@ class ProfileCollectionViewCell: UICollectionViewCell {
             profileImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.spacing)
         ])
         
+        contentView.addSubview(participantsName)
         NSLayoutConstraint.activate([
             participantsName.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 5),
             participantsName.widthAnchor.constraint(equalToConstant: Constants.profileImageSize)
