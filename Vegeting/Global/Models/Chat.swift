@@ -19,7 +19,8 @@ struct Chat: Identifiable, Codable {
     let coverImageURL: String?
 }
 
-struct Message: Codable {
+struct Message: Identifiable, Codable {
+    let id = UUID.init().uuidString
     let senderID, senderName: String
     let senderProfileImageURL: String?
     let contentType: String
