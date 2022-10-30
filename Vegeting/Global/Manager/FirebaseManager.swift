@@ -107,6 +107,40 @@ extension FirebaseManager {
         requestUpdateUser(user: user, participatedChatRoom: participatedChatRoom, participatedClub: participatedClub)
     }
     
+    
+}
+
+// MARK: Firebase 채팅
+extension FirebaseManager {
+    //  채팅창 정보 불러오기(한 채팅방 아이디로)
+        func requestChat(participatedChat: ParticipatedChatRoom) async -> Chat? {
+            guard let chatID = participatedChat.chatID else { return nil }
+            do {
+                let data = try await db.collection("Chats").document(chatID).getDocument().data(as: Chat.self)
+                return data
+            } catch {
+                print(error.localizedDescription)
+            }
+            return nil
+        }
+        
+    //   채팅창 정보 불러오기(유저가 갖고 있는 chatting방 전체)
+        func requestAllChats(user: VFUser) async -> [Chat]? {
+            guard let participatedChats = user.participatedChats else { return nil }
+            let chatList = participatedChats.map { $0.chatID }
+            
+            do {
+                let result = try await db.collection("Chats").whereField(FieldPath.documentID(), in: chatList as [Any]).getDocuments().documents.compactMap { querySnapShot in
+                    try querySnapShot.data(as: Chat.self)
+                }
+                
+                return result
+            } catch {
+                print(error.localizedDescription)
+            }
+            return nil
+        }
+    
 }
 
 // MARK: Firebase Authentifcation 전용(유저 회원가입 및 로그인 담당)
