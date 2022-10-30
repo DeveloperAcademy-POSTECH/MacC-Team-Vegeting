@@ -13,16 +13,16 @@ public class VerticalAlignLabel: UILabel {
         case middle
         case bottom
     }
-
+    
     var verticalAlignment : VerticalAlignment = .top {
         didSet {
             setNeedsDisplay()
         }
     }
-
+    
     override public func textRect(forBounds bounds: CGRect, limitedToNumberOfLines: Int) -> CGRect {
         let rect = super.textRect(forBounds: bounds, limitedToNumberOfLines: limitedToNumberOfLines)
-
+        
         if UIView.userInterfaceLayoutDirection(for: .unspecified) == .rightToLeft {
             switch verticalAlignment {
             case .top:
@@ -43,7 +43,7 @@ public class VerticalAlignLabel: UILabel {
             }
         }
     }
-
+    
     override public func drawText(in rect: CGRect) {
         let r = self.textRect(forBounds: rect, limitedToNumberOfLines: self.numberOfLines)
         super.drawText(in: r)
@@ -51,13 +51,11 @@ public class VerticalAlignLabel: UILabel {
 }
 
 final class PostDetailViewController: UIViewController {
-    
     private let coverImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.image = UIImage(named: "coverImage")
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -65,33 +63,32 @@ final class PostDetailViewController: UIViewController {
         let button = UIButton()
         button.setTitle("맛집", for: .normal)
         button.setTitleColor(.label, for: .normal)
+        button.titleLabel?.font = .preferredFont(forTextStyle: .subheadline)
         button.backgroundColor = .lightGray
         button.layer.cornerRadius = 15
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "남미플랜트랩하고 거북이 먹으러 가요"
-        label.font = .systemFont(ofSize: 20, weight: .semibold)
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .preferredFont(forTextStyle: .title3)
         return label
     }()
     
     private let locationLabel: UILabel = {
         let label = UILabel()
         label.text = "서울시 동대문구"
-        label.font = .systemFont(ofSize: 15, weight: .thin)
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .preferredFont(forTextStyle: .subheadline)
+        label.textColor = .gray
         return label
     }()
     
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.text = "· 12월 19일"
-        label.font = .systemFont(ofSize: 15, weight: .thin)
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .preferredFont(forTextStyle: .subheadline)
+        label.textColor = .gray
         return label
     }()
     
@@ -99,24 +96,14 @@ final class PostDetailViewController: UIViewController {
         let label = VerticalAlignLabel()
         label.numberOfLines = 0
         label.text = "저번에 너무 가고싶엇는데~~ 긴급휴무로 못 가서 너무 아쉬웠어여. 유명 맛집이라던데 갔다가 옆에 있는 거북이까지 갔다 오면 좋을 것 같아요!! 날짜는 10월 내에 토요일 중에 가능한 날짜 맞춰서 다녀오려고 해요~ㅎㅎ 같이 맛난 점심먹어용! 나머지는 긴내용을 채우귀 위함위하다다다다 로렌아킬리나 짱~!!!! 너무너무 좋아요. 한국에서도 콘서트 열어주세요,,,,"
-        label.font = .systemFont(ofSize: 15, weight: .regular)
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .preferredFont(forTextStyle: .callout)
         return label
     }()
     
-    private let participantsLabel: UILabel = {
+    private let participantsCapacityLabel: UILabel = {
         let label = UILabel()
-        label.text = "참여하는 회원"
-        label.font = .systemFont(ofSize: 20, weight: .semibold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let capacityLabel: UILabel = {
-        let label = UILabel()
-        label.text = "5/6"
-        label.font = .systemFont(ofSize: 20, weight: .semibold)
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "참여하는 회원 5/6"
+        label.font = .preferredFont(forTextStyle: .title3)
         return label
     }()
     
@@ -127,10 +114,11 @@ final class PostDetailViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 80, height: 80)
         layout.scrollDirection = .horizontal
-    
+        
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(ProfileCollectionViewCell.self, forCellWithReuseIdentifier: ProfileCollectionViewCell.identifier)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.register(ProfileCollectionViewCell.self, forCellWithReuseIdentifier: ProfileCollectionViewCell.className)
+        collectionView.showsHorizontalScrollIndicator = false
+        
         return collectionView
     }()
     
@@ -139,18 +127,16 @@ final class PostDetailViewController: UIViewController {
         button.backgroundColor = .black
         button.setTitle("참여하기", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 17)
+        button.titleLabel?.font = .preferredFont(forTextStyle: .body)
         button.layer.cornerRadius = 8
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        profileCollectionView.delegate = self
-        profileCollectionView.dataSource = self
-        
+        configureCollectionView()
         configureAddSubviews()
         configureUI()
         configureNavBar()
@@ -168,11 +154,14 @@ final class PostDetailViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .label
     }
     
+    private func configureCollectionView() {
+             profileCollectionView.delegate = self
+             profileCollectionView.dataSource = self
+         }
+    
     private func configureAddSubviews() {
-        [coverImageView, categoryLabel, titleLabel, locationLabel, dateLabel, contentTextLabel,
-         participantsLabel, capacityLabel, profileCollectionView, enterButton].forEach { subView in
-            view.addSubview(subView)
-        }
+        view.addSubviews(coverImageView, categoryLabel, titleLabel, locationLabel, dateLabel,
+                         contentTextLabel, participantsCapacityLabel, profileCollectionView, enterButton)
     }
     
     private func setupLayout() {
@@ -213,17 +202,12 @@ final class PostDetailViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            participantsLabel.topAnchor.constraint(equalTo: contentTextLabel.bottomAnchor, constant: 15),
-            participantsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
+            participantsCapacityLabel.topAnchor.constraint(equalTo: contentTextLabel.bottomAnchor, constant: 15),
+            participantsCapacityLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
         ])
         
         NSLayoutConstraint.activate([
-            capacityLabel.topAnchor.constraint(equalTo: contentTextLabel.bottomAnchor, constant: 15),
-            capacityLabel.leadingAnchor.constraint(equalTo: participantsLabel.trailingAnchor, constant: 10)
-        ])
-        
-        NSLayoutConstraint.activate([
-            profileCollectionView.topAnchor.constraint(equalTo: participantsLabel.bottomAnchor),
+            profileCollectionView.topAnchor.constraint(equalTo: participantsCapacityLabel.bottomAnchor),
             profileCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             profileCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             profileCollectionView.heightAnchor.constraint(equalToConstant: 115)
@@ -267,10 +251,9 @@ extension PostDetailViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCollectionViewCell.identifier, for: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCollectionViewCell.className, for: indexPath)
                 as? ProfileCollectionViewCell else { return UICollectionViewCell() }
-        cell.profileImage.image = UIImage(named: profileImages[indexPath.row])
-        cell.participantsName.text = participantsNames[indexPath.row]
+        cell.configure(with: ParticipantsInfo(profileImage: UIImage(named: profileImages[indexPath.item]), participantsName: participantsNames[indexPath.item]))
         return cell
     }
 }

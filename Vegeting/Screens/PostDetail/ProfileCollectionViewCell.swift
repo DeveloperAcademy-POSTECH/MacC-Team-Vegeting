@@ -6,20 +6,23 @@
 //
 import UIKit
 
-struct Constants {
+private enum Constants {
     static let profileImageSize = 80.0
     static let profileImageCGSize = CGSize(width: Constants.profileImageSize, height: Constants.profileImageSize)
     static let borderWidth = 2.0
     static let spacing = 4.0
 }
 
+struct ParticipantsInfo {
+    let profileImage: UIImage!
+    let participantsName: String
+}
+
 class ProfileCollectionViewCell: UICollectionViewCell {
-    
-    static let identifier = "ProfileCollectionViewCell"
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        configureAddSubViews()
         setupLayout()
     }
     
@@ -27,24 +30,25 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let profileImage: UIImageView = {
+    private let profileImage: UIImageView = {
         let image = UIImageView()
         image.layer.cornerRadius = (Constants.profileImageSize - Constants.spacing * 2) / 2.0
         image.clipsToBounds = true
-        image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
-    let participantsName: UILabel = {
+    private let participantsName: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 15)
+        label.font = .preferredFont(forTextStyle: .subheadline)
         label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
+    func configureAddSubViews() {
+        contentView.addSubviews(profileImage, participantsName)
+    }
+    
     func setupLayout() {
-        contentView.addSubview(profileImage)
         NSLayoutConstraint.activate([
             profileImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.spacing),
             profileImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.spacing),
@@ -52,10 +56,14 @@ class ProfileCollectionViewCell: UICollectionViewCell {
             profileImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.spacing)
         ])
         
-        contentView.addSubview(participantsName)
         NSLayoutConstraint.activate([
             participantsName.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 5),
             participantsName.widthAnchor.constraint(equalToConstant: Constants.profileImageSize)
         ])
+    }
+    
+    func configure(with data: ParticipantsInfo) {
+        profileImage.image = data.profileImage
+        participantsName.text = data.participantsName
     }
 }
