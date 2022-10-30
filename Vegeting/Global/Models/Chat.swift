@@ -24,6 +24,7 @@ struct Message: Identifiable, Codable {
     let senderID, senderName: String
     let senderProfileImageURL: String?
     let contentType: String
+    let createdAt: Date
     let imageURL: String?
     let content: String?
 }
