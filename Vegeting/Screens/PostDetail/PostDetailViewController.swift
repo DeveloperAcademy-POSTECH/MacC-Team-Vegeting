@@ -57,7 +57,6 @@ final class PostDetailViewController: UIViewController {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.image = UIImage(named: "coverImage")
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -68,7 +67,6 @@ final class PostDetailViewController: UIViewController {
         button.titleLabel?.font = .preferredFont(forTextStyle: .subheadline)
         button.backgroundColor = .lightGray
         button.layer.cornerRadius = 15
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -76,7 +74,6 @@ final class PostDetailViewController: UIViewController {
         let label = UILabel()
         label.text = "남미플랜트랩하고 거북이 먹으러 가요"
         label.font = .preferredFont(forTextStyle: .title3)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -85,7 +82,6 @@ final class PostDetailViewController: UIViewController {
         label.text = "서울시 동대문구"
         label.font = .preferredFont(forTextStyle: .subheadline)
         label.textColor = .gray
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -94,7 +90,6 @@ final class PostDetailViewController: UIViewController {
         label.text = "· 12월 19일"
         label.font = .preferredFont(forTextStyle: .subheadline)
         label.textColor = .gray
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -103,7 +98,6 @@ final class PostDetailViewController: UIViewController {
         label.numberOfLines = 0
         label.text = "저번에 너무 가고싶엇는데~~ 긴급휴무로 못 가서 너무 아쉬웠어여. 유명 맛집이라던데 갔다가 옆에 있는 거북이까지 갔다 오면 좋을 것 같아요!! 날짜는 10월 내에 토요일 중에 가능한 날짜 맞춰서 다녀오려고 해요~ㅎㅎ 같이 맛난 점심먹어용! 나머지는 긴내용을 채우귀 위함위하다다다다 로렌아킬리나 짱~!!!! 너무너무 좋아요. 한국에서도 콘서트 열어주세요,,,,"
         label.font = .preferredFont(forTextStyle: .callout)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -111,7 +105,6 @@ final class PostDetailViewController: UIViewController {
         let label = UILabel()
         label.text = "참여하는 회원 5/6"
         label.font = .preferredFont(forTextStyle: .title3)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -126,7 +119,6 @@ final class PostDetailViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(ProfileCollectionViewCell.self, forCellWithReuseIdentifier: ProfileCollectionViewCell.className)
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         return collectionView
     }()
@@ -138,7 +130,6 @@ final class PostDetailViewController: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .preferredFont(forTextStyle: .body)
         button.layer.cornerRadius = 8
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
