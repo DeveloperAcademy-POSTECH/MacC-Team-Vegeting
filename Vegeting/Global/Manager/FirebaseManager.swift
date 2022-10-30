@@ -185,7 +185,18 @@ extension FirebaseManager {
         }
         
     }
-
+    
+    /// 채팅 보내기
+    func requestMessage(user: VFUser, chat: Chat, message: Message) async {
+        guard let chatID = chat.chatRoomID else { return }
+        do {
+            let message = try Firestore.Encoder().encode(message)
+            try await db.collection(Path.chat.rawValue).document(chatID).updateData(["messages": FieldValue.arrayUnion([message])])
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
 }
 
 // MARK: Firebase Authentifcation 전용(유저 회원가입 및 로그인 담당)
