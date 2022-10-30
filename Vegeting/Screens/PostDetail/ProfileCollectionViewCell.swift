@@ -36,7 +36,6 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         let image = UIImageView()
         image.layer.cornerRadius = (Constants.profileImageSize - Constants.spacing * 2) / 2.0
         image.clipsToBounds = true
-        image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
     
@@ -44,7 +43,6 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .subheadline)
         label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
