@@ -141,6 +141,51 @@ extension FirebaseManager {
             return nil
         }
     
+    /// 채팅방 입장시, 유저의 데이터 업데이트
+    func updateUserEnteringChat(user: VFUser, club: Club, chat: Chat) async {
+        do {
+            
+            let participatedClub = ParticipatedClub(clubID: club.clubID, clubName: club.clubTitle, profileImageURL: club.coverImageURL)
+            let participatedChatRoom = ParticipatedChatRoom(chatID: chat.chatRoomID, chatName: chat.chatRoomName, imageURL: chat.coverImageURL)
+            let encodedParticipatedClub = try Firestore.Encoder().encode(participatedClub)
+            let encodedParticipatedChat = try Firestore.Encoder().encode(participatedChatRoom)
+            try await db.collection(Path.user.rawValue).document(user.userID).updateData(["participatedClub": FieldValue.arrayUnion([encodedParticipatedClub]), "participatedChat": FieldValue.arrayUnion([encodedParticipatedChat])])
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func updateClubAndChat(user: VFUser, club: Club, chat: Chat) async {
+        guard let clubID = club.clubID, let chatID = chat.chatRoomID else { return }
+        do {
+            let participant = try Firestore.Encoder().encode(Participant(userID: user.userID, name: user.userName, imageURL: user.imageURL))
+            try await db.collection(Path.chat.rawValue).document(chatID).updateData(["participants": FieldValue.arrayUnion([participant])])
+            try await db.collection(Path.club.rawValue).document(clubID).updateData(["participants": FieldValue.arrayUnion([participant])])
+        } catch {
+                print(error.localizedDescription)
+        }
+        
+    }
+     
+    
+    /// 채팅 입장시 정보 update
+    func updateInformation(user: VFUser, club: Club, chat: Chat) async {
+        await updateUserEnteringChat(user: user, club: club, chat: chat)
+        await updateClubAndChat(user: user, club: club, chat: chat)
+    }
+    
+    /// 채팅창 입장하기
+    func enteringUser(user: VFUser, club: Club) {
+//        Club에 참여 채팅자 추가
+//        Chat에 참여 채팅자 추가
+//        User에 참여 채팅자 추가
+        Task {
+            guard let chat = await requestChat(participatedChat: ParticipatedChatRoom(chatID: club.chatID, chatName: "", imageURL: nil)) else { return }
+            await updateInformation(user: user, club: club, chat: chat)
+        }
+        
+    }
+
 }
 
 // MARK: Firebase Authentifcation 전용(유저 회원가입 및 로그인 담당)
