@@ -33,7 +33,7 @@ final class SignInViewModel: ObservableObject {
             return
         }
         
-        FirebaseManager.shared.requestRegisterUser(email: email + "@MacVegeting.com", password: password)
+        FirebaseManager.shared.registerUser(email: email + "@MacVegeting.com", password: password)
             .sink { _ in
             } receiveValue: { [weak self] user in
                 self?.user = user
