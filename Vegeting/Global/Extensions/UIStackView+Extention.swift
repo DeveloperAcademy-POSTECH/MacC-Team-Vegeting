@@ -15,4 +15,10 @@ extension UIStackView {
         }
     }
 
+    func setHorizontalStack() {
+        axis = .horizontal
+        alignment = .center
+        distribution = .equalSpacing
+    }
 }
+
