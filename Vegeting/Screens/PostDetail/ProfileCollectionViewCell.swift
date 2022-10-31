@@ -20,7 +20,7 @@ struct ParticipantsInfo {
 }
 
 class ProfileCollectionViewCell: UICollectionViewCell {
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -32,14 +32,14 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let profileImage: UIImageView = {
+    private let profileImage: UIImageView = {
         let image = UIImageView()
         image.layer.cornerRadius = (Constants.profileImageSize - Constants.spacing * 2) / 2.0
         image.clipsToBounds = true
         return image
     }()
     
-    let participantsName: UILabel = {
+    private let participantsName: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .subheadline)
         label.textAlignment = .center
