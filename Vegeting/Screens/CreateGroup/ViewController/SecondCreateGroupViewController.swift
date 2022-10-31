@@ -62,12 +62,20 @@ final class SecondCreateGroupViewController: BaseViewController {
         return label
     }()
     
+    private lazy var registerButton: BottomButton = {
+        let button = BottomButton()
+        button.isEnabled = false
+        button.setTitle(StringLiteral.secondCreateGroupViewControllerRegisterButton, for: .normal)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func setupLayout() {
-        view.addSubviews(coverPickerView, groupInfoStackView, titleTextField, titleWordsCountLabel, contentTextview, contentWordsCountLabel)
+        view.addSubviews(coverPickerView, groupInfoStackView, titleTextField, titleWordsCountLabel,
+                         contentTextview, contentWordsCountLabel, registerButton)
         
         NSLayoutConstraint.activate([
             coverPickerView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 30),
@@ -107,6 +115,12 @@ final class SecondCreateGroupViewController: BaseViewController {
             contentWordsCountLabel.topAnchor.constraint(equalTo: contentTextview.bottomAnchor, constant: 8),
             contentWordsCountLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 24),
             contentWordsCountLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            registerButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
+            registerButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            registerButton.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -10)
         ])
     }
     

@@ -21,15 +21,14 @@
 		4ADC12EF290183F500C0FFB6 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12EE290183F500C0FFB6 /* BaseViewController.swift */; };
 		4ADC12F12901856B00C0FFB6 /* UIView+Constraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12F02901856B00C0FFB6 /* UIView+Constraint.swift */; };
 		4ADC12F32901857F00C0FFB6 /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12F22901857F00C0FFB6 /* UIViewController+Alert.swift */; };
-		7645E74A290700E5009E2E3B /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E749290700E5009E2E3B /* SignInViewController.swift */; };
-		
-		7645E7512907031D009E2E3B /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E7502907031D009E2E3B /* SignInViewModel.swift */; };
-		7645E75729070FC6009E2E3B /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E75629070FC6009E2E3B /* FirebaseManager.swift */; };
 		4AFA58AA2903EA6400679142 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA58A92903EA6400679142 /* UIView+Extension.swift */; };
 		4AFA58AD29050B3800679142 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA58AC29050B3800679142 /* Date+Extension.swift */; };
 		4AFA58AF29050B5C00679142 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA58AE29050B5C00679142 /* String+Extension.swift */; };
 		4AFA58B2290526C300679142 /* NumberOfGroupPeopleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA58B1290526C300679142 /* NumberOfGroupPeopleView.swift */; };
 		4AFA58B52905280F00679142 /* NumberOfPeopleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA58B42905280F00679142 /* NumberOfPeopleCollectionViewCell.swift */; };
+		7645E74A290700E5009E2E3B /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E749290700E5009E2E3B /* SignInViewController.swift */; };
+		7645E7512907031D009E2E3B /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E7502907031D009E2E3B /* SignInViewModel.swift */; };
+		7645E75729070FC6009E2E3B /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E75629070FC6009E2E3B /* FirebaseManager.swift */; };
 		76B027F12901726E002C9DF7 /* VegetingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B027F02901726E002C9DF7 /* VegetingTests.swift */; };
 		76B0282629051FC9002C9DF7 /* VFUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B0282529051FC9002C9DF7 /* VFUser.swift */; };
 		76B02829290520BB002C9DF7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76B02828290520BB002C9DF7 /* GoogleService-Info.plist */; };
@@ -45,7 +44,9 @@
 		A215B29929069D9600DD60B2 /* SecondCreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A215B29829069D9600DD60B2 /* SecondCreateGroupViewController.swift */; };
 		A215B29C2906DB6400DD60B2 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A215B29B2906DB6400DD60B2 /* PhotoPickerView.swift */; };
 		A215B29E2906FA3E00DD60B2 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A215B29D2906FA3E00DD60B2 /* UITextField+Extension.swift */; };
+		A261987D290A350300ECCC4F /* BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A261987C290A350300ECCC4F /* BottomButton.swift */; };
 		A2F369D12908258B007F3732 /* GroupInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F369D02908258B007F3732 /* GroupInfoView.swift */; };
+		A2F369D929090E72007F3732 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F369D829090E72007F3732 /* UIButton+Extension.swift */; };
 		A73AAAF32904E26D0050CA81 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73AAAF22904E26D0050CA81 /* PostDetailViewController.swift */; };
 		A7C8DF242901274500F38AD7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C8DF232901274500F38AD7 /* AppDelegate.swift */; };
 		A7C8DF262901274500F38AD7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C8DF252901274500F38AD7 /* SceneDelegate.swift */; };
@@ -80,14 +81,14 @@
 		4ADC12EE290183F500C0FFB6 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		4ADC12F02901856B00C0FFB6 /* UIView+Constraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Constraint.swift"; sourceTree = "<group>"; };
 		4ADC12F22901857F00C0FFB6 /* UIViewController+Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
-		7645E749290700E5009E2E3B /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
-		7645E7502907031D009E2E3B /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
-		7645E75629070FC6009E2E3B /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		4AFA58A92903EA6400679142 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		4AFA58AC29050B3800679142 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		4AFA58AE29050B5C00679142 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		4AFA58B1290526C300679142 /* NumberOfGroupPeopleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfGroupPeopleView.swift; sourceTree = "<group>"; };
 		4AFA58B42905280F00679142 /* NumberOfPeopleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfPeopleCollectionViewCell.swift; sourceTree = "<group>"; };
+		7645E749290700E5009E2E3B /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		7645E7502907031D009E2E3B /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		7645E75629070FC6009E2E3B /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		76B027EE2901726E002C9DF7 /* VegetingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VegetingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		76B027F02901726E002C9DF7 /* VegetingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VegetingTests.swift; sourceTree = "<group>"; };
 		76B0282529051FC9002C9DF7 /* VFUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VFUser.swift; sourceTree = "<group>"; };
@@ -98,7 +99,9 @@
 		A215B29829069D9600DD60B2 /* SecondCreateGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondCreateGroupViewController.swift; sourceTree = "<group>"; };
 		A215B29B2906DB6400DD60B2 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
 		A215B29D2906FA3E00DD60B2 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
+		A261987C290A350300ECCC4F /* BottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButton.swift; sourceTree = "<group>"; };
 		A2F369D02908258B007F3732 /* GroupInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupInfoView.swift; sourceTree = "<group>"; };
+		A2F369D829090E72007F3732 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		A73AAAF22904E26D0050CA81 /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		A7C8DF202901274500F38AD7 /* Vegeting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vegeting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7C8DF232901274500F38AD7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -148,6 +151,7 @@
 				4A31CD282903D86E00E5E422 /* Cell */,
 				4A31CD262903D86200E5E422 /* GroupCategoryView.swift */,
 				A2F369D02908258B007F3732 /* GroupInfoView.swift */,
+				A261987C290A350300ECCC4F /* BottomButton.swift */,
 			);
 			path = UIComponent;
 			sourceTree = "<group>";
@@ -216,6 +220,7 @@
 				4ADC12E42901817800C0FFB6 /* UILabel+Extension.swift */,
 				4ADC12E62901818900C0FFB6 /* UIStackView+Extention.swift */,
 				4ADC12E82901819800C0FFB6 /* UIScreen+Extension.swift */,
+				A2F369D829090E72007F3732 /* UIButton+Extension.swift */,
 				4AFA58A92903EA6400679142 /* UIView+Extension.swift */,
 				4AFA58AC29050B3800679142 /* Date+Extension.swift */,
 				4AFA58AE29050B5C00679142 /* String+Extension.swift */,
@@ -519,11 +524,13 @@
 				4ADC12E32901815C00C0FFB6 /* UIViewController+Extension.swift in Sources */,
 				4ADC12E12901813900C0FFB6 /* NSObject+Extension.swift in Sources */,
 				4A31CD242903D73D00E5E422 /* FirstCreateGroupViewController.swift in Sources */,
+				A2F369D929090E72007F3732 /* UIButton+Extension.swift in Sources */,
 				A7C8DF282901274500F38AD7 /* ViewController.swift in Sources */,
 				76B0282629051FC9002C9DF7 /* VFUser.swift in Sources */,
 				76B0283D29052937002C9DF7 /* Participant.swift in Sources */,
 				4ADC12ED2901838200C0FFB6 /* ImageLiteral.swift in Sources */,
 				4AFA58B52905280F00679142 /* NumberOfPeopleCollectionViewCell.swift in Sources */,
+				A261987D290A350300ECCC4F /* BottomButton.swift in Sources */,
 				4ADC12E52901817800C0FFB6 /* UILabel+Extension.swift in Sources */,
 				4A31CD2A2903D89600E5E422 /* GroupCategoryCollectionViewCell.swift in Sources */,
 				7645E7512907031D009E2E3B /* SignInViewModel.swift in Sources */,
@@ -531,6 +538,7 @@
 				4ADC12EF290183F500C0FFB6 /* BaseViewController.swift in Sources */,
 				4AFA58AF29050B5C00679142 /* String+Extension.swift in Sources */,
 				4ADC12F12901856B00C0FFB6 /* UIView+Constraint.swift in Sources */,
+				A2F369D12908258B007F3732 /* GroupInfoView.swift in Sources */,
 				A73AAAF32904E26D0050CA81 /* PostDetailViewController.swift in Sources */,
 				4A31CD272903D86200E5E422 /* GroupCategoryView.swift in Sources */,
 				A2F369D12908258B007F3732 /* GroupInfoView.swift in Sources */,
@@ -540,6 +548,7 @@
 				4AFA58AA2903EA6400679142 /* UIView+Extension.swift in Sources */,
 				4ADC12E92901819800C0FFB6 /* UIScreen+Extension.swift in Sources */,
 				A7C8DF262901274500F38AD7 /* SceneDelegate.swift in Sources */,
+				A215B29929069D9600DD60B2 /* SecondCreateGroupViewController.swift in Sources */,
 				76B0283B290528F8002C9DF7 /* Chat.swift in Sources */,
 				4AFA58B2290526C300679142 /* NumberOfGroupPeopleView.swift in Sources */,
 				A215B29929069D9600DD60B2 /* SecondCreateGroupViewController.swift in Sources */,
@@ -547,6 +556,7 @@
 				76B02839290526AF002C9DF7 /* Club.swift in Sources */,
 				7645E75729070FC6009E2E3B /* FirebaseManager.swift in Sources */,
 				4ADC12DD2901800D00C0FFB6 /* UIColor+Extension.swift in Sources */,
+				A215B29C2906DB6400DD60B2 /* PhotoPickerView.swift in Sources */,
 				4AFA58AD29050B3800679142 /* Date+Extension.swift in Sources */,
 				A215B29C2906DB6400DD60B2 /* PhotoPickerView.swift in Sources */,
 				4ADC12F32901857F00C0FFB6 /* UIViewController+Alert.swift in Sources */,
