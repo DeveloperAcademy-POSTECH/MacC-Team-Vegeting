@@ -17,6 +17,7 @@
 		4AB5C27C2907A9CE0064C41E /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB5C27B2907A9CE0064C41E /* Place.swift */; };
 		4AC8F0632906BD18007D3946 /* LocationSearchingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC8F0622906BD18007D3946 /* LocationSearchingViewController.swift */; };
 		4AC8F0652906C5E0007D3946 /* SearchedAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC8F0642906C5E0007D3946 /* SearchedAddressTableViewCell.swift */; };
+		4ACF36D62910A87700B95115 /* UINavigationController+Back.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ACF36D52910A87700B95115 /* UINavigationController+Back.swift */; };
 		4ADC12DD2901800D00C0FFB6 /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12DC2901800D00C0FFB6 /* UIColor+Extension.swift */; };
 		4ADC12E12901813900C0FFB6 /* NSObject+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12E02901813900C0FFB6 /* NSObject+Extension.swift */; };
 		4ADC12E32901815C00C0FFB6 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12E22901815C00C0FFB6 /* UIViewController+Extension.swift */; };
@@ -82,6 +83,7 @@
 		4AB5C27B2907A9CE0064C41E /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		4AC8F0622906BD18007D3946 /* LocationSearchingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchingViewController.swift; sourceTree = "<group>"; };
 		4AC8F0642906C5E0007D3946 /* SearchedAddressTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedAddressTableViewCell.swift; sourceTree = "<group>"; };
+		4ACF36D52910A87700B95115 /* UINavigationController+Back.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Back.swift"; sourceTree = "<group>"; };
 		4ADC12DC2901800D00C0FFB6 /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		4ADC12E02901813900C0FFB6 /* NSObject+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObject+Extension.swift"; sourceTree = "<group>"; };
 		4ADC12E22901815C00C0FFB6 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 			children = (
 				4ADC12F02901856B00C0FFB6 /* UIView+Constraint.swift */,
 				4ADC12F22901857F00C0FFB6 /* UIViewController+Alert.swift */,
+				4ACF36D52910A87700B95115 /* UINavigationController+Back.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -577,6 +580,7 @@
 				4ADC12EB2901833F00C0FFB6 /* StringLiteral.swift in Sources */,
 				A215B29E2906FA3E00DD60B2 /* UITextField+Extension.swift in Sources */,
 				4AC8F0632906BD18007D3946 /* LocationSearchingViewController.swift in Sources */,
+				4ACF36D62910A87700B95115 /* UINavigationController+Back.swift in Sources */,
 				A7C8DF242901274500F38AD7 /* AppDelegate.swift in Sources */,
 				4AFA58AA2903EA6400679142 /* UIView+Extension.swift in Sources */,
 				4A50D5A52908E03600D1ADE4 /* EmptyResultView.swift in Sources */,
@@ -781,7 +785,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = JP5BCXZWJP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Vegeting/Global/Supports/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -815,7 +819,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = JP5BCXZWJP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Vegeting/Global/Supports/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

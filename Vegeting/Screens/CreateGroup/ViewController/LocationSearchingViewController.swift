@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import Alamofire
 import SwiftyJSON
 
@@ -68,8 +69,8 @@ final class LocationSearchingViewController: UIViewController {
         navigationItem.leftBarButtonItem = backButton
         
         let searchController = UISearchController(searchResultsController: nil)
+        searchController.navigationItem.backButtonDisplayMode = .minimal
         searchController.searchBar.placeholder = "구, 동, 장소를 입력해주세요."
-        searchController.searchBar.delegate = self
         self.navigationItem.searchController = searchController
         self.navigationItem.hidesSearchBarWhenScrolling = false
     }
