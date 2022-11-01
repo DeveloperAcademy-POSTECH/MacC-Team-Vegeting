@@ -8,13 +8,13 @@
 import UIKit
 
 final class ClubListCollectionViewCell: UICollectionViewCell {
-    lazy var coverImage: UIImageView = {
+    private lazy var coverImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "star")
         return imageView
     }()
     
-    lazy var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 2
         label.tintColor = .black
