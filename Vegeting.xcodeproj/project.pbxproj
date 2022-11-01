@@ -193,8 +193,6 @@
 		4AB5C27529078ADF0064C41E /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				4AB5C27629078AE90064C41E /* Address.swift */,
-				4AB5C27B2907A9CE0064C41E /* Place.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -377,6 +375,8 @@
 		76B0282429051FAC002C9DF7 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				4AB5C27629078AE90064C41E /* Address.swift */,
+				4AB5C27B2907A9CE0064C41E /* Place.swift */,
 				76B0282529051FC9002C9DF7 /* VFUser.swift */,
 				76B02838290526AF002C9DF7 /* Club.swift */,
 				76B0283A290528F8002C9DF7 /* Chat.swift */,
