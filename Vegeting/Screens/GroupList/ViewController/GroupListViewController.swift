@@ -8,16 +8,13 @@
 import UIKit
 
 class GroupListViewController: UIViewController {
-    var clubList = [Club]() {
+    var clubList = Club.mockData {
         didSet {
             collectionView.reloadData()
         }
     }
     
-    let participants = [Participant(userID: "a", name: "aa"),
-                        Participant(userID: "b", name: "bb"),
-                        Participant(userID: "c", name: "cc"),
-                        Participant(userID: "d", name: "dd")]
+    let participants = Participant.mockData
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -36,15 +33,6 @@ class GroupListViewController: UIViewController {
         configureCollectionView()
         configureUI()
         setupLayout()
-        clubList = [Club(clubID: "", clubTitle: "동물해방 같이 읽어요.", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 10),
-                    Club(clubID: "", clubTitle: "매주 금요일마다 플로깅 하러 가실 분??", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 11),
-                    Club(clubID: "", clubTitle: "매주 금요일마다 플로깅 하러 가실 분??", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 12),
-                    Club(clubID: "", clubTitle: "남미플랜트랩하고 거북이 먹으러 가요~!", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 13),
-                    Club(clubID: "", clubTitle: "같이 비건 식당 탐방하실 분?", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 14),
-                    Club(clubID: "", clubTitle: "동물권 관련 스터디", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 15),
-                    Club(clubID: "", clubTitle: "기사 읽어보실 분~~", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 16),
-                    Club(clubID: "", clubTitle: "비건 카페 가실분 계신가요?", clubCategory: "a", hostID: "a", participants: participants, createdAt: Date(), maxNumberOfPeople: 17)
-        ]
     }
     
     private func configureCollectionView() {
