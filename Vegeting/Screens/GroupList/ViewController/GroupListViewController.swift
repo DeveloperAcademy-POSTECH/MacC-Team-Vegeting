@@ -57,10 +57,7 @@ class GroupListViewController: UIViewController {
     }
     
     private func setupLayout() {
-        [collectionView].forEach {
-            view.addSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
+        view.addSubviews(collectionView)
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
