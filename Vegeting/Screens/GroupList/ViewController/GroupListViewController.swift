@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GroupListViewController: ViewController {
+class GroupListViewController: UIViewController {
     var clubList = [Club]() {
         didSet {
             collectionView.reloadData()
