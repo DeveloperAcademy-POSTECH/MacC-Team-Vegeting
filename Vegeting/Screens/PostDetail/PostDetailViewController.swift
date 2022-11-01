@@ -4,7 +4,6 @@
 //
 //  Created by 김원희 on 2022/10/23.
 //
-
 import UIKit
 
 public class VerticalAlignLabel: UILabel {
@@ -13,16 +12,16 @@ public class VerticalAlignLabel: UILabel {
         case middle
         case bottom
     }
-
+    
     var verticalAlignment : VerticalAlignment = .top {
         didSet {
             setNeedsDisplay()
         }
     }
-
+    
     override public func textRect(forBounds bounds: CGRect, limitedToNumberOfLines: Int) -> CGRect {
         let rect = super.textRect(forBounds: bounds, limitedToNumberOfLines: limitedToNumberOfLines)
-
+        
         if UIView.userInterfaceLayoutDirection(for: .unspecified) == .rightToLeft {
             switch verticalAlignment {
             case .top:
@@ -43,7 +42,7 @@ public class VerticalAlignLabel: UILabel {
             }
         }
     }
-
+    
     override public func drawText(in rect: CGRect) {
         let r = self.textRect(forBounds: rect, limitedToNumberOfLines: self.numberOfLines)
         super.drawText(in: r)
@@ -51,7 +50,6 @@ public class VerticalAlignLabel: UILabel {
 }
 
 final class PostDetailViewController: UIViewController {
-    
     private let coverImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -115,7 +113,7 @@ final class PostDetailViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 80, height: 80)
         layout.scrollDirection = .horizontal
-    
+        
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(ProfileCollectionViewCell.self, forCellWithReuseIdentifier: ProfileCollectionViewCell.className)
         collectionView.showsHorizontalScrollIndicator = false
@@ -133,13 +131,14 @@ final class PostDetailViewController: UIViewController {
         return button
     }()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureUI()
-        configureNavBar()
         configureCollectionView()
         configureAddSubviews()
+        configureUI()
+        configureNavBar()
         setupLayout()
     }
     
@@ -155,13 +154,13 @@ final class PostDetailViewController: UIViewController {
     }
     
     private func configureCollectionView() {
-        profileCollectionView.delegate = self
-        profileCollectionView.dataSource = self
-    }
+             profileCollectionView.delegate = self
+             profileCollectionView.dataSource = self
+         }
     
     private func configureAddSubviews() {
         view.addSubviews(coverImageView, categoryLabel, titleLabel, locationLabel, dateLabel,
-                         contentTextLabel,participantsCapacityLabel, profileCollectionView, enterButton)
+                         contentTextLabel, participantsCapacityLabel, profileCollectionView, enterButton)
     }
     
     private func setupLayout() {
