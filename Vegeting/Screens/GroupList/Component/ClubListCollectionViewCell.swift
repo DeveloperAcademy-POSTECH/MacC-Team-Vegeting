@@ -8,7 +8,7 @@
 import UIKit
 
 final class ClubListCollectionViewCell: UICollectionViewCell {
-    private lazy var coverImage: UIImageView = {
+    private lazy var coverImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "star")
         return imageView
@@ -48,17 +48,17 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
 //            addSubview($0)
 //            $0.translatesAutoresizingMaskIntoConstraints = false
 //        }
-        addSubviews(coverImage, titleLabel, placeLabelWithImage, countLabelWithImage)
+        addSubviews(coverImageView, titleLabel, placeLabelWithImage, countLabelWithImage)
         
         NSLayoutConstraint.activate([
-            coverImage.topAnchor.constraint(equalTo: self.topAnchor),
-            coverImage.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            coverImage.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            coverImage.heightAnchor.constraint(equalToConstant: 100)
+            coverImageView.topAnchor.constraint(equalTo: self.topAnchor),
+            coverImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            coverImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            coverImageView.heightAnchor.constraint(equalToConstant: 100)
         ])
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: coverImage.bottomAnchor, constant: 10),
+            titleLabel.topAnchor.constraint(equalTo: coverImageView.bottomAnchor, constant: 10),
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10)
         ])
@@ -82,8 +82,8 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with item: Club) {
-        coverImage.image = UIImage(systemName: "star")
-        coverImage.backgroundColor = .gray
+        coverImageView.image = UIImage(systemName: "star")
+        coverImageView.backgroundColor = .gray
         titleLabel.text = item.clubTitle
         placeLabelWithImage.setLabelText(text: "place")
         let participantsCount = item.participants?.count ?? 0
