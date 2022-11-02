@@ -30,7 +30,11 @@ final class FirebaseManager {
     func requestUserInformation(with vfUser: VFUser) {
         
         do {
-            let user = VFUser(userID: vfUser.userID, userName: vfUser.userName, imageURL: vfUser.imageURL, participatedChats: vfUser.participatedChats, participatedClubs: vfUser.participatedClubs)
+            let user = VFUser(userID: vfUser.userID,
+                              userName: vfUser.userName,
+                              imageURL: vfUser.imageURL,
+                              participatedChats: vfUser.participatedChats,
+                              participatedClubs: vfUser.participatedClubs)
             try db.collection(Path.user.rawValue).document(user.userID).setData(from: user)
         } catch {
             print(error.localizedDescription)
@@ -65,10 +69,24 @@ extension FirebaseManager {
             let docChat = db.collection(Path.chat.rawValue).document()
             let docClub = db.collection(Path.club.rawValue).document()
             
-            let participant = Participant(userID: user.userID, name: user.userName, imageURL: user.imageURL)
-            let addedClub = Club(clubID: docClub.documentID, chatID: docChat.documentID, clubTitle: club.clubTitle, clubCategory: club.clubCategory, hostID: user.userID, participants: [participant], createdAt: club.createdAt, maxNumberOfPeople: club.maxNumberOfPeople)
+            let participant = Participant(userID: user.userID,
+                                          name: user.userName,
+                                          imageURL: user.imageURL)
+            let addedClub = Club(clubID: docClub.documentID,
+                                 chatID: docChat.documentID,
+                                 clubTitle: club.clubTitle,
+                                 clubCategory: club.clubCategory,
+                                 hostID: user.userID,
+                                 participants: [participant],
+                                 createdAt: club.createdAt,
+                                 maxNumberOfPeople: club.maxNumberOfPeople)
             
-            let addedChat = Chat(chatRoomID: docChat.documentID, clubID: docClub.documentID, chatRoomName: chat.chatRoomName, participants: [participant], messages: nil, coverImageURL: chat.coverImageURL)
+            let addedChat = Chat(chatRoomID: docChat.documentID,
+                                 clubID: docClub.documentID,
+                                 chatRoomName: chat.chatRoomName,
+                                 participants: [participant],
+                                 messages: nil,
+                                 coverImageURL: chat.coverImageURL)
             
             try docClub.setData(from: addedClub)
             try docChat.setData(from: addedChat)
@@ -87,7 +105,6 @@ extension FirebaseManager {
             let encodedParticipatedClub = try Firestore.Encoder().encode(participatedClub)
             let encodedParticipatedChat = try Firestore.Encoder().encode(participatedChatRoom)
             doc.updateData(["participatedClub": FieldValue.arrayUnion([encodedParticipatedClub]), "participatedChat": FieldValue.arrayUnion([encodedParticipatedChat])])
-            
         } catch {
             print(error.localizedDescription)
         }

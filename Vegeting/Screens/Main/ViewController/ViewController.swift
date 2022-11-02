@@ -25,7 +25,6 @@ class ViewController: UIViewController {
         Task {
             user = await FirebaseManager.shared.requestUser()
         }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
