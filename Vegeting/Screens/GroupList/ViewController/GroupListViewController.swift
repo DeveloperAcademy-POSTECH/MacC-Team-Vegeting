@@ -18,6 +18,33 @@ class GroupListViewController: UIViewController {
     
     private let participants = Participant.mockData
     
+    private lazy var customNavigationBar: UIStackView = {
+        let hStackView = UIStackView()
+        hStackView.setHorizontalStack()
+        hStackView.backgroundColor = .yellow
+        hStackView.spacing = 8
+        return hStackView
+    }()
+    
+    private lazy var navigationTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "모집 중인 모임"
+        label.font = .systemFont(ofSize: 22, weight: .semibold)
+        return label
+    }()
+    
+    private lazy var searchButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        return button
+    }()
+    
+    private lazy var addClubButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
+        return button
+    }()
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -32,6 +59,7 @@ class GroupListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setCustomNavigationBar()
         configureCollectionView()
         configureUI()
         setupLayout()
@@ -46,11 +74,22 @@ class GroupListViewController: UIViewController {
         view.backgroundColor = .systemBackground
     }
     
+    private func setCustomNavigationBar() {
+        customNavigationBar.addArrangedSubviews(navigationTitleLabel, searchButton, addClubButton)
+    }
+    
     private func setupLayout() {
-        view.addSubviews(collectionView)
+        view.addSubviews(customNavigationBar, collectionView)
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            customNavigationBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            customNavigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            customNavigationBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            customNavigationBar.heightAnchor.constraint(equalToConstant: 50)
+        ])
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: customNavigationBar.bottomAnchor, constant: 20),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
