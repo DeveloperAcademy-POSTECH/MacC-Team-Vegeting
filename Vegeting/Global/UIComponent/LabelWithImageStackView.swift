@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LabelWithImage: UIStackView {
+class LabelWithImageStackView: UIStackView {
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "pin")
