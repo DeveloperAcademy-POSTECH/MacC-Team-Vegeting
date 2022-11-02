@@ -21,14 +21,14 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var placeLabelWithImage: LabelWithImage = {
-        let placeLabel = LabelWithImage()
+    private lazy var placeLabelWithImage: LabelWithImageStackView = {
+        let placeLabel = LabelWithImageStackView()
         placeLabel.setCoverImage(image: UIImage(systemName: "pin") ?? UIImage())
         return placeLabel
     }()
     
-    private lazy var countLabelWithImage: LabelWithImage = {
-        let countLabel = LabelWithImage()
+    private lazy var countLabelWithImage: LabelWithImageStackView = {
+        let countLabel = LabelWithImageStackView()
         countLabel.setCoverImage(image: UIImage(systemName: "person") ?? UIImage())
         return countLabel
     }()
@@ -44,10 +44,11 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupLayout() {
-        [coverImage, titleLabel, placeLabelWithImage, countLabelWithImage].forEach {
-            addSubview($0)
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
+//        [coverImage, titleLabel, placeLabelWithImage, countLabelWithImage].forEach {
+//            addSubview($0)
+//            $0.translatesAutoresizingMaskIntoConstraints = false
+//        }
+        addSubviews(coverImage, titleLabel, placeLabelWithImage, countLabelWithImage)
         
         NSLayoutConstraint.activate([
             coverImage.topAnchor.constraint(equalTo: self.topAnchor),
