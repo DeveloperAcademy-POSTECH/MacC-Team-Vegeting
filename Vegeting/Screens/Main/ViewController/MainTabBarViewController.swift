@@ -8,29 +8,50 @@
 import UIKit
 
 class MainTabBarViewController: UITabBarController {
+    
+    private let findClubTab: UINavigationController = {
+        let controller = UINavigationController(rootViewController: ViewController()) //TODO: 모임 찾기 뷰로 연결
+        controller.tabBarItem.image = UIImage(systemName: "person.3.fill")
+        controller.title = "모임 찾기"
+        return controller
+    }()
+    
+    private let findFriendTab: UINavigationController = {
+        let controller = UINavigationController(rootViewController: ViewController()) //TODO: 친구 찾기 뷰로 연결
+        controller.tabBarItem.image = UIImage(systemName: "map")
+        controller.title = "친구 찾기"
+        return controller
+    }()
+    
+    private let chattingTab: UINavigationController = {
+        let controller = UINavigationController(rootViewController: ViewController()) //TODO: 채팅 뷰로 연결
+        controller.tabBarItem.image = UIImage(systemName: "message")
+        controller.title = "채팅"
+        return controller
+    }()
+    
+    private let myPageTab: UINavigationController = {
+        let controller = UINavigationController(rootViewController: ViewController()) //TODO: 마이페이지 뷰로 연결
+        controller.tabBarItem.image = UIImage(systemName: "person")
+        controller.title = "마이페이지"
+        return controller
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
-
-        let findClubTab = UINavigationController(rootViewController: ViewController()) //TODO: 모임 찾기 뷰로 연결
-        let findFriendTab = UINavigationController(rootViewController: ViewController()) //TODO: 친구 찾기 뷰로 연결
-        let chattingTab = UINavigationController(rootViewController: ViewController()) //TODO: 채팅 뷰로 연결
-        let myPageTab = UINavigationController(rootViewController: ViewController()) //TODO: 마이페이지 뷰로 연결
-        
-        findClubTab.tabBarItem.image = UIImage(systemName: "person.3.fill")
-        findFriendTab.tabBarItem.image = UIImage(systemName: "map")
-        chattingTab.tabBarItem.image = UIImage(systemName: "message")
-        myPageTab.tabBarItem.image = UIImage(systemName: "person")
-        
-        findClubTab.title = "모임 찾기"
-        findFriendTab.title = "친구 찾기"
-        chattingTab.title = "채팅"
-        myPageTab.title = "마이페이지"
-        
-        tabBar.tintColor = .label
+        configureTabBar()
+        configureUI()
         
         setViewControllers([findClubTab, findFriendTab, chattingTab, myPageTab], animated: true)
     }
+    
+    func configureTabBar() {
+        tabBar.tintColor = .label
+    }
+    
+    func configureUI() {
+        view.backgroundColor = .white
+    }
+    
 }
