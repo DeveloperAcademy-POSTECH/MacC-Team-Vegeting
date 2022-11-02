@@ -11,12 +11,20 @@ class ChatRoomTableViewCell: UITableViewCell {
     
     private let roomImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "coverImage")
+        imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = imageView.bounds.height / 2
         return imageView
     }()
     
-    private let centerLabelStackView: UIStackView = {
+    private let contentStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.spacing = 27
+        return stackView
+    }()
+    
+    private let leftContentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
@@ -26,7 +34,8 @@ class ChatRoomTableViewCell: UITableViewCell {
     
     private let titleStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.setHorizontalStack()
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
         stackView.spacing = 7
         return stackView
     }()
@@ -43,17 +52,20 @@ class ChatRoomTableViewCell: UITableViewCell {
         return label
     }()
     
+    private let paddingView: UIView = UIView()
+    
     private let latestChatLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .regular))
         return label
     }()
     
-    private let rightLabelStackView: UIStackView = {
-       let stackView = UIStackView()
+    private let rightContentStackView: UIStackView = {
+        let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 2
         stackView.distribution = .equalSpacing
+        stackView.alignment = .trailing
         return stackView
     }()
     
@@ -79,8 +91,7 @@ class ChatRoomTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        
+        setupLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -92,26 +103,24 @@ class ChatRoomTableViewCell: UITableViewCell {
     }
     
     private func setupLayout() {
-        addSubviews(roomImageView,
-                    centerLabelStackView,
-                    rightLabelStackView)
-        
-        roomImageView.constraint(leading: self.leadingAnchor,
-                                 centerY: self.centerYAnchor)
+        contentView.addSubviews(roomImageView,
+                                contentStackView)
+        roomImageView.constraint(top: contentView.topAnchor,
+                                 leading: contentView.leadingAnchor,
+                                 bottom: contentView.bottomAnchor,
+                                 padding: UIEdgeInsets(top: 14, left: 20, bottom: 14, right: 0))
         roomImageView.constraint(.widthAnchor, constant: 70)
         roomImageView.constraint(.heightAnchor, constant: 70)
         
-        centerLabelStackView.addArrangedSubviews(titleStackView, latestChatLabel)
-        centerLabelStackView.constraint(leading: roomImageView.trailingAnchor,
-                                        trailing: rightLabelStackView.leadingAnchor,
-                                        centerY: self.centerYAnchor,
-                                        padding: UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 24))
+        contentStackView.addArrangedSubviews(leftContentStackView, rightContentStackView)
+        contentStackView.constraint(leading: roomImageView.trailingAnchor,
+                                 trailing: contentView.trailingAnchor,
+                                 centerY: contentView.centerYAnchor,
+                                 padding: UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 20))
         
-        rightLabelStackView.addArrangedSubviews(backgroundUnreadChatView, latestChatDateLabel)
-        
-        rightLabelStackView.constraint(trailing: self.trailingAnchor,
-                                       centerY: self.centerYAnchor)
-        rightLabelStackView.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        leftContentStackView.addArrangedSubviews(titleStackView, latestChatLabel)
+        titleStackView.addArrangedSubviews(titleLabel, currentUserCountLabel, paddingView)
+        rightContentStackView.addArrangedSubviews(backgroundUnreadChatView, latestChatDateLabel)
         
         backgroundUnreadChatView.constraint(.widthAnchor, constant: 22)
         backgroundUnreadChatView.constraint(.heightAnchor, constant: 22)
@@ -119,6 +128,17 @@ class ChatRoomTableViewCell: UITableViewCell {
         backgroundUnreadChatView.addSubview(unreadChatCountLabel)
         unreadChatCountLabel.constraint(centerX: backgroundUnreadChatView.centerXAnchor,
                                         centerY: backgroundUnreadChatView.centerYAnchor)
+        
+        latestChatDateLabel.setContentCompressionResistancePriority(.init(rawValue: 751), for: .horizontal)
+    }
+    
+    func configure(with data: TempChatModel) {
+        roomImageView.image = UIImage(named: data.imageName)
+        titleLabel.text = data.title
+        currentUserCountLabel.text = data.currentNumer.description
+        latestChatLabel.text = data.latestChat
+        latestChatDateLabel.text = data.latestChatDate.toString(format: "mm:SS")
+        unreadChatCountLabel.text = data.unreadChatCount.description
     }
     
 }
