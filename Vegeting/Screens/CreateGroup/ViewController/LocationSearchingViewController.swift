@@ -65,7 +65,7 @@ final class LocationSearchingViewController: UIViewController {
         let backButton = UIBarButtonItem(image: ImageLiteral.backwardChevronSymbol,
                                          style: .plain,
                                          target: self,
-                                         action: #selector(touchUpAddButton))
+                                         action: #selector(touchUpToPop))
         navigationItem.leftBarButtonItem = backButton
         
         let searchController = UISearchController(searchResultsController: nil)
@@ -109,7 +109,7 @@ final class LocationSearchingViewController: UIViewController {
     }
     
     @objc
-    private func touchUpAddButton() {
+    private func touchUpToPop() {
         self.navigationController?.popViewController(animated: true)
     }
     
