@@ -6,12 +6,12 @@
 //
 
 import Foundation
-
 import FirebaseFirestoreSwift
 
 struct VFUser: Identifiable, Codable {
     @DocumentID var id: String?
     let userID: String
+    let userName: String
     let imageURL: String?
     let participatedChats: [ParticipatedChatRoom]?
     let participatedClubs: [ParticipatedClub]?

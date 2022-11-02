@@ -43,7 +43,7 @@ class GroupListViewController: UIViewController {
     }
     
     private func configureUI() {
-        view.backgroundColor = .backgroundColor
+        view.backgroundColor = .systemBackground
     }
     
     private func setupLayout() {

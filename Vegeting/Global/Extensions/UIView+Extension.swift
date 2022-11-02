@@ -20,8 +20,9 @@ extension UIView {
         return self
     }
     
-    func addSubviews (_ views: UIView...) {
+    func addSubviews(_ views: UIView...) {
         views.forEach { [weak self] view in
+            view.translatesAutoresizingMaskIntoConstraints = false
             self?.addSubview(view)
             view.translatesAutoresizingMaskIntoConstraints = false
         }
