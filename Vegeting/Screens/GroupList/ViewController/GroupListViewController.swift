@@ -21,8 +21,6 @@ class GroupListViewController: UIViewController {
     private lazy var customNavigationBar: UIStackView = {
         let hStackView = UIStackView()
         hStackView.setHorizontalStack()
-        hStackView.backgroundColor = .yellow
-        hStackView.spacing = 8
         return hStackView
     }()
     
@@ -35,13 +33,17 @@ class GroupListViewController: UIViewController {
     
     private lazy var searchButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "magnifyingglass"), for: .normal)
+        let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 22, weight: .regular)
+        button.setImage(UIImage(systemName: "magnifyingglass", withConfiguration: imageConfig), for: .normal)
+        button.tintColor = .black
         return button
     }()
     
     private lazy var addClubButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
+        let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 22, weight: .regular)
+        button.setImage(UIImage(systemName: "square.and.pencil", withConfiguration: imageConfig), for: .normal)
+        button.tintColor = .black
         return button
     }()
     
@@ -75,7 +77,11 @@ class GroupListViewController: UIViewController {
     }
     
     private func setCustomNavigationBar() {
-        customNavigationBar.addArrangedSubviews(navigationTitleLabel, searchButton, addClubButton)
+        let rightButtonStackView = UIStackView()
+        rightButtonStackView.setHorizontalStack()
+        rightButtonStackView.spacing = 15
+        rightButtonStackView.addArrangedSubviews(searchButton, addClubButton)
+        customNavigationBar.addArrangedSubviews(navigationTitleLabel, rightButtonStackView)
     }
     
     private func setupLayout() {
@@ -89,7 +95,7 @@ class GroupListViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: customNavigationBar.bottomAnchor, constant: 20),
+            collectionView.topAnchor.constraint(equalTo: customNavigationBar.bottomAnchor, constant: 10),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
