@@ -36,6 +36,7 @@ final class LocationSearchingViewController: UIViewController {
             self.resultTableView.reloadData()
         }
     }
+    
     private var placeResultList: [Place] = [] {
         didSet {
             if placeResultList != oldValue {
@@ -156,7 +157,6 @@ final class LocationSearchingViewController: UIViewController {
                 }
                 self.addressResultList = list
                 
-                
             case .failure(let error):
                 print(error)
             }
@@ -255,6 +255,11 @@ extension LocationSearchingViewController: UITableViewDelegate {
 
 extension LocationSearchingViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        if searchText.isEmpty {
+            autoSearchResults.removeAll()
+        }
+        
         Task {
             await requestAddress(keyword: searchText)
             await requestPlace(keyword: searchText)
@@ -275,7 +280,10 @@ extension LocationSearchingViewController: UISearchControllerDelegate {
 extension LocationSearchingViewController: MKLocalSearchCompleterDelegate {
     
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        autoSearchResults = completer.results
+        let isResultNotEmpty = !completer.results.isEmpty
+        if isResultNotEmpty {
+            autoSearchResults = completer.results
+        }
         resultTableView.reloadData()
     }
     
