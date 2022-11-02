@@ -17,12 +17,12 @@ class SignInViewController: UIViewController {
         return imageView
     }()
     
-    lazy private var appleSignInButton: ASAuthorizationAppleIDButton = {
+    private lazy var appleSignInButton: ASAuthorizationAppleIDButton = {
         let button = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
         return button
     }()
     
-    lazy private var kakaoSignInButton: UIButton = {
+    private lazy var kakaoSignInButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "kakao_login_large_wide"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
@@ -32,17 +32,11 @@ class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
         setupLayout()
         configureUI()
     }
     
     private func setupLayout() {
-        view.addSubviews(appleSignInButton, kakaoSignInButton, brandingImageView)
-    }
-    
-    private func configureUI() {
-        
         let brandingImageViewConstraints = [
             brandingImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             brandingImageView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
@@ -63,6 +57,11 @@ class SignInViewController: UIViewController {
         ]
         
         constraintsActivate(kakaoSignInButtonConstriants, appleSignInButtonConstraints,brandingImageViewConstraints)
+    }
+    
+    private func configureUI() {
+        view.backgroundColor = .systemBackground
+        view.addSubviews(appleSignInButton, kakaoSignInButton, brandingImageView)
     }
     
 }
