@@ -33,7 +33,9 @@ final class LocationSearchingViewController: UIViewController {
     
     private var addressResultList: [Address] = [] {
         didSet {
-            self.resultTableView.reloadData()
+            DispatchQueue.main.async { [weak self] in
+                self?.resultTableView.reloadData()
+            }
         }
     }
     private var placeResultList: [Place] = [] {
