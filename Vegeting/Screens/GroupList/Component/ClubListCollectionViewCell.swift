@@ -23,13 +23,13 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     
     private lazy var placeLabelWithImage: LabelWithImage = {
         let placeLabel = LabelWithImage()
-        placeLabel.imageName = "pin"
+        placeLabel.setCoverImage(image: UIImage(systemName: "pin") ?? UIImage())
         return placeLabel
     }()
     
     private lazy var countLabelWithImage: LabelWithImage = {
         let countLabel = LabelWithImage()
-        countLabel.imageName = "person"
+        countLabel.setCoverImage(image: UIImage(systemName: "person") ?? UIImage())
         return countLabel
     }()
     
@@ -84,8 +84,8 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
         coverImage.image = UIImage(systemName: "star")
         coverImage.backgroundColor = .gray
         titleLabel.text = item.clubTitle
-        placeLabelWithImage.labelText = "place"
+        placeLabelWithImage.setLabelText(text: "place")
         let participantsCount = item.participants?.count ?? 0
-        countLabelWithImage.labelText = "\(participantsCount)/\(item.maxNumberOfPeople)"
+        countLabelWithImage.setLabelText(text: "\(participantsCount)/\(item.maxNumberOfPeople)")
     }
 }

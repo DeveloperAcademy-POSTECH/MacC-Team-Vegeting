@@ -8,14 +8,6 @@
 import UIKit
 
 class LabelWithImage: UIStackView {
-    var imageName: String? {
-        didSet { setCoverImage() }
-    }
-    
-    var labelText: String? {
-        didSet { setLabelText() }
-    }
-    
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "pin")
@@ -52,11 +44,11 @@ class LabelWithImage: UIStackView {
         }
     }
     
-    private func setCoverImage() {
-        imageView.image = UIImage(systemName: imageName ?? "pin")?.resize(to: CGSize(width: 15, height: 15)) ?? UIImage()
+    func setCoverImage(image: UIImage) {
+        imageView.image = image
     }
     
-    private func setLabelText() {
-        label.text = labelText
+    func setLabelText(text: String) {
+        label.text = text
     }
 }
