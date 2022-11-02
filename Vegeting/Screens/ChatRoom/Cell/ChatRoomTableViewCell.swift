@@ -12,7 +12,7 @@ class ChatRoomTableViewCell: UITableViewCell {
     private let roomImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = true
-        imageView.layer.cornerRadius = imageView.bounds.height / 2
+        imageView.layer.bounds.size = .init(width: 70, height: 70)
         return imageView
     }()
     
@@ -85,13 +85,14 @@ class ChatRoomTableViewCell: UITableViewCell {
         let view = UIView()
         view.layer.masksToBounds = true
         view.backgroundColor = .systemGray5
-        view.layer.cornerRadius = view.bounds.height / 2
+        view.layer.bounds.size = .init(width: 22, height: 22)
         return view
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupLayout()
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
@@ -141,4 +142,8 @@ class ChatRoomTableViewCell: UITableViewCell {
         unreadChatCountLabel.text = data.unreadChatCount.description
     }
     
+    func configureUI() {
+        roomImageView.layer.cornerRadius = roomImageView.bounds.size.height / 2
+        backgroundUnreadChatView.layer.cornerRadius = backgroundUnreadChatView.bounds.size.height / 2
+    }
 }

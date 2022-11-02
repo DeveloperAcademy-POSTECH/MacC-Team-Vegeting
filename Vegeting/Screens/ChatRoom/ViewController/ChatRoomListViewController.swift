@@ -19,6 +19,8 @@ struct TempChatModel {
 
 class ChatRoomListViewController: UIViewController {
     
+    // MARK: - properties
+    
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(ChatRoomTableViewCell.self, forCellReuseIdentifier: ChatRoomTableViewCell.className)
@@ -28,11 +30,15 @@ class ChatRoomListViewController: UIViewController {
     
     private let chatList: [TempChatModel] = [TempChatModel(), TempChatModel(), TempChatModel(), TempChatModel()]
 
+    // MARK: - lifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureTalbeView()
+        configureTableView()
         setupLayout()
     }
+    
+    // MARK: - func
     
     private func setupLayout() {
         view.addSubview(tableView)
@@ -42,11 +48,10 @@ class ChatRoomListViewController: UIViewController {
                              trailing: view.trailingAnchor)
     }
     
-    private func configureTalbeView() {
+    private func configureTableView() {
         tableView.dataSource = self
-//        tableView.delegate = self
     }
-    
+
 }
 
 extension ChatRoomListViewController: UITableViewDataSource {
@@ -63,9 +68,3 @@ extension ChatRoomListViewController: UITableViewDataSource {
     }
     
 }
-//
-//extension ChatRoomListViewController: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-////        return 98
-//    }
-//}
