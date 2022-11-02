@@ -28,7 +28,6 @@ final class FirebaseManager {
     /// 파이어베이스 스토어에 User정보 등록하는 함수
     /// - Parameter vfUser: vfUser로 넘어옴
     func requestUserInformation(with vfUser: VFUser) {
-        
         do {
             let user = VFUser(userID: vfUser.userID, userName: vfUser.userName, imageURL: vfUser.imageURL, participatedChats: vfUser.participatedChats, participatedClubs: vfUser.participatedClubs)
             try db.collection(Path.user.rawValue).document(user.userID).setData(from: user)
@@ -40,14 +39,12 @@ final class FirebaseManager {
     /// 클럽 정보 받아오기
     /// - Returns: 모든 클럽 정보가 나타난다.
     func requestClubInformation() async -> [Club]? {
-        
         do {
             let documents = try await db.collection(Path.club.rawValue).getDocuments()
             let data = documents.documents.compactMap { snapshot in
                 try? snapshot.data(as: Club.self)
             }
             return data
-            
         } catch {
             print(error.localizedDescription)
             return nil
