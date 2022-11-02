@@ -11,7 +11,7 @@ class SearchedLocationResultTableViewCell: UITableViewCell {
     
     // MARK: - properties
     
-    let locationLabel: UILabel = {
+    private let locationLabel: UILabel = {
         let label = UILabel()
         return label
     }()
@@ -25,7 +25,6 @@ class SearchedLocationResultTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-//        setupLayoutForAddress()
     }
     
     required init?(coder: NSCoder) {
@@ -36,7 +35,6 @@ class SearchedLocationResultTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
     }
     
     override func prepareForReuse() {

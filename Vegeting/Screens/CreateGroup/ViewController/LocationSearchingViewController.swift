@@ -6,6 +6,7 @@
 //
 
 import UIKit
+
 import Alamofire
 import SwiftyJSON
 
@@ -19,6 +20,7 @@ final class LocationSearchingViewController: UIViewController {
     
     private let resultTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
+        tableView.showsVerticalScrollIndicator = false
         tableView.register(SearchedLocationResultTableViewCell.self, forCellReuseIdentifier: SearchedLocationResultTableViewCell.className)
         return tableView
     }()
@@ -31,14 +33,18 @@ final class LocationSearchingViewController: UIViewController {
     
     private var addressResultList: [Address] = [] {
         didSet {
-            self.resultTableView.reloadData()
+            DispatchQueue.main.async { [weak self] in
+                self?.resultTableView.reloadData()
+            }
         }
     }
     private var placeResultList: [Place] = [] {
         didSet {
             if placeResultList != oldValue {
-                self.resultTableView.reloadData()
-                checkEmptyResultState()
+                DispatchQueue.main.async { [weak self] in
+                    self?.resultTableView.reloadData()
+                    self?.checkEmptyResultState()
+                }
             }
         }
     }
@@ -61,7 +67,7 @@ final class LocationSearchingViewController: UIViewController {
         let backButton = UIBarButtonItem(image: ImageLiteral.backwardChevronSymbol,
                                          style: .plain,
                                          target: self,
-                                         action: #selector(touchUpAddButton))
+                                         action: #selector(touchUpToPop))
         navigationItem.leftBarButtonItem = backButton
         
         let searchController = UISearchController(searchResultsController: nil)
@@ -108,7 +114,7 @@ final class LocationSearchingViewController: UIViewController {
     }
     
     @objc
-    private func touchUpAddButton() {
+    private func touchUpToPop() {
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -184,7 +190,9 @@ final class LocationSearchingViewController: UIViewController {
                     }
                 }
                 self.placeResultList = list
-                self.resultTableView.reloadData()
+                DispatchQueue.main.async { [weak self] in
+                    self?.resultTableView.reloadData()
+                }
                 
             case .failure(let error):
                 print(error)
