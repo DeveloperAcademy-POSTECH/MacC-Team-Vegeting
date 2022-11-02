@@ -35,7 +35,9 @@ class ChatRoomListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
+        setupNavigationBar()
         setupLayout()
+        configureUI()
     }
     
     // MARK: - func
@@ -51,7 +53,19 @@ class ChatRoomListViewController: UIViewController {
     private func configureTableView() {
         tableView.dataSource = self
     }
-
+    
+    private func setupNavigationBar() {
+        let navigationTitleLabel = UILabel()
+        navigationTitleLabel.text = "내가 참여한 모임"
+        navigationTitleLabel.font = .preferredFont(forTextStyle: .title2,
+                                              compatibleWith: .init(legibilityWeight: .bold))
+        let leftBarButtonItem = UIBarButtonItem(customView: navigationTitleLabel)
+        navigationItem.leftBarButtonItem = leftBarButtonItem
+    }
+    
+    private func configureUI() {
+        view.backgroundColor = .white
+    }
 }
 
 extension ChatRoomListViewController: UITableViewDataSource {
