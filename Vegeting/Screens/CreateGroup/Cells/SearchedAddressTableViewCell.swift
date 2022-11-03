@@ -11,7 +11,7 @@ class SearchedLocationResultTableViewCell: UITableViewCell {
     
     // MARK: - properties
     
-    let locationLabel: UILabel = {
+    private let locationLabel: UILabel = {
         let label = UILabel()
         return label
     }()
