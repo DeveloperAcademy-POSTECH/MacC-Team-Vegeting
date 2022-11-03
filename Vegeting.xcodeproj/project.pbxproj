@@ -26,6 +26,7 @@
 		4AFA58AF29050B5C00679142 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA58AE29050B5C00679142 /* String+Extension.swift */; };
 		4AFA58B2290526C300679142 /* NumberOfGroupPeopleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA58B1290526C300679142 /* NumberOfGroupPeopleView.swift */; };
 		4AFA58B52905280F00679142 /* NumberOfPeopleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA58B42905280F00679142 /* NumberOfPeopleCollectionViewCell.swift */; };
+		7628CC792913DEAE00CDA679 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7628CC782913DEAE00CDA679 /* AuthManager.swift */; };
 		7645E74A290700E5009E2E3B /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E749290700E5009E2E3B /* SignInViewController.swift */; };
 		7645E7512907031D009E2E3B /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E7502907031D009E2E3B /* SignInViewModel.swift */; };
 		7645E75729070FC6009E2E3B /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E75629070FC6009E2E3B /* FirebaseManager.swift */; };
@@ -87,6 +88,8 @@
 		4AFA58AE29050B5C00679142 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		4AFA58B1290526C300679142 /* NumberOfGroupPeopleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfGroupPeopleView.swift; sourceTree = "<group>"; };
 		4AFA58B42905280F00679142 /* NumberOfPeopleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfPeopleCollectionViewCell.swift; sourceTree = "<group>"; };
+		7628CC772913DB5F00CDA679 /* Vegeting.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vegeting.entitlements; sourceTree = "<group>"; };
+		7628CC782913DEAE00CDA679 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		7645E749290700E5009E2E3B /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		7645E7502907031D009E2E3B /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		7645E75629070FC6009E2E3B /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
@@ -337,6 +340,7 @@
 			isa = PBXGroup;
 			children = (
 				7645E75629070FC6009E2E3B /* FirebaseManager.swift */,
+				7628CC782913DEAE00CDA679 /* AuthManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -398,6 +402,7 @@
 		A7C8DF222901274500F38AD7 /* Vegeting */ = {
 			isa = PBXGroup;
 			children = (
+				7628CC772913DB5F00CDA679 /* Vegeting.entitlements */,
 				4ADC12D229017A3B00C0FFB6 /* Global */,
 				4ADC12DA29017B9E00C0FFB6 /* Screens */,
 			);
@@ -557,6 +562,7 @@
 				4ADC12E72901818900C0FFB6 /* UIStackView+Extention.swift in Sources */,
 				76B02839290526AF002C9DF7 /* Club.swift in Sources */,
 				7645E75729070FC6009E2E3B /* FirebaseManager.swift in Sources */,
+				7628CC792913DEAE00CDA679 /* AuthManager.swift in Sources */,
 				4ADC12DD2901800D00C0FFB6 /* UIColor+Extension.swift in Sources */,
 				A215B29C2906DB6400DD60B2 /* PhotoPickerView.swift in Sources */,
 				4AFA58AD29050B3800679142 /* Date+Extension.swift in Sources */,
@@ -744,6 +750,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Vegeting/Vegeting.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -778,6 +785,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Vegeting/Vegeting.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
