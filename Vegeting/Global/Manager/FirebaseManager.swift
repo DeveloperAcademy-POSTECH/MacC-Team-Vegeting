@@ -9,6 +9,8 @@ import Combine
 import Foundation
 
 import Firebase
+import FirebaseFirestore
+import FirebaseFirestoreCombineSwift
 import FirebaseAuthCombineSwift
 
 final class FirebaseManager {
@@ -96,4 +98,14 @@ extension FirebaseManager {
                 return nil
             }
         }
+    
+    func isUserAlreadyExisted(user: User) -> AnyPublisher<Bool, Error> {
+        return db.collection(Path.user.rawValue).document(user.uid).getDocument()
+            .catch { error in
+                return Fail(error: error)
+                    .eraseToAnyPublisher()
+            } .map(\.exists)
+            .eraseToAnyPublisher()
+        
+    }
 }
