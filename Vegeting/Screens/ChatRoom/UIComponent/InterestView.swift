@@ -42,7 +42,7 @@ class InterestView: UIView {
     private func setupLayout() {
         addSubview(interestCollectionView)
         interestCollectionView.constraint(to: self)
-        interestCollectionView.constraint(.heightAnchor, constant: 60)
+        interestCollectionView.constraint(.heightAnchor, constant: 34)
     }
     
     private func configureCollectionView() {
