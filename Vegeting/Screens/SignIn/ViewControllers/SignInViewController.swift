@@ -6,10 +6,12 @@
 //
 
 import AuthenticationServices
+import Combine
+import CryptoKit
 import UIKit
 
 class SignInViewController: UIViewController {
-
+    
     private let brandingImageView: UIImageView = {
         
         let imageView = UIImageView()
@@ -29,12 +31,43 @@ class SignInViewController: UIViewController {
         return button
     }()
     
+    private var viewModel = SignInViewModel()
+    private let input: PassthroughSubject<SignInViewModel.Input, Never> = .init()
+    private var cancellables = Set<AnyCancellable>()
+    
+    private var currentNonce: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+//        Layout 설정 및 UI 컴포넌트 구성
         setupLayout()
         configureUI()
+        
+        bind()
     }
+    
+    private func bind() {
+        let output = viewModel.transform(input: input.eraseToAnyPublisher())
+        
+        output.sink { [weak self] event in
+            switch event {
+            case .isFirstSignIn:
+                let navigationController = UINavigationController(rootViewController: FirstCreateGroupViewController())
+                self?.navigationController?.pushViewController(navigationController, animated: true)
+            case .isSignInFailed(let error):
+                print(error.localizedDescription)
+            case .isAlreadySignIn:
+                self?.navigationController?.dismiss(animated: true)
+            }
+        }.store(in: &cancellables)
+    }
+    
+}
+
+
+// MARK: Layout 및 UI설정 함수
+extension SignInViewController {
     
     private func setupLayout() {
         let brandingImageViewConstraints = [
