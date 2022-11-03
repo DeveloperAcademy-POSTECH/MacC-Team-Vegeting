@@ -150,7 +150,6 @@ final class LocationSearchingViewController: UIViewController {
                 }
                 self.addressResultList = list
                 
-                
             case .failure(let error):
                 print(error)
             }
