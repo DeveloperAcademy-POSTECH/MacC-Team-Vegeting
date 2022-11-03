@@ -148,7 +148,7 @@ class ChatRoomProfileViewController: UIViewController {
         interestCollectionView.constraint(top: selfIntroductionLabel.bottomAnchor,
                                           leading: view.leadingAnchor,
                                           trailing: view.trailingAnchor,
-                                          padding: UIEdgeInsets(top: 35, left: 30, bottom: 0, right: 30))
+                                          padding: UIEdgeInsets(top: UIScreen().hasNotch ? 35 : 15, left: 30, bottom: 0, right: 30))
         
     }
     
