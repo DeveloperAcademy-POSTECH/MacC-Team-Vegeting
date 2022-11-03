@@ -21,6 +21,7 @@ class SignInViewController: UIViewController {
     
     private lazy var appleSignInButton: ASAuthorizationAppleIDButton = {
         let button = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
+        button.addTarget(self, action: #selector(appleSignInButtonTapped(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -35,14 +36,12 @@ class SignInViewController: UIViewController {
     private let input: PassthroughSubject<SignInViewModel.Input, Never> = .init()
     private var cancellables = Set<AnyCancellable>()
     
-    private var currentNonce: String?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
 //        Layout 설정 및 UI 컴포넌트 구성
-        setupLayout()
         configureUI()
+        setupLayout()
         
         bind()
     }
@@ -63,6 +62,52 @@ class SignInViewController: UIViewController {
         }.store(in: &cancellables)
     }
     
+}
+
+// MARK: apple로 로그인하기 관련 함수
+extension SignInViewController {
+    @objc private func appleSignInButtonTapped(_ sender: Any) {
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+
+        let authrizationController = ASAuthorizationController(authorizationRequests: [request])
+        authrizationController.delegate = self
+        authrizationController.presentationContextProvider = self
+        authrizationController.performRequests()
+    }
+
+
+}
+
+extension SignInViewController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+    
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
+    }
+
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        switch authorization.credential {
+        case let appleIDCredential as ASAuthorizationAppleIDCredential:
+
+            guard let appleIDToken = appleIDCredential.identityToken else {
+                print("Unable to fetch identity token")
+                return
+            }
+            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+                print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+                return
+            }
+            
+            input.send(.appleSignInButtonTapped(tokenID: idTokenString))
+            
+        default:
+            break
+            
+        
+        }
+    }
+
 }
 
 
