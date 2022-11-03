@@ -214,5 +214,4 @@ extension FirstCreateGroupViewController: GroupCategoryViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.showLocationView()
     }
-    
 }
