@@ -10,14 +10,14 @@ import UIKit
 class LabelWithImageStackView: UIStackView {
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.tintColor = .black
+        imageView.tintColor = UIColor(hex: "333333", alpha: 0.7)
         return imageView
     }()
     
     private lazy var label: UILabel = {
         let label = UILabel()
-        label.tintColor = .black
         label.font = .systemFont(ofSize: 13, weight: .regular)
+        label.textColor = UIColor(hex: "333333", alpha: 0.7)
         return label
     }()
     
@@ -34,7 +34,7 @@ class LabelWithImageStackView: UIStackView {
     private func configureUI() {
         axis = .horizontal
         alignment = .center
-        spacing = 5
+        spacing = 2
     }
     
     private func setupLayout() {

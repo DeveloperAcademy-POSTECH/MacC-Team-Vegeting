@@ -126,7 +126,6 @@ extension GroupListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClubListCollectionViewCell.className, for: indexPath) as? ClubListCollectionViewCell else { return UICollectionViewCell() }
         cell.configure(with: clubList[indexPath.item])
-        cell.layer.backgroundColor = UIColor.init(hex: "#e3e3e3").cgColor
         return cell
     }
 }

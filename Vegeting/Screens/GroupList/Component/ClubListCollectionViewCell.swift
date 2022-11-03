@@ -18,6 +18,7 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.numberOfLines = 2
         label.tintColor = .black
+        label.font = .systemFont(ofSize: 16, weight: .regular)
         return label
     }()
     
@@ -48,21 +49,17 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupLayout() {
-//        [coverImage, titleLabel, placeLabelWithImage, countLabelWithImage].forEach {
-//            addSubview($0)
-//            $0.translatesAutoresizingMaskIntoConstraints = false
-//        }
         addSubviews(coverImage, titleLabel, placeLabelWithImage, countLabelWithImage)
         
         NSLayoutConstraint.activate([
             coverImage.topAnchor.constraint(equalTo: self.topAnchor),
             coverImage.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             coverImage.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            coverImage.heightAnchor.constraint(equalToConstant: 90)
+            coverImage.heightAnchor.constraint(equalToConstant: 87)
         ])
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: coverImage.bottomAnchor, constant: 10),
+            titleLabel.topAnchor.constraint(equalTo: coverImage.bottomAnchor, constant: 8),
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10)
         ])
@@ -70,19 +67,20 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             placeLabelWithImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             placeLabelWithImage.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            placeLabelWithImage.bottomAnchor.constraint(equalTo: countLabelWithImage.topAnchor, constant: -10)
+            placeLabelWithImage.bottomAnchor.constraint(equalTo: countLabelWithImage.topAnchor, constant: -7)
         ])
         
         NSLayoutConstraint.activate([
             countLabelWithImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             countLabelWithImage.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            countLabelWithImage.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10)
+            countLabelWithImage.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -9)
         ])
     }
     
     private func configureUI() {
         clipsToBounds = true
         self.layer.cornerRadius = 12
+        backgroundColor = UIColor(hex: "#F4F4F4", alpha: 1)
     }
     
     func configure(with item: Club) {
