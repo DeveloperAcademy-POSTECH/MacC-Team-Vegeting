@@ -21,9 +21,10 @@ class ChatRoomProfileViewController: UIViewController {
     
     // MARK: - properties
     
-    private let reportButton: UIButton = {
+    private lazy var reportButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "verticalEllipsis"), for: .normal)
+        button.addTarget(self, action: #selector(showActionSheet), for: .touchUpInside)
         return button
     }()
     
@@ -126,11 +127,13 @@ class ChatRoomProfileViewController: UIViewController {
         
         reportButton.constraint(top: view.topAnchor,
                                 trailing: view.trailingAnchor,
-                                padding: UIEdgeInsets(top: 30, left: 0, bottom: 0, right: 24))
+                                padding: UIEdgeInsets(top: 25, left: 0, bottom: 0, right: 24))
+        reportButton.constraint(.widthAnchor, constant: 30)
+        reportButton.constraint(.heightAnchor, constant: 30)
         
         profileImageView.constraint(top: reportButton.bottomAnchor,
                                     leading: view.leadingAnchor,
-                                    padding: UIEdgeInsets(top: 10, left: 30, bottom: 0, right: 0))
+                                    padding: UIEdgeInsets(top: 5, left: 30, bottom: 0, right: 0))
         profileImageView.constraint(.widthAnchor, constant: 103)
         profileImageView.constraint(.heightAnchor, constant: 103)
         
@@ -166,6 +169,30 @@ class ChatRoomProfileViewController: UIViewController {
         view.backgroundColor = .white
         profileImageView.layer.cornerRadius = profileImageView.bounds.size.height / 2
         print(profileImageView.bounds.size.height / 2)
+    }
+    
+    @objc
+    private func showActionSheet() {
+        print("하하이")
+        let alert = UIAlertController(title: .none, message: .none, preferredStyle: .actionSheet)
+        
+        let reportAction = UIAlertAction(title: "게시글 신고", style: .default) { action in
+            //
+        }
+        
+        let userBlockAction = UIAlertAction(title: "작성자 차단", style: .default) { action in
+            //
+        }
+        
+        let cancelAlertAction = UIAlertAction(title: "취소", style: .cancel) { action in
+            //
+        }
+        
+        [reportAction, userBlockAction, cancelAlertAction].forEach { action in
+            alert.addAction(action)
+        }
+        
+        present(alert, animated: true, completion: nil)
     }
     
     func configure(with data: ModalModel) {
