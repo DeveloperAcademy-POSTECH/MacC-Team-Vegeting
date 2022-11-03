@@ -31,6 +31,17 @@ final class UserProfileViewController: UIViewController {
         return imageView
     }()
     
+    private let cameraButton: UIButton = {
+        var image = UIImage(systemName: "camera.fill")
+        
+        let button = UIButton()
+        button.setImage(image, for: .normal)
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 15
+        button.backgroundColor = .black
+        return button
+    }()
+    
     private let nicknameMessageLabel: UILabel = {
         let label = UILabel()
         label.text = "닉네임을 입력해주세요."
@@ -46,7 +57,9 @@ final class UserProfileViewController: UIViewController {
     
     private lazy var nicknameLimitWarningLabel: UILabel = {
         let label = UILabel()
-        
+        label.text = "1자 이상으로 입력해주세요."
+        label.textColor = UIColor(hex: "#FF0000")
+        label.font = .preferredFont(forTextStyle: .subheadline)
         return label
     }()
     
@@ -82,7 +95,7 @@ final class UserProfileViewController: UIViewController {
     
     func configureUI() {
         view.backgroundColor = .white
-        view.addSubviews(progressBarImageView, profileMessageLabel, profileImageView, nicknameMessageLabel, nicknameTextField, nicknameLimitWarningLabel, nextButton)
+        view.addSubviews(progressBarImageView, profileMessageLabel, profileImageView, nicknameMessageLabel, cameraButton, nicknameTextField, nicknameLimitWarningLabel, nextButton)
     }
     
     func setupLayout() {
@@ -107,6 +120,13 @@ final class UserProfileViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
+            cameraButton.topAnchor.constraint(equalTo: profileImageView.topAnchor, constant: 78),
+            cameraButton.leadingAnchor.constraint(equalTo: profileImageView.leadingAnchor, constant: 78),
+            cameraButton.widthAnchor.constraint(equalToConstant: 30),
+            cameraButton.heightAnchor.constraint(equalToConstant: 30)
+        ])
+        
+        NSLayoutConstraint.activate([
             nicknameMessageLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 78),
             nicknameMessageLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 21)
         ])
@@ -119,11 +139,21 @@ final class UserProfileViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
+            nicknameLimitWarningLabel.topAnchor.constraint(equalTo: nicknameTextField.bottomAnchor, constant: 13),
+            nicknameLimitWarningLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
+        ])
+        
+        NSLayoutConstraint.activate([
             nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55),
             nextButton.heightAnchor.constraint(equalToConstant: 50)
         ])
+        
+    }
+    
+    private func presentPicker() {
+        
         
     }
 }
