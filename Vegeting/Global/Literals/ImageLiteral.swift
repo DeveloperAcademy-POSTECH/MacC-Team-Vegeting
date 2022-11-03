@@ -12,7 +12,7 @@ enum ImageLiteral {
     // MARK: - icon
     
     static var icGear: UIImage { .load(name: "icGear") }
-
+    
 }
 
 extension UIImage {
