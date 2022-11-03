@@ -32,13 +32,10 @@ final class UserProfileViewController: UIViewController {
     }()
     
     private let cameraButton: UIButton = {
-        var image = UIImage(systemName: "camera.fill")
-        
         let button = UIButton()
+        var image = UIImage(systemName: "camera.circle.fill")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 31))
         button.setImage(image, for: .normal)
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 15
-        button.backgroundColor = .black
+        button.tintColor = UIColor(hex: "#373737")
         return button
     }()
     
