@@ -40,8 +40,7 @@ final class UserProfileViewController: UIViewController {
     
     private let nicknameTextField: UITextField = {
         let textField = UITextField()
-        textField.borderStyle = .roundedRect
-        textField.backgroundColor = UIColor(hex: "#F2F2F2")
+        textField.borderStyle = .none
         return textField
     }()
     
@@ -57,12 +56,24 @@ final class UserProfileViewController: UIViewController {
         return button
     }()
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        configureTextField()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         configureUI()
         setupLayout()
+    }
+    
+    func configureTextField() {
+        let border = CALayer()
+        border.frame = CGRect(x: 0, y: nicknameTextField.frame.size.height-1, width: nicknameTextField.frame.width, height: 1)
+        border.backgroundColor = UIColor.label.cgColor
+        nicknameTextField.layer.addSublayer(border)
     }
     
     func configureUI() {
@@ -101,6 +112,12 @@ final class UserProfileViewController: UIViewController {
             nicknameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             nicknameTextField.widthAnchor.constraint(equalToConstant: 350),
             nicknameTextField.heightAnchor.constraint(equalToConstant: 50)
+        ])
+        
+        NSLayoutConstraint.activate([
+            nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55)
         ])
         
     }
