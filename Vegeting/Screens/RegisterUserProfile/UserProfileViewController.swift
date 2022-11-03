@@ -52,7 +52,11 @@ final class UserProfileViewController: UIViewController {
     
     private let nextButton: UIButton = {
         let button = UIButton()
-        
+        button.setTitle("다음으로", for: .normal)
+        button.setTitleColor(UIColor.label, for: .normal)
+        button.setBackgroundColor(UIColor(hex: "#FFD243"), for: .normal)
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 8
         return button
     }()
     
@@ -117,7 +121,8 @@ final class UserProfileViewController: UIViewController {
         NSLayoutConstraint.activate([
             nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55)
+            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55),
+            nextButton.heightAnchor.constraint(equalToConstant: 50)
         ])
         
     }
