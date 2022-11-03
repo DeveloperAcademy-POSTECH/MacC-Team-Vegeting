@@ -23,13 +23,17 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     
     private lazy var placeLabelWithImage: LabelWithImageStackView = {
         let placeLabel = LabelWithImageStackView()
-        placeLabel.setCoverImage(image: UIImage(systemName: "pin") ?? UIImage())
+        let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 14, weight: .light)
+        placeLabel.setCoverImage(image: UIImage(systemName: "mappin",
+                                                withConfiguration: imageConfig) ?? UIImage())
         return placeLabel
     }()
     
     private lazy var countLabelWithImage: LabelWithImageStackView = {
         let countLabel = LabelWithImageStackView()
-        countLabel.setCoverImage(image: UIImage(systemName: "person") ?? UIImage())
+        let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 17, weight: .light)
+        countLabel.setCoverImage(image: UIImage(systemName: "person",
+                                                withConfiguration: imageConfig) ?? UIImage())
         return countLabel
     }()
     
@@ -54,7 +58,7 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
             coverImage.topAnchor.constraint(equalTo: self.topAnchor),
             coverImage.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             coverImage.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            coverImage.heightAnchor.constraint(equalToConstant: 100)
+            coverImage.heightAnchor.constraint(equalToConstant: 90)
         ])
         
         NSLayoutConstraint.activate([
@@ -85,7 +89,7 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
         coverImage.image = UIImage(systemName: "star")
         coverImage.backgroundColor = .gray
         titleLabel.text = item.clubTitle
-        placeLabelWithImage.setLabelText(text: "place")
+        placeLabelWithImage.setLabelText(text: "서울시 동작구")
         let participantsCount = item.participants?.count ?? 0
         countLabelWithImage.setLabelText(text: "\(participantsCount)/\(item.maxNumberOfPeople)")
     }
