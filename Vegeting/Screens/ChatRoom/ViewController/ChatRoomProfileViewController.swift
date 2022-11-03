@@ -7,7 +7,19 @@
 
 import UIKit
 
+struct ModalModel {
+    let image: UIImage = UIImage(named: "coverImage") ?? UIImage()
+    let nickname: String
+    let vegetarianStep: String
+    let ageGroup: String
+    let location: String
+    let gender: String
+    let introduction: String
+}
+
 class ChatRoomProfileViewController: UIViewController {
+    
+    // MARK: - properties
     
     private let reportButton: UIButton = {
         let button = UIButton()
@@ -34,7 +46,6 @@ class ChatRoomProfileViewController: UIViewController {
     private let nicknameLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3, compatibleWith: .init(legibilityWeight: .bold))
-        label.text = "내가짱이얌"
         return label
     }()
     
@@ -42,7 +53,6 @@ class ChatRoomProfileViewController: UIViewController {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body, compatibleWith: .init(legibilityWeight: .regular))
         label.textColor = .systemGray2
-        label.text = "페스코"
         return label
     }()
     
@@ -69,21 +79,18 @@ class ChatRoomProfileViewController: UIViewController {
     private let ageGroupLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .regular))
-        label.text = "20대"
         return label
     }()
     
     private let locationLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .regular))
-        label.text = "포항시 남구"
         return label
     }()
     
     private let genderLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .regular))
-        label.text = "남성"
         return label
     }()
     
@@ -92,17 +99,20 @@ class ChatRoomProfileViewController: UIViewController {
         label.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .regular))
         label.numberOfLines = 0
         label.lineBreakMode = .byCharWrapping
-        label.text = "사람을 좋아하고, 자연을 사랑하는 플렉시테리언입니다. 이곳에서 소중한 인연 많이 만들어갔으면 좋겠어요."
         return label
     }()
     
     private let interestCollectionView = InterestView()
+    
+    // MARK: - lifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
         configureUI()
     }
+    
+    // MARK: - func
     
     private func setupLayout() {
         view.addSubviews(reportButton,
@@ -154,9 +164,17 @@ class ChatRoomProfileViewController: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .white
-        profileImageView.image = UIImage(named: "coverImage")
         profileImageView.layer.cornerRadius = profileImageView.bounds.size.height / 2
         print(profileImageView.bounds.size.height / 2)
     }
     
+    func configure(with data: ModalModel) {
+        profileImageView.image = data.image
+        nicknameLabel.text = data.nickname
+        vegetarianStepLabel.text = data.vegetarianStep
+        ageGroupLabel.text = data.ageGroup
+        locationLabel.text = data.location
+        genderLabel.text = data.gender
+        selfIntroductionLabel.text = data.introduction
+    }
 }
