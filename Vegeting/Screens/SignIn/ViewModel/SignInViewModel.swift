@@ -53,7 +53,7 @@ final class SignInViewModel {
                 }
             } receiveValue: { [weak self] user in
                 self?.user = user
-                self?.isAccountAlreadyRegisted()
+                self?.isAccountAlreadyRegistered()
             }.store(in: &self.cancellables)
         
     }
