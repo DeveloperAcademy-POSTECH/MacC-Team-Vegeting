@@ -28,24 +28,37 @@ class GroupListViewController: UIViewController {
         let label = UILabel()
         label.text = "모집 중인 모임"
         label.font = .systemFont(ofSize: 22, weight: .semibold)
+        label.sizeToFit()
         return label
     }()
     
     private lazy var searchButton: UIButton = {
-        let button = UIButton()
-        let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 22, weight: .regular)
+        let button = UIButton(type: .system)
+        let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 18, weight: .regular)
         button.setImage(UIImage(systemName: "magnifyingglass", withConfiguration: imageConfig), for: .normal)
         button.tintColor = .black
+        button.addTarget(self, action: #selector(tapSearchButton), for: .touchUpInside)
         return button
     }()
     
     private lazy var addClubButton: UIButton = {
-        let button = UIButton()
-        let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 22, weight: .regular)
+        let button = UIButton(type: .system)
+        let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 18, weight: .regular)
         button.setImage(UIImage(systemName: "square.and.pencil", withConfiguration: imageConfig), for: .normal)
         button.tintColor = .black
+        button.addTarget(self, action: #selector(tapAddClubButton), for: .touchUpInside)
         return button
     }()
+    
+    @objc
+    private func tapSearchButton() {
+        print("tapSearchButton")
+    }
+    
+    @objc
+    private func tapAddClubButton() {
+        print("tapAddClubButton")
+    }
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -82,20 +95,16 @@ class GroupListViewController: UIViewController {
         rightButtonStackView.spacing = 15
         rightButtonStackView.addArrangedSubviews(searchButton, addClubButton)
         customNavigationBar.addArrangedSubviews(navigationTitleLabel, rightButtonStackView)
+        let space = view.frame.width - navigationTitleLabel.frame.width
+        customNavigationBar.spacing = space - 105
+        navigationItem.titleView = customNavigationBar
     }
     
     private func setupLayout() {
-        view.addSubviews(customNavigationBar, collectionView)
+        view.addSubviews(collectionView)
         
         NSLayoutConstraint.activate([
-            customNavigationBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            customNavigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            customNavigationBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            customNavigationBar.heightAnchor.constraint(equalToConstant: 50)
-        ])
-        
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: customNavigationBar.bottomAnchor, constant: 10),
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
