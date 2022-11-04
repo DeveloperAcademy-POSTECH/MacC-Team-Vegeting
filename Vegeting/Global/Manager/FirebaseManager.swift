@@ -23,7 +23,6 @@ final class FirebaseManager {
         case chat = "Chats"
     }
     
-    
     //    TODO: 추후 회원가입을 위한 Model 따로 만들기
     /// 파이어베이스 스토어에 User정보 등록하는 함수
     /// - Parameter vfUser: vfUser로 넘어옴
@@ -49,7 +48,6 @@ final class FirebaseManager {
             return nil
         }
     }
-    
     
 }
 
