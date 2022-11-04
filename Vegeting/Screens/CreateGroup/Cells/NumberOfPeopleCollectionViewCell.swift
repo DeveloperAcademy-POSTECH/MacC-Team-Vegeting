@@ -14,7 +14,7 @@ class NumberOfPeopleCollectionViewCell: UICollectionViewCell {
     private let backgroundContentView: UIView = {
         let view = UIView()
         view.layer.masksToBounds = true
-        view.backgroundColor = .white
+        view.backgroundColor = .systemGray6
         return view
     }()
     
@@ -53,12 +53,10 @@ class NumberOfPeopleCollectionViewCell: UICollectionViewCell {
         layer.masksToBounds = false
         let cellCornerRadius = (self.bounds.size.width * (self.bounds.size.height / self.bounds.size.width)) / 2
         backgroundContentView.layer.cornerRadius = cellCornerRadius
-        backgroundContentView.layer.borderColor = UIColor.black.cgColor
-        backgroundContentView.layer.borderWidth = 1
     }
     
     func applySelectedState() {
-        backgroundContentView.backgroundColor = isSelected ? .black : .white
+        backgroundContentView.backgroundColor = isSelected ? .black : .systemGray6
         itemLabel.textColor = isSelected ? .white : .black
         itemLabel.font = isSelected ? .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .bold)) : .preferredFont(forTextStyle:.subheadline)
     }
