@@ -27,7 +27,7 @@ final class FirebaseManager {
     //    TODO: 추후 회원가입을 위한 Model 따로 만들기
     /// 파이어베이스 스토어에 User정보 등록하는 함수
     /// - Parameter vfUser: vfUser로 넘어옴
-    func requestUserInformation(with vfUser: VFUser) {
+    func registerUser(with vfUser: VFUser) {
         
         do {
             let user = VFUser(userID: vfUser.userID,
@@ -64,7 +64,8 @@ final class FirebaseManager {
 // MARK: Firebase 첫 모임생성
 extension FirebaseManager {
     
-    func requestChatAndPost(user: VFUser, club: Club, chat: Chat) -> (clubID: String, chatID: String)? {
+    
+    func registerChatAndPost(user: VFUser, club: Club, chat: Chat) -> (clubID: String, chatID: String)? {
         do {
             let docChat = db.collection(Path.chat.rawValue).document()
             let docClub = db.collection(Path.club.rawValue).document()
@@ -114,7 +115,7 @@ extension FirebaseManager {
     
     /// 첫 Club 모임 생성
     func requestPost(user: VFUser, club: Club, chat: Chat) {
-        let result = requestChatAndPost(user: user, club: club, chat: chat)
+        let result = registerChatAndPost(user: user, club: club, chat: chat)
         
         guard let result = result else { return }
         
