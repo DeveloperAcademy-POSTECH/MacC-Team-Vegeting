@@ -18,7 +18,7 @@ class GroupListViewController: UIViewController {
     
     private let participants = Participant.mockData
     
-    private lazy var customNavigationBar: UIStackView = {
+    private lazy var navigationBarView: UIStackView = {
         let hStackView = UIStackView()
         hStackView.setHorizontalStack()
         return hStackView
@@ -60,6 +60,11 @@ class GroupListViewController: UIViewController {
         print("tapAddClubButton")
     }
     
+    private lazy var customSegmentedControl: SegmentedControlCustomView = {
+        let segmentedControl = SegmentedControlCustomView()
+        return segmentedControl
+    }()
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -94,17 +99,25 @@ class GroupListViewController: UIViewController {
         rightButtonStackView.setHorizontalStack()
         rightButtonStackView.spacing = 15
         rightButtonStackView.addArrangedSubviews(searchButton, addClubButton)
-        customNavigationBar.addArrangedSubviews(navigationTitleLabel, rightButtonStackView)
+        
+        navigationBarView.addArrangedSubviews(navigationTitleLabel, rightButtonStackView)
         let space = view.frame.width - navigationTitleLabel.frame.width
-        customNavigationBar.spacing = space - 105
-        navigationItem.titleView = customNavigationBar
+        navigationBarView.spacing = space - 115
+
+        navigationItem.titleView = navigationBarView
     }
     
     private func setupLayout() {
-        view.addSubviews(collectionView)
+        view.addSubviews(customSegmentedControl, collectionView)
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
+            customSegmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 18),
+            customSegmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            customSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+        ])
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: customSegmentedControl.bottomAnchor, constant: 10),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
