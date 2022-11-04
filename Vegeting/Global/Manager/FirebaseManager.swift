@@ -93,7 +93,6 @@ extension FirebaseManager {
         
     }
     
-    
     /// 첫 Club 모임 생성
     func requestPost(user: VFUser, club: Club, chat: Chat) {
         let result = requestChatAndPost(user: user, club: club, chat: chat)
@@ -142,12 +141,13 @@ extension FirebaseManager {
     /// 채팅방 입장시, 유저의 데이터 업데이트
     func updateUserEnteringChat(user: VFUser, club: Club, chat: Chat) async {
         do {
-            
             let participatedClub = ParticipatedClub(clubID: club.clubID, clubName: club.clubTitle, profileImageURL: club.coverImageURL)
             let participatedChatRoom = ParticipatedChatRoom(chatID: chat.chatRoomID, chatName: chat.chatRoomName, imageURL: chat.coverImageURL)
             let encodedParticipatedClub = try Firestore.Encoder().encode(participatedClub)
             let encodedParticipatedChat = try Firestore.Encoder().encode(participatedChatRoom)
-            try await db.collection(Path.user.rawValue).document(user.userID).updateData(["participatedClub": FieldValue.arrayUnion([encodedParticipatedClub]), "participatedChat": FieldValue.arrayUnion([encodedParticipatedChat])])
+            try await db.collection(Path.user.rawValue).document(user.userID).updateData(
+                ["participatedClub": FieldValue.arrayUnion([encodedParticipatedClub]),
+                 "participatedChat": FieldValue.arrayUnion([encodedParticipatedChat])])
         } catch {
             print(error.localizedDescription)
         }
