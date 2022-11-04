@@ -54,8 +54,6 @@ final class UserProfileViewController: UIViewController {
     
     private lazy var nicknameLimitWarningLabel: UILabel = {
         let label = UILabel()
-        label.text = "1자 이상으로 입력해주세요."
-        label.textColor = UIColor(hex: "#FF0000")
         label.font = .preferredFont(forTextStyle: .subheadline)
         return label
     }()
@@ -86,8 +84,11 @@ final class UserProfileViewController: UIViewController {
     func configureTextField() {
         let border = CALayer()
         border.frame = CGRect(x: 0, y: nicknameTextField.frame.size.height-1, width: nicknameTextField.frame.width, height: 1)
-        border.backgroundColor = UIColor.label.cgColor
+        border.backgroundColor = UIColor(hex: "#F2F2F2").cgColor
         nicknameTextField.layer.addSublayer(border)
+        nicknameTextField.delegate = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(textDidChange(_:)), name: UITextField.textDidChangeNotification, object: nicknameTextField)
     }
     
     func configureUI() {
@@ -152,5 +153,41 @@ final class UserProfileViewController: UIViewController {
     private func presentPicker() {
         
         
+    }
+    
+    @objc
+    private func textDidChange(_ notification: Notification) {
+        if let nicknameTextField = notification.object as? UITextField {
+            if let text = nicknameTextField.text {
+               
+                if text.count > 10 {
+                    nicknameTextField.resignFirstResponder()
+                }
+                
+                if text.count >= 10 {
+                    let index = text.index(text.startIndex, offsetBy: 10)
+                    let newString = text[text.startIndex..<index]
+                    nicknameTextField.text = String(newString)
+                }
+                else if text.count < 2 {
+                    nicknameLimitWarningLabel.text = "2글자 이상 10글자 이하로 입력해주세요"
+                    nicknameLimitWarningLabel.textColor = .red
+                } else {
+                    nicknameLimitWarningLabel.text = "사용 가능한 닉네임입니다."
+                    nicknameLimitWarningLabel.textColor = .blue
+                }
+            }
+        }
+    }
+}
+
+extension UserProfileViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else { return false}
+        
+        if text.count >= 10 && range.length == 0 && range.location < 10 {
+            return false
+        }
+        return true
     }
 }
