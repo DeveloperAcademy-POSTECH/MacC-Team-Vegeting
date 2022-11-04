@@ -60,9 +60,14 @@ extension FirebaseManager {
             let docClub = db.collection(Path.club.rawValue).document()
             
             let participant = Participant(userID: user.userID, name: user.userName, imageURL: user.imageURL)
-            let addedClub = Club(clubID: docClub.documentID, chatID: docChat.documentID, clubTitle: club.clubTitle, clubCategory: club.clubCategory, hostID: user.userID, participants: [participant], createdAt: club.createdAt, maxNumberOfPeople: club.maxNumberOfPeople)
+            let addedClub = Club(clubID: docClub.documentID, chatID: docChat.documentID,
+                                 clubTitle: club.clubTitle, clubCategory: club.clubCategory,
+                                 hostID: user.userID, participants: [participant],
+                                 createdAt: club.createdAt, maxNumberOfPeople: club.maxNumberOfPeople)
             
-            let addedChat = Chat(chatRoomID: docChat.documentID, clubID: docClub.documentID, chatRoomName: chat.chatRoomName, participants: [participant], messages: nil, coverImageURL: chat.coverImageURL)
+            let addedChat = Chat(chatRoomID: docChat.documentID, clubID: docClub.documentID,
+                                 chatRoomName: chat.chatRoomName, participants: [participant],
+                                 messages: nil, coverImageURL: chat.coverImageURL)
             
             try docClub.setData(from: addedClub)
             try docChat.setData(from: addedChat)
@@ -77,10 +82,10 @@ extension FirebaseManager {
     private func requestUpdateUser(user: VFUser, participatedChatRoom: ParticipatedChatRoom, participatedClub: ParticipatedClub) {
         
         do {
-            let doc = db.collection(Path.user.rawValue).document(user.userID)
+            let document = db.collection(Path.user.rawValue).document(user.userID)
             let encodedParticipatedClub = try Firestore.Encoder().encode(participatedClub)
             let encodedParticipatedChat = try Firestore.Encoder().encode(participatedChatRoom)
-            doc.updateData(["participatedClub": FieldValue.arrayUnion([encodedParticipatedClub]), "participatedChat": FieldValue.arrayUnion([encodedParticipatedChat])])
+            document.updateData(["participatedClub": FieldValue.arrayUnion([encodedParticipatedClub]), "participatedChat": FieldValue.arrayUnion([encodedParticipatedChat])])
             
         } catch {
             print(error.localizedDescription)
