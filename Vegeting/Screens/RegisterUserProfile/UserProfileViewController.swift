@@ -36,6 +36,8 @@ final class UserProfileViewController: UIViewController {
         var image = UIImage(systemName: "camera.circle.fill")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 31))
         button.setImage(image, for: .normal)
         button.tintColor = UIColor(hex: "#373737")
+        button.layer.masksToBounds = true
+        button.addTarget(self, action: #selector(presentPicker), for: .touchUpInside)
         return button
     }()
     
@@ -150,9 +152,16 @@ final class UserProfileViewController: UIViewController {
         
     }
     
+    @objc
     private func presentPicker() {
+        var configuration = PHPickerConfiguration(photoLibrary: .shared())
         
+        configuration.filter = PHPickerFilter.images
+        configuration.selectionLimit = 1
         
+        let picker = PHPickerViewController(configuration: configuration)
+        picker.delegate = self
+        present(picker, animated: true)
     }
     
     @objc
@@ -190,4 +199,23 @@ extension UserProfileViewController: UITextFieldDelegate {
         }
         return true
     }
+}
+
+extension UserProfileViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        
+        let itemProvider = results.first?.itemProvider
+        
+        if let itemProvider = itemProvider,
+           itemProvider.canLoadObject(ofClass: UIImage.self) {
+            itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
+                DispatchQueue.main.async {
+                    self.profileImageView.image = image as? UIImage
+                }
+            }
+        }
+    }
+    
+    
 }
