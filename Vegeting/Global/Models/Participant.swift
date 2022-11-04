@@ -10,5 +10,10 @@ import Foundation
 struct Participant: Codable {
     let userID: String?
     let name: String
-    var imageURL: String?
+    var profileImageURL: String?
+    
+    static let mockData = [Participant(userID: "a", name: "aa"),
+                           Participant(userID: "b", name: "bb"),
+                           Participant(userID: "c", name: "cc"),
+                           Participant(userID: "d", name: "dd")]
 }

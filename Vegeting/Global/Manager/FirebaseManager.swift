@@ -27,14 +27,26 @@ final class FirebaseManager {
     //    TODO: 추후 회원가입을 위한 Model 따로 만들기
     /// 파이어베이스 스토어에 User정보 등록하는 함수
     /// - Parameter vfUser: vfUser로 넘어옴
-    func registerUser(with vfUser: VFUser) {
-        
+    func requestUserInformation(with vfUser: VFUser) {
+        guard let uid = auth.currentUser?.uid else { return }
         do {
-            let user = VFUser(userID: vfUser.userID,
-                              userName: vfUser.userName,
-                              imageURL: vfUser.imageURL,
-                              participatedChats: vfUser.participatedChats,
-                              participatedClubs: vfUser.participatedClubs)
+            let user = VFUser(userID: uid, userName: vfUser.userName, imageURL: vfUser.imageURL, participatedChats: vfUser.participatedChats, participatedClubs: vfUser.participatedClubs)
+            try db.collection(Path.user.rawValue).document(uid).setData(from: user)
+
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    
+    /// 유저가 모임을 모집하는 글을  작성하는 함수
+    func requestPost(add user: VFUser, with club: Club) {
+        do {
+            let user = VFUser(userID: user.userID,
+                              userName: user.userName,
+                              imageURL: user.imageURL,
+                              participatedChats: user.participatedChats,
+                              participatedClubs: user.participatedClubs)
             try db.collection(Path.user.rawValue).document(user.userID).setData(from: user)
         } catch {
             print(error.localizedDescription)
@@ -43,7 +55,7 @@ final class FirebaseManager {
     
     /// 클럽 정보 받아오기
     /// - Returns: 모든 클럽 정보가 나타난다.
-    func requestClubInformation() async -> [Club]? {
+    func allClubInformations() async -> [Club]? {
         
         do {
             let documents = try await db.collection(Path.club.rawValue).getDocuments()
@@ -72,7 +84,7 @@ extension FirebaseManager {
             
             let participant = Participant(userID: user.userID,
                                           name: user.userName,
-                                          imageURL: user.imageURL)
+                                          profileImageURL: user.imageURL)
             let addedClub = Club(clubID: docClub.documentID,
                                  chatID: docChat.documentID,
                                  clubTitle: club.clubTitle,
