@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol GroupCategoryViewDelegate: AnyObject {
+    func didSelectCategory(didSelectItemAt indexPath: IndexPath)
+}
+
 final class GroupCategoryView: UIView {
     
     // MARK: - properties
@@ -15,7 +19,7 @@ final class GroupCategoryView: UIView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 8
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
@@ -24,7 +28,8 @@ final class GroupCategoryView: UIView {
         return collectionView
     }()
     
-    private var categoryList: [String] = ["행사", "맛집", "친목", "공부", "기타"]
+    private var categoryList: [String] = ["맛집", "행사", "파티", "기타"]
+    weak var delegate: GroupCategoryViewDelegate?
     
     // MARK: - init
     
@@ -80,6 +85,7 @@ extension GroupCategoryView: UICollectionViewDelegateFlowLayout {
 extension GroupCategoryView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? GroupCategoryCollectionViewCell else { return }
+        delegate?.didSelectCategory(didSelectItemAt: indexPath)
         cell.applySelectedState()
     }
     
