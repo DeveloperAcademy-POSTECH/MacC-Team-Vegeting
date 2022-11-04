@@ -24,6 +24,7 @@ extension UIView {
         views.forEach { [weak self] view in
             view.translatesAutoresizingMaskIntoConstraints = false
             self?.addSubview(view)
+            view.translatesAutoresizingMaskIntoConstraints = false
         }
     }
 }
