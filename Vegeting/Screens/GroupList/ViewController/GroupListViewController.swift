@@ -8,7 +8,7 @@
 import UIKit
 
 class GroupListViewController: UIViewController {
-    private var clubList = Club.mockData {
+    private var clubList = GroupList.mockData {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 self?.collectionView.reloadData()

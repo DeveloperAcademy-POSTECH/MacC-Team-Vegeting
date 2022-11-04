@@ -11,9 +11,12 @@ import FirebaseFirestoreSwift
 
 struct Chat: Identifiable, Codable {
     @DocumentID var id: String?
-    let chatRoomID,chatRoomName: String
+    let chatRoomID: String?
+    let clubID: String?
+    let chatRoomName: String
     let participants: [Participant]?
     let messages: [Message]?
+    let coverImageURL: String?
 }
 
 struct Message: Codable {
