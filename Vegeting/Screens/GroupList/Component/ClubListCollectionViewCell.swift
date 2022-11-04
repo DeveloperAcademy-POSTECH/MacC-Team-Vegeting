@@ -8,7 +8,7 @@
 import UIKit
 
 final class ClubListCollectionViewCell: UICollectionViewCell {
-    private lazy var coverImage: UIImageView = {
+    private lazy var coverImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "star")
         return imageView
@@ -49,17 +49,17 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupLayout() {
-        addSubviews(coverImage, titleLabel, placeLabelWithImage, countLabelWithImage)
+        addSubviews(coverImageView, titleLabel, placeLabelWithImage, countLabelWithImage)
         
         NSLayoutConstraint.activate([
-            coverImage.topAnchor.constraint(equalTo: self.topAnchor),
-            coverImage.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            coverImage.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            coverImage.heightAnchor.constraint(equalToConstant: 87)
+            coverImageView.topAnchor.constraint(equalTo: self.topAnchor),
+            coverImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            coverImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            coverImageView.heightAnchor.constraint(equalToConstant: 87)
         ])
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: coverImage.bottomAnchor, constant: 8),
+            titleLabel.topAnchor.constraint(equalTo: coverImageView.bottomAnchor, constant: 8),
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10)
         ])
@@ -84,8 +84,8 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with item: Club) {
-        coverImage.image = UIImage(systemName: "star")
-        coverImage.backgroundColor = .gray
+        coverImageView.image = UIImage(systemName: "star")
+        coverImageView.backgroundColor = .gray
         titleLabel.text = item.clubTitle
         placeLabelWithImage.setLabelText(text: "서울시 동작구")
         let participantsCount = item.participants?.count ?? 0

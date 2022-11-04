@@ -15,7 +15,7 @@ class GroupListViewController: UIViewController {
             }
         }
     }
-    
+
     private let participants = Participant.mockData
     
     private lazy var navigationBarView: UIStackView = {
@@ -136,7 +136,8 @@ extension GroupListViewController: UICollectionViewDataSource {
         return clubList.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClubListCollectionViewCell.className, for: indexPath) as? ClubListCollectionViewCell else { return UICollectionViewCell() }
         cell.configure(with: clubList[indexPath.item])
         return cell
