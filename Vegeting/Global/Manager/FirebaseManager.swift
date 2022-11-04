@@ -101,7 +101,6 @@ extension FirebaseManager {
         requestUpdateUser(user: user, participatedChatRoom: participatedChatRoom, participatedClub: participatedClub)
     }
     
-    
 }
 
 // MARK: Firebase 채팅
@@ -161,7 +160,6 @@ extension FirebaseManager {
         
     }
      
-    
     /// 채팅 입장시 정보 update
     func updateInformation(user: VFUser, club: Club, chat: Chat) async {
         await updateUserEnteringChat(user: user, club: club, chat: chat)
@@ -169,7 +167,7 @@ extension FirebaseManager {
     }
     
     /// 채팅창 입장하기
-    func enteringUser(user: VFUser, club: Club) {
+    func enterClub(user: VFUser, club: Club) {
 //        Club에 참여 채팅자 추가
 //        Chat에 참여 채팅자 추가
 //        User에 참여 채팅자 추가
@@ -181,7 +179,7 @@ extension FirebaseManager {
     }
     
     /// 채팅 보내기
-    func requestMessage(user: VFUser, chat: Chat, message: Message) async {
+    func requestMessage(chat: Chat, message: Message) async {
         guard let chatID = chat.chatRoomID else { return }
         do {
             let message = try Firestore.Encoder().encode(message)
