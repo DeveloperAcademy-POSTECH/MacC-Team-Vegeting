@@ -38,8 +38,8 @@ final class FirebaseManager {
     /// - Returns: 모든 클럽 정보가 나타난다.
     func requestClubInformation() async -> [Club]? {
         do {
-            let documents = try await db.collection(Path.club.rawValue).getDocuments()
-            let data = documents.documents.compactMap { snapshot in
+            let querySnapshot = try await db.collection(Path.club.rawValue).getDocuments()
+            let data = querySnapshot.documents.compactMap { snapshot in
                 try? snapshot.data(as: Club.self)
             }
             return data
