@@ -54,12 +54,13 @@ final class FirebaseManager {
 // MARK: Firebase 첫 모임생성
 extension FirebaseManager {
     
-    func requestChatAndPost(user: VFUser, club: Club, chat: Chat) -> (clubID: String, chatID: String)? {
+    
+    func registerChatAndPost(user: VFUser, club: Club, chat: Chat) -> (clubID: String, chatID: String)? {
         do {
             let docChat = db.collection(Path.chat.rawValue).document()
             let docClub = db.collection(Path.club.rawValue).document()
             
-            let participant = Participant(userID: user.userID, name: user.userName, imageURL: user.imageURL)
+            let participant = Participant(userID: user.userID, name: user.userName, profileImageURL: user.imageURL)
             let addedClub = Club(clubID: docClub.documentID, chatID: docChat.documentID,
                                  clubTitle: club.clubTitle, clubCategory: club.clubCategory,
                                  hostID: user.userID, participants: [participant],
@@ -95,7 +96,7 @@ extension FirebaseManager {
     
     /// 첫 Club 모임 생성
     func requestPost(user: VFUser, club: Club, chat: Chat) {
-        let result = requestChatAndPost(user: user, club: club, chat: chat)
+        let result = registerChatAndPost(user: user, club: club, chat: chat)
         
         guard let result = result else { return }
         
@@ -156,7 +157,7 @@ extension FirebaseManager {
     func updateClubAndChat(user: VFUser, club: Club, chat: Chat) async {
         guard let clubID = club.clubID, let chatID = chat.chatRoomID else { return }
         do {
-            let participant = try Firestore.Encoder().encode(Participant(userID: user.userID, name: user.userName, imageURL: user.imageURL))
+            let participant = try Firestore.Encoder().encode(Participant(userID: user.userID, name: user.userName, profileImageURL: user.imageURL))
             try await db.collection(Path.chat.rawValue).document(chatID).updateData(["participants": FieldValue.arrayUnion([participant])])
             try await db.collection(Path.club.rawValue).document(clubID).updateData(["participants": FieldValue.arrayUnion([participant])])
         } catch {

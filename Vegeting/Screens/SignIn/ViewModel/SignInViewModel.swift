@@ -37,7 +37,7 @@ final class SignInViewModel: ObservableObject {
             .sink { _ in
             } receiveValue: { [weak self] user in
                 self?.user = user
-            }.store(in: &cancelBag)
-        
+            }
+            .store(in: &cancelBag)
     }
 }
