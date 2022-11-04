@@ -27,9 +27,8 @@ final class FirebaseManager {
     //    TODO: 추후 회원가입을 위한 Model 따로 만들기
     /// 파이어베이스 스토어에 User정보 등록하는 함수
     /// - Parameter vfUser: vfUser로 넘어옴
-    func requestUserInformation(with vfUser: VFUser) {
+    func requestUserInformation(with user: VFUser) {
         do {
-            let user = VFUser(userID: vfUser.userID, userName: vfUser.userName, imageURL: vfUser.imageURL, participatedChats: vfUser.participatedChats, participatedClubs: vfUser.participatedClubs)
             try db.collection(Path.user.rawValue).document(user.userID).setData(from: user)
         } catch {
             print(error.localizedDescription)
