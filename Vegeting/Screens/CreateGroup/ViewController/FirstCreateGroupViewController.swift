@@ -52,6 +52,7 @@ final class FirstCreateGroupViewController: UIViewController {
         datePicker.datePickerMode = .dateAndTime
         datePicker.preferredDatePickerStyle = .compact
         datePicker.locale = Locale(identifier: "ko-KR")
+        
         datePicker.minimumDate = Date()
         datePicker.maximumDate = Date().addingTimeInterval(2678400)
         return datePicker

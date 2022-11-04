@@ -16,7 +16,6 @@ struct TempChatModel {
     let unreadChatCount: Int = 5
 }
 
-
 class ChatRoomListViewController: UIViewController {
     
     // MARK: - properties

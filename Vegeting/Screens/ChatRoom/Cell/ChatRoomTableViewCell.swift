@@ -93,6 +93,7 @@ class ChatRoomTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupLayout()
         configureUI()
+        convertDate(lastChatDate: Date().addingTimeInterval(-10000))
     }
     
     required init?(coder: NSCoder) {
@@ -145,5 +146,29 @@ class ChatRoomTableViewCell: UITableViewCell {
     func configureUI() {
         roomImageView.layer.cornerRadius = roomImageView.bounds.size.height / 2
         backgroundUnreadChatView.layer.cornerRadius = backgroundUnreadChatView.bounds.size.height / 2
+    }
+    
+    private func convertDate(lastChatDate: Date) {
+        // 오늘이면 몇 시간 전으로 표시 lastChatDate가 현재와 compare 하여 얼마나 전인지 표시
+        // RelativeDateTimeFormatter
+        // 오늘 : Date() -> 날짜로 변환 2020/08/10
+        // 날짜가 하루 차이나면 어제
+        // 그 이상이면 날짜 출력
+        // Date를 오늘 String으로 바꾸면..
+        let lastChatDay = lastChatDate.toString(format: "MM월 d일")
+        let now = Date()
+        let today = now.toString(format: "MM월 dd일")
+        let isToday = lastChatDay == today
+//        let isYesterday =
+        
+        if lastChatDay == today {
+            print(lastChatDate.toString(format: "a hh:mm"))
+        }
+        
+       
+
+        // 어제면 어제로 표시
+        // 그 이전이면 날짜로 표시
+
     }
 }
