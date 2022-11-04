@@ -12,7 +12,7 @@ struct TempChatModel {
     let title: String = "안녕안녕돼지가든입니다."
     let currentNumer: Int = 5
     let latestChat: String = "이거이거 우리 워케이션 갈까요 말까요?"
-    let latestChatDate: Date = Date()
+    var latestChatDate: Date
     let unreadChatCount: Int = 5
 }
 
@@ -27,7 +27,7 @@ class ChatRoomListViewController: UIViewController {
         return tableView
     }()
     
-    private let chatList: [TempChatModel] = [TempChatModel(), TempChatModel(), TempChatModel(), TempChatModel()]
+    private let chatList: [TempChatModel] = [TempChatModel(latestChatDate: Date()), TempChatModel(latestChatDate: Date().addingTimeInterval(-31000)), TempChatModel(latestChatDate: Date().addingTimeInterval(-60000)), TempChatModel(latestChatDate: Date().addingTimeInterval(-150000))]
 
     // MARK: - lifeCycle
     
