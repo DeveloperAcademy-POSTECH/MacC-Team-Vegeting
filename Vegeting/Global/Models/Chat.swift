@@ -20,7 +20,7 @@ struct Chat: Identifiable, Codable {
 }
 
 struct Message: Identifiable, Codable {
-    let id = UUID.init().uuidString
+    var id = UUID.init().uuidString
     let senderID, senderName: String
     let senderProfileImageURL: String?
     let contentType: String
