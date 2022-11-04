@@ -10,6 +10,9 @@ import PhotosUI
 
 final class UserProfileViewController: UIViewController {
     
+    private let nicknameMinLength = 2
+    private let nicknameMaxLength = 10
+    
     private let progressBarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "progress1")
@@ -33,10 +36,12 @@ final class UserProfileViewController: UIViewController {
     
     private let cameraButton: UIButton = {
         let button = UIButton()
-        var image = UIImage(systemName: "camera.circle.fill")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 31))
+        var image = UIImage(systemName: "camera.circle.fill")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 30))
         button.setImage(image, for: .normal)
         button.tintColor = UIColor(hex: "#373737")
         button.layer.masksToBounds = true
+        button.backgroundColor = .white
+        button.layer.cornerRadius = 15
         button.addTarget(self, action: #selector(presentPicker), for: .touchUpInside)
         return button
     }()
@@ -168,17 +173,16 @@ final class UserProfileViewController: UIViewController {
     private func textDidChange(_ notification: Notification) {
         if let nicknameTextField = notification.object as? UITextField {
             if let text = nicknameTextField.text {
-               
-                if text.count > 10 {
+                if text.count > nicknameMaxLength {
                     nicknameTextField.resignFirstResponder()
                 }
                 
-                if text.count >= 10 {
-                    let index = text.index(text.startIndex, offsetBy: 10)
+                if text.count >= nicknameMaxLength {
+                    let index = text.index(text.startIndex, offsetBy: nicknameMaxLength)
                     let newString = text[text.startIndex..<index]
                     nicknameTextField.text = String(newString)
                 }
-                else if text.count < 2 {
+                else if text.count < nicknameMinLength {
                     nicknameLimitWarningLabel.text = "2글자 이상 10글자 이하로 입력해주세요"
                     nicknameLimitWarningLabel.textColor = .red
                 } else {
@@ -194,7 +198,7 @@ extension UserProfileViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return false}
         
-        if text.count >= 10 && range.length == 0 && range.location < 10 {
+        if text.count >= nicknameMaxLength && range.length == 0 && range.location < nicknameMaxLength {
             return false
         }
         return true
@@ -216,6 +220,4 @@ extension UserProfileViewController: PHPickerViewControllerDelegate {
             }
         }
     }
-    
-    
 }
