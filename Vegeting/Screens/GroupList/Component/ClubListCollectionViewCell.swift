@@ -8,6 +8,11 @@
 import UIKit
 
 final class ClubListCollectionViewCell: UICollectionViewCell {
+    private lazy var categoryView: CategoryView = {
+        let categoryView = CategoryView()
+        return categoryView
+    }()
+    
     private lazy var coverImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "star")
@@ -49,13 +54,18 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupLayout() {
-        addSubviews(coverImageView, titleLabel, placeLabelWithImage, countLabelWithImage)
+        addSubviews(coverImageView, categoryView, titleLabel, placeLabelWithImage, countLabelWithImage)
         
         NSLayoutConstraint.activate([
             coverImageView.topAnchor.constraint(equalTo: self.topAnchor),
             coverImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             coverImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             coverImageView.heightAnchor.constraint(equalToConstant: 87)
+        ])
+        
+        NSLayoutConstraint.activate([
+            categoryView.topAnchor.constraint(equalTo: coverImageView.topAnchor, constant: 8),
+            categoryView.leadingAnchor.constraint(equalTo: coverImageView.leadingAnchor, constant: 8),
         ])
         
         NSLayoutConstraint.activate([
@@ -86,6 +96,7 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     func configure(with item: Club) {
         coverImageView.image = UIImage(systemName: "star")
         coverImageView.backgroundColor = .gray
+        categoryView.configure(text: item.clubCategory, backgroundColor: UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.6) )
         titleLabel.text = item.clubTitle
         placeLabelWithImage.setLabelText(text: "서울시 동작구")
         let participantsCount = item.participants?.count ?? 0
