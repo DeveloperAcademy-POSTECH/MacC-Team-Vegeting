@@ -94,7 +94,7 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with item: Club) {
-        coverImageView.image = UIImage(systemName: "star")
+        coverImageView.image = UIImage(named: item.coverImageURL ?? "")
         coverImageView.backgroundColor = .gray
         categoryView.configure(text: item.clubCategory, backgroundColor: UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.6) )
         titleLabel.text = item.clubTitle
