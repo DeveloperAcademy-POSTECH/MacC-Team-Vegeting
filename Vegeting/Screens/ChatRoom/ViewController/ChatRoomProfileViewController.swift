@@ -103,7 +103,7 @@ class ChatRoomProfileViewController: UIViewController {
         return label
     }()
     
-    private let interestCollectionView = InterestView()
+    private let interestCollectionView = InterestView(interestList: ["맛집 탐방", "동물권 공부"])
     
     // MARK: - lifeCycle
     

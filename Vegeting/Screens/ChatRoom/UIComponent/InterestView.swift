@@ -27,16 +27,23 @@ class InterestView: UIView {
     
     // MARK: - init
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(interestList: [String]) {
+        self.interestList = interestList
+        super.init(frame: .zero)
         configureCollectionView()
         setupLayout()
     }
-    
+
+    //    override init(frame: CGRect) {
+    //        super.init(frame: frame)
+    //        configureCollectionView()
+    //        setupLayout()
+    //    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - func
     
     private func setupLayout() {
