@@ -71,8 +71,11 @@ final class LocationSearchingViewController: UIViewController {
         navigationItem.leftBarButtonItem = backButton
         
         let searchController = UISearchController(searchResultsController: nil)
-        searchController.navigationItem.backButtonDisplayMode = .minimal
+        searchController.delegate = self
         searchController.searchBar.placeholder = "구, 동, 장소를 입력해주세요."
+        searchController.searchBar.delegate = self
+        searchController.isActive = true
+        searchController.searchBar.becomeFirstResponder()
         self.navigationItem.searchController = searchController
         self.navigationItem.hidesSearchBarWhenScrolling = false
     }
@@ -117,6 +120,7 @@ final class LocationSearchingViewController: UIViewController {
     
     private func requestAddress(keyword: String) async {
         guard let apiKey = StringLiteral.kakaoAPIKey else { return }
+        
         let headers: HTTPHeaders = [
             "Authorization": apiKey
         ]
@@ -146,7 +150,6 @@ final class LocationSearchingViewController: UIViewController {
                 }
                 self.addressResultList = list
                 
-                
             case .failure(let error):
                 print(error)
             }
@@ -155,6 +158,7 @@ final class LocationSearchingViewController: UIViewController {
     
     private func requestPlace(keyword: String) async {
         guard let apiKey = StringLiteral.kakaoAPIKey else { return }
+        
         let headers: HTTPHeaders = [
             "Authorization": apiKey
         ]
@@ -233,7 +237,6 @@ extension LocationSearchingViewController: UITableViewDelegate {
 }
 
 extension LocationSearchingViewController: UISearchBarDelegate {
-    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         Task {
             await requestAddress(keyword: searchText)
@@ -242,3 +245,8 @@ extension LocationSearchingViewController: UISearchBarDelegate {
     }
 }
 
+extension LocationSearchingViewController: UISearchControllerDelegate {
+   func didPresentSearchController(searchController: UISearchController) {
+      searchController.searchBar.becomeFirstResponder()
+   }
+}
