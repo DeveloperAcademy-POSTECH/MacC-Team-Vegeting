@@ -68,8 +68,9 @@ final class UserProfileViewController: UIViewController {
     private let nextButton: UIButton = {
         let button = UIButton()
         button.setTitle("다음으로", for: .normal)
-        button.setTitleColor(UIColor.label, for: .normal)
-        button.setBackgroundColor(UIColor(hex: "#FFD243"), for: .normal)
+        button.setTitleColor(UIColor(hex: "#8E8E93"), for: .normal)
+        button.setBackgroundColor(UIColor(hex: "#FFF6DA"), for: .normal)
+        button.isEnabled = false
         button.clipsToBounds = true
         button.layer.cornerRadius = 8
         return button
@@ -95,7 +96,7 @@ final class UserProfileViewController: UIViewController {
         nicknameTextField.layer.addSublayer(border)
         nicknameTextField.delegate = self
         
-        NotificationCenter.default.addObserver(self, selector: #selector(textDidChange(_:)), name: UITextField.textDidChangeNotification, object: nicknameTextField)
+        NotificationCenter.default.addObserver(self, selector: #selector(textDidChangeForLabel(_:)), name: UITextField.textDidChangeNotification, object: nicknameTextField)
     }
     
     func configureUI() {
@@ -170,7 +171,7 @@ final class UserProfileViewController: UIViewController {
     }
     
     @objc
-    private func textDidChange(_ notification: Notification) {
+    private func textDidChangeForLabel(_ notification: Notification) {
         if let nicknameTextField = notification.object as? UITextField {
             if let text = nicknameTextField.text {
                 if text.count > nicknameMaxLength {
@@ -188,8 +189,19 @@ final class UserProfileViewController: UIViewController {
                 } else {
                     nicknameLimitWarningLabel.text = "사용 가능한 닉네임입니다."
                     nicknameLimitWarningLabel.textColor = .blue
+                    
+                    nextButton.isEnabled = true
+                    nextButton.setTitleColor(UIColor.label, for: .normal)
+                    nextButton.setBackgroundColor(UIColor(hex: "#FFD243"), for: .normal)
                 }
             }
+        }
+    }
+    
+    @objc
+    private func textDidChangeForButton(_ textField: UITextField) {
+        if nicknameTextField.hasText {
+            //            if nextButton.isHighlighted
         }
     }
 }
