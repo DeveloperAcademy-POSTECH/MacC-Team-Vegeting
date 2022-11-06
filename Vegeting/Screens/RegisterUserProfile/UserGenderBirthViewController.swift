@@ -7,7 +7,7 @@
 
 import UIKit
 
-class UserGenderBirthViewController: UIViewController {
+final class UserGenderBirthViewController: UIViewController {
     
     private let progressBarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -29,6 +29,8 @@ class UserGenderBirthViewController: UIViewController {
         button.setTitleColor(UIColor(hex: "#616161"), for: .normal)
         button.backgroundColor = UIColor(hex: "#F2F2F2")
         button.layer.cornerRadius = 18.5
+        
+        button.addTarget(self, action: #selector(genderSelectOption), for: .touchUpInside)
         return button
     }()
     
@@ -39,6 +41,8 @@ class UserGenderBirthViewController: UIViewController {
         button.setTitleColor(UIColor(hex: "#616161"), for: .normal)
         button.backgroundColor = UIColor(hex: "#F2F2F2")
         button.layer.cornerRadius = 18.5
+        
+        button.addTarget(self, action: #selector(genderSelectOption), for: .touchUpInside)
         return button
     }()
     
@@ -152,9 +156,32 @@ class UserGenderBirthViewController: UIViewController {
         NSLayoutConstraint.activate([
             nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55),
+            nextButton.bottomAnchor.constraint(equalTo: birthDisplayTextField.inputView?.topAnchor ?? view.bottomAnchor, constant: -55),
             nextButton.heightAnchor.constraint(equalToConstant: 50)
         ])
+    }
+    
+    @objc
+    func genderSelectOption(_ sender: UIButton) {
+        if femaleButton == sender {
+            selectedButtonUI(femaleButton)
+            unSelectedButtonUI(maleButton)
+        } else {
+            selectedButtonUI(maleButton)
+            unSelectedButtonUI(femaleButton)
+        }
+    }
+    
+    func selectedButtonUI(_ sender: UIButton) {
+        sender.isSelected = true
+        sender.backgroundColor = UIColor(hex: "#333333")
+        sender.setTitleColor(UIColor.white, for: .normal)
+    }
+    
+    func unSelectedButtonUI(_ sender: UIButton) {
+        sender.isSelected = false
+        sender.backgroundColor = UIColor(hex: "#F2F2F2")
+        sender.setTitleColor(UIColor(hex: "#616161"), for: .normal)
     }
 }
 
@@ -174,20 +201,24 @@ extension UserGenderBirthViewController: UIPickerViewDelegate, UIPickerViewDataS
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         birthDisplayTextField.text = "\(row+1970)"
     }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if femaleButton.isSelected || maleButton.isSelected {
+            nextButton.setTitleColor(UIColor(hex: "#3C3C3C"), for: .normal)
+            nextButton.setBackgroundColor(UIColor(hex: "#FFD243"), for: .normal)
+            nextButton.isEnabled = true
+        }
+    }
 }
 
-//출생년도 textField에 숫자 이외 입력이 불가능하도록 막는 기능
+//출생년도 textField 수동 입력이 불가능하도록 설정
 extension UserGenderBirthViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
-        let charSetExceptNumber = CharacterSet.decimalDigits.inverted
         
-        if string.count > 0 {
-            guard string.rangeOfCharacter(from: charSetExceptNumber) == nil else {
-                return false
-            }
+        if string.count <= 4 {
+            return false
         }
-        
         return true
     }
 }
