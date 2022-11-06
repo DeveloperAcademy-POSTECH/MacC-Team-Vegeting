@@ -22,7 +22,7 @@ class UserInterestViewController: UIViewController {
         return label
     }()
     
-    private let selectInterestView = InterestView(interestList: ["맛집 탐방", "동물권 공부", "요리", "행사 참가", "친목"])
+    private let selectInterestView = InterestView(interestList: ["맛집", "동물권", "요리", "행사 참가", "친목"])
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,8 +45,7 @@ class UserInterestViewController: UIViewController {
         
         selectInterestView.constraint(top: titleLabel.bottomAnchor,
                                       leading: view.leadingAnchor,
-                                      trailing: view.trailingAnchor,
-                                      padding: UIEdgeInsets(top: 11, left: 20, bottom: 0, right: 20))
+                                      padding: UIEdgeInsets(top: 11, left: 20, bottom: 0, right: 0))
     }
     
     private func configureUI() {

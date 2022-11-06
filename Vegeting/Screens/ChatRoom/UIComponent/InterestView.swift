@@ -14,6 +14,7 @@ class InterestView: UIView {
     private let interestCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumInteritemSpacing = 16
+        layout.minimumInteritemSpacing = 14
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
@@ -48,7 +49,8 @@ class InterestView: UIView {
     private func setupLayout() {
         addSubview(interestCollectionView)
         interestCollectionView.constraint(to: self)
-        interestCollectionView.constraint(.heightAnchor, constant: 37)
+        interestCollectionView.constraint(.heightAnchor, constant: 139)
+        interestCollectionView.constraint(.widthAnchor, constant: 270)
     }
     
     private func configureCollectionView() {
