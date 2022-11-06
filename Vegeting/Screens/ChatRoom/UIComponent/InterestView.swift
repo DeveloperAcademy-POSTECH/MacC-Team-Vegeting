@@ -11,6 +11,11 @@ class InterestView: UIView {
     
     // MARK: - properties
     
+    enum EntryPoint {
+        case profile
+        case register
+    }
+    
     private let interestCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumInteritemSpacing = 16
@@ -24,21 +29,18 @@ class InterestView: UIView {
     }()
     
     private var interestList: [String]
+    private var selectedInterestList: [String] = []
+    private let entryPoint: EntryPoint
     
     // MARK: - init
     
-    init(interestList: [String]) {
+    init(interestList: [String], entryPoint: EntryPoint) {
         self.interestList = interestList
+        self.entryPoint = entryPoint
         super.init(frame: .zero)
         configureCollectionView()
         setupLayout()
     }
-
-    //    override init(frame: CGRect) {
-    //        super.init(frame: frame)
-    //        configureCollectionView()
-    //        setupLayout()
-    //    }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -81,5 +83,23 @@ extension InterestView: UICollectionViewDelegateFlowLayout {
         let width = interestList[indexPath.item].size(withAttributes: [.font : UIFont.preferredFont(forTextStyle: .subheadline)]).width + 50
         
         return CGSize(width: width, height: 34)
+    }
+}
+
+extension InterestView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        switch entryPoint {
+            
+        case .profile:
+            return
+        case .register:
+            if selectedInterestList.count < 3 {
+                guard let cell = interestCollectionView.cellForItem(at: indexPath) as? InterestCollectionViewCell else { return }
+                selectedInterestList.append(interestList[indexPath.item])
+                cell.applySelectedState()
+            }
+        }
+        
     }
 }

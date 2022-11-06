@@ -59,4 +59,10 @@ class InterestCollectionViewCell: UICollectionViewCell {
     func configure(with itemText: String) {
         interestLabel.text = itemText
     }
+    
+    func applySelectedState() {
+        backgroundContentView.backgroundColor = isSelected ? .black : .systemGray6
+        interestLabel.textColor = isSelected ? .white : .black
+        interestLabel.font = isSelected ? .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .bold)) : .preferredFont(forTextStyle:.subheadline)
+    }
 }

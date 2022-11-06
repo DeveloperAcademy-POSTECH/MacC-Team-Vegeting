@@ -22,7 +22,7 @@ class UserInterestViewController: UIViewController {
         return label
     }()
     
-    private let selectInterestView = InterestView(interestList: ["맛집", "동물권", "요리", "행사 참가", "친목"])
+    private let selectInterestView = InterestView(interestList: ["맛집", "동물권", "요리", "행사 참가", "친목"], entryPoint: .register)
 
     override func viewDidLoad() {
         super.viewDidLoad()
