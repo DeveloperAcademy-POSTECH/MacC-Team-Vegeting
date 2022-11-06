@@ -91,12 +91,15 @@ final class UserProfileViewController: UIViewController {
     
     func configureTextField() {
         let border = CALayer()
-        border.frame = CGRect(x: 0, y: nicknameTextField.frame.size.height-1, width: nicknameTextField.frame.width, height: 1)
+        border.frame = CGRect(x: 0, y: nicknameTextField.frame.size.height-1,
+                              width: nicknameTextField.frame.width, height: 1)
         border.backgroundColor = UIColor(hex: "#F2F2F2").cgColor
         nicknameTextField.layer.addSublayer(border)
         nicknameTextField.delegate = self
         
-        NotificationCenter.default.addObserver(self, selector: #selector(textDidChangeForLabel(_:)), name: UITextField.textDidChangeNotification, object: nicknameTextField)
+        NotificationCenter.default.addObserver(self, selector: #selector(textDidChangeForLabel(_:)),
+                                               name: UITextField.textDidChangeNotification,
+                                               object: nicknameTextField)
     }
     
     func configureUI() {
@@ -105,7 +108,6 @@ final class UserProfileViewController: UIViewController {
     }
     
     func setupLayout() {
-        
         NSLayoutConstraint.activate([
             progressBarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 116),
             progressBarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -155,7 +157,6 @@ final class UserProfileViewController: UIViewController {
             nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55),
             nextButton.heightAnchor.constraint(equalToConstant: 50)
         ])
-        
     }
     
     @objc
@@ -197,17 +198,11 @@ final class UserProfileViewController: UIViewController {
             }
         }
     }
-    
-    @objc
-    private func textDidChangeForButton(_ textField: UITextField) {
-        if nicknameTextField.hasText {
-            //            if nextButton.isHighlighted
-        }
-    }
 }
 
 extension UserProfileViewController: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
         guard let text = textField.text else { return false}
         
         if text.count >= nicknameMaxLength && range.length == 0 && range.location < nicknameMaxLength {
