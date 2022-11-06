@@ -23,30 +23,11 @@ final class FirebaseManager {
         case chat = "Chats"
     }
     
-    
     //    TODO: 추후 회원가입을 위한 Model 따로 만들기
     /// 파이어베이스 스토어에 User정보 등록하는 함수
     /// - Parameter vfUser: vfUser로 넘어옴
-    func requestUserInformation(with vfUser: VFUser) {
-        guard let uid = auth.currentUser?.uid else { return }
+    func requestUserInformation(with user: VFUser) {
         do {
-            let user = VFUser(userID: uid, userName: vfUser.userName, imageURL: vfUser.imageURL, participatedChats: vfUser.participatedChats, participatedClubs: vfUser.participatedClubs)
-            try db.collection(Path.user.rawValue).document(uid).setData(from: user)
-
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
-    
-    /// 유저가 모임을 모집하는 글을  작성하는 함수
-    func requestPost(add user: VFUser, with club: Club) {
-        do {
-            let user = VFUser(userID: user.userID,
-                              userName: user.userName,
-                              imageURL: user.imageURL,
-                              participatedChats: user.participatedChats,
-                              participatedClubs: user.participatedClubs)
             try db.collection(Path.user.rawValue).document(user.userID).setData(from: user)
         } catch {
             print(error.localizedDescription)
@@ -55,21 +36,18 @@ final class FirebaseManager {
     
     /// 클럽 정보 받아오기
     /// - Returns: 모든 클럽 정보가 나타난다.
-    func allClubInformations() async -> [Club]? {
-        
+    func requestClubInformation() async -> [Club]? {
         do {
-            let documents = try await db.collection(Path.club.rawValue).getDocuments()
-            let data = documents.documents.compactMap { snapshot in
+            let querySnapshot = try await db.collection(Path.club.rawValue).getDocuments()
+            let data = querySnapshot.documents.compactMap { snapshot in
                 try? snapshot.data(as: Club.self)
             }
             return data
-            
         } catch {
             print(error.localizedDescription)
             return nil
         }
     }
-    
     
 }
 
@@ -82,24 +60,15 @@ extension FirebaseManager {
             let docChat = db.collection(Path.chat.rawValue).document()
             let docClub = db.collection(Path.club.rawValue).document()
             
-            let participant = Participant(userID: user.userID,
-                                          name: user.userName,
-                                          profileImageURL: user.imageURL)
-            let addedClub = Club(clubID: docClub.documentID,
-                                 chatID: docChat.documentID,
-                                 clubTitle: club.clubTitle,
-                                 clubCategory: club.clubCategory,
-                                 hostID: user.userID,
-                                 participants: [participant],
-                                 createdAt: club.createdAt,
-                                 maxNumberOfPeople: club.maxNumberOfPeople)
+            let participant = Participant(userID: user.userID, name: user.userName, profileImageURL: user.imageURL)
+            let addedClub = Club(clubID: docClub.documentID, chatID: docChat.documentID,
+                                 clubTitle: club.clubTitle, clubCategory: club.clubCategory,
+                                 hostID: user.userID, participants: [participant],
+                                 createdAt: club.createdAt, maxNumberOfPeople: club.maxNumberOfPeople)
             
-            let addedChat = Chat(chatRoomID: docChat.documentID,
-                                 clubID: docClub.documentID,
-                                 chatRoomName: chat.chatRoomName,
-                                 participants: [participant],
-                                 messages: nil,
-                                 coverImageURL: chat.coverImageURL)
+            let addedChat = Chat(chatRoomID: docChat.documentID, clubID: docClub.documentID,
+                                 chatRoomName: chat.chatRoomName, participants: [participant],
+                                 messages: nil, coverImageURL: chat.coverImageURL)
             
             try docClub.setData(from: addedClub)
             try docChat.setData(from: addedChat)
@@ -114,16 +83,16 @@ extension FirebaseManager {
     private func requestUpdateUser(user: VFUser, participatedChatRoom: ParticipatedChatRoom, participatedClub: ParticipatedClub) {
         
         do {
-            let doc = db.collection(Path.user.rawValue).document(user.userID)
+            let document = db.collection(Path.user.rawValue).document(user.userID)
             let encodedParticipatedClub = try Firestore.Encoder().encode(participatedClub)
             let encodedParticipatedChat = try Firestore.Encoder().encode(participatedChatRoom)
-            doc.updateData(["participatedClub": FieldValue.arrayUnion([encodedParticipatedClub]), "participatedChat": FieldValue.arrayUnion([encodedParticipatedChat])])
+            document.updateData(["participatedClub": FieldValue.arrayUnion([encodedParticipatedClub]), "participatedChat": FieldValue.arrayUnion([encodedParticipatedChat])])
+            
         } catch {
             print(error.localizedDescription)
         }
         
     }
-    
     
     /// 첫 Club 모임 생성
     func requestPost(user: VFUser, club: Club, chat: Chat) {
@@ -135,6 +104,95 @@ extension FirebaseManager {
         let participatedChatRoom = ParticipatedChatRoom(chatID: result.chatID, chatName: chat.chatRoomName, imageURL: chat.coverImageURL)
         
         requestUpdateUser(user: user, participatedChatRoom: participatedChatRoom, participatedClub: participatedClub)
+    }
+    
+}
+
+// MARK: Firebase 채팅
+extension FirebaseManager {
+    //  채팅창 정보 불러오기(한 채팅방 아이디로)
+        func requestChat(participatedChat: ParticipatedChatRoom) async -> Chat? {
+            guard let chatID = participatedChat.chatID else { return nil }
+            do {
+                let data = try await db.collection("Chats").document(chatID).getDocument().data(as: Chat.self)
+                return data
+            } catch {
+                print(error.localizedDescription)
+            }
+            return nil
+        }
+        
+    //   채팅창 정보 불러오기(유저가 갖고 있는 chatting방 전체)
+        func requestAllChats(user: VFUser) async -> [Chat]? {
+            guard let participatedChats = user.participatedChats else { return nil }
+            let chatList = participatedChats.map { $0.chatID }
+            
+            do {
+                let result = try await db.collection("Chats").whereField(FieldPath.documentID(), in: chatList as [Any]).getDocuments().documents.compactMap { querySnapShot in
+                    try querySnapShot.data(as: Chat.self)
+                }
+                
+                return result
+            } catch {
+                print(error.localizedDescription)
+            }
+            return nil
+        }
+    
+    /// 채팅방 입장시, 유저의 데이터 업데이트
+    func updateUserEnteringChat(user: VFUser, club: Club, chat: Chat) async {
+        do {
+            let participatedClub = ParticipatedClub(clubID: club.clubID, clubName: club.clubTitle, profileImageURL: club.coverImageURL)
+            let participatedChatRoom = ParticipatedChatRoom(chatID: chat.chatRoomID, chatName: chat.chatRoomName, imageURL: chat.coverImageURL)
+            let encodedParticipatedClub = try Firestore.Encoder().encode(participatedClub)
+            let encodedParticipatedChat = try Firestore.Encoder().encode(participatedChatRoom)
+            try await db.collection(Path.user.rawValue).document(user.userID).updateData(
+                ["participatedClub": FieldValue.arrayUnion([encodedParticipatedClub]),
+                 "participatedChat": FieldValue.arrayUnion([encodedParticipatedChat])])
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func updateClubAndChat(user: VFUser, club: Club, chat: Chat) async {
+        guard let clubID = club.clubID, let chatID = chat.chatRoomID else { return }
+        do {
+            let participant = try Firestore.Encoder().encode(Participant(userID: user.userID, name: user.userName, profileImageURL: user.imageURL))
+            try await db.collection(Path.chat.rawValue).document(chatID).updateData(["participants": FieldValue.arrayUnion([participant])])
+            try await db.collection(Path.club.rawValue).document(clubID).updateData(["participants": FieldValue.arrayUnion([participant])])
+        } catch {
+                print(error.localizedDescription)
+        }
+        
+    }
+     
+    /// 채팅 입장시 정보 update
+    func updateInformation(user: VFUser, club: Club, chat: Chat) async {
+        await updateUserEnteringChat(user: user, club: club, chat: chat)
+        await updateClubAndChat(user: user, club: club, chat: chat)
+    }
+    
+    /// 채팅창 입장하기
+    func enterClub(user: VFUser, club: Club) {
+//        Club에 참여 채팅자 추가
+//        Chat에 참여 채팅자 추가
+//        User에 참여 채팅자 추가
+        Task {
+            guard let chat = await requestChat(participatedChat: ParticipatedChatRoom(chatID: club.chatID, chatName: "", imageURL: nil)) else { return }
+            await updateInformation(user: user, club: club, chat: chat)
+        }
+        
+    }
+    
+    /// 채팅 보내기
+    func requestMessage(chat: Chat, message: Message) async {
+        guard let chatID = chat.chatRoomID else { return }
+        do {
+            let message = try Firestore.Encoder().encode(message)
+            try await db.collection(Path.chat.rawValue).document(chatID).updateData(["messages": FieldValue.arrayUnion([message])])
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
 }

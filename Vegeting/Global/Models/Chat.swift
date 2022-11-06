@@ -19,10 +19,12 @@ struct Chat: Identifiable, Codable {
     let coverImageURL: String?
 }
 
-struct Message: Codable {
+struct Message: Identifiable, Codable {
+    var id = UUID.init().uuidString
     let senderID, senderName: String
     let senderProfileImageURL: String?
     let contentType: String
+    let createdAt: Date
     let imageURL: String?
     let content: String?
 }
