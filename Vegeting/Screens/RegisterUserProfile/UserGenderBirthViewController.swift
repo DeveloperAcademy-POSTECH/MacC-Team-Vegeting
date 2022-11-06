@@ -25,6 +25,7 @@ class UserGenderBirthViewController: UIViewController {
     private let femaleButton: UIButton = {
         let button = UIButton()
         button.setTitle("여성", for: .normal)
+        button.titleLabel?.font = .preferredFont(forTextStyle: .subheadline)
         button.setTitleColor(UIColor(hex: "#616161"), for: .normal)
         button.backgroundColor = UIColor(hex: "#F2F2F2")
         button.layer.cornerRadius = 18.5
@@ -34,6 +35,7 @@ class UserGenderBirthViewController: UIViewController {
     private let maleButton: UIButton = {
         let button = UIButton()
         button.setTitle("남성", for: .normal)
+        button.titleLabel?.font = .preferredFont(forTextStyle: .subheadline)
         button.setTitleColor(UIColor(hex: "#616161"), for: .normal)
         button.backgroundColor = UIColor(hex: "#F2F2F2")
         button.layer.cornerRadius = 18.5
@@ -45,6 +47,12 @@ class UserGenderBirthViewController: UIViewController {
         label.font = .preferredFont(forTextStyle: .title3, compatibleWith: .init(legibilityWeight: .bold))
         label.text = "출생년도를 알려주세요."
         return label
+    }()
+    
+    private let birthDisplayTextField: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = UIColor(hex: "#F2F2F2")
+        return textField
     }()
     
     private let birthNoticeLabel: UILabel = {
@@ -60,12 +68,20 @@ class UserGenderBirthViewController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
+        configureTextField()
         setupLayout()
+        createBirthYearPicker()
+        hideKeyboardWhenTappedAround()
+    }
+    
+    private func configureTextField() {
+        birthDisplayTextField.delegate = self
     }
     
     private func configureUI() {
         view.backgroundColor = .systemBackground
-        view.addSubviews(progressBarImageView, genderLabel, femaleButton, maleButton)
+        view.addSubviews(progressBarImageView, genderLabel, femaleButton, maleButton,
+                         birthLabel, birthDisplayTextField)
     }
     
     private func setupLayout() {
@@ -94,5 +110,59 @@ class UserGenderBirthViewController: UIViewController {
             maleButton.widthAnchor.constraint(equalToConstant: 76),
             maleButton.heightAnchor.constraint(equalToConstant: 37)
         ])
+        
+        NSLayoutConstraint.activate([
+            birthLabel.topAnchor.constraint(equalTo: maleButton.bottomAnchor, constant: 77),
+            birthLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
+        ])
+        
+        NSLayoutConstraint.activate([
+            birthDisplayTextField.topAnchor.constraint(equalTo: birthLabel.bottomAnchor, constant: 11),
+            birthDisplayTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            birthDisplayTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            birthDisplayTextField.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+    
+    private func createBirthYearPicker() {
+        let yearPicker = UIPickerView()
+        yearPicker.dataSource = self
+        yearPicker.delegate = self
+        yearPicker.backgroundColor = .systemBackground
+        birthDisplayTextField.inputView = yearPicker
+    }
+}
+
+extension UserGenderBirthViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return 53
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return "\(row+1970)"
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        birthDisplayTextField.text = "\(row+1970)"
+    }
+}
+
+//출생년도 textField에 숫자 이외 입력이 불가능하도록 막는 기능
+extension UserGenderBirthViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
+        let charSetExceptNumber = CharacterSet.decimalDigits.inverted
+        
+        if string.count > 0 {
+            guard string.rangeOfCharacter(from: charSetExceptNumber) == nil else {
+                return false
+            }
+        }
+        
+        return true
     }
 }
