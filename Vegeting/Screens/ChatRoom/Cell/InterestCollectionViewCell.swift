@@ -43,10 +43,11 @@ class InterestCollectionViewCell: UICollectionViewCell {
         addSubview(backgroundContentView)
         backgroundContentView.constraint(to: self)
         backgroundContentView.addSubview(interestLabel)
-        interestLabel.constraint(leading: backgroundContentView.leadingAnchor,
-                                                   trailing: backgroundContentView.trailingAnchor,
-                                                   centerY: self.centerYAnchor,
-                                                   padding: UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14))
+        interestLabel.constraint(top: backgroundContentView.topAnchor,
+                                 leading: backgroundContentView.leadingAnchor,
+                                 bottom: backgroundContentView.bottomAnchor,
+                                 trailing: backgroundContentView.trailingAnchor,
+                                 padding: UIEdgeInsets(top: 9, left: 14, bottom: 8, right: 14))
     }
     
     private func configureUI() {
@@ -54,7 +55,7 @@ class InterestCollectionViewCell: UICollectionViewCell {
         let cellCornerRadius = self.bounds.size.height / 2
         backgroundContentView.layer.cornerRadius = cellCornerRadius
     }
-
+    
     func configure(with itemText: String) {
         interestLabel.text = itemText
     }

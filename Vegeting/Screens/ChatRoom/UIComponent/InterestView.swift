@@ -13,7 +13,6 @@ class InterestView: UIView {
     
     private let interestCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 16
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -23,7 +22,7 @@ class InterestView: UIView {
         return collectionView
     }()
     
-    private var interestList: [String] = ["동물권 공부", "맛집 투어"]
+    private var interestList: [String]
     
     // MARK: - init
     
@@ -49,7 +48,7 @@ class InterestView: UIView {
     private func setupLayout() {
         addSubview(interestCollectionView)
         interestCollectionView.constraint(to: self)
-        interestCollectionView.constraint(.heightAnchor, constant: 34)
+        interestCollectionView.constraint(.heightAnchor, constant: 37)
     }
     
     private func configureCollectionView() {
@@ -77,7 +76,7 @@ extension InterestView: UICollectionViewDataSource {
 
 extension InterestView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = interestList[indexPath.item].size(withAttributes: [.font : UIFont.preferredFont(forTextStyle: .subheadline)]).width + 30
+        let width = interestList[indexPath.item].size(withAttributes: [.font : UIFont.preferredFont(forTextStyle: .subheadline)]).width + 50
         
         return CGSize(width: width, height: 34)
     }
