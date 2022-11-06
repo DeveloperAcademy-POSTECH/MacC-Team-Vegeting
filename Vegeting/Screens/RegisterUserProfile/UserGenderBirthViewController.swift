@@ -51,6 +51,7 @@ class UserGenderBirthViewController: UIViewController {
     
     private let birthDisplayTextField: UITextField = {
         let textField = UITextField()
+        textField.layer.cornerRadius = 8
         textField.backgroundColor = UIColor(hex: "#F2F2F2")
         return textField
     }()
@@ -63,6 +64,25 @@ class UserGenderBirthViewController: UIViewController {
         label.text = "출생년도는 프로필에 공개되지 않습니다.\n프로필에 다음과 같이 표기될 목적으로 수집합니다.\n(예 - 10대, 20대, 30대 등)"
         return label
     }()
+    
+    private let nextButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("다음으로", for: .normal)
+        button.setTitleColor(UIColor(hex: "#8E8E93"), for: .normal)
+        button.setBackgroundColor(UIColor(hex: "#FFF6DA"), for: .normal)
+        button.isEnabled = false
+        button.clipsToBounds = true
+        button.layer.cornerRadius = 8
+        return button
+    }()
+    
+    private func createBirthYearPicker() {
+        let yearPicker = UIPickerView()
+        yearPicker.dataSource = self
+        yearPicker.delegate = self
+        yearPicker.backgroundColor = .systemBackground
+        birthDisplayTextField.inputView = yearPicker
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,7 +101,7 @@ class UserGenderBirthViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .systemBackground
         view.addSubviews(progressBarImageView, genderLabel, femaleButton, maleButton,
-                         birthLabel, birthDisplayTextField)
+                         birthLabel, birthDisplayTextField, birthNoticeLabel, nextButton)
     }
     
     private func setupLayout() {
@@ -122,14 +142,19 @@ class UserGenderBirthViewController: UIViewController {
             birthDisplayTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             birthDisplayTextField.heightAnchor.constraint(equalToConstant: 50)
         ])
-    }
-    
-    private func createBirthYearPicker() {
-        let yearPicker = UIPickerView()
-        yearPicker.dataSource = self
-        yearPicker.delegate = self
-        yearPicker.backgroundColor = .systemBackground
-        birthDisplayTextField.inputView = yearPicker
+        
+        NSLayoutConstraint.activate([
+            birthNoticeLabel.topAnchor.constraint(equalTo: birthDisplayTextField.bottomAnchor, constant: 10),
+            birthNoticeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            birthNoticeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+        ])
+        
+        NSLayoutConstraint.activate([
+            nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55),
+            nextButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
     }
 }
 
