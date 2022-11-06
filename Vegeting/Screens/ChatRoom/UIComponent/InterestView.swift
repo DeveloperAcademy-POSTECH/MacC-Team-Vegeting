@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol InterestViewDelegate: AnyObject {
+    func setBottomButtonEnabled(selectedList: [String])
+}
+
 class InterestView: UIView {
     
     // MARK: - properties
@@ -32,6 +36,8 @@ class InterestView: UIView {
     private var selectedInterestList: [String] = []
     private let entryPoint: EntryPoint
     
+    weak var delegate: InterestViewDelegate?
+    
     // MARK: - init
     
     init(interestList: [String], entryPoint: EntryPoint) {
@@ -41,11 +47,11 @@ class InterestView: UIView {
         configureCollectionView()
         setupLayout()
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     // MARK: - func
     
     private func setupLayout() {
@@ -90,16 +96,22 @@ extension InterestView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         switch entryPoint {
-            
         case .profile:
             return
         case .register:
-            if selectedInterestList.count < 3 {
-                guard let cell = interestCollectionView.cellForItem(at: indexPath) as? InterestCollectionViewCell else { return }
+            guard let cell = interestCollectionView.cellForItem(at: indexPath) as? InterestCollectionViewCell else { return }
+            cell.isSelectedCell.toggle()
+            
+            if cell.isSelectedCell && selectedInterestList.count < 3 {
                 selectedInterestList.append(interestList[indexPath.item])
                 cell.applySelectedState()
+            } else {
+                guard let index = selectedInterestList.firstIndex(of: interestList[indexPath.item]) else { return }
+                selectedInterestList.remove(at: index)
+                cell.applySelectedState()
             }
+            delegate?.setBottomButtonEnabled(selectedList: self.selectedInterestList)
         }
-        
     }
+    
 }
