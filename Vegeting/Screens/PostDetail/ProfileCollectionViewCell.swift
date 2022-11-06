@@ -4,7 +4,6 @@
 //
 //  Created by 김원희 on 2022/10/26.
 //
-
 import UIKit
 
 private enum Constants {
@@ -20,11 +19,10 @@ struct ParticipantsInfo {
 }
 
 class ProfileCollectionViewCell: UICollectionViewCell {
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        configureAddSubviews()
+        configureAddSubViews()
         setupLayout()
     }
     
@@ -46,7 +44,7 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private func configureAddSubviews() {
+    func configureAddSubViews() {
         contentView.addSubviews(profileImage, participantsName)
     }
     
