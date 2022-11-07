@@ -17,13 +17,15 @@ struct VFUser: Identifiable, Codable {
     let participatedClubs: [ParticipatedClub]?
 }
 
-struct ParticipatedChatRoom: Codable {
-    let chatID, chatName: String
+struct ParticipatedChatRoom: Hashable, Codable {
+    let chatID: String?
+    let chatName: String
     let imageURL: String?
 }
 
-struct ParticipatedClub: Codable {
-    let clubID, clubName: String
+struct ParticipatedClub: Hashable, Codable {
+    let clubID: String?
+    let clubName: String
     let profileImageURL: String?
 }
 
