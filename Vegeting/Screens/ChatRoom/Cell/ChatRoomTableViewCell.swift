@@ -158,7 +158,7 @@ class ChatRoomTableViewCell: UITableViewCell {
         let isYesterday = nowTotalSeconds < timeIntervalFromNow && timeIntervalFromNow < nowTotalSeconds + 86400
 
         if isToday {
-            return lastChatDate.toString(format: "a hh:mm")
+            return lastChatDate.toString(format: "a h:mm")
         }
         
         if isYesterday {
