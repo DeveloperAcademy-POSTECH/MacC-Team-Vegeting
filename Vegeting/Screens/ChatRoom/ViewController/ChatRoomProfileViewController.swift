@@ -60,21 +60,23 @@ class ChatRoomProfileViewController: UIViewController {
     private let informationStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 30
+        stackView.spacing = 10
         stackView.distribution = .fill
         return stackView
     }()
     
-    private let divierView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .gray
-        return view
+    private let dividerLabel1: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .regular))
+        label.text = "·"
+        return label
     }()
     
-    private let divierView2: UIView = {
-        let view = UIView()
-        view.backgroundColor = .gray
-        return view
+    private let dividerLabel2: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .regular))
+        label.text = "·"
+        return label
     }()
     
     private let ageGroupLabel: UILabel = {
@@ -143,15 +145,10 @@ class ChatRoomProfileViewController: UIViewController {
                                     leading: profileImageView.trailingAnchor,
                                     padding: UIEdgeInsets(top: 40, left: 20, bottom: 0, right: 0))
         
-        informationStackView.addArrangedSubviews(ageGroupLabel, divierView, locationLabel, divierView2, genderLabel)
+        informationStackView.addArrangedSubviews(ageGroupLabel, dividerLabel1, locationLabel, dividerLabel2, genderLabel)
         informationStackView.constraint(top: profileImageView.bottomAnchor,
                                         centerX: view.centerXAnchor,
                                         padding: UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0))
-        
-        divierView.constraint(.widthAnchor, constant: 1)
-        divierView.constraint(.heightAnchor, constant: 18.5)
-        divierView2.constraint(.widthAnchor, constant: 1)
-        divierView2.constraint(.heightAnchor, constant: 18.5)
         
         selfIntroductionLabel.constraint(top: informationStackView.bottomAnchor,
                                          leading: view.leadingAnchor,
