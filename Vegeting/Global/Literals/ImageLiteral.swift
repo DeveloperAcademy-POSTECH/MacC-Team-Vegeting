@@ -8,11 +8,11 @@
 import UIKit
 
 enum ImageLiteral {
+
+    // MARK: - SFSymbol
     
-    // MARK: - icon
-    
-    static var icGear: UIImage { .load(name: "icGear") }
-    
+    static var backwardChevronSymbol: UIImage { .load(systemName: "chevron.backward") }
+    static var exclamationMarkSymbol: UIImage { .load(systemName: "exclamationmark.circle") }
 }
 
 extension UIImage {
