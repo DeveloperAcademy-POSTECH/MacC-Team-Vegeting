@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4A060C01291398A600D75699 /* ChatRoomProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A060C00291398A600D75699 /* ChatRoomProfileViewController.swift */; };
+		4A060C01291398A600D75699 /* ProfileHalfModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A060C00291398A600D75699 /* ProfileHalfModalViewController.swift */; };
 		4A060C062913AA4300D75699 /* InterestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A060C052913AA4300D75699 /* InterestView.swift */; };
 		4A060C082913AA5E00D75699 /* InterestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A060C072913AA5E00D75699 /* InterestCollectionViewCell.swift */; };
 		4A060C0A2913D77200D75699 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A060C092913D77200D75699 /* TestViewController.swift */; };
@@ -73,7 +73,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4A060C00291398A600D75699 /* ChatRoomProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomProfileViewController.swift; sourceTree = "<group>"; };
+		4A060C00291398A600D75699 /* ProfileHalfModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHalfModalViewController.swift; sourceTree = "<group>"; };
 		4A060C052913AA4300D75699 /* InterestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestView.swift; sourceTree = "<group>"; };
 		4A060C072913AA5E00D75699 /* InterestCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A060C092913D77200D75699 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
@@ -319,7 +319,7 @@
 			isa = PBXGroup;
 			children = (
 				4AF67E922912050B00D4A2C4 /* ChatRoomListViewController.swift */,
-				4A060C00291398A600D75699 /* ChatRoomProfileViewController.swift */,
+				4A060C00291398A600D75699 /* ProfileHalfModalViewController.swift */,
 				4A060C092913D77200D75699 /* TestViewController.swift */,
 			);
 			path = ViewController;
@@ -595,7 +595,7 @@
 				4ADC12EF290183F500C0FFB6 /* BaseViewController.swift in Sources */,
 				4AFA58AF29050B5C00679142 /* String+Extension.swift in Sources */,
 				4ADC12F12901856B00C0FFB6 /* UIView+Constraint.swift in Sources */,
-				4A060C01291398A600D75699 /* ChatRoomProfileViewController.swift in Sources */,
+				4A060C01291398A600D75699 /* ProfileHalfModalViewController.swift in Sources */,
 				A2F369D12908258B007F3732 /* GroupInfoView.swift in Sources */,
 				A73AAAF32904E26D0050CA81 /* PostDetailViewController.swift in Sources */,
 				4A31CD272903D86200E5E422 /* GroupCategoryView.swift in Sources */,

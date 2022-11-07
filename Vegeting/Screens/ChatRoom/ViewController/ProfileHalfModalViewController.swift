@@ -17,7 +17,7 @@ struct ModalModel {
     let introduction: String
 }
 
-class ChatRoomProfileViewController: UIViewController {
+class ProfileHalfModalViewController: UIViewController {
     
     // MARK: - properties
     

@@ -24,7 +24,7 @@ class TestViewController: UIViewController {
     }
     
     private func showHalfModal() {
-        let viewController = ChatRoomProfileViewController()
+        let viewController = ProfileHalfModalViewController()
         viewController.modalPresentationStyle = .pageSheet
         if let sheet = viewController.sheetPresentationController {
             sheet.detents = [.medium()]
