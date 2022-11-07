@@ -51,6 +51,9 @@
 		76B02839290526AF002C9DF7 /* Club.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B02838290526AF002C9DF7 /* Club.swift */; };
 		76B0283B290528F8002C9DF7 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B0283A290528F8002C9DF7 /* Chat.swift */; };
 		76B0283D29052937002C9DF7 /* Participant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B0283C29052937002C9DF7 /* Participant.swift */; };
+		76FF7CF62917BDF70020BB2C /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 76FF7CF52917BDF70020BB2C /* KakaoSDKAuth */; };
+		76FF7CF82917BDF70020BB2C /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 76FF7CF72917BDF70020BB2C /* KakaoSDKCommon */; };
+		76FF7CFA2917BDF70020BB2C /* KakaoSDKUser in Frameworks */ = {isa = PBXBuildFile; productRef = 76FF7CF92917BDF70020BB2C /* KakaoSDKUser */; };
 		A215B29C2906DB6400DD60B2 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A215B29B2906DB6400DD60B2 /* PhotoPickerView.swift */; };
 		A215B29E2906FA3E00DD60B2 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A215B29D2906FA3E00DD60B2 /* UITextField+Extension.swift */; };
 		A26198762909539B00ECCC4F /* ClubListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26198752909539B00ECCC4F /* ClubListCollectionViewCell.swift */; };
@@ -155,9 +158,12 @@
 				76B0282D29052209002C9DF7 /* FirebaseAuth in Frameworks */,
 				76B0283329052209002C9DF7 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				76B0282F29052209002C9DF7 /* FirebaseAuthCombine-Community in Frameworks */,
+				76FF7CF82917BDF70020BB2C /* KakaoSDKCommon in Frameworks */,
 				76B0283129052209002C9DF7 /* FirebaseFirestore in Frameworks */,
 				4AB5C27A29078DB20064C41E /* SwiftyJSON in Frameworks */,
 				4AB5C27429078A910064C41E /* Alamofire in Frameworks */,
+				76FF7CFA2917BDF70020BB2C /* KakaoSDKUser in Frameworks */,
+				76FF7CF62917BDF70020BB2C /* KakaoSDKAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -509,6 +515,9 @@
 				76B0283429052209002C9DF7 /* FirebaseFirestoreSwift */,
 				4AB5C27329078A910064C41E /* Alamofire */,
 				4AB5C27929078DB20064C41E /* SwiftyJSON */,
+				76FF7CF52917BDF70020BB2C /* KakaoSDKAuth */,
+				76FF7CF72917BDF70020BB2C /* KakaoSDKCommon */,
+				76FF7CF92917BDF70020BB2C /* KakaoSDKUser */,
 			);
 			productName = Vegeting;
 			productReference = A7C8DF202901274500F38AD7 /* Vegeting.app */;
@@ -546,6 +555,7 @@
 				76B0282B29052209002C9DF7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				4AB5C27229078A910064C41E /* XCRemoteSwiftPackageReference "Alamofire" */,
 				4AB5C27829078DB20064C41E /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				76FF7CF42917BDF70020BB2C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 			);
 			productRefGroup = A7C8DF212901274500F38AD7 /* Products */;
 			projectDirPath = "";
@@ -826,7 +836,7 @@
 				CODE_SIGN_ENTITLEMENTS = Vegeting/Vegeting.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2RG6A633V9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Vegeting/Global/Supports/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -861,7 +871,7 @@
 				CODE_SIGN_ENTITLEMENTS = Vegeting/Vegeting.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 2RG6A633V9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Vegeting/Global/Supports/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -944,6 +954,14 @@
 				minimumVersion = 9.0.0;
 			};
 		};
+		76FF7CF42917BDF70020BB2C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -981,6 +999,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 76B0282B29052209002C9DF7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestoreSwift;
+		};
+		76FF7CF52917BDF70020BB2C /* KakaoSDKAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 76FF7CF42917BDF70020BB2C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKAuth;
+		};
+		76FF7CF72917BDF70020BB2C /* KakaoSDKCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 76FF7CF42917BDF70020BB2C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKCommon;
+		};
+		76FF7CF92917BDF70020BB2C /* KakaoSDKUser */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 76FF7CF42917BDF70020BB2C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
+			productName = KakaoSDKUser;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
