@@ -10,8 +10,12 @@ import CryptoKit
 import Foundation
 
 import Firebase
+import KakaoSDKAuth
+import KakaoSDKUser
 
 final class SignInViewModel {
+    typealias FBUser = FirebaseAuth.User
+    typealias KOUser = KakaoSDKUser.User
     
     enum Input {
         case appleSignInButtonTapped(tokenID: String)
@@ -19,16 +23,24 @@ final class SignInViewModel {
     }
     
     enum Output {
-        case isFirstSignIn
-        case isAlreadySignIn
-        case isSignInFailed(error: Error)
+        case didFirstSignInWithApple
+        case didAlreadySignInWithApple
+        case didFailToSignInWithApple(error: Error)
+        
+        case didFirstSignInWithKakao
+        case didAlreadySignInWithKakao
+        case didFailToSignInWithKakao(error: Error)
     }
+    
+//    init() {
+//
+//    }
     
     private let output: PassthroughSubject<Output, Never> = .init()
     private var cancellables =  Set<AnyCancellable>()
     
     private var tokenID: String?
-    private var user: User?
+    private var user: FBUser?
     
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
@@ -37,13 +49,63 @@ final class SignInViewModel {
                 self?.tokenID = tokenID
                 self?.appleSignIn()
             case .kakaoSignInButtonTapped:
-                print("kakaoButton")
+                self?.kakaoSignIn()
             }
         }.store(in: &cancellables)
         return output.eraseToAnyPublisher()
     }
     
-    func appleSignIn() {
+    private func kakaoSignIn() {
+        if UserApi.isKakaoTalkLoginAvailable() {
+            signInWithKakaoTalkApp()
+        } else {
+            signInWithKakaoWeb()
+        }
+    }
+    
+    private func signInWithKakaoTalkApp() {
+        UserApi.shared.loginWithKakaoTalk { [weak self] _, error in
+            if let error = error {
+                self?.output.send(.didFailToSignInWithKakao(error: error))
+            }
+            self?.didSignInWithKakao()
+        }
+    }
+    
+    private func signInWithKakaoWeb() {
+        UserApi.shared.loginWithKakaoAccount { [weak self] _, error in
+            if let error = error {
+                self?.output.send(.didFailToSignInWithKakao(error: error))
+            }
+            self?.didSignInWithKakao()
+        }
+    }
+    
+    private func didSignInWithKakao() {
+        UserApi.shared.me { [weak self] kuser, error in
+            if let error = error {
+                self?.output.send(.didFailToSignInWithKakao(error: error))
+            }
+            self?.validateKakaoUser(user: kuser)
+                
+        }
+    }
+    
+    private func validateKakaoUser(user: KOUser?) {
+        
+        guard let email = user?.kakaoAccount?.email, let password = (user?.id) else { return }
+        AuthManager.shared.signInUser(email: email, password: String(password)).sink { [weak self] completion in
+            if case .failure(let error) = completion {
+                self?.output.send(.didFailToSignInWithKakao(error: error))
+            }
+        } receiveValue: { [weak self] user in
+            self?.user = user
+            self?.isAccountAlreadyRegistered()
+        }.store(in: &self.cancellables)
+    }
+    
+    
+    private func appleSignIn() {
         guard let tokenID = tokenID else { return }
         
         let nonce = sha256(randomNonceString())
@@ -52,7 +114,7 @@ final class SignInViewModel {
         AuthManager.shared.signInUser(with: credential)
             .sink { [weak self] completion in
                 if case .failure(let error) = completion{
-                    self?.output.send(.isSignInFailed(error: error))
+                    self?.output.send(.didFailToSignInWithApple(error: error))
                 }
             } receiveValue: { [weak self] user in
                 self?.user = user
@@ -61,15 +123,15 @@ final class SignInViewModel {
         
     }
     
-    func isAccountAlreadyRegistered() {
+    private func isAccountAlreadyRegistered() {
         guard let user = user else { return }
         FirebaseManager.shared.isUserAlreadyExisted(user: user)
             .sink { [weak self] completion in
                 if case .failure(let error) = completion {
-                    self?.output.send(.isSignInFailed(error: error))
+                    self?.output.send(.didFailToSignInWithApple(error: error))
                 }
             } receiveValue: { [weak self] status in
-                self?.output.send(status ? .isAlreadySignIn : .isFirstSignIn)
+                self?.output.send(status ? .didAlreadySignInWithApple : .didFirstSignInWithApple)
             }.store(in: &cancellables)
     }
     
