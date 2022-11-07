@@ -14,19 +14,25 @@ import FirebaseAuthCombineSwift
 final class AuthManager {
     
     static let shared = AuthManager()
-    static let auth = Auth.auth()
+    private let auth = Auth.auth()
 
     private init() { }
     
     func signInUser(with credential: OAuthCredential) -> AnyPublisher<User, Error> {
-        
-        return AuthManager.auth.signIn(with: credential)
+        return auth.signIn(with: credential)
             .catch { error in
                 return Fail(error: error)
                     .eraseToAnyPublisher()
             }.map(\.user)
             .eraseToAnyPublisher()
-
     }
     
+    func signInUser(email: String, password: String) -> AnyPublisher<User, Error> {
+        return auth.signIn(withEmail: email, password: password)
+            .catch { error in
+                return Fail(error: error)
+                    .eraseToAnyPublisher()
+            }.map(\.user)
+            .eraseToAnyPublisher()
+    }
 }
