@@ -25,29 +25,25 @@ final class LocationSearchingViewController: UIViewController {
         return tableView
     }()
     
-    private lazy var emptyResultView = EmptyResultView() {
-        didSet {
-            setupEmptyResultViewLayout()
-        }
-    }
+//    private lazy var emptyResultView = EmptyResultView() {
+//        didSet {
+//            setupEmptyResultViewLayout()
+//        }
+//    }
     
-    private var addressResultList: [Address] = [] {
-        didSet {
-            self.resultTableView.reloadData()
-        }
-    }
+    private var addressResultList: [Address] = []
     
     private var placeResultList: [Place] = [] {
         didSet {
-            if placeResultList != oldValue {
-                self.resultTableView.reloadData()
-//                checkEmptyResultState()
+            if !placeResultList.isEmpty {
+                DispatchQueue.main.async { [weak self] in
+                    self?.resultTableView.reloadData()
+                }
             }
         }
     }
     
     private var autoSearchCompleter = MKLocalSearchCompleter()
-    
     private var autoSearchResults = [MKLocalSearchCompletion]()
     
     weak var delegate: LocationSearchingViewControllerDelegate?
@@ -92,21 +88,21 @@ final class LocationSearchingViewController: UIViewController {
         resultTableView.dataSource = self
     }
     
-    private func checkEmptyResultState() {
-        if addressResultList.isEmpty && placeResultList.isEmpty {
-            emptyResultView = EmptyResultView()
-        } else {
-            emptyResultView.removeFromSuperview()
-        }
-    }
+//    private func checkEmptyResultState() {
+//        if addressResultList.isEmpty && placeResultList.isEmpty {
+//            emptyResultView = EmptyResultView()
+//        } else {
+//            emptyResultView.removeFromSuperview()
+//        }
+//    }
     
-    private func setupEmptyResultViewLayout() {
-        view.addSubview(emptyResultView)
-        emptyResultView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
-                                   leading: view.leadingAnchor,
-                                   bottom: view.bottomAnchor,
-                                   trailing: view.trailingAnchor)
-    }
+//    private func setupEmptyResultViewLayout() {
+//        view.addSubview(emptyResultView)
+//        emptyResultView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
+//                                   leading: view.leadingAnchor,
+//                                   bottom: view.bottomAnchor,
+//                                   trailing: view.trailingAnchor)
+//    }
     
     private func setupResultTableViewLayout() {
         view.addSubview(resultTableView)
@@ -196,9 +192,7 @@ final class LocationSearchingViewController: UIViewController {
                     }
                 }
                 self.placeResultList = list
-                self.resultTableView.reloadData()
                 self.autoSearchCompleter.queryFragment = keyword
-                // 만k
                 
             case .failure(let error):
                 print(error)
@@ -264,10 +258,7 @@ extension LocationSearchingViewController: UISearchBarDelegate {
             await requestAddress(keyword: searchText)
             await requestPlace(keyword: searchText)
         }
-
-        DispatchQueue.main.asyncAfter(wallDeadline: .now() + 1) {
-            self.autoSearchCompleter.queryFragment = searchText
-        }
+        
     }
 }
 
@@ -284,7 +275,10 @@ extension LocationSearchingViewController: MKLocalSearchCompleterDelegate {
         if isResultNotEmpty {
             autoSearchResults = completer.results
         }
-        resultTableView.reloadData()
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.resultTableView.reloadData()
+        }
     }
     
     func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
