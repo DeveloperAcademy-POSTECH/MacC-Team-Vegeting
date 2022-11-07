@@ -115,9 +115,9 @@ class ChatRoomTableViewCell: UITableViewCell {
         
         contentStackView.addArrangedSubviews(leftContentStackView, rightContentStackView)
         contentStackView.constraint(leading: roomImageView.trailingAnchor,
-                                 trailing: contentView.trailingAnchor,
-                                 centerY: contentView.centerYAnchor,
-                                 padding: UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 20))
+                                    trailing: contentView.trailingAnchor,
+                                    centerY: contentView.centerYAnchor,
+                                    padding: UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 20))
         
         leftContentStackView.addArrangedSubviews(titleStackView, latestChatLabel)
         titleStackView.addArrangedSubviews(titleLabel, currentUserCountLabel, paddingView)
@@ -138,12 +138,34 @@ class ChatRoomTableViewCell: UITableViewCell {
         titleLabel.text = data.title
         currentUserCountLabel.text = data.currentNumer.description
         latestChatLabel.text = data.latestChat
-        latestChatDateLabel.text = data.latestChatDate.toString(format: "mm:SS")
+        latestChatDateLabel.text = convertDate(lastChatDate: data.latestChatDate)
         unreadChatCountLabel.text = data.unreadChatCount.description
     }
     
     func configureUI() {
         roomImageView.layer.cornerRadius = roomImageView.bounds.size.height / 2
         backgroundUnreadChatView.layer.cornerRadius = backgroundUnreadChatView.bounds.size.height / 2
+    }
+    
+    private func convertDate(lastChatDate: Date) -> String {
+        
+        let now = Date()
+        let nowTime = now.toString(format: "H m")
+        let nowTimeList = nowTime.split(separator: " ")
+        let nowTotalSeconds = (Double(nowTimeList[0]) ?? 0) * 3600 + (Double(nowTimeList[1]) ?? 0) * 60
+        let timeIntervalFromNow = now.timeIntervalSince(lastChatDate)
+        let isToday = timeIntervalFromNow <= nowTotalSeconds
+        let isYesterday = nowTotalSeconds < timeIntervalFromNow && timeIntervalFromNow < nowTotalSeconds + 86400
+        
+        if isToday {
+            return lastChatDate.toString(format: "a h:mm")
+        }
+        
+        if isYesterday {
+            return "어제"
+        } else {
+            return lastChatDate.toString(format: "M월 d일")
+        }
+        
     }
 }
