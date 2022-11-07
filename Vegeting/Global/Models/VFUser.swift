@@ -8,21 +8,24 @@
 import Foundation
 import FirebaseFirestoreSwift
 
-struct VUser: Identifiable, Codable {
+struct VFUser: Identifiable, Codable {
     @DocumentID var id: String?
     let userID: String
+    let userName: String
     let imageURL: String?
     let participatedChats: [ParticipatedChatRoom]?
     let participatedClubs: [ParticipatedClub]?
 }
 
-struct ParticipatedChatRoom: Codable {
-    let chatID, chatName: String
+struct ParticipatedChatRoom: Hashable, Codable {
+    let chatID: String?
+    let chatName: String
     let imageURL: String?
 }
 
-struct ParticipatedClub: Codable {
-    let clubID, clubName: String
+struct ParticipatedClub: Hashable, Codable {
+    let clubID: String?
+    let clubName: String
     let profileImageURL: String?
 }
 

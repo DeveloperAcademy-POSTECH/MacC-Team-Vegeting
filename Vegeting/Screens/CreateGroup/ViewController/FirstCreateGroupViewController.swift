@@ -211,8 +211,7 @@ extension FirstCreateGroupViewController: LocationSearchingViewControllerDelegat
 }
 
 extension FirstCreateGroupViewController: GroupCategoryViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func didSelectCategory(didSelectItemAt indexPath: IndexPath) {
         self.showLocationView()
     }
-    
 }

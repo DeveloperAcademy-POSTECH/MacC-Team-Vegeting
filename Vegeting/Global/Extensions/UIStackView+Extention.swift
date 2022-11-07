@@ -21,3 +21,4 @@ extension UIStackView {
         distribution = .equalSpacing
     }
 }
+

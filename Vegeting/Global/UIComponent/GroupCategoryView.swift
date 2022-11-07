@@ -8,7 +8,7 @@
 import UIKit
 
 protocol GroupCategoryViewDelegate: AnyObject {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
+    func didSelectCategory(didSelectItemAt indexPath: IndexPath)
 }
 
 final class GroupCategoryView: UIView {
@@ -85,7 +85,7 @@ extension GroupCategoryView: UICollectionViewDelegateFlowLayout {
 extension GroupCategoryView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? GroupCategoryCollectionViewCell else { return }
-        delegate?.collectionView(collectionView, didSelectItemAt: indexPath)
+        delegate?.didSelectCategory(didSelectItemAt: indexPath)
         cell.applySelectedState()
     }
     
