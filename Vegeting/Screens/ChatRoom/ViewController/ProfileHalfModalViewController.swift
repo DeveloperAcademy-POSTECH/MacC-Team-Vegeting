@@ -164,13 +164,12 @@ class ProfileHalfModalViewController: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .white
+        view.layer.cornerRadius = 24
         profileImageView.layer.cornerRadius = profileImageView.bounds.size.height / 2
-        print(profileImageView.bounds.size.height / 2)
     }
     
     @objc
     private func showActionSheet() {
-        print("하하이")
         let alert = UIAlertController(title: .none, message: .none, preferredStyle: .actionSheet)
         
         let reportAction = UIAlertAction(title: "게시글 신고", style: .default) { action in
