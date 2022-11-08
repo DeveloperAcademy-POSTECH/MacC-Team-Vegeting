@@ -79,6 +79,7 @@ extension FirebaseManager {
             try docClub.setData(from: addedClub)
             try docChat.setData(from: addedChat)
             try docRecentChat.setData(from: recentChat)
+            return (docClub.documentID, docChat.documentID)
             
         } catch {
             print(error.localizedDescription)
@@ -147,6 +148,11 @@ extension FirebaseManager {
     
     /// 채팅 보내기
     func requestMessage(chat: Chat, message: Message) async {
+        await sendMessage(chat: chat, message: message)
+        requestRecentMessageInChat(chat: chat, message: message)
+    }
+    
+    func sendMessage(chat: Chat, message: Message) async {
         guard let chatID = chat.chatRoomID else { return }
         do {
             let message = try Firestore.Encoder().encode(message)
