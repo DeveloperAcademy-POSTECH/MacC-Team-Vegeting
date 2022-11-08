@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol MyPageProfileTableViewCellDelegate: AnyObject {
+    func didTouchUpInsideEditButton()
+}
+
 class MyPageProfileTableViewCell: UITableViewCell {
     
     private let profileImageView: UIImageView = {
@@ -37,7 +41,7 @@ class MyPageProfileTableViewCell: UITableViewCell {
         return label
     }()
     
-    private var editButton: UIButton = {
+    private lazy var editButton: UIButton = {
         let button = UIButton()
         button.setTitle("프로필 편집", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 13, weight: .medium)
@@ -45,6 +49,7 @@ class MyPageProfileTableViewCell: UITableViewCell {
         button.setBackgroundColor(.systemGray5, for: .normal)
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 7
+        button.addTarget(self, action: #selector(showProfileEditView), for: .touchUpInside)
         return button
     }()
     
@@ -53,6 +58,8 @@ class MyPageProfileTableViewCell: UITableViewCell {
         view.backgroundColor = .systemGray6
         return view
     }()
+    
+    weak var delegate: MyPageProfileTableViewCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -101,5 +108,10 @@ class MyPageProfileTableViewCell: UITableViewCell {
         profileImageView.image = UIImage(named: image)
         nicknameLabel.text = nickName
         vegetarianStepLabel.text = step
+    }
+    
+    @objc
+    private func showProfileEditView() {
+        delegate?.didTouchUpInsideEditButton()
     }
 }

@@ -15,7 +15,6 @@ class MyPageViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.register(MyPageTableViewCell.self, forCellReuseIdentifier: MyPageTableViewCell.className)
         tableView.register(MyPageProfileTableViewCell.self, forCellReuseIdentifier: MyPageProfileTableViewCell.className)
-        tableView.delegate = self
         tableView.dataSource = self
         return tableView
     }()
@@ -35,7 +34,7 @@ class MyPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
-
+        configureUI()
     }
 
     private func setupLayout() {
@@ -45,6 +44,11 @@ class MyPageViewController: UIViewController {
                              bottom: view.bottomAnchor,
                              trailing: view.trailingAnchor)
     }
+    
+    private func configureUI() {
+        view.backgroundColor = .white
+    }
+    
 }
 
 extension MyPageViewController: UITableViewDataSource {
@@ -65,7 +69,7 @@ extension MyPageViewController: UITableViewDataSource {
         switch indexPath.section {
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageProfileTableViewCell.className, for: indexPath) as? MyPageProfileTableViewCell else { return UITableViewCell() }
-            
+            cell.delegate = self
             cell.configure(image: "coverImage", nickName: "내가제일잘나과", step: "플렉시테리언")
             return cell
         case 1:
@@ -81,6 +85,12 @@ extension MyPageViewController: UITableViewDataSource {
     
 }
 
-extension MyPageViewController: UITableViewDelegate {
+extension MyPageViewController: MyPageProfileTableViewCellDelegate {
+    func didTouchUpInsideEditButton() {
+        let viewController = MyProfileEditViewController()
+        viewController.configure(with: ModalModel(nickname: "내가 짱이얌", vegetarianStep: "플렉시테리언", ageGroup: "20대", location: "포항시 남구", gender: "여성", introduction: "사람을 좋아하고, 자연을 사랑하는 플렉시테리언입니다. 이곳에서 소중한 인연 많이 만들어갔으면 좋겠어요."))
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
     
 }
