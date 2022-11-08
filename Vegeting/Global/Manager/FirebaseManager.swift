@@ -160,7 +160,18 @@ extension FirebaseManager {
         } catch {
             print(error.localizedDescription)
         }
-    }    
+    }
+    
+    func requestRecentMessageInChat(chat: Chat, message: Message) {
+        guard let chatID = chat.chatRoomID else { return }
+        do {
+            let recentChat = RecentChat(chatRoomID: chatID, chatRoomName: chat.chatRoomName, lastSentMessage: message.content, lastSentTime: message.createdAt)
+            try db.collection(Path.recentChat.rawValue).document(chatID).setData(from: recentChat)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
 }
 
 // MARK: Firebase Authentifcation 전용(유저 회원가입 및 로그인 담당)
