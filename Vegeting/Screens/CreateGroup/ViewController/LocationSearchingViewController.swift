@@ -205,11 +205,7 @@ final class LocationSearchingViewController: UIViewController {
 extension LocationSearchingViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let totalCount = addressResultList.count + placeResultList.count
-        if totalCount == 0 {
-            return autoSearchResults.count
-        } else {
-            return addressResultList.count + placeResultList.count
-        }
+        return totalCount == 0 ? autoSearchResults.count : totalCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
