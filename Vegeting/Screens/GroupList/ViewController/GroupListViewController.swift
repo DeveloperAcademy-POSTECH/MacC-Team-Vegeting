@@ -8,15 +8,13 @@
 import UIKit
 
 class GroupListViewController: UIViewController {
-    private var clubList = GroupList.mockData {
+    private var clubList = MockData.club {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 self?.collectionView.reloadData()
             }
         }
     }
-
-    private let participants = Participant.mockData
     
     private lazy var navigationBarView: UIStackView = {
         let hStackView = UIStackView()

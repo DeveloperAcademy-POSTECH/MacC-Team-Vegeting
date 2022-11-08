@@ -209,15 +209,6 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
-		4AB5C27529078ADF0064C41E /* Models */ = {
- 			isa = PBXGroup;
- 			children = (
- 				4AB5C27629078AE90064C41E /* Address.swift */,
- 				4AB5C27B2907A9CE0064C41E /* Place.swift */,
- 			);
- 			path = Models;
- 			sourceTree = "<group>";
- 		};
 		4ADC12D229017A3B00C0FFB6 /* Global */ = {
 			isa = PBXGroup;
 			children = (
