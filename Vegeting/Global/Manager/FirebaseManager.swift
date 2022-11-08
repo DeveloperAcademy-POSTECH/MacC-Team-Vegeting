@@ -23,6 +23,7 @@ final class FirebaseManager {
         case user = "Users"
         case club = "Clubs"
         case chat = "Chats"
+        case recentChat = "RecentChats"
     }
     
     //    TODO: 추후 회원가입을 위한 Model 따로 만들기
@@ -60,6 +61,7 @@ extension FirebaseManager {
         do {
             let docChat = db.collection(Path.chat.rawValue).document()
             let docClub = db.collection(Path.club.rawValue).document()
+            let docRecentChat = db.collection(Path.recentChat.rawValue).document(docChat.documentID)
             
             let participant = Participant(userID: user.userID, name: user.userName, profileImageURL: user.imageURL)
             let addedClub = Club(clubID: docClub.documentID, chatID: docChat.documentID,
@@ -71,10 +73,13 @@ extension FirebaseManager {
                                  chatRoomName: chat.chatRoomName, participants: [participant],
                                  messages: nil, coverImageURL: chat.coverImageURL)
             
+            let recentChat = RecentChat(chatRoomID: docChat.documentID, chatRoomName: chat.chatRoomName
+                                        ,lastSentMessage: nil, lastSentTime: Date())
+            
             try docClub.setData(from: addedClub)
             try docChat.setData(from: addedChat)
+            try docRecentChat.setData(from: recentChat)
             
-            return (docClub.documentID, docChat.documentID)
         } catch {
             print(error.localizedDescription)
         }
@@ -115,7 +120,7 @@ extension FirebaseManager {
     func requestChat(participatedChat: ParticipatedChatRoom) async -> Chat? {
         guard let chatID = participatedChat.chatID else { return nil }
         do {
-            let data = try await db.collection("Chats").document(chatID).getDocument().data(as: Chat.self)
+            let data = try await db.collection(Path.chat.rawValue).document(chatID).getDocument().data(as: Chat.self)
             return data
         } catch {
             print(error.localizedDescription)
