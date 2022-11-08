@@ -32,9 +32,10 @@ final class SignInViewModel {
         case didFailToSignInWithKakao(error: Error)
     }
     
-//    init() {
-//
-//    }
+    enum SignInType {
+        case kakao
+        case apple
+    }
     
     private let output: PassthroughSubject<Output, Never> = .init()
     private var cancellables =  Set<AnyCancellable>()
@@ -115,10 +116,9 @@ final class SignInViewModel {
             }
         } receiveValue: { [weak self] user in
             self?.user = user
-            self?.isAccountAlreadyRegistered()
-        }.store(in: &self.cancellables)
+            self?.isAccountAlreadyRegistered(type: .kakao)
+        }.store(in: &cancellables)
     }
-    
     
     private func appleSignIn() {
         guard let tokenID = tokenID else { return }
@@ -133,20 +133,27 @@ final class SignInViewModel {
                 }
             } receiveValue: { [weak self] user in
                 self?.user = user
-                self?.isAccountAlreadyRegistered()
+                self?.isAccountAlreadyRegistered(type: .apple)
             }.store(in: &self.cancellables)
         
     }
     
-    private func isAccountAlreadyRegistered() {
+    private func isAccountAlreadyRegistered(type: SignInType) {
         guard let user = user else { return }
+        
         FirebaseManager.shared.isUserAlreadyExisted(user: user)
             .sink { [weak self] completion in
                 if case .failure(let error) = completion {
-                    self?.output.send(.didFailToSignInWithApple(error: error))
+                    self?.output.send(type == .apple ?
+                        .didFailToSignInWithApple(error: error) : .didFailToSignInWithKakao(error: error))
                 }
             } receiveValue: { [weak self] status in
-                self?.output.send(status ? .didAlreadySignInWithApple : .didFirstSignInWithApple)
+                switch type {
+                case .apple:
+                    self?.output.send(status ? .didAlreadySignInWithApple : .didFirstSignInWithApple)
+                case .kakao:
+                    self?.output.send(status ? .didAlreadySignInWithKakao : .didFirstSignInWithKakao)
+                }
             }.store(in: &cancellables)
     }
     
