@@ -13,17 +13,33 @@ final class FirstCreateGroupViewController: UIViewController {
     
     private let categoryTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "모임의 목적을 선택해주세요."
+        label.text = "모임 주제는 무엇인가요?"
         label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
         return label
     }() 
     
-    private let categoryCollectionView = GroupCategoryView()
+    private lazy var categoryCollectionView: GroupCategoryView = {
+        let view = GroupCategoryView()
+        view.delegate = self
+        return view
+    }()
     
     private let locationTitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "지역을 선택해주세요."
+        label.text = "모임 지역은 어디인가요?"
         label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
+        label.isHidden = true
+        return label
+    }()
+    
+    private let locationFooterLabel: UILabel = {
+        let label = UILabel()
+        label.text = "구체적인 장소가 정해지지 않았다면 구, 동 단위로 입력해도 좋아요!"
+        label.numberOfLines = 0
+        label.textColor = .gray
+        label.font = .preferredFont(forTextStyle: .subheadline)
+        label.isHidden = true
+        label.lineBreakMode = .byCharWrapping
         return label
     }()
     
@@ -35,6 +51,7 @@ final class FirstCreateGroupViewController: UIViewController {
         })
         button.backgroundColor = .systemGray6
         button.layer.cornerRadius = 7
+        button.isHidden = true
         return button
     }()
     
@@ -48,6 +65,7 @@ final class FirstCreateGroupViewController: UIViewController {
         let label = UILabel()
         label.text = "날짜를 선택해주세요."
         label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
+        label.isHidden = true
         return label
     }()
     
@@ -58,17 +76,33 @@ final class FirstCreateGroupViewController: UIViewController {
         datePicker.locale = Locale(identifier: "ko-KR")
         datePicker.minimumDate = Date()
         datePicker.maximumDate = Date().addingTimeInterval(2678400)
+        datePicker.isHidden = true
+        datePicker.addTarget(self, action: #selector(showNumberOfGroupPeopleView), for: .valueChanged)
         return datePicker
+    }()
+    
+    private let datePickerFooterLabel: UILabel = {
+        let label = UILabel()
+        label.text = "오늘부터 한달 이내로만 모임을 만들 수 있어요."
+        label.font = .preferredFont(forTextStyle: .subheadline)
+        label.textColor = .gray
+        label.isHidden = true
+        return label
     }()
     
     private let numberOfGroupPeopleTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "모임 인원을 선택해주세요."
         label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
+        label.isHidden = true
         return label
     }()
     
-    private let numberOfGroupCollectionView = NumberOfGroupPeopleView()
+    private let numberOfGroupCollectionView: NumberOfGroupPeopleView = {
+        let view = NumberOfGroupPeopleView()
+        view.isHidden = true
+        return view
+    }()
     
     //MARK: - lifeCycle
     
@@ -79,21 +113,42 @@ final class FirstCreateGroupViewController: UIViewController {
     }
     
     //MARK: - func
-
+    
+    private func showLocationView() {
+        locationTitleLabel.isHidden = false
+        locationSearchingButton.isHidden = false
+        locationFooterLabel.isHidden = false
+    }
+    
+    private func showDateView() {
+        dateTitleLabel.isHidden = false
+        datePicker.isHidden = false
+        datePickerFooterLabel.isHidden = false
+    }
+    
+    @objc
+    private func showNumberOfGroupPeopleView() {
+        numberOfGroupPeopleTitleLabel.isHidden = false
+        numberOfGroupCollectionView.isHidden = false
+    }
+    
     private func setupLayout() {
+        
         view.addSubviews(categoryTitleLabel,
                          categoryCollectionView,
                          locationTitleLabel,
                          locationSearchingButton,
+                         locationFooterLabel,
                          dateTitleLabel,
                          datePicker,
+                         datePickerFooterLabel,
                          numberOfGroupPeopleTitleLabel,
                          numberOfGroupCollectionView)
         
         categoryTitleLabel.constraint(top: view.safeAreaLayoutGuide.topAnchor,
                                       leading: view.leadingAnchor,
                                       trailing: view.trailingAnchor,
-                                      padding: UIEdgeInsets(top: 23, left: 24, bottom: 0, right: 24))
+                                      padding: UIEdgeInsets(top: 23, left: 20, bottom: 0, right: 24))
         
         categoryCollectionView.constraint(top: categoryTitleLabel.bottomAnchor,
                                           leading: view.leadingAnchor,
@@ -102,12 +157,12 @@ final class FirstCreateGroupViewController: UIViewController {
         
         locationTitleLabel.constraint(top: categoryCollectionView.bottomAnchor,
                                       leading: view.leadingAnchor,
-                                      padding: UIEdgeInsets(top: 49, left: 24, bottom: 0, right: 0))
+                                      padding: UIEdgeInsets(top: 45, left: 20, bottom: 0, right: 0))
         
         locationSearchingButton.constraint(top: locationTitleLabel.bottomAnchor,
-                                          leading: view.leadingAnchor,
-                                          trailing: view.trailingAnchor,
-                                          padding: UIEdgeInsets(top: 10, left: 24, bottom: 0, right: 24))
+                                           leading: view.leadingAnchor,
+                                           trailing: view.trailingAnchor,
+                                           padding: UIEdgeInsets(top: 11, left: 20, bottom: 0, right: 20))
         locationSearchingButton.constraint(.heightAnchor, constant: 44)
         
         locationSearchingButton.addSubview(locationLabel)
@@ -115,32 +170,48 @@ final class FirstCreateGroupViewController: UIViewController {
                                  centerY: locationSearchingButton.centerYAnchor,
                                  padding: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0))
         
-        dateTitleLabel.constraint(top: locationSearchingButton.bottomAnchor,
+        locationFooterLabel.constraint(top: locationSearchingButton.bottomAnchor,
+                                       leading: view.leadingAnchor,
+                                       trailing: view.trailingAnchor,
+                                       padding: UIEdgeInsets(top: 10, left: 20, bottom: 0, right: 20))
+        
+        dateTitleLabel.constraint(top: locationFooterLabel.bottomAnchor,
                                   leading: view.leadingAnchor,
-                                  padding: UIEdgeInsets(top: 49, left: 24, bottom: 0, right: 0))
+                                  padding: UIEdgeInsets(top: 28, left: 20, bottom: 0, right: 0))
         
         datePicker.constraint(top: dateTitleLabel.bottomAnchor,
                               leading: view.leadingAnchor,
-                              padding: UIEdgeInsets(top: 10, left: 24, bottom: 0, right: 0))
+                              padding: UIEdgeInsets(top: 10, left: 20, bottom: 0, right: 0))
         
-        numberOfGroupPeopleTitleLabel.constraint(top: datePicker.bottomAnchor,
+        datePickerFooterLabel.constraint(top: datePicker.bottomAnchor,
+                                         leading: view.leadingAnchor,
+                                         padding: UIEdgeInsets(top: 10, left: 20, bottom: 0, right: 0))
+        
+        numberOfGroupPeopleTitleLabel.constraint(top: datePickerFooterLabel.bottomAnchor,
                                                  leading: view.leadingAnchor,
-                                                 padding: UIEdgeInsets(top: 49, left: 24, bottom: 0, right: 0))
+                                                 padding: UIEdgeInsets(top: 49, left: 20, bottom: 0, right: 0))
         
         numberOfGroupCollectionView.constraint(top: numberOfGroupPeopleTitleLabel.bottomAnchor,
                                                leading: view.leadingAnchor,
-                                               padding: UIEdgeInsets(top: 24, left: 24, bottom: 0, right: 0))
+                                               padding: UIEdgeInsets(top: 24, left: 20, bottom: 0, right: 0))
     }
     
     private func configureUI() {
         view.backgroundColor = .white
     }
-
+    
 }
 
 extension FirstCreateGroupViewController: LocationSearchingViewControllerDelegate {
     func configureLocationText(with text: String) {
         locationLabel.text = text
+        self.showDateView()
     }
     
+}
+
+extension FirstCreateGroupViewController: GroupCategoryViewDelegate {
+    func didSelectCategory(didSelectItemAt indexPath: IndexPath) {
+        self.showLocationView()
+    }
 }

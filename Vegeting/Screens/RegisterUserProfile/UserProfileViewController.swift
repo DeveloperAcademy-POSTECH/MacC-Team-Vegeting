@@ -34,7 +34,7 @@ final class UserProfileViewController: UIViewController {
         return imageView
     }()
     
-    private let cameraButton: UIButton = {
+    private lazy var cameraButton: UIButton = {
         let button = UIButton()
         var image = UIImage(systemName: "camera.circle.fill")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 30))
         button.setImage(image, for: .normal)
@@ -104,7 +104,9 @@ final class UserProfileViewController: UIViewController {
     
     func configureUI() {
         view.backgroundColor = .white
-        view.addSubviews(progressBarImageView, profileMessageLabel, profileImageView, nicknameMessageLabel, cameraButton, nicknameTextField, nicknameLimitWarningLabel, nextButton)
+        view.addSubviews(progressBarImageView, profileMessageLabel, profileImageView,
+                         nicknameMessageLabel, cameraButton, nicknameTextField,
+                         nicknameLimitWarningLabel, nextButton)
     }
     
     func setupLayout() {
@@ -183,8 +185,7 @@ final class UserProfileViewController: UIViewController {
                     let index = text.index(text.startIndex, offsetBy: nicknameMaxLength)
                     let newString = text[text.startIndex..<index]
                     nicknameTextField.text = String(newString)
-                }
-                else if text.count < nicknameMinLength {
+                } else if text.count < nicknameMinLength {
                     nicknameLimitWarningLabel.text = "2글자 이상 10글자 이하로 입력해주세요"
                     nicknameLimitWarningLabel.textColor = .red
                 } else {
