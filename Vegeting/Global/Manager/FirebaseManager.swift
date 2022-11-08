@@ -172,6 +172,16 @@ extension FirebaseManager {
         }
     }
     
+    func requestRecentChat(user: VFUser) -> AnyPublisher<[RecentChat], Error> {
+        guard let participatedChatRoomIDs =  user.participatedChats?.compactMap(\.chatID) else {
+            return Fail(error: FBError.didFailToLoadChat)
+                .eraseToAnyPublisher()
+        }
+        
+        return db.collection(Path.recentChat.rawValue).whereField(FieldPath.documentID(), in: participatedChatRoomIDs).snapshotPublisher()
+            .tryMap { try $0.documents.compactMap { try $0.data(as: RecentChat.self) } }
+            .eraseToAnyPublisher()
+    }
 }
 
 // MARK: Firebase Authentifcation 전용(유저 회원가입 및 로그인 담당)
