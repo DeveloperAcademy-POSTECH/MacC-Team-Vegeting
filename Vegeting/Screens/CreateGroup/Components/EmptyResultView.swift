@@ -26,7 +26,10 @@ class EmptyResultView: UIView {
     
     private let label: UILabel = {
         let label = UILabel()
-        label.text = "저장된 판정결과가 없습니다."
+        label.text = "검색 결과를 찾을 수 없습니다.\n검색어가 정확한지 확인해 보세요."
+        label.addLabelSpacing(lineSpacing: 5)
+        label.textAlignment = .center
+        label.numberOfLines = 0
         return label
     }()
     
