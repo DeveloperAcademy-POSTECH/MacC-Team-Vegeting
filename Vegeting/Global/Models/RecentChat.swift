@@ -7,7 +7,9 @@
 
 import Foundation
 
-struct RecentChat {
+import FirebaseFirestoreSwift
+
+struct RecentChat: Codable, Identifiable {
     @DocumentID var id: String?
     let chatRoomID: String?
     let chatRoomName: String?
