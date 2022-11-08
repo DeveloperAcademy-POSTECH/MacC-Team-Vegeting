@@ -37,14 +37,14 @@ class MyPageProfileTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var editButton: UIButton = {
+    private var editButton: UIButton = {
         let button = UIButton()
         button.setTitle("프로필 편집", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 13, weight: .medium)
         button.setTitleColor(.gray, for: .normal)
         button.setBackgroundColor(.systemGray5, for: .normal)
         button.layer.masksToBounds = true
-        editButton.layer.cornerRadius = 7
+        button.layer.cornerRadius = 7
         return button
     }()
     
