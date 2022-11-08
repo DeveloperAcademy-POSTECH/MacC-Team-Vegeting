@@ -35,4 +35,14 @@ final class AuthManager {
             }.map(\.user)
             .eraseToAnyPublisher()
     }
+    
+    func registerUser(email: String, password: String) -> AnyPublisher<User, Error> {
+        return auth.createUser(withEmail: email, password: password)
+            .catch { error in
+                return Fail(error: error)
+                    .eraseToAnyPublisher()
+            }.map(\.user)
+            .eraseToAnyPublisher()
+    }
+    
 }
