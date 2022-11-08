@@ -148,20 +148,13 @@ class ChatRoomTableViewCell: UITableViewCell {
     }
     
     private func convertDate(lastChatDate: Date) -> String {
-        
-        let now = Date()
-        let nowTime = now.toString(format: "H m")
-        let nowTimeList = nowTime.split(separator: " ")
-        let nowTotalSeconds = (Double(nowTimeList[0]) ?? 0) * 3600 + (Double(nowTimeList[1]) ?? 0) * 60
-        let timeIntervalFromNow = now.timeIntervalSince(lastChatDate)
-        let isToday = timeIntervalFromNow <= nowTotalSeconds
-        let isYesterday = nowTotalSeconds < timeIntervalFromNow && timeIntervalFromNow < nowTotalSeconds + 86400
+        let calendar = Calendar.current
 
-        if isToday {
+        if calendar.isDateInToday(lastChatDate) {
             return lastChatDate.toString(format: "a h:mm")
         }
         
-        if isYesterday {
+        if calendar.isDateInYesterday(lastChatDate) {
             return "어제"
         } else {
             return lastChatDate.toString(format: "M월 d일")
