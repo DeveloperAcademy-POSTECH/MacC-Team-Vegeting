@@ -23,6 +23,7 @@ class MyProfileEditViewController: UIViewController {
         super.viewDidLoad()
         setupLayout()
         configureUI()
+        setupNavigationBar()
     }
     
     private func setupLayout() {
@@ -46,4 +47,20 @@ class MyProfileEditViewController: UIViewController {
     func configure(with data: ModalModel) {
         profileView.configure(with: data)
     }
+    
+    private func setupNavigationBar() {
+        let backButton = UIBarButtonItem(image: ImageLiteral.backwardChevronSymbol,
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(touchUpToPop))
+        navigationItem.leftBarButtonItem = backButton
+        self.navigationController?.navigationBar.tintColor = .black
+        self.navigationItem.title = "내 프로필"
+    }
+    
+    @objc
+    private func touchUpToPop() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
 }

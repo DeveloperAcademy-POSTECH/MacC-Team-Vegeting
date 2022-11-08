@@ -35,6 +35,7 @@ class MyPageViewController: UIViewController {
         super.viewDidLoad()
         setupLayout()
         configureUI()
+        setupNavigationBar()
     }
 
     private func setupLayout() {
@@ -49,6 +50,9 @@ class MyPageViewController: UIViewController {
         view.backgroundColor = .white
     }
     
+    private func setupNavigationBar() {
+        self.navigationItem.title = "마이페이지"
+    }
 }
 
 extension MyPageViewController: UITableViewDataSource {
