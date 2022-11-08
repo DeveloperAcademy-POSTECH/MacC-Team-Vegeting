@@ -39,7 +39,7 @@
 		7645E75729070FC6009E2E3B /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E75629070FC6009E2E3B /* FirebaseManager.swift */; };
 		76B027F12901726E002C9DF7 /* VegetingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B027F02901726E002C9DF7 /* VegetingTests.swift */; };
 		76B0282629051FC9002C9DF7 /* VFUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B0282529051FC9002C9DF7 /* VFUser.swift */; };
-		76B02829290520BB002C9DF7 /* GoogleS`ervice-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76B02828290520BB002C9DF7 /* GoogleService-Info.plist */; };
+		76B02829290520BB002C9DF7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76B02828290520BB002C9DF7 /* GoogleService-Info.plist */; };
 		76B0282A290520C5002C9DF7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76B02828290520BB002C9DF7 /* GoogleService-Info.plist */; };
 		76B0282D29052209002C9DF7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 76B0282C29052209002C9DF7 /* FirebaseAuth */; };
 		76B0282F29052209002C9DF7 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 76B0282E29052209002C9DF7 /* FirebaseAuthCombine-Community */; };
@@ -59,9 +59,9 @@
 		A2F369D12908258B007F3732 /* GroupInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F369D02908258B007F3732 /* GroupInfoView.swift */; };
 		A2F369D929090E72007F3732 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F369D829090E72007F3732 /* UIButton+Extension.swift */; };
 		A2F369DD290948BB007F3732 /* GroupListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F369DC290948BB007F3732 /* GroupListViewController.swift */; };
-		A760964B2909530600636A99 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A760964A2909530600636A99 /* MainTabBarViewController.swift */; };
 		A73AAAF32904E26D0050CA81 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73AAAF22904E26D0050CA81 /* PostDetailViewController.swift */; };
 		A76096422908ACA900636A99 /* ProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76096412908ACA900636A99 /* ProfileCollectionViewCell.swift */; };
+		A760964B2909530600636A99 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A760964A2909530600636A99 /* MainTabBarViewController.swift */; };
 		A7C8DF242901274500F38AD7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C8DF232901274500F38AD7 /* AppDelegate.swift */; };
 		A7C8DF262901274500F38AD7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C8DF252901274500F38AD7 /* SceneDelegate.swift */; };
 		A7C8DF282901274500F38AD7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C8DF272901274500F38AD7 /* ViewController.swift */; };
@@ -126,9 +126,9 @@
 		A2F369D02908258B007F3732 /* GroupInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupInfoView.swift; sourceTree = "<group>"; };
 		A2F369D829090E72007F3732 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		A2F369DC290948BB007F3732 /* GroupListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListViewController.swift; sourceTree = "<group>"; };
-		A760964A2909530600636A99 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		A73AAAF22904E26D0050CA81 /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		A76096412908ACA900636A99 /* ProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewCell.swift; sourceTree = "<group>"; };
+		A760964A2909530600636A99 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		A7C8DF202901274500F38AD7 /* Vegeting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vegeting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7C8DF232901274500F38AD7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A7C8DF252901274500F38AD7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -822,6 +822,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -841,6 +842,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.PigGarden.Vegeting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -856,6 +858,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -875,6 +878,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.PigGarden.Vegeting;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
