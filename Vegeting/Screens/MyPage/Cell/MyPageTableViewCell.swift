@@ -15,33 +15,40 @@ class MyPageTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let alarmSwitch: UISwitch = {
+    private lazy var alarmSwitch: UISwitch = {
         let uiSwitch = UISwitch()
         uiSwitch.isOn = true
-        uiSwitch.addTarget(MyPageTableViewCell.self, action: #selector(didSwitchValueChanged), for: .touchUpInside)
+        uiSwitch.addTarget(self, action: #selector(didSwitchValueChanged(sender:)), for: .touchUpInside)
         return uiSwitch
+    }()
+    
+    private lazy var divierView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray6
+        return view
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupLabelLayout()
+        setupLayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        label.font = .preferredFont(forTextStyle: .body, compatibleWith: .init(legibilityWeight: .regular))
-    }
-    
-    private func setupLabelLayout() {
-        contentView.addSubview(label)
+    private func setupLayout() {
+        contentView.addSubviews(label, divierView)
         label.constraint(top: contentView.topAnchor,
                          leading: contentView.leadingAnchor,
                          bottom: contentView.bottomAnchor,
                          padding: UIEdgeInsets(top: 16, left: 20, bottom: 16, right: 0))
+        
+        divierView.constraint(leading: contentView.leadingAnchor,
+                              bottom: contentView.bottomAnchor,
+                              trailing: contentView.trailingAnchor,
+                              padding: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
+        divierView.constraint(.heightAnchor, constant: 1)
     }
     
     private func setupSwitchLayout() {
@@ -52,9 +59,22 @@ class MyPageTableViewCell: UITableViewCell {
     }
     
     @objc
-    private func didSwitchValueChanged(_ sender: UISwitch) {
+    private func didSwitchValueChanged(sender: UISwitch) {
         if sender.isOn {
             print("on!")
+        }
+    }
+    
+    func configure(with data: MyPageTable) {
+        label.text = data.text
+        
+        if data.isSmallTitle {
+            label.font = .preferredFont(forTextStyle: .body, compatibleWith: .init(legibilityWeight: .bold))
+            divierView.removeFromSuperview()
+        }
+        
+        if data.isSwitch {
+            setupSwitchLayout()
         }
     }
 }

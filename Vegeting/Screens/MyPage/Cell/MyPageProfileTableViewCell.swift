@@ -48,10 +48,15 @@ class MyPageProfileTableViewCell: UITableViewCell {
         return button
     }()
     
+    private let divierView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray6
+        return view
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupLayout()
-        configureUI()
     }
     
     required init?(coder: NSCoder) {
@@ -65,7 +70,7 @@ class MyPageProfileTableViewCell: UITableViewCell {
     }
     
     private func setupLayout() {
-        contentView.addSubviews(profileImageView, labelStackView, editButton)
+        contentView.addSubviews(profileImageView, labelStackView, editButton, divierView)
         labelStackView.addArrangedSubviews(nicknameLabel, vegetarianStepLabel)
         
         profileImageView.constraint(top: contentView.topAnchor,
@@ -85,12 +90,13 @@ class MyPageProfileTableViewCell: UITableViewCell {
         editButton.constraint(.widthAnchor, constant: 79)
         editButton.constraint(.heightAnchor, constant: 33)
         
+        divierView.constraint(leading: contentView.leadingAnchor,
+                              bottom: contentView.bottomAnchor,
+                              trailing: contentView.trailingAnchor,
+                              padding: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
+        divierView.constraint(.heightAnchor, constant: 1)
     }
-    
-    private func configureUI() {
-        
-    }
-    
+
    func configure(image: String, nickName: String, step: String) {
         profileImageView.image = UIImage(named: image)
         nicknameLabel.text = nickName

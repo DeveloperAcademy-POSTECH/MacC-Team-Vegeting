@@ -37,6 +37,7 @@
 		4AFF0F502919F7C300F7496C /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFF0F4F2919F7C300F7496C /* MyPageViewController.swift */; };
 		4AFF0F532919F8C400F7496C /* MyPageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFF0F522919F8C400F7496C /* MyPageTableViewCell.swift */; };
 		4AFF0F552919F8E100F7496C /* MyPageProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFF0F542919F8E100F7496C /* MyPageProfileTableViewCell.swift */; };
+		4AFF0F57291AA5CE00F7496C /* MyPageTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFF0F56291AA5CE00F7496C /* MyPageTable.swift */; };
 		7628CC7B2914AF7B00CDA679 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7628CC7A2914AF7B00CDA679 /* MockData.swift */; };
 		7645E74A290700E5009E2E3B /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E749290700E5009E2E3B /* SignInViewController.swift */; };
 		7645E7512907031D009E2E3B /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E7502907031D009E2E3B /* SignInViewModel.swift */; };
@@ -111,6 +112,7 @@
 		4AFF0F4F2919F7C300F7496C /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		4AFF0F522919F8C400F7496C /* MyPageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageTableViewCell.swift; sourceTree = "<group>"; };
 		4AFF0F542919F8E100F7496C /* MyPageProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageProfileTableViewCell.swift; sourceTree = "<group>"; };
+		4AFF0F56291AA5CE00F7496C /* MyPageTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageTable.swift; sourceTree = "<group>"; };
 		7628CC7A2914AF7B00CDA679 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		7645E749290700E5009E2E3B /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		7645E7502907031D009E2E3B /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
@@ -424,6 +426,7 @@
 				76B02838290526AF002C9DF7 /* Club.swift */,
 				76B0283A290528F8002C9DF7 /* Chat.swift */,
 				76B0283C29052937002C9DF7 /* Participant.swift */,
+				4AFF0F56291AA5CE00F7496C /* MyPageTable.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -660,6 +663,7 @@
 				4AFA58B2290526C300679142 /* NumberOfGroupPeopleView.swift in Sources */,
 				4AFF0F502919F7C300F7496C /* MyPageViewController.swift in Sources */,
 				7628CC7B2914AF7B00CDA679 /* MockData.swift in Sources */,
+				4AFF0F57291AA5CE00F7496C /* MyPageTable.swift in Sources */,
 				4AB5C27729078AE90064C41E /* Address.swift in Sources */,
 				4ADC12E72901818900C0FFB6 /* UIStackView+Extention.swift in Sources */,
 				76B02839290526AF002C9DF7 /* Club.swift in Sources */,
