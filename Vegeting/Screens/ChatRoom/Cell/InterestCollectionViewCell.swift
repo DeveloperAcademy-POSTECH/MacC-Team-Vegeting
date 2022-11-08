@@ -49,7 +49,7 @@ class InterestCollectionViewCell: UICollectionViewCell {
                                  leading: backgroundContentView.leadingAnchor,
                                  bottom: backgroundContentView.bottomAnchor,
                                  trailing: backgroundContentView.trailingAnchor,
-                                 padding: UIEdgeInsets(top: 9, left: 14, bottom: 8, right: 14))
+                                 padding: UIEdgeInsets(top: 8, left: 14, bottom: 8, right: 14))
     }
     
     private func configureUI() {
