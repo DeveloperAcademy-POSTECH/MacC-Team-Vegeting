@@ -26,11 +26,11 @@ final class LocationSearchingViewController: UIViewController {
         return tableView
     }()
     
-//    private lazy var emptyResultView = EmptyResultView() {
-//        didSet {
-//            setupEmptyResultViewLayout()
-//        }
-//    }
+    //    private lazy var emptyResultView = EmptyResultView() {
+    //        didSet {
+    //            setupEmptyResultViewLayout()
+    //        }
+    //    }
     
     private var addressResultList: [Address] = []
     
@@ -89,21 +89,21 @@ final class LocationSearchingViewController: UIViewController {
         resultTableView.dataSource = self
     }
     
-//    private func checkEmptyResultState() {
-//        if addressResultList.isEmpty && placeResultList.isEmpty {
-//            emptyResultView = EmptyResultView()
-//        } else {
-//            emptyResultView.removeFromSuperview()
-//        }
-//    }
+    //    private func checkEmptyResultState() {
+    //        if addressResultList.isEmpty && placeResultList.isEmpty {
+    //            emptyResultView = EmptyResultView()
+    //        } else {
+    //            emptyResultView.removeFromSuperview()
+    //        }
+    //    }
     
-//    private func setupEmptyResultViewLayout() {
-//        view.addSubview(emptyResultView)
-//        emptyResultView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
-//                                   leading: view.leadingAnchor,
-//                                   bottom: view.bottomAnchor,
-//                                   trailing: view.trailingAnchor)
-//    }
+    //    private func setupEmptyResultViewLayout() {
+    //        view.addSubview(emptyResultView)
+    //        emptyResultView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
+    //                                   leading: view.leadingAnchor,
+    //                                   bottom: view.bottomAnchor,
+    //                                   trailing: view.trailingAnchor)
+    //    }
     
     private func setupResultTableViewLayout() {
         view.addSubview(resultTableView)
@@ -215,14 +215,12 @@ extension LocationSearchingViewController: UITableViewDataSource {
         
         if totalCount == 0 {
             cell.configure(with: autoSearchResults[indexPath.row].title)
+        } else if indexPath.row < totalAddress {
+            cell.configure(with: addressResultList[indexPath.row])
         } else {
-            if indexPath.row < totalAddress {
-                cell.configure(with: addressResultList[indexPath.row])
-            } else {
-                cell.configure(with: placeResultList[indexPath.row - totalAddress])
-            }
+            cell.configure(with: placeResultList[indexPath.row - totalAddress])
         }
-       
+        
         return cell
     }
     
@@ -260,9 +258,9 @@ extension LocationSearchingViewController: UISearchBarDelegate {
 }
 
 extension LocationSearchingViewController: UISearchControllerDelegate {
-   func didPresentSearchController(searchController: UISearchController) {
-      searchController.searchBar.becomeFirstResponder()
-   }
+    func didPresentSearchController(searchController: UISearchController) {
+        searchController.searchBar.becomeFirstResponder()
+    }
 }
 
 extension LocationSearchingViewController: MKLocalSearchCompleterDelegate {
