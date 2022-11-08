@@ -138,7 +138,7 @@ final class LocationSearchingViewController: UIViewController {
         Session.default.request(StringLiteral.kakaoRestAPIAddress,
                                 method: .get,
                                 parameters: parameters,
-                                headers: headers).responseJSON(completionHandler: { response in
+                                headers: headers).responseJSON(completionHandler: { [weak self] response in
             switch response.result {
             case .success(let value):
                 var list: [Address] = []
@@ -152,7 +152,7 @@ final class LocationSearchingViewController: UIViewController {
                                             latitudeY: latitudeY))
                     }
                 }
-                self.addressResultList = list
+                self?.addressResultList = list
                 
             case .failure(let error):
                 print(error)
@@ -176,7 +176,7 @@ final class LocationSearchingViewController: UIViewController {
         AF.request(StringLiteral.kakaoRestAPIKeyword,
                    method: .get,
                    parameters: parameters,
-                   headers: headers).responseJSON(completionHandler: { response in
+                   headers: headers).responseJSON(completionHandler: { [weak self] response in
             switch response.result {
             case .success(let value):
                 var list: [Place] = []
@@ -192,8 +192,8 @@ final class LocationSearchingViewController: UIViewController {
                                           latitudeY: latitudeY))
                     }
                 }
-                self.placeResultList = list
-                self.autoSearchCompleter.queryFragment = keyword
+                self?.placeResultList = list
+                self?.autoSearchCompleter.queryFragment = keyword
                 
             case .failure(let error):
                 print(error)
