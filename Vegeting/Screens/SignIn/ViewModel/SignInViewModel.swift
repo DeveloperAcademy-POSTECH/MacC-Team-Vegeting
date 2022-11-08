@@ -86,9 +86,24 @@ final class SignInViewModel {
             if let error = error {
                 self?.output.send(.didFailToSignInWithKakao(error: error))
             }
-            self?.validateKakaoUser(user: kuser)
+            self?.didKOUserRegisterAuth(user: kuser)
                 
         }
+    }
+    
+    private func didKOUserRegisterAuth(user koUser: KOUser?) {
+        guard let email = koUser?.kakaoAccount?.email, let password = koUser?.id else { return }
+        AuthManager.shared.registerUser(email: email, password: String(password)).sink { [weak self] completion in
+            if case .failure(let error) = completion {
+                if AuthErrorCode.emailAlreadyInUse.rawValue == (error as NSError).code {
+                    self?.validateKakaoUser(user: koUser)
+                }
+                self?.output.send(.didFailToSignInWithKakao(error: error))
+            }
+        } receiveValue: { [weak self] user in
+            self?.validateKakaoUser(user: koUser)
+        }.store(in: &cancellables)
+
     }
     
     private func validateKakaoUser(user: KOUser?) {
