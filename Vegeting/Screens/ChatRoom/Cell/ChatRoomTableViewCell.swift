@@ -147,13 +147,11 @@ class ChatRoomTableViewCell: UITableViewCell {
 
         if calendar.isDateInToday(lastChatDate) {
             return lastChatDate.toString(format: "a h:mm")
-        }
-        
-        if calendar.isDateInYesterday(lastChatDate) {
+        } else if calendar.isDateInYesterday(lastChatDate) {
             return "어제"
         } else {
             return lastChatDate.toString(format: "M월 d일")
         }
-        
+
     }
 }
