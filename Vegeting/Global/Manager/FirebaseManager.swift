@@ -182,6 +182,21 @@ extension FirebaseManager {
             .tryMap { try $0.documents.compactMap { try $0.data(as: RecentChat.self) } }
             .eraseToAnyPublisher()
     }
+    
+    func requestRecentChat(user: VFUser, completion: @escaping (Result<[RecentChat], Error>) -> Void) {
+        guard let participatedChatRoomIDs =  user.participatedChats?.compactMap(\.chatID) else { return }
+        
+        db.collection(Path.recentChat.rawValue).whereField(FieldPath.documentID(), in: participatedChatRoomIDs).addSnapshotListener { querySnapshot, error in
+            if let error = error {
+                print("Error getting documents: \(error)")
+                completion(.failure(error))
+            } else {
+                let datas = querySnapshot!.documents.map { try? $0.data(as: RecentChat.self) }
+                let recentChats = datas.compactMap({ $0 })
+                completion(.success(recentChats))
+            }
+        }
+    }
 }
 
 // MARK: Firebase Authentifcation 전용(유저 회원가입 및 로그인 담당)
