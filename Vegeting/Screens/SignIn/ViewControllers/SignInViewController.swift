@@ -13,7 +13,6 @@ import UIKit
 class SignInViewController: UIViewController {
     
     private let brandingImageView: UIImageView = {
-        
         let imageView = UIImageView()
         imageView.backgroundColor = .gray
         return imageView
@@ -66,6 +65,7 @@ class SignInViewController: UIViewController {
 
 // MARK: apple로 로그인하기 관련 함수
 extension SignInViewController {
+    
     @objc private func appleSignInButtonTapped(_ sender: Any) {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
@@ -76,8 +76,7 @@ extension SignInViewController {
         authrizationController.presentationContextProvider = self
         authrizationController.performRequests()
     }
-
-
+    
 }
 
 extension SignInViewController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
@@ -103,8 +102,7 @@ extension SignInViewController: ASAuthorizationControllerDelegate, ASAuthorizati
             
         default:
             break
-            
-        
+                    
         }
     }
 
