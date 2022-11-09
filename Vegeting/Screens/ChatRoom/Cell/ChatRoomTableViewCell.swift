@@ -12,7 +12,6 @@ class ChatRoomTableViewCell: UITableViewCell {
     private let roomImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = true
-        imageView.layer.bounds.size = .init(width: 70, height: 70)
         imageView.layer.cornerRadius = 35
         imageView.contentMode = .scaleAspectFill
         return imageView
@@ -87,7 +86,6 @@ class ChatRoomTableViewCell: UITableViewCell {
         let view = UIView()
         view.layer.masksToBounds = true
         view.backgroundColor = .systemGray5
-        view.layer.bounds.size = .init(width: 22, height: 22)
         view.layer.cornerRadius = 11
         return view
     }()
