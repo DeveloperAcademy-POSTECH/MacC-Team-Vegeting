@@ -74,7 +74,7 @@ extension FirebaseManager {
                                  messages: nil, coverImageURL: chat.coverImageURL)
             
             let recentChat = RecentChat(chatRoomID: docChat.documentID, chatRoomName: chat.chatRoomName
-                                        ,lastSentMessage: nil, lastSentTime: Date())
+                                        ,lastSentMessage: nil, lastSentTime: Date(), coverImageURL: chat.coverImageURL)
             
             try docClub.setData(from: addedClub)
             try docChat.setData(from: addedChat)
@@ -165,7 +165,7 @@ extension FirebaseManager {
     func requestRecentMessageInChat(chat: Chat, message: Message) {
         guard let chatID = chat.chatRoomID else { return }
         do {
-            let recentChat = RecentChat(chatRoomID: chatID, chatRoomName: chat.chatRoomName, lastSentMessage: message.content, lastSentTime: message.createdAt)
+            let recentChat = RecentChat(chatRoomID: chatID, chatRoomName: chat.chatRoomName, lastSentMessage: message.content, lastSentTime: message.createdAt, coverImageURL: chat.coverImageURL)
             try db.collection(Path.recentChat.rawValue).document(chatID).setData(from: recentChat)
         } catch {
             print(error.localizedDescription)
