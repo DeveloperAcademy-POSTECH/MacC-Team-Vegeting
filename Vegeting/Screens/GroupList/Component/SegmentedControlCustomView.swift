@@ -75,7 +75,7 @@ class SegmentedControlCustomView: UIView {
             } else {
                 button.tintColor = .secondaryLabel
             }
-            button.addTarget(self, action: #selector(didTapTab(_:)), for: .touchUpInside)
+            button.addTarget(self, action: #selector(tabButtontapped(_:)), for: .touchUpInside)
         }
     }
     
@@ -85,7 +85,7 @@ class SegmentedControlCustomView: UIView {
         configureSegmentButton()
     }
     
-    @objc private func didTapTab(_ sender: UIButton) {
+    @objc private func tabButtontapped(_ sender: UIButton) {
         guard let label = sender.titleLabel?.text else { return }
         switch label {
         case SectionTabs.oneDayClub.rawValue:
