@@ -10,6 +10,9 @@ import UIKit
 
 class LocationAuthViewController: UIViewController {
     
+    let firstLocation = CLLocationCoordinate2D(latitude: 36.0106098, longitude: 129.321296) //포항공대 위치
+    var currentLocation: CLLocation? //현재 내 위치 저장
+    
     private let progressBarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "progress2")
@@ -24,7 +27,7 @@ class LocationAuthViewController: UIViewController {
         return label
     }()
     
-    private let map = MapView()
+    private let mapView = MapView()
     private let locationManager = CLLocationManager()
     
     private let locationTextField: UITextField = {
@@ -58,13 +61,20 @@ class LocationAuthViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureMap()
         configureUI()
+        findCurrentLocationButtonAction()
         setupLayout()
+    }
+    
+    func configureMap() {
+        mapView.map.setRegion(MKCoordinateRegion(center: firstLocation,
+                                                 span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)), animated: true) //처음 보여줄 위치
     }
     
     func configureUI() {
         view.backgroundColor = .systemBackground
-        view.addSubviews(progressBarImageView, locationMessageLabel, map,
+        view.addSubviews(progressBarImageView, locationMessageLabel, mapView,
                          locationTextField, locationNoticeLabel, nextButton)
     }
     
@@ -82,14 +92,14 @@ class LocationAuthViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            map.topAnchor.constraint(equalTo: locationMessageLabel.bottomAnchor, constant: 14),
-            map.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            map.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            map.heightAnchor.constraint(equalToConstant: 354)
+            mapView.topAnchor.constraint(equalTo: locationMessageLabel.bottomAnchor, constant: 14),
+            mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            mapView.heightAnchor.constraint(equalToConstant: 354)
         ])
         
         NSLayoutConstraint.activate([
-            locationTextField.topAnchor.constraint(equalTo: map.bottomAnchor, constant: 23),
+            locationTextField.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 23),
             locationTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             locationTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             locationTextField.heightAnchor.constraint(equalToConstant: 50)
@@ -107,5 +117,16 @@ class LocationAuthViewController: UIViewController {
             nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55),
             nextButton.heightAnchor.constraint(equalToConstant: 50)
         ])
+    }
+
+    @objc
+    private func findCurrentLocation() {
+
+        mapView.map.showsUserLocation = true
+        mapView.map.setUserTrackingMode(.follow, animated: true)
+    }
+    
+    private func findCurrentLocationButtonAction() {
+        mapView.currentLocationButton.addTarget(self, action: #selector(findCurrentLocation), for: .touchUpInside)
     }
 }

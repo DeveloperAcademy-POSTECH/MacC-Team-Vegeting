@@ -10,9 +10,9 @@ import UIKit
 
 class MapView: UIView {
     
-    private let map = MKMapView()
+    public let map = MKMapView()
     
-    private let currentLocationButton: UIButton = {
+    public let currentLocationButton: UIButton = {
         let button = UIButton()
         var image = UIImage(systemName: "scope")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 20))
         button.setImage(image, for: .normal)
