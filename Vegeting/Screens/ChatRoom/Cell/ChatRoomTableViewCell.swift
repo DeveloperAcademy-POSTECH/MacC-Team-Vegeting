@@ -136,7 +136,7 @@ class ChatRoomTableViewCell: UITableViewCell {
     func configure(with data: TempChatModel) {
         roomImageView.image = UIImage(named: data.imageName)
         titleLabel.text = data.title
-        currentUserCountLabel.text = data.currentNumer.description
+        currentUserCountLabel.text = data.currentNumber.description
         latestChatLabel.text = data.latestChat
         latestChatDateLabel.text = convertDate(lastChatDate: data.latestChatDate)
         unreadChatCountLabel.text = data.unreadChatCount.description
