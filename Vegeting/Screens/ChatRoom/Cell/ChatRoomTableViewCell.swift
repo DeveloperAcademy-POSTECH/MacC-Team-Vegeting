@@ -13,6 +13,7 @@ class ChatRoomTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = true
         imageView.layer.bounds.size = .init(width: 70, height: 70)
+        imageView.layer.cornerRadius = 35
         return imageView
     }()
     
@@ -86,13 +87,13 @@ class ChatRoomTableViewCell: UITableViewCell {
         view.layer.masksToBounds = true
         view.backgroundColor = .systemGray5
         view.layer.bounds.size = .init(width: 22, height: 22)
+        view.layer.cornerRadius = 11
         return view
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupLayout()
-        configureUI()
     }
     
     required init?(coder: NSCoder) {
@@ -141,12 +142,7 @@ class ChatRoomTableViewCell: UITableViewCell {
         latestChatDateLabel.text = convertDate(lastChatDate: data.latestChatDate)
         unreadChatCountLabel.text = data.unreadChatCount.description
     }
-    
-    func configureUI() {
-        roomImageView.layer.cornerRadius = roomImageView.bounds.size.height / 2
-        backgroundUnreadChatView.layer.cornerRadius = backgroundUnreadChatView.bounds.size.height / 2
-    }
-    
+
     private func convertDate(lastChatDate: Date) -> String {
         let calendar = Calendar.current
 
