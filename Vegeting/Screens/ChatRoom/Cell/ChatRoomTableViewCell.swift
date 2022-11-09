@@ -14,6 +14,7 @@ class ChatRoomTableViewCell: UITableViewCell {
         imageView.layer.masksToBounds = true
         imageView.layer.bounds.size = .init(width: 70, height: 70)
         imageView.layer.cornerRadius = 35
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
