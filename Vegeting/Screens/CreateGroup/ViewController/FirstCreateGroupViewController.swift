@@ -104,6 +104,16 @@ final class FirstCreateGroupViewController: UIViewController {
         return view
     }()
     
+    private lazy var bottomButton: BottomButton = {
+       let button = BottomButton()
+        button.setTitle("다음으로", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = .preferredFont(forTextStyle: .body, compatibleWith: .init(legibilityWeight: .bold))
+        button.isEnabled = true
+        button.addTarget(self, action: #selector(bottomButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
     //MARK: - lifeCycle
     
     override func viewDidLoad() {
@@ -132,6 +142,19 @@ final class FirstCreateGroupViewController: UIViewController {
         numberOfGroupCollectionView.isHidden = false
     }
     
+    @objc
+    private func bottomButtonTapped() {
+        let selectedCategory = categoryCollectionView.getSelectedCategory()
+        let selectedNumberOfPeople = numberOfGroupCollectionView.getSelectedNumber()
+        let selectedDate = Calendar.current.date(byAdding: .hour, value: 9, to: datePicker.date)
+        let passedData = IncompleteClub(clubCategory: selectedCategory,
+                                        clubLocation: locationLabel.text ?? "",
+                                        createdAt: selectedDate ?? Date(),
+                                        maxNumberOfPeople: selectedNumberOfPeople)
+        let viewController = SecondCreateGroupViewController()
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
     private func setupLayout() {
         
         view.addSubviews(categoryTitleLabel,
@@ -143,7 +166,8 @@ final class FirstCreateGroupViewController: UIViewController {
                          datePicker,
                          datePickerFooterLabel,
                          numberOfGroupPeopleTitleLabel,
-                         numberOfGroupCollectionView)
+                         numberOfGroupCollectionView,
+                         bottomButton)
         
         categoryTitleLabel.constraint(top: view.safeAreaLayoutGuide.topAnchor,
                                       leading: view.leadingAnchor,
@@ -194,6 +218,11 @@ final class FirstCreateGroupViewController: UIViewController {
         numberOfGroupCollectionView.constraint(top: numberOfGroupPeopleTitleLabel.bottomAnchor,
                                                leading: view.leadingAnchor,
                                                padding: UIEdgeInsets(top: 24, left: 20, bottom: 0, right: 0))
+        
+        bottomButton.constraint(leading: view.leadingAnchor,
+                                bottom: view.bottomAnchor,
+                                trailing: view.trailingAnchor,
+                                padding: UIEdgeInsets(top: 0, left: 20, bottom: 55, right: 20))
     }
     
     private func configureUI() {

@@ -49,6 +49,11 @@ final class NumberOfGroupPeopleView: UIView {
         numberCollectionView.dataSource = self
         numberCollectionView.delegate = self
     }
+    
+    func getSelectedNumber() -> Int {
+        let index = numberCollectionView.indexPathsForSelectedItems?.first?.item ?? 0
+        return index + 2
+    }
 }
 
 extension NumberOfGroupPeopleView: UICollectionViewDataSource {

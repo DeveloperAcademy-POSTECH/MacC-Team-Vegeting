@@ -14,11 +14,17 @@ struct Club: Identifiable, Codable {
     let clubID: String?
     let chatID: String?
     let clubTitle, clubCategory: String?
-    var clubLocation: String? = nil
     let hostID: String?
     let participants: [Participant]?
     let createdAt: Date
     let maxNumberOfPeople: Int
     var coverImageURL: String?
     
+}
+
+struct IncompleteClub {
+    var clubCategory: String
+    var clubLocation: String
+    var createdAt: Date
+    var maxNumberOfPeople: Int
 }

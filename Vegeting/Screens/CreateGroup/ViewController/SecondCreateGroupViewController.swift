@@ -148,6 +148,10 @@ final class SecondCreateGroupViewController: BaseViewController {
     private func updateContentCountLabel(characterCount: Int) {
         contentWordsCountLabel.text = "\(characterCount)/500"
     }
+    
+    func configure(with data: Club) {
+        
+    }
 }
 
 extension SecondCreateGroupViewController: PHPickerViewControllerDelegate {
