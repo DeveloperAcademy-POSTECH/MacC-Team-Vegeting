@@ -27,6 +27,7 @@ final class SecondCreateGroupViewController: BaseViewController {
         textField.layer.cornerRadius = 5
         textField.layer.backgroundColor = UIColor.systemGray4.cgColor
         textField.addLeftPadding()
+        textField.addTarget(self, action: #selector(didTextFieldChanged), for: .editingChanged)
         return textField
     }()
     
@@ -141,12 +142,30 @@ final class SecondCreateGroupViewController: BaseViewController {
         present(PHPicker, animated: true, completion: nil)
     }
     
+    @objc
+    private func didTextFieldChanged() {
+        checkRegisterButtonEnabled()
+    }
+    
     private func updateTitleCountLabel(characterCount: Int) {
         titleWordsCountLabel.text = "\(characterCount)/20"
     }
     
     private func updateContentCountLabel(characterCount: Int) {
         contentWordsCountLabel.text = "\(characterCount)/500"
+    }
+    
+    private func checkRegisterButtonEnabled() {
+        guard let isTitleEmpty = titleTextField.text?.isEmpty,
+              let isContentTextEmpty = contentTextview.text?.isEmpty else { return }
+        let isContentPlaceholer = contentTextview.text == StringLiteral.secondCreateGroupViewControllerContent
+        let isContentEmpty = isContentTextEmpty || isContentPlaceholer
+        
+        if !isTitleEmpty && !isContentEmpty {
+            registerButton.isEnabled = true
+        } else {
+            registerButton.isEnabled = false
+        }
     }
     
     func configure(with data: IncompleteClub) {
@@ -170,6 +189,11 @@ extension SecondCreateGroupViewController: PHPickerViewControllerDelegate {
 }
 
 extension SecondCreateGroupViewController: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        checkRegisterButtonEnabled()
+    }
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == StringLiteral.secondCreateGroupViewControllerContent {
             textView.text = nil
@@ -214,6 +238,7 @@ extension SecondCreateGroupViewController: UITextViewDelegate {
 }
 
 extension SecondCreateGroupViewController: UITextFieldDelegate {
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let count = textField.text?.count  else { return }
         if count > 20 {
@@ -244,3 +269,5 @@ extension SecondCreateGroupViewController: UITextFieldDelegate {
         }
     }
 }
+
+
