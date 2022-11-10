@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol NumberOfGroupPeopleViewDelegate: AnyObject {
+    func didSelectedItem()
+}
+
 final class NumberOfGroupPeopleView: UIView {
     
     // MARK: - properties
@@ -24,7 +28,7 @@ final class NumberOfGroupPeopleView: UIView {
     }()
     
     private let numberList: [String] = ["2명", "3명", "4명", "5명", "6명", "7명", "8명"]
-    
+    weak var delegate: NumberOfGroupPeopleViewDelegate?
     // MARK: - init
     
     override init(frame: CGRect) {
@@ -50,8 +54,8 @@ final class NumberOfGroupPeopleView: UIView {
         numberCollectionView.delegate = self
     }
     
-    func getSelectedNumber() -> Int {
-        let index = numberCollectionView.indexPathsForSelectedItems?.first?.item ?? 0
+    func getSelectedNumber() -> Int? {
+        guard let index = numberCollectionView.indexPathsForSelectedItems?.first?.item else { return nil }
         return index + 2
     }
 }
@@ -78,6 +82,7 @@ extension NumberOfGroupPeopleView: UICollectionViewDelegateFlowLayout {
 extension NumberOfGroupPeopleView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? NumberOfPeopleCollectionViewCell else { return }
+        delegate?.didSelectedItem()
         cell.applySelectedState()
     }
     

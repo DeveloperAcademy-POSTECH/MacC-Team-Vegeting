@@ -60,8 +60,8 @@ final class GroupCategoryView: UIView {
         categoryList = list
     }
     
-    func getSelectedCategory() -> String {
-        let index = categoryCollectionView.indexPathsForSelectedItems?.first?.item ?? 0
+    func getSelectedCategory() -> String? {
+        guard let index = categoryCollectionView.indexPathsForSelectedItems?.first?.item else { return nil }
         return categoryList[index]
     }
 }
@@ -91,7 +91,6 @@ extension GroupCategoryView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? GroupCategoryCollectionViewCell else { return }
         delegate?.didSelectCategory(didSelectItemAt: indexPath)
-        print(categoryCollectionView.indexPathsForSelectedItems)
         cell.applySelectedState()
     }
     

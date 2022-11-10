@@ -25,8 +25,8 @@ class BottomButton: UIButton {
         titleLabel?.font = .preferredFont(forTextStyle: .body)
         setBackgroundColor(.mainYellow, for: .normal)
         setBackgroundColor(.mainDisabledYellow, for: .disabled)
-        setTitleColor(.white, for: .normal)
-        setTitleColor(.white, for: .disabled)
+        setTitleColor(.enabledBlack, for: .normal)
+        setTitleColor(.disabledBlack, for: .disabled)
     }
 
     private func setupLayout() {

@@ -51,4 +51,12 @@ class GroupInfoView: UIStackView {
            addArrangedSubviews($0)
         }
     }
+    
+    func configure(with data: IncompleteClub) {
+        categoryLabel.text = data.clubCategory
+        locationLabel.text = data.clubLocation
+        dateLabel.text = data.createdAt.toString(format: "M월 d일")
+        print(data.createdAt)
+        capacityLabel.text = "1/" + String(data.maxNumberOfPeople)
+    }
 }

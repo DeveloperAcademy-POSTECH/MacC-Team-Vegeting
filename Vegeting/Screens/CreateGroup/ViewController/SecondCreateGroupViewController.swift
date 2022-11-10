@@ -149,8 +149,8 @@ final class SecondCreateGroupViewController: BaseViewController {
         contentWordsCountLabel.text = "\(characterCount)/500"
     }
     
-    func configure(with data: Club) {
-        
+    func configure(with data: IncompleteClub) {
+        groupInfoStackView.configure(with: data)
     }
 }
 
