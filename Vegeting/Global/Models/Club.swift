@@ -13,7 +13,8 @@ struct Club: Identifiable, Codable {
     @DocumentID var id: String?
     let clubID: String?
     let chatID: String?
-    let clubTitle, clubCategory: String
+    let clubTitle, clubCategory: String?
+    var clubLocation: String? = nil
     let hostID: String?
     let participants: [Participant]?
     let createdAt: Date

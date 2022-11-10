@@ -100,7 +100,7 @@ extension FirebaseManager {
         
         guard let result = result else { return }
         
-        let participatedClub = ParticipatedClub(clubID: result.clubID, clubName: club.clubTitle, profileImageURL: club.coverImageURL)
+        let participatedClub = ParticipatedClub(clubID: result.clubID, clubName: club.clubTitle ?? "", profileImageURL: club.coverImageURL)
         let participatedChatRoom = ParticipatedChatRoom(chatID: result.chatID, chatName: chat.chatRoomName, imageURL: chat.coverImageURL)
         
         requestUpdateUser(user: user, participatedChatRoom: participatedChatRoom, participatedClub: participatedClub)
@@ -142,7 +142,7 @@ extension FirebaseManager {
     /// 채팅방 입장시, 유저의 데이터 업데이트
     func updateUserEnteringChat(user: VFUser, club: Club, chat: Chat) async {
         do {
-            let participatedClub = ParticipatedClub(clubID: club.clubID, clubName: club.clubTitle, profileImageURL: club.coverImageURL)
+            let participatedClub = ParticipatedClub(clubID: club.clubID, clubName: club.clubTitle ?? "", profileImageURL: club.coverImageURL)
             let participatedChatRoom = ParticipatedChatRoom(chatID: chat.chatRoomID, chatName: chat.chatRoomName, imageURL: chat.coverImageURL)
             let encodedParticipatedClub = try Firestore.Encoder().encode(participatedClub)
             let encodedParticipatedChat = try Firestore.Encoder().encode(participatedChatRoom)
