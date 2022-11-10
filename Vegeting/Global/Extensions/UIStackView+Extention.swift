@@ -20,5 +20,11 @@ extension UIStackView {
         alignment = .center
         distribution = .equalSpacing
     }
+    
+    func setVerticalStack() {
+        axis = .horizontal
+        alignment = .center
+        distribution = .equalSpacing
+    }
 }
 

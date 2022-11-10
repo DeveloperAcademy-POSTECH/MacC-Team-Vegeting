@@ -8,6 +8,10 @@
 import UIKit
 
 extension UIColor {
+    
+    static let mainYellow = UIColor(hex: "#FFD243")
+    static let mainDisabledYellow = UIColor(hex: "#FFF6DA")
+    
 }
 
 extension UIColor {
