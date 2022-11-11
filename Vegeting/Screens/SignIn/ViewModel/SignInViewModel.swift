@@ -14,8 +14,8 @@ import KakaoSDKAuth
 import KakaoSDKUser
 
 final class SignInViewModel {
-    typealias FBUser = FirebaseAuth.User
-    typealias KOUser = KakaoSDKUser.User
+    typealias FirebaseUser = FirebaseAuth.User
+    typealias KakaoUser = KakaoSDKUser.User
     
     enum Input {
         case appleSignInButtonTapped(tokenID: String)
@@ -41,7 +41,7 @@ final class SignInViewModel {
     private var cancellables =  Set<AnyCancellable>()
     
     private var tokenID: String?
-    private var user: FBUser?
+    private var user: FirebaseUser?
     
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
@@ -69,7 +69,7 @@ final class SignInViewModel {
             if let error = error {
                 self?.output.send(.didFailToSignInWithKakao(error: error))
             }
-            self?.didSignInWithKakao()
+            self?.didSignWithKakaoSucceed()
         }
     }
     
@@ -78,36 +78,36 @@ final class SignInViewModel {
             if let error = error {
                 self?.output.send(.didFailToSignInWithKakao(error: error))
             }
-            self?.didSignInWithKakao()
+            self?.didSignWithKakaoSucceed()
         }
     }
     
-    private func didSignInWithKakao() {
-        UserApi.shared.me { [weak self] kuser, error in
+    private func didSignWithKakaoSucceed() {
+        UserApi.shared.me { [weak self] kakaoUser, error in
             if let error = error {
                 self?.output.send(.didFailToSignInWithKakao(error: error))
             }
-            self?.didKOUserRegisterAuth(user: kuser)
+            self?.registerKakaoUserToAuth(user: kakaoUser)
                 
         }
     }
     
-    private func didKOUserRegisterAuth(user koUser: KOUser?) {
-        guard let email = koUser?.kakaoAccount?.email, let password = koUser?.id else { return }
+    private func registerKakaoUserToAuth(user kakaoUser: KakaoUser?) {
+        guard let email = kakaoUser?.kakaoAccount?.email, let password = kakaoUser?.id else { return }
         AuthManager.shared.registerUser(email: email, password: String(password)).sink { [weak self] completion in
             if case .failure(let error) = completion {
                 if AuthErrorCode.emailAlreadyInUse.rawValue == (error as NSError).code {
-                    self?.validateKakaoUser(user: koUser)
+                    self?.validateKakaoUserInAuth(user: kakaoUser)
                 }
                 self?.output.send(.didFailToSignInWithKakao(error: error))
             }
         } receiveValue: { [weak self] user in
-            self?.validateKakaoUser(user: koUser)
+            self?.validateKakaoUserInAuth(user: kakaoUser)
         }.store(in: &cancellables)
 
     }
     
-    private func validateKakaoUser(user: KOUser?) {
+    private func validateKakaoUserInAuth(user: KakaoUser?) {
         
         guard let email = user?.kakaoAccount?.email, let password = (user?.id) else { return }
         AuthManager.shared.signInUser(email: email, password: String(password)).sink { [weak self] completion in
@@ -116,7 +116,7 @@ final class SignInViewModel {
             }
         } receiveValue: { [weak self] user in
             self?.user = user
-            self?.isAccountAlreadyRegistered(type: .kakao)
+            self?.didUserAlreadyRegisterInFirestore(type: .kakao)
         }.store(in: &cancellables)
     }
     
@@ -133,12 +133,12 @@ final class SignInViewModel {
                 }
             } receiveValue: { [weak self] user in
                 self?.user = user
-                self?.isAccountAlreadyRegistered(type: .apple)
+                self?.didUserAlreadyRegisterInFirestore(type: .apple)
             }.store(in: &self.cancellables)
         
     }
     
-    private func isAccountAlreadyRegistered(type: SignInType) {
+    private func didUserAlreadyRegisterInFirestore(type: SignInType) {
         guard let user = user else { return }
         
         FirebaseManager.shared.isUserAlreadyExisted(user: user)
