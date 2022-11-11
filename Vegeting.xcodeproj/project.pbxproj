@@ -29,6 +29,8 @@
 		4ADC12EF290183F500C0FFB6 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12EE290183F500C0FFB6 /* BaseViewController.swift */; };
 		4ADC12F12901856B00C0FFB6 /* UIView+Constraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12F02901856B00C0FFB6 /* UIView+Constraint.swift */; };
 		4ADC12F32901857F00C0FFB6 /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12F22901857F00C0FFB6 /* UIViewController+Alert.swift */; };
+		4AF67E932912050B00D4A2C4 /* ChatRoomListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF67E922912050B00D4A2C4 /* ChatRoomListViewController.swift */; };
+		4AF67E95291206C000D4A2C4 /* ChatRoomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF67E94291206C000D4A2C4 /* ChatRoomTableViewCell.swift */; };
 		4AFA58AA2903EA6400679142 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA58A92903EA6400679142 /* UIView+Extension.swift */; };
 		4AFA58AD29050B3800679142 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA58AC29050B3800679142 /* Date+Extension.swift */; };
 		4AFA58AF29050B5C00679142 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA58AE29050B5C00679142 /* String+Extension.swift */; };
@@ -100,6 +102,8 @@
 		4ADC12EE290183F500C0FFB6 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		4ADC12F02901856B00C0FFB6 /* UIView+Constraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Constraint.swift"; sourceTree = "<group>"; };
 		4ADC12F22901857F00C0FFB6 /* UIViewController+Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
+		4AF67E922912050B00D4A2C4 /* ChatRoomListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomListViewController.swift; sourceTree = "<group>"; };
+		4AF67E94291206C000D4A2C4 /* ChatRoomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomTableViewCell.swift; sourceTree = "<group>"; };
 		4AFA58A92903EA6400679142 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		4AFA58AC29050B3800679142 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		4AFA58AE29050B5C00679142 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
@@ -299,6 +303,7 @@
 			isa = PBXGroup;
 			children = (
 				A2F369DA29094877007F3732 /* GroupList */,
+				4AF67E8F291204B600D4A2C4 /* ChatRoom */,
 				A75F9E1D2904DC3700CFD884 /* PostDetail */,
 				7645E748290700CD009E2E3B /* SignIn */,
 				4A31CD222903D61900E5E422 /* CreateGroup */,
@@ -321,6 +326,31 @@
 				4AFA58AB2904244400679142 /* ViewController */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		4AF67E8F291204B600D4A2C4 /* ChatRoom */ = {
+			isa = PBXGroup;
+			children = (
+				4AF67E91291204CF00D4A2C4 /* Cell */,
+				4AF67E90291204C100D4A2C4 /* ViewController */,
+			);
+			path = ChatRoom;
+			sourceTree = "<group>";
+		};
+		4AF67E90291204C100D4A2C4 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4AF67E922912050B00D4A2C4 /* ChatRoomListViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		4AF67E91291204CF00D4A2C4 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				4AF67E94291206C000D4A2C4 /* ChatRoomTableViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		4AFA58AB2904244400679142 /* ViewController */ = {
@@ -602,6 +632,7 @@
 				4ADC12E12901813900C0FFB6 /* NSObject+Extension.swift in Sources */,
 				A76096422908ACA900636A99 /* ProfileCollectionViewCell.swift in Sources */,
 				4A31CD242903D73D00E5E422 /* FirstCreateGroupViewController.swift in Sources */,
+				4AF67E95291206C000D4A2C4 /* ChatRoomTableViewCell.swift in Sources */,
 				A2F369D929090E72007F3732 /* UIButton+Extension.swift in Sources */,
 				A7C8DF282901274500F38AD7 /* ViewController.swift in Sources */,
 				76B0282629051FC9002C9DF7 /* VFUser.swift in Sources */,
@@ -644,6 +675,7 @@
 				4AFA58AD29050B3800679142 /* Date+Extension.swift in Sources */,
 				A215B29C2906DB6400DD60B2 /* PhotoPickerView.swift in Sources */,
 				4AC8F0652906C5E0007D3946 /* SearchedAddressTableViewCell.swift in Sources */,
+				4AF67E932912050B00D4A2C4 /* ChatRoomListViewController.swift in Sources */,
 				4ADC12F32901857F00C0FFB6 /* UIViewController+Alert.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
