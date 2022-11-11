@@ -104,18 +104,18 @@ class SegmentedControlCustomView: UIView {
     private func setupLayout() {
         addSubviews(segmentStackView, lineView, indicatorView)
         
+        NSLayoutConstraint.activate([
+            segmentStackView.topAnchor.constraint(equalTo: topAnchor),
+            segmentStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            segmentStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+        ])
+        
         leadingAnchors = segmentStackView.arrangedSubviews.map { buttonView in
             indicatorView.leadingAnchor.constraint(equalTo: buttonView.leadingAnchor)
         }
         trailingAnchros = segmentStackView.arrangedSubviews.map { buttonView in
             indicatorView.trailingAnchor.constraint(equalTo: buttonView.trailingAnchor)
         }
-        
-        NSLayoutConstraint.activate([
-            segmentStackView.topAnchor.constraint(equalTo: topAnchor),
-            segmentStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            segmentStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-        ])
         
         NSLayoutConstraint.activate([
             leadingAnchors[0],
