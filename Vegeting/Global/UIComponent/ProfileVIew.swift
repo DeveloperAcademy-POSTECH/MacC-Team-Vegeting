@@ -13,6 +13,7 @@ final class ProfileView: UIView {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = true
         imageView.layer.bounds.size = .init(width: 103, height: 103)
+        imageView.layer.cornerRadius = imageView.bounds.size.height / 2
         return imageView
     }()
     
@@ -139,7 +140,6 @@ final class ProfileView: UIView {
     private func configureUI() {
         self.backgroundColor = .white
         self.layer.cornerRadius = 24
-        profileImageView.layer.cornerRadius = profileImageView.bounds.size.height / 2
     }
     
     func configure(with data: ModalModel) {
