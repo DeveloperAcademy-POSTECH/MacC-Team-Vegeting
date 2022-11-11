@@ -128,8 +128,8 @@ class SegmentedControlCustomView: UIView {
         NSLayoutConstraint.activate([
             lineView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: -1),
             lineView.heightAnchor.constraint(equalToConstant: 1),
-            lineView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            lineView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            lineView.leadingAnchor.constraint(equalTo: segmentStackView.leadingAnchor),
+            lineView.trailingAnchor.constraint(equalTo: segmentStackView.trailingAnchor),
         ])
     }
 }

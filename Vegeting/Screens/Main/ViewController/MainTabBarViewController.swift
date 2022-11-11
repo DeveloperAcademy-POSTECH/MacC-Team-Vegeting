@@ -10,7 +10,7 @@ import UIKit
 class MainTabBarViewController: UITabBarController {
     
     private let findClubTab: UINavigationController = {
-        let controller = UINavigationController(rootViewController: ViewController()) //TODO: 모임 찾기 뷰로 연결
+        let controller = UINavigationController(rootViewController: GroupListViewController()) //TODO: 모임 찾기 뷰로 연결
         controller.tabBarItem.image = UIImage(systemName: "person.3.fill")
         controller.title = "모임 찾기"
         return controller
