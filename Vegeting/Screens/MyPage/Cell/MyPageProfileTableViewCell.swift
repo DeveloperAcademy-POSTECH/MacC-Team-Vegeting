@@ -42,7 +42,7 @@ class MyPageProfileTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var editButton: UIButton = {
+    private lazy var profileEditButton: UIButton = {
         let button = UIButton()
         button.setTitle("프로필 편집", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 13, weight: .medium)
@@ -78,7 +78,7 @@ class MyPageProfileTableViewCell: UITableViewCell {
     }
     
     private func setupLayout() {
-        contentView.addSubviews(profileImageView, labelStackView, editButton, seperatorView)
+        contentView.addSubviews(profileImageView, labelStackView, profileEditButton, seperatorView)
         labelStackView.addArrangedSubviews(nicknameLabel, vegetarianStepLabel)
         
         profileImageView.constraint(top: contentView.topAnchor,
@@ -92,11 +92,11 @@ class MyPageProfileTableViewCell: UITableViewCell {
                                   centerY: contentView.centerYAnchor,
                                   padding: UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 0))
         
-        editButton.constraint(trailing: contentView.trailingAnchor,
+        profileEditButton.constraint(trailing: contentView.trailingAnchor,
                               centerY: contentView.centerYAnchor,
                               padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 20))
-        editButton.constraint(.widthAnchor, constant: 79)
-        editButton.constraint(.heightAnchor, constant: 33)
+        profileEditButton.constraint(.widthAnchor, constant: 79)
+        profileEditButton.constraint(.heightAnchor, constant: 33)
         
         seperatorView.constraint(leading: contentView.leadingAnchor,
                               bottom: contentView.bottomAnchor,
