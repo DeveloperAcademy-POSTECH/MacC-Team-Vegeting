@@ -90,13 +90,12 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     private func configureUI() {
         clipsToBounds = true
         self.layer.cornerRadius = 12
-        backgroundColor = UIColor(hex: "#F4F4F4", alpha: 1)
+        backgroundColor = .textFieldGray
     }
     
     func configure(with item: Club) {
         coverImageView.image = UIImage(named: item.coverImageURL ?? "groupCoverImage1")
-        coverImageView.backgroundColor = .gray
-        categoryView.configure(text: item.clubCategory, backgroundColor: UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 0.6) )
+        categoryView.configure(text: item.clubCategory, backgroundColor: .textFieldGray )
         titleLabel.text = item.clubTitle
         placeLabelWithImage.setLabelText(text: "서울시 동작구")
         let participantsCount = item.participants?.count ?? 0

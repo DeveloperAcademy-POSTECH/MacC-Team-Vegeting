@@ -11,7 +11,6 @@ class CategoryView: UIView {
     private let backgroundView: UIView = {
         let view = UIView()
         view.clipsToBounds = true
-        view.backgroundColor = .yellow
         return view
     }()
     
@@ -19,7 +18,7 @@ class CategoryView: UIView {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13, weight: .medium)
         label.textAlignment = .center
-        label.textColor = .white
+        label.textColor = .labelGay2
         return label
     }()
     
