@@ -10,7 +10,12 @@ import UIKit
 
 class LocationAuthViewController: UIViewController {
     
-    let firstLocation = CLLocationCoordinate2D(latitude: 36.0106098, longitude: 129.321296) //포항공대 위치 - default
+    //포항공대 위치 - default
+    let firstLocation = CLLocationCoordinate2D(latitude: 36.0106098, longitude: 129.321296)
+    let defaultSpanValue = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+    
+    public var currentLatitude: CLLocationDegrees?
+    public var currentLongitude: CLLocationDegrees?
     
     private let progressBarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -28,8 +33,9 @@ class LocationAuthViewController: UIViewController {
     
     private let mapView = MapView()
     private var locationManager = CLLocationManager()
+    public let geocoder = CLGeocoder()
     
-    private let locationTextField: UITextField = {
+    public let locationTextField: UITextField = {
         let textField = UITextField()
         textField.textColor = UIColor(hex: "#616161")
         textField.font = .preferredFont(forTextStyle: .body)
@@ -57,31 +63,25 @@ class LocationAuthViewController: UIViewController {
         return button
     }()
     
-    //현 위치 핀 표시
-    private func addPin() {
-        let pin = MKPointAnnotation()
-        pin.coordinate = firstLocation
-        mapView.map.addAnnotation(pin)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestAlwaysAuthorization()
-        locationManager.startUpdatingLocation()
-        
-        addPin()
+        configureLocationManager()
         configureMap()
         configureUI()
-        buttonActions()
+        currentLocationButtonAction()
         setupLayout()
     }
     
+    func configureLocationManager() {
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.delegate = self
+    }
+    
     func configureMap() {
+        //처음 보여줄 위치
         mapView.map.setRegion(MKCoordinateRegion(center: firstLocation,
-                                                 span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)), animated: true) //처음 보여줄 위치
+                                                 span: defaultSpanValue), animated: true)
     }
     
     func configureUI() {
@@ -133,18 +133,26 @@ class LocationAuthViewController: UIViewController {
     
     @objc
     private func findCurrentLocation() {
+        //유저의 현재 위치 정보(locationManager.location)가 없으면(nil) 위치 허용 권한 확인
         guard let currentLocation = locationManager.location else {
             checkUserLocationServicesAuthorization()
             return
         }
         
+        //사용자 위치 정보 업데이트 -> didUpdateLocations delegate 메서드를 호출
+        locationManager.startUpdatingLocation()
+        
+        //사용자 현재 위치 표시
         mapView.map.showsUserLocation = true
         mapView.map.setUserTrackingMode(.follow, animated: true)
     }
     
+    
+    /// 위치 권한 설정 함수
     func checkCurrentLocationAuthorization(authorizationStatus: CLAuthorizationStatus) {
         switch authorizationStatus {
         case .notDetermined:
+            print("notDetermined")
             locationManager.requestWhenInUseAuthorization()
             locationManager.startUpdatingLocation()
         case .restricted:
@@ -161,6 +169,7 @@ class LocationAuthViewController: UIViewController {
         @unknown default:
             print("unknown")
         }
+        //#available 여러 플랫폼에서 서로 다른 처리 결정. 여기에서는 14 이상
         if #available(iOS 14.0, *) {
             let accuracyState = locationManager.accuracyAuthorization
             switch accuracyState {
@@ -175,8 +184,7 @@ class LocationAuthViewController: UIViewController {
     }
     
     func goSetting() {
-        
-        let alert = UIAlertController(title: "위치권한 요청", message: "테스트 - goSetting()", preferredStyle: .alert)
+        let alert = UIAlertController(title: "위치권한 요청", message: "위치 권한 허용이 필요합니다.", preferredStyle: .alert)
         let settingAction = UIAlertAction(title: "설정", style: .default) { action in
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
             // 열 수 있는 url 이라면, 이동
@@ -194,7 +202,7 @@ class LocationAuthViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func checkUserLocationServicesAuthorization() {
+    public func checkUserLocationServicesAuthorization() {
         let authorizationStatus: CLAuthorizationStatus
         if #available(iOS 14, *) {
             authorizationStatus = locationManager.authorizationStatus
@@ -206,32 +214,29 @@ class LocationAuthViewController: UIViewController {
             checkCurrentLocationAuthorization(authorizationStatus: authorizationStatus)
         }
     }
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        print(#function)
-        checkUserLocationServicesAuthorization()
-    }
-    
-    func buttonActions() {
+
+    func currentLocationButtonAction() {
         mapView.currentLocationButton.addTarget(self, action: #selector(findCurrentLocation), for: .touchUpInside)
     }
 }
 
-extension LocationAuthViewController: MKMapViewDelegate {
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard !annotation.isKind(of: MKUserLocation.self) else {
-            return nil
-        }
-        return MKAnnotationView()
-    }
-}
-
 extension LocationAuthViewController: CLLocationManagerDelegate {
-    
+
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.first {
-            print("위도: \(location.coordinate.latitude)")
-            print("경도: \(location.coordinate.longitude)")
+        guard let location = locations.first else {
+            return
+        }
+        
+        //위도 경도를 주소로 변환
+        geocoder.reverseGeocodeLocation(CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)) { placeMarks, error in
+            guard let placeMarks = placeMarks,
+                  let address = placeMarks.last,
+                  error == nil else {
+                return
+            }
+            DispatchQueue.main.async {
+                self.locationTextField.text = "\(address.locality!) \(address.subLocality!)"
+            }
         }
     }
 }
