@@ -87,14 +87,8 @@ extension SignInViewController: ASAuthorizationControllerDelegate, ASAuthorizati
 
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if case let appleIDCredential as ASAuthorizationAppleIDCredential = authorization.credential {
-            guard let appleIDToken = appleIDCredential.identityToken else {
-                print("Unable to fetch identity token")
-                return
-            }
-            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-                print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
-                return
-            }
+            guard let appleIDToken = appleIDCredential.identityToken else { return }
+            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else { return }
             
             input.send(.appleSignInButtonTapped(tokenID: idTokenString))
         }
