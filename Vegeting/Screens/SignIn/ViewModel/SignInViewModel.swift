@@ -14,11 +14,11 @@ import KakaoSDKAuth
 import KakaoSDKUser
 
 final class SignInViewModel {
-    typealias FBUser = FirebaseAuth.User
-    typealias KOUser = KakaoSDKUser.User
+    typealias FirebaseUser = FirebaseAuth.User
+    typealias KakaoUser = KakaoSDKUser.User
     
     enum Input {
-        case appleSignInButtonTapped(tokenID: String)
+        case appleSignInEventOccurred(tokenID: String)
         case kakaoSignInButtonTapped
     }
     
@@ -41,12 +41,12 @@ final class SignInViewModel {
     private var cancellables =  Set<AnyCancellable>()
     
     private var tokenID: String?
-    private var user: FBUser?
+    private var user: FirebaseUser?
     
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
             switch event {
-            case .appleSignInButtonTapped(let tokenID):
+            case .appleSignInEventOccurred(let tokenID):
                 self?.tokenID = tokenID
                 self?.appleSignIn()
             case .kakaoSignInButtonTapped:
@@ -56,6 +56,7 @@ final class SignInViewModel {
         return output.eraseToAnyPublisher()
     }
     
+    /// 카카오 로그인 이벤트 시작(웹과 앱 로그인으로 구분)
     private func kakaoSignIn() {
         if UserApi.isKakaoTalkLoginAvailable() {
             signInWithKakaoTalkApp()
@@ -64,50 +65,60 @@ final class SignInViewModel {
         }
     }
     
+    
+    /// 카카오 앱을 통한 로그인
     private func signInWithKakaoTalkApp() {
         UserApi.shared.loginWithKakaoTalk { [weak self] _, error in
             if let error = error {
                 self?.output.send(.didFailToSignInWithKakao(error: error))
             }
-            self?.didSignInWithKakao()
+            self?.didSignWithKakaoSucceed()
         }
     }
     
+    
+    /// 카카오 웹을 통한 로그인
     private func signInWithKakaoWeb() {
         UserApi.shared.loginWithKakaoAccount { [weak self] _, error in
             if let error = error {
                 self?.output.send(.didFailToSignInWithKakao(error: error))
             }
-            self?.didSignInWithKakao()
+            self?.didSignWithKakaoSucceed()
         }
     }
     
-    private func didSignInWithKakao() {
-        UserApi.shared.me { [weak self] kuser, error in
+    
+    /// 카카오 로그인이 성공한지 판단하는 함수
+    private func didSignWithKakaoSucceed() {
+        UserApi.shared.me { [weak self] kakaoUser, error in
             if let error = error {
                 self?.output.send(.didFailToSignInWithKakao(error: error))
             }
-            self?.didKOUserRegisterAuth(user: kuser)
+            self?.registerKakaoUserToAuth(user: kakaoUser)
                 
         }
     }
     
-    private func didKOUserRegisterAuth(user koUser: KOUser?) {
-        guard let email = koUser?.kakaoAccount?.email, let password = koUser?.id else { return }
+    
+    /// 카카오 로그인이 성공할 때, 해당 유저가 Firebase Auth에 등록 or 등록된지 별도 확인
+    private func registerKakaoUserToAuth(user kakaoUser: KakaoUser?) {
+        guard let email = kakaoUser?.kakaoAccount?.email, let password = kakaoUser?.id else { return }
         AuthManager.shared.registerUser(email: email, password: String(password)).sink { [weak self] completion in
             if case .failure(let error) = completion {
                 if AuthErrorCode.emailAlreadyInUse.rawValue == (error as NSError).code {
-                    self?.validateKakaoUser(user: koUser)
+                    self?.validateKakaoUserInAuth(user: kakaoUser)
                 }
                 self?.output.send(.didFailToSignInWithKakao(error: error))
             }
         } receiveValue: { [weak self] user in
-            self?.validateKakaoUser(user: koUser)
+            self?.validateKakaoUserInAuth(user: kakaoUser)
         }.store(in: &cancellables)
 
     }
     
-    private func validateKakaoUser(user: KOUser?) {
+    
+    /// 카카오 Auth에 로그인(카카오 유저가 정상적으로 Auth에 로그인 가능한 상태인지 확인)
+    private func validateKakaoUserInAuth(user: KakaoUser?) {
         
         guard let email = user?.kakaoAccount?.email, let password = (user?.id) else { return }
         AuthManager.shared.signInUser(email: email, password: String(password)).sink { [weak self] completion in
@@ -116,10 +127,12 @@ final class SignInViewModel {
             }
         } receiveValue: { [weak self] user in
             self?.user = user
-            self?.isAccountAlreadyRegistered(type: .kakao)
+            self?.didUserAlreadyRegisterInFirestore(type: .kakao)
         }.store(in: &cancellables)
     }
     
+    
+    /// 애플 로그인을 통해 들어온 정보를 가지고 Firebase에 로그인
     private func appleSignIn() {
         guard let tokenID = tokenID else { return }
         
@@ -133,12 +146,14 @@ final class SignInViewModel {
                 }
             } receiveValue: { [weak self] user in
                 self?.user = user
-                self?.isAccountAlreadyRegistered(type: .apple)
+                self?.didUserAlreadyRegisterInFirestore(type: .apple)
             }.store(in: &self.cancellables)
         
     }
     
-    private func isAccountAlreadyRegistered(type: SignInType) {
+    
+    /// Firebase Auth에 로그인 했다면, 해당 유저가 Firestore에 등록된지 확인(첫 로그인인지 아닌지 판단)
+    private func didUserAlreadyRegisterInFirestore(type: SignInType) {
         guard let user = user else { return }
         
         FirebaseManager.shared.isUserAlreadyExisted(user: user)

@@ -102,7 +102,7 @@ extension SignInViewController: ASAuthorizationControllerDelegate, ASAuthorizati
                 return
             }
             
-            input.send(.appleSignInButtonTapped(tokenID: idTokenString))
+            input.send(.appleSignInEventOccurred(tokenID: idTokenString))
             
         default:
             break
