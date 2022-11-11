@@ -50,7 +50,7 @@ class SegmentedControlCustomView: UIView {
     private var tabs: [UIButton] = ["하루 모임", "정기 모임"].map { buttonTitle in
         let button = UIButton(type: .system)
         button.setTitle(buttonTitle, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize:   17, weight: .semibold)
+        button.titleLabel?.font = .preferredFont(forTextStyle: .headline)
         button.tintColor = .label
         return button
     }
