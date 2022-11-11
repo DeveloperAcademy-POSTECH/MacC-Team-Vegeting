@@ -18,7 +18,7 @@ class MyPageTableViewCell: UITableViewCell {
     private lazy var alarmSwitch: UISwitch = {
         let uiSwitch = UISwitch()
         uiSwitch.isOn = true
-        uiSwitch.addTarget(self, action: #selector(didSwitchValueChanged(sender:)), for: .touchUpInside)
+        uiSwitch.addTarget(self, action: #selector(alarmSwitchTapped(_ :)), for: .touchUpInside)
         return uiSwitch
     }()
     
@@ -59,7 +59,7 @@ class MyPageTableViewCell: UITableViewCell {
     }
     
     @objc
-    private func didSwitchValueChanged(sender: UISwitch) {
+    private func alarmSwitchTapped(_ sender: UISwitch) {
         if sender.isOn {
             print("on!")
         }
