@@ -10,8 +10,7 @@ import UIKit
 
 class LocationAuthViewController: UIViewController {
     
-    let firstLocation = CLLocationCoordinate2D(latitude: 36.0106098, longitude: 129.321296) //포항공대 위치
-    var currentLocation: CLLocation? //현재 내 위치 저장
+    let firstLocation = CLLocationCoordinate2D(latitude: 36.0106098, longitude: 129.321296) //포항공대 위치 - default
     
     private let progressBarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -28,7 +27,7 @@ class LocationAuthViewController: UIViewController {
     }()
     
     private let mapView = MapView()
-    private let locationManager = CLLocationManager()
+    private var locationManager = CLLocationManager()
     
     private let locationTextField: UITextField = {
         let textField = UITextField()
@@ -58,12 +57,25 @@ class LocationAuthViewController: UIViewController {
         return button
     }()
     
+    //현 위치 핀 표시
+    private func addPin() {
+        let pin = MKPointAnnotation()
+        pin.coordinate = firstLocation
+        mapView.map.addAnnotation(pin)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
+        locationManager.startUpdatingLocation()
+        
+        addPin()
         configureMap()
         configureUI()
-        findCurrentLocationButtonAction()
+        buttonActions()
         setupLayout()
     }
     
@@ -118,15 +130,108 @@ class LocationAuthViewController: UIViewController {
             nextButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
-
+    
     @objc
     private func findCurrentLocation() {
-
+        guard let currentLocation = locationManager.location else {
+            checkUserLocationServicesAuthorization()
+            return
+        }
+        
         mapView.map.showsUserLocation = true
         mapView.map.setUserTrackingMode(.follow, animated: true)
     }
     
-    private func findCurrentLocationButtonAction() {
+    func checkCurrentLocationAuthorization(authorizationStatus: CLAuthorizationStatus) {
+        switch authorizationStatus {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+            locationManager.startUpdatingLocation()
+        case .restricted:
+            print("restricted")
+            goSetting()
+        case .denied:
+            print("denided")
+            goSetting()
+        case .authorizedAlways:
+            print("always")
+        case .authorizedWhenInUse:
+            print("wheninuse")
+            locationManager.startUpdatingLocation()
+        @unknown default:
+            print("unknown")
+        }
+        if #available(iOS 14.0, *) {
+            let accuracyState = locationManager.accuracyAuthorization
+            switch accuracyState {
+            case .fullAccuracy:
+                print("full")
+            case .reducedAccuracy:
+                print("reduced")
+            @unknown default:
+                print("Unknown")
+            }
+        }
+    }
+    
+    func goSetting() {
+        
+        let alert = UIAlertController(title: "위치권한 요청", message: "테스트 - goSetting()", preferredStyle: .alert)
+        let settingAction = UIAlertAction(title: "설정", style: .default) { action in
+            guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+            // 열 수 있는 url 이라면, 이동
+            if UIApplication.shared.canOpenURL(url) {
+                UIApplication.shared.open(url)
+            }
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel) { UIAlertAction in
+            
+        }
+        
+        alert.addAction(settingAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true, completion: nil)
+    }
+    
+    func checkUserLocationServicesAuthorization() {
+        let authorizationStatus: CLAuthorizationStatus
+        if #available(iOS 14, *) {
+            authorizationStatus = locationManager.authorizationStatus
+        } else {
+            authorizationStatus = CLLocationManager.authorizationStatus()
+        }
+        
+        if CLLocationManager.locationServicesEnabled() {
+            checkCurrentLocationAuthorization(authorizationStatus: authorizationStatus)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        print(#function)
+        checkUserLocationServicesAuthorization()
+    }
+    
+    func buttonActions() {
         mapView.currentLocationButton.addTarget(self, action: #selector(findCurrentLocation), for: .touchUpInside)
+    }
+}
+
+extension LocationAuthViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard !annotation.isKind(of: MKUserLocation.self) else {
+            return nil
+        }
+        return MKAnnotationView()
+    }
+}
+
+extension LocationAuthViewController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            print("위도: \(location.coordinate.latitude)")
+            print("경도: \(location.coordinate.longitude)")
+        }
     }
 }
