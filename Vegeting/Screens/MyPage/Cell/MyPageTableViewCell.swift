@@ -22,7 +22,7 @@ class MyPageTableViewCell: UITableViewCell {
         return uiSwitch
     }()
     
-    private lazy var divierView: UIView = {
+    private lazy var seperatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .systemGray6
         return view
@@ -38,17 +38,17 @@ class MyPageTableViewCell: UITableViewCell {
     }
     
     private func setupLayout() {
-        contentView.addSubviews(label, divierView)
+        contentView.addSubviews(label, seperatorView)
         label.constraint(top: contentView.topAnchor,
                          leading: contentView.leadingAnchor,
                          bottom: contentView.bottomAnchor,
                          padding: UIEdgeInsets(top: 16, left: 20, bottom: 16, right: 0))
         
-        divierView.constraint(leading: contentView.leadingAnchor,
+        seperatorView.constraint(leading: contentView.leadingAnchor,
                               bottom: contentView.bottomAnchor,
                               trailing: contentView.trailingAnchor,
                               padding: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
-        divierView.constraint(.heightAnchor, constant: 1)
+        seperatorView.constraint(.heightAnchor, constant: 1)
     }
     
     private func setupSwitchLayout() {
@@ -70,7 +70,7 @@ class MyPageTableViewCell: UITableViewCell {
         
         if data.isSmallTitle {
             label.font = .preferredFont(forTextStyle: .body, compatibleWith: .init(legibilityWeight: .bold))
-            divierView.removeFromSuperview()
+            seperatorView.removeFromSuperview()
         }
         
         if data.isSwitch {

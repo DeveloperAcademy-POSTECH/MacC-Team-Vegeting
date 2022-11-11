@@ -18,13 +18,14 @@ class MyPageProfileTableViewCell: UITableViewCell {
         imageView.layer.masksToBounds = true
         imageView.layer.bounds.size = .init(width: 60, height: 60)
         imageView.layer.cornerRadius = imageView.bounds.height / 2
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
     private let labelStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 1
+        stackView.spacing = 3
         return stackView
     }()
     
@@ -53,7 +54,7 @@ class MyPageProfileTableViewCell: UITableViewCell {
         return button
     }()
     
-    private let divierView: UIView = {
+    private let seperatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .systemGray6
         return view
@@ -77,7 +78,7 @@ class MyPageProfileTableViewCell: UITableViewCell {
     }
     
     private func setupLayout() {
-        contentView.addSubviews(profileImageView, labelStackView, editButton, divierView)
+        contentView.addSubviews(profileImageView, labelStackView, editButton, seperatorView)
         labelStackView.addArrangedSubviews(nicknameLabel, vegetarianStepLabel)
         
         profileImageView.constraint(top: contentView.topAnchor,
@@ -97,11 +98,11 @@ class MyPageProfileTableViewCell: UITableViewCell {
         editButton.constraint(.widthAnchor, constant: 79)
         editButton.constraint(.heightAnchor, constant: 33)
         
-        divierView.constraint(leading: contentView.leadingAnchor,
+        seperatorView.constraint(leading: contentView.leadingAnchor,
                               bottom: contentView.bottomAnchor,
                               trailing: contentView.trailingAnchor,
                               padding: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
-        divierView.constraint(.heightAnchor, constant: 1)
+        seperatorView.constraint(.heightAnchor, constant: 1)
     }
 
    func configure(image: String, nickName: String, step: String) {
