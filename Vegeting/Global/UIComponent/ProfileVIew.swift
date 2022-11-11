@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ProfileVIew: UIView {
+final class ProfileView: UIView {
     
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()

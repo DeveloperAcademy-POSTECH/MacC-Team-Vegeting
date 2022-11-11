@@ -28,7 +28,7 @@ class ProfileHalfModalViewController: UIViewController {
         return button
     }()
     
-    private let profileView = ProfileVIew()
+    private let profileView = ProfileView()
     
     // MARK: - lifeCycle
     
