@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MyPageProfileTableViewCellDelegate: AnyObject {
-    func didTouchUpInsideEditButton()
+    func profileEditButtonTapped()
 }
 
 class MyPageProfileTableViewCell: UITableViewCell {
@@ -107,6 +107,6 @@ class MyPageProfileTableViewCell: UITableViewCell {
     
     @objc
     private func showProfileEditView() {
-        delegate?.didTouchUpInsideEditButton()
+        delegate?.profileEditButtonTapped()
     }
 }

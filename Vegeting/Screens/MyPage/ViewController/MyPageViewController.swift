@@ -90,7 +90,7 @@ extension MyPageViewController: UITableViewDataSource {
 }
 
 extension MyPageViewController: MyPageProfileTableViewCellDelegate {
-    func didTouchUpInsideEditButton() {
+    func profileEditButtonTapped() {
         let viewController = MyProfileEditViewController()
         viewController.configure(with: ModalModel(nickname: "내가 짱이얌", vegetarianStep: "플렉시테리언", ageGroup: "20대", location: "포항시 남구", gender: "여성", introduction: "사람을 좋아하고, 자연을 사랑하는 플렉시테리언입니다. 이곳에서 소중한 인연 많이 만들어갔으면 좋겠어요."))
         self.navigationController?.pushViewController(viewController, animated: true)
