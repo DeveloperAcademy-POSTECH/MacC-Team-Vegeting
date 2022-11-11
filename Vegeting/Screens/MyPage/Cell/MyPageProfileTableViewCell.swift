@@ -54,7 +54,7 @@ class MyPageProfileTableViewCell: UITableViewCell {
         return button
     }()
     
-    private let seperatorView: UIView = {
+    private let separatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .systemGray6
         return view
@@ -72,7 +72,7 @@ class MyPageProfileTableViewCell: UITableViewCell {
     }
 
     private func setupLayout() {
-        contentView.addSubviews(profileImageView, labelStackView, profileEditButton, seperatorView)
+        contentView.addSubviews(profileImageView, labelStackView, profileEditButton, separatorView)
         labelStackView.addArrangedSubviews(nicknameLabel, vegetarianStepLabel)
         
         profileImageView.constraint(top: contentView.topAnchor,
@@ -92,11 +92,11 @@ class MyPageProfileTableViewCell: UITableViewCell {
         profileEditButton.constraint(.widthAnchor, constant: 79)
         profileEditButton.constraint(.heightAnchor, constant: 33)
         
-        seperatorView.constraint(leading: contentView.leadingAnchor,
+        separatorView.constraint(leading: contentView.leadingAnchor,
                               bottom: contentView.bottomAnchor,
                               trailing: contentView.trailingAnchor,
                               padding: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
-        seperatorView.constraint(.heightAnchor, constant: 1)
+        separatorView.constraint(.heightAnchor, constant: 1)
     }
 
    func configure(image: String, nickName: String, step: String) {
