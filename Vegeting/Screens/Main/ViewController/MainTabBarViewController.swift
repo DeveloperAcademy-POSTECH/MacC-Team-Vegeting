@@ -31,7 +31,7 @@ class MainTabBarViewController: UITabBarController {
     }()
     
     private let myPageTab: UINavigationController = {
-        let controller = UINavigationController(rootViewController: ViewController()) //TODO: 마이페이지 뷰로 연결
+        let controller = UINavigationController(rootViewController: MyPageViewController())
         controller.tabBarItem.image = UIImage(systemName: "person")
         controller.title = "마이페이지"
         return controller
