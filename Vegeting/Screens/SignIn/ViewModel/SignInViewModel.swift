@@ -18,7 +18,7 @@ final class SignInViewModel {
     typealias KakaoUser = KakaoSDKUser.User
     
     enum Input {
-        case appleSignInButtonTapped(tokenID: String)
+        case appleSignInEventOccurred(tokenID: String)
         case kakaoSignInButtonTapped
     }
     
@@ -46,7 +46,7 @@ final class SignInViewModel {
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
             switch event {
-            case .appleSignInButtonTapped(let tokenID):
+            case .appleSignInEventOccurred(let tokenID):
                 self?.tokenID = tokenID
                 self?.appleSignIn()
             case .kakaoSignInButtonTapped:
