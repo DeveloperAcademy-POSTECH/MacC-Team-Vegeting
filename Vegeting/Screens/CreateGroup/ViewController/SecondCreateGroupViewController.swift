@@ -133,31 +133,6 @@ final class SecondCreateGroupViewController: BaseViewController {
         titleTextField.delegate = self
     }
     
-    //    func registerChatAndPost(user: VFUser, club: Club, chat: Chat) -> (clubID: String, chatID: String)? {
-    //        do {
-    //            let docChat = db.collection(Path.chat.rawValue).document()
-    //            let docClub = db.collection(Path.club.rawValue).document()
-    //
-    //            let participant = Participant(userID: user.userID, name: user.userName, profileImageURL: user.imageURL)
-    //            let addedClub = Club(clubID: docClub.documentID, chatID: docChat.documentID,
-    //                                 clubTitle: club.clubTitle, clubCategory: club.clubCategory,
-    //                                 hostID: user.userID, participants: [participant],
-    //                                 createdAt: club.createdAt, maxNumberOfPeople: club.maxNumberOfPeople)
-    //
-    //            let addedChat = Chat(chatRoomID: docChat.documentID, clubID: docClub.documentID,
-    //                                 chatRoomName: chat.chatRoomName, participants: [participant],
-    //                                 messages: nil, coverImageURL: chat.coverImageURL)
-    //
-    //            try docClub.setData(from: addedClub)
-    //            try docChat.setData(from: addedChat)
-    //
-    //            return (docClub.documentID, docChat.documentID)
-    //        } catch {
-    //            print(error.localizedDescription)
-    //        }
-    //        return nil
-    //    }
-    
     @objc
     private func registerButtonTapped() {
         guard let incompleteClub = groupInfoStackView.getData() else { return }
@@ -179,11 +154,8 @@ final class SecondCreateGroupViewController: BaseViewController {
                         messages: nil,
                         coverImageURL: nil)
         Task {
-            print("여기는 1")
             guard let vfUser = await firebaseManager.requestUser() else { return }
-            print("여기는 2")
             firebaseManager.requestPost(user: vfUser , club: club, chat: chat)
-            print("여기는 3")
         }
     }
     

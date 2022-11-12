@@ -18,6 +18,15 @@ final class AuthManager {
 
     private init() { }
     
+    func signInUser(email: String, password: String) -> AnyPublisher<User, Error> {
+        return AuthManager.auth.signIn(withEmail: email, password: password)
+            .catch { error in
+                return Fail(error: error)
+                    .eraseToAnyPublisher()
+            }.map(\.user)
+            .eraseToAnyPublisher()
+    }
+    
     func signInUser(with credential: OAuthCredential) -> AnyPublisher<User, Error> {
         
         return AuthManager.auth.signIn(with: credential)
