@@ -132,6 +132,7 @@ final class ProfileView: UIView {
         
         interestCollectionView.constraint(top: selfIntroductionLabel.bottomAnchor,
                                           leading: self.leadingAnchor,
+                                          bottom: self.bottomAnchor,
                                           trailing: self.trailingAnchor,
                                           padding: UIEdgeInsets(top: UIScreen().hasNotch ? 35 : 15, left: 30, bottom: 0, right: 30))
         
