@@ -31,7 +31,7 @@ class ChatRoomViewController: UIViewController {
     private let transferMessageStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.alignment = .bottom
+        stackView.alignment = .center
         stackView.spacing = 10
         return stackView
     }()
@@ -79,7 +79,7 @@ class ChatRoomViewController: UIViewController {
 
         transferMessageStackView.addArrangedSubviews(plusButton, messageTextView, sendButton)
 
-        messageTextView.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        messageTextView.heightAnchor.constraint(equalToConstant: 46).isActive = true
         let transferMessageStackViewConstraints = [
             transferMessageStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             transferMessageStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
@@ -106,6 +106,8 @@ extension ChatRoomViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatRoomContentCollectionViewCell.identifier, for: indexPath) as? ChatRoomContentCollectionViewCell else { return UICollectionViewCell() }
+        
+        cell.setRandomLabel()
         return cell
     }
 }
