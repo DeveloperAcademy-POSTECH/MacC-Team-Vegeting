@@ -25,16 +25,14 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     private lazy var placeLabelWithImage: LabelWithImageStackView = {
         let placeLabel = LabelWithImageStackView()
         let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 14, weight: .light)
-        placeLabel.setCoverImage(image: UIImage(systemName: "mappin",
-                                                withConfiguration: imageConfig) ?? UIImage())
+        placeLabel.setCoverImage(image: UIImage(systemName: "mappin", withConfiguration: imageConfig))
         return placeLabel
     }()
     
     private lazy var countLabelWithImage: LabelWithImageStackView = {
         let countLabel = LabelWithImageStackView()
         let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 17, weight: .light)
-        countLabel.setCoverImage(image: UIImage(systemName: "person",
-                                                withConfiguration: imageConfig) ?? UIImage())
+        countLabel.setCoverImage(image: UIImage(systemName: "person", withConfiguration: imageConfig))
         return countLabel
     }()
     

@@ -43,7 +43,7 @@ class LabelWithImageStackView: UIStackView {
         }
     }
     
-    func setCoverImage(image: UIImage) {
+    func setCoverImage(image: UIImage?) {
         imageView.image = image
     }
     
