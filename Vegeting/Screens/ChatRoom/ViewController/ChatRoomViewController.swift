@@ -110,3 +110,8 @@ extension ChatRoomViewController: UICollectionViewDataSource {
     }
 }
 
+extension ChatRoomViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        view.endEditing(true)
+    }
+}
