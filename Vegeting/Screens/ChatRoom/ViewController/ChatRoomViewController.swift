@@ -20,11 +20,10 @@ class ChatRoomViewController: UIViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 10
-        
+    
         let layout = UICollectionViewCompositionalLayout(section: section)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(ChatRoomContentCollectionViewCell.self, forCellWithReuseIdentifier: ChatRoomContentCollectionViewCell.identifier)
-        collectionView.autoresizingMask = [.flexibleHeight]
         return collectionView
     }()
 
