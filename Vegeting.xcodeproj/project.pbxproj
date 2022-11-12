@@ -36,7 +36,6 @@
 		4AFA58B52905280F00679142 /* NumberOfPeopleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA58B42905280F00679142 /* NumberOfPeopleCollectionViewCell.swift */; };
 		7615B645291EA03900A34DA4 /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7615B644291EA03900A34DA4 /* ChatRoomViewController.swift */; };
 		7615B648291EA06D00A34DA4 /* ChatRoomContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7615B647291EA06D00A34DA4 /* ChatRoomContentCollectionViewCell.swift */; };
-		7615B64A291F0B6900A34DA4 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7615B649291F0B6900A34DA4 /* PaddingLabel.swift */; };
 		7628CC792913DEAE00CDA679 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7628CC782913DEAE00CDA679 /* AuthManager.swift */; };
 		7628CC7B2914AF7B00CDA679 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		7645E74A290700E5009E2E3B /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E749290700E5009E2E3B /* SignInViewController.swift */; };
@@ -113,7 +112,6 @@
 		4AFA58B42905280F00679142 /* NumberOfPeopleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfPeopleCollectionViewCell.swift; sourceTree = "<group>"; };
 		7615B644291EA03900A34DA4 /* ChatRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
 		7615B647291EA06D00A34DA4 /* ChatRoomContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChatRoomContentCollectionViewCell.swift; path = Vegeting/Screens/ChatRoom/ChatRoomContentCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
-		7615B649291F0B6900A34DA4 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		7628CC772913DB5F00CDA679 /* Vegeting.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vegeting.entitlements; sourceTree = "<group>"; };
 		7628CC782913DEAE00CDA679 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		7645E749290700E5009E2E3B /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -193,7 +191,6 @@
 				A26198772909567100ECCC4F /* LabelWithImageStackView.swift */,
 				A2F369D02908258B007F3732 /* GroupInfoView.swift */,
 				A261987C290A350300ECCC4F /* BottomButton.swift */,
-				7615B649291F0B6900A34DA4 /* PaddingLabel.swift */,
 			);
 			path = UIComponent;
 			sourceTree = "<group>";
@@ -668,7 +665,6 @@
 				4AFA58AA2903EA6400679142 /* UIView+Extension.swift in Sources */,
 				4A50D5A52908E03600D1ADE4 /* EmptyResultView.swift in Sources */,
 				4ADC12E92901819800C0FFB6 /* UIScreen+Extension.swift in Sources */,
-				7615B64A291F0B6900A34DA4 /* PaddingLabel.swift in Sources */,
 				A7C8DF262901274500F38AD7 /* SceneDelegate.swift in Sources */,
 				76B0283B290528F8002C9DF7 /* Chat.swift in Sources */,
 				4AFA58B2290526C300679142 /* NumberOfGroupPeopleView.swift in Sources */,
