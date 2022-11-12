@@ -12,8 +12,7 @@ final class ProfileView: UIView {
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = true
-        imageView.layer.bounds.size = .init(width: 103, height: 103)
-        imageView.layer.cornerRadius = imageView.bounds.size.height / 2
+        imageView.layer.cornerRadius = 51.5
         return imageView
     }()
     
