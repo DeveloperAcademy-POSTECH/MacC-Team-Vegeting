@@ -65,7 +65,7 @@ class MyPageTableViewCell: UITableViewCell {
         }
     }
     
-    func configure(with data: MyPageTable) {
+    func configure(with data: MyPageSettingElement) {
         label.text = data.text
         
         if data.isSmallTitle {
