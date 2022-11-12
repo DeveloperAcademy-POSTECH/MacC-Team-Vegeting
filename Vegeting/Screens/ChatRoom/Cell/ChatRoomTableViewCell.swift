@@ -12,7 +12,8 @@ class ChatRoomTableViewCell: UITableViewCell {
     private let roomImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = true
-        imageView.layer.bounds.size = .init(width: 70, height: 70)
+        imageView.layer.cornerRadius = 35
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
@@ -85,14 +86,13 @@ class ChatRoomTableViewCell: UITableViewCell {
         let view = UIView()
         view.layer.masksToBounds = true
         view.backgroundColor = .systemGray5
-        view.layer.bounds.size = .init(width: 22, height: 22)
+        view.layer.cornerRadius = 11
         return view
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupLayout()
-        configureUI()
     }
     
     required init?(coder: NSCoder) {
@@ -141,31 +141,17 @@ class ChatRoomTableViewCell: UITableViewCell {
         latestChatDateLabel.text = convertDate(lastChatDate: data.latestChatDate)
         unreadChatCountLabel.text = data.unreadChatCount.description
     }
-    
-    func configureUI() {
-        roomImageView.layer.cornerRadius = roomImageView.bounds.size.height / 2
-        backgroundUnreadChatView.layer.cornerRadius = backgroundUnreadChatView.bounds.size.height / 2
-    }
-    
+
     private func convertDate(lastChatDate: Date) -> String {
-        
-        let now = Date()
-        let nowTime = now.toString(format: "H m")
-        let nowTimeList = nowTime.split(separator: " ")
-        let nowTotalSeconds = (Double(nowTimeList[0]) ?? 0) * 3600 + (Double(nowTimeList[1]) ?? 0) * 60
-        let timeIntervalFromNow = now.timeIntervalSince(lastChatDate)
-        let isToday = timeIntervalFromNow <= nowTotalSeconds
-        let isYesterday = nowTotalSeconds < timeIntervalFromNow && timeIntervalFromNow < nowTotalSeconds + 86400
-        
-        if isToday {
+        let calendar = Calendar.current
+
+        if calendar.isDateInToday(lastChatDate) {
             return lastChatDate.toString(format: "a h:mm")
-        }
-        
-        if isYesterday {
+        } else if calendar.isDateInYesterday(lastChatDate) {
             return "어제"
         } else {
             return lastChatDate.toString(format: "M월 d일")
         }
-        
+
     }
 }
