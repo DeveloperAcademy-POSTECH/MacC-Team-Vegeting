@@ -8,7 +8,26 @@
 import UIKit
 
 class ChatRoomViewController: UIViewController {
-    
+
+    private let chatListCollectionView: UICollectionView = {
+
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        group.interItemSpacing = .fixed(20)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 10
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(ChatRoomContentCollectionViewCell.self, forCellWithReuseIdentifier: ChatRoomContentCollectionViewCell.identifier)
+        collectionView.autoresizingMask = [.flexibleHeight]
+        return collectionView
+    }()
+
     private let transferMessageStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -16,7 +35,7 @@ class ChatRoomViewController: UIViewController {
         stackView.spacing = 10
         return stackView
     }()
-    
+
     private let plusButton: UIButton = {
         let button = UIButton()
         let imageConfig = UIImage.SymbolConfiguration(font: UIFont.systemFont(ofSize: 22))
@@ -24,7 +43,7 @@ class ChatRoomViewController: UIViewController {
         button.setImage(image, for: .normal)
         return button
     }()
-    
+
     private let sendButton: UIButton = {
         let button = UIButton()
         let imageConfig = UIImage.SymbolConfiguration(font: UIFont.systemFont(ofSize: 22))
@@ -32,40 +51,62 @@ class ChatRoomViewController: UIViewController {
         button.setImage(image, for: .normal)
         return button
     }()
-    
-    
+
+
     private let messageTextView: UITextView = {
         let textView = UITextView()
         textView.backgroundColor = .red
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         setupLayout()
     }
-    
-    
+
+
     private func configureUI() {
-        view.addSubviews(transferMessageStackView)
+        view.addSubviews(chatListCollectionView,transferMessageStackView)
         view.backgroundColor = .systemBackground
-        
+
+        chatListCollectionView.dataSource = self
+        chatListCollectionView.delegate = self
     }
 
     private func setupLayout() {
-        
+
         transferMessageStackView.addArrangedSubviews(plusButton, messageTextView, sendButton)
-        
+
         messageTextView.heightAnchor.constraint(equalToConstant: 44).isActive = true
         let transferMessageStackViewConstraints = [
             transferMessageStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             transferMessageStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             transferMessageStackView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor, constant: -12)
         ]
-        
-        constraintsActivate(transferMessageStackViewConstraints)
+
+
+        let chatListCollectionViewConstraints = [
+            chatListCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            chatListCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            chatListCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            chatListCollectionView.bottomAnchor.constraint(equalTo: transferMessageStackView.topAnchor, constant: -20)
+        ]
+
+        constraintsActivate(transferMessageStackViewConstraints, chatListCollectionViewConstraints)
     }
-    
+
 }
+
+extension ChatRoomViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 20
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatRoomContentCollectionViewCell.identifier, for: indexPath) as? ChatRoomContentCollectionViewCell else { return UICollectionViewCell() }
+        return cell
+    }
+}
+
