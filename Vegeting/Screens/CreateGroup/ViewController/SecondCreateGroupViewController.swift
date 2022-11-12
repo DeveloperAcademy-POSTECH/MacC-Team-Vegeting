@@ -41,7 +41,7 @@ final class SecondCreateGroupViewController: BaseViewController {
         return label
     }()
     
-    private lazy var contentTextview: UITextView = {
+    private lazy var contentTextView: UITextView = {
         var textView = UITextView()
         textView.text = StringLiteral.secondCreateGroupViewControllerContent
         textView.textColor = .lightGray
@@ -76,7 +76,7 @@ final class SecondCreateGroupViewController: BaseViewController {
     
     override func setupLayout() {
         view.addSubviews(coverPickerView, groupInfoStackView, titleTextField, titleWordsCountLabel,
-                         contentTextview, contentWordsCountLabel, registerButton)
+                         contentTextView, contentWordsCountLabel, registerButton)
         
         NSLayoutConstraint.activate([
             coverPickerView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 30),
@@ -106,14 +106,14 @@ final class SecondCreateGroupViewController: BaseViewController {
         ])
         
         NSLayoutConstraint.activate([
-            contentTextview.topAnchor.constraint(equalTo: titleWordsCountLabel.bottomAnchor, constant: 30),
-            contentTextview.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 24),
-            contentTextview.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            contentTextview.heightAnchor.constraint(equalToConstant: 150)
+            contentTextView.topAnchor.constraint(equalTo: titleWordsCountLabel.bottomAnchor, constant: 30),
+            contentTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 24),
+            contentTextView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            contentTextView.heightAnchor.constraint(equalToConstant: 150)
         ])
         
         NSLayoutConstraint.activate([
-            contentWordsCountLabel.topAnchor.constraint(equalTo: contentTextview.bottomAnchor, constant: 8),
+            contentWordsCountLabel.topAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 8),
             contentWordsCountLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 24),
             contentWordsCountLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         ])
@@ -130,6 +130,57 @@ final class SecondCreateGroupViewController: BaseViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapPhotoPicker(sender:)))
         coverPickerView.addGestureRecognizer(tapGesture)
         titleTextField.delegate = self
+    }
+    
+    //    func registerChatAndPost(user: VFUser, club: Club, chat: Chat) -> (clubID: String, chatID: String)? {
+    //        do {
+    //            let docChat = db.collection(Path.chat.rawValue).document()
+    //            let docClub = db.collection(Path.club.rawValue).document()
+    //
+    //            let participant = Participant(userID: user.userID, name: user.userName, profileImageURL: user.imageURL)
+    //            let addedClub = Club(clubID: docClub.documentID, chatID: docChat.documentID,
+    //                                 clubTitle: club.clubTitle, clubCategory: club.clubCategory,
+    //                                 hostID: user.userID, participants: [participant],
+    //                                 createdAt: club.createdAt, maxNumberOfPeople: club.maxNumberOfPeople)
+    //
+    //            let addedChat = Chat(chatRoomID: docChat.documentID, clubID: docClub.documentID,
+    //                                 chatRoomName: chat.chatRoomName, participants: [participant],
+    //                                 messages: nil, coverImageURL: chat.coverImageURL)
+    //
+    //            try docClub.setData(from: addedClub)
+    //            try docChat.setData(from: addedChat)
+    //
+    //            return (docClub.documentID, docChat.documentID)
+    //        } catch {
+    //            print(error.localizedDescription)
+    //        }
+    //        return nil
+    //    }
+    
+    @objc
+    private func registerButtonTapped() {
+        guard let incompleteClub = groupInfoStackView.getData() else { return }
+        let firebaseManager = FirebaseManager.shared
+        
+        let club = Club(id: nil, clubID: nil, chatID: nil,
+                        clubTitle: titleTextField.text,
+                        clubCategory: incompleteClub.clubCategory,
+                        clubContent: contentTextView.text,
+                        hostID: nil, participants: nil,
+                        createdAt: incompleteClub.createdAt,
+                        maxNumberOfPeople: incompleteClub.maxNumberOfPeople,
+                        coverImageURL: nil)
+        
+        let chat = Chat(chatRoomID: nil,
+                        clubID: nil,
+                        chatRoomName: titleTextField.text ?? "",
+                        participants: nil,
+                        messages: nil,
+                        coverImageURL: nil)
+        Task {
+            guard let vfUser = await firebaseManager.requestUser() else { return }
+            firebaseManager.requestPost(user: vfUser , club: club, chat: chat)
+        }
     }
     
     @objc
@@ -157,8 +208,8 @@ final class SecondCreateGroupViewController: BaseViewController {
     
     private func checkRegisterButtonEnabled() {
         guard let isTitleEmpty = titleTextField.text?.isEmpty,
-              let isContentTextEmpty = contentTextview.text?.isEmpty else { return }
-        let isContentPlaceholer = contentTextview.text == StringLiteral.secondCreateGroupViewControllerContent
+              let isContentTextEmpty = contentTextView.text?.isEmpty else { return }
+        let isContentPlaceholer = contentTextView.text == StringLiteral.secondCreateGroupViewControllerContent
         let isContentEmpty = isContentTextEmpty || isContentPlaceholer
         
         if !isTitleEmpty && !isContentEmpty {
@@ -246,6 +297,7 @@ extension SecondCreateGroupViewController: UITextFieldDelegate {
             updateTitleCountLabel(characterCount: 20)
         }
     }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let textWithoutWhiteSpace = string.trimmingCharacters(in: .whitespaces)
         let newLength = (textField.text?.count ?? 0) - range.length + textWithoutWhiteSpace.count

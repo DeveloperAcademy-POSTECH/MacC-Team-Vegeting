@@ -14,6 +14,7 @@ struct Club: Identifiable, Codable {
     let clubID: String?
     let chatID: String?
     let clubTitle, clubCategory: String?
+    let clubContent: String?
     let hostID: String?
     let participants: [Participant]?
     let createdAt: Date
