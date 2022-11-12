@@ -11,6 +11,17 @@ class ChatRoomContentCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "ChatRoomContentCollectionViewCell"
     
+//    private let contentLabel: PaddingLabel = {
+//        let label = PaddingLabel(padding: UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16))
+//        label.lineBreakMode = .byWordWrapping
+//        label.numberOfLines = 0
+//        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+//        label.layer.masksToBounds = true
+//        label.layer.cornerRadius = 14
+//        label.layer.backgroundColor = UIColor.gray.cgColor
+//        return label
+//    }()
+    
     private let contentLabel: UILabel = {
         let label = UILabel()
         label.lineBreakMode = .byWordWrapping
@@ -28,6 +39,14 @@ class ChatRoomContentCollectionViewCell: UICollectionViewCell {
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         label.layer.cornerRadius = 14
         return label
+    }()
+    
+    private let backgroundPaddingView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .gray
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 14
+        return view
     }()
     
     override init(frame: CGRect) {
@@ -53,22 +72,31 @@ class ChatRoomContentCollectionViewCell: UICollectionViewCell {
     
     
     private func configureUI() {
-        contentView.addSubviews(contentLabel, dateTimeLabel)
+        contentView.addSubviews(backgroundPaddingView, contentLabel, dateTimeLabel)
     }
     private func setupLayout() {
         let contentLabelConstraints = [
-            contentLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 60),
-            contentLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -96),
-            contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            contentLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 78),
+            contentLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -66),
+            contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+        ]
+        
+        
+        let backgroundPaddingViewConstraints = [
+            backgroundPaddingView.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor, constant: -16),
+            backgroundPaddingView.trailingAnchor.constraint(equalTo: contentLabel.trailingAnchor, constant: 16),
+            backgroundPaddingView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            backgroundPaddingView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            
         ]
         
         let dateTimeLabelConstraints = [
-            dateTimeLabel.leadingAnchor.constraint(equalTo: contentLabel.trailingAnchor, constant: 8),
-            dateTimeLabel.bottomAnchor.constraint(equalTo: contentLabel.bottomAnchor)
+            dateTimeLabel.leadingAnchor.constraint(equalTo: backgroundPaddingView.trailingAnchor, constant: 8),
+            dateTimeLabel.bottomAnchor.constraint(equalTo: backgroundPaddingView.bottomAnchor)
         ]
         
-        [contentLabelConstraints, dateTimeLabelConstraints].forEach { constraints in
+        [contentLabelConstraints, dateTimeLabelConstraints, backgroundPaddingViewConstraints].forEach { constraints in
             NSLayoutConstraint.activate(constraints)
         }
     
