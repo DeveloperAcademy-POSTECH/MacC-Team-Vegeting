@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import Combine
 
 final class FirstCreateGroupViewController: UIViewController {
     
     //MARK: - properties
+    var cancellables = Set<AnyCancellable>()
     
     private let categoryTitleLabel: UILabel = {
         let label = UILabel()
@@ -124,10 +126,34 @@ final class FirstCreateGroupViewController: UIViewController {
         super.viewDidLoad()
         setupLayout()
         configureUI()
+        signIn(self)
     }
     
     //MARK: - func
     
+    // 임시 로그인
+    @objc
+    func signIn(_ sender: Any) {
+        AuthManager.shared.signInUser(email: "admintest1@macvegeting.com"
+                                      , password: "123456789").sink { completion in
+            if case .failure(let error) = completion {
+                print(error)
+            }
+        } receiveValue: { [weak self] user in
+            print("로그인")
+//            self?.fbUser = user
+//            self?.requestUserInfo()
+        }.store(in: &cancellables)
+    }
+//
+//    func requestUserInfo() {
+//        Task { [weak self] in
+//            user = await FirebaseManager.shared.requestUser()
+//            guard let user = user else { return }
+//            self?.user = user
+//        }
+//    }
+//
     private func showLocationView() {
         locationTitleLabel.isHidden = false
         locationSearchingButton.isHidden = false

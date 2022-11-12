@@ -67,6 +67,7 @@ final class SecondCreateGroupViewController: BaseViewController {
         let button = BottomButton()
         button.isEnabled = false
         button.setTitle(StringLiteral.secondCreateGroupViewControllerRegisterButton, for: .normal)
+        button.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -178,8 +179,11 @@ final class SecondCreateGroupViewController: BaseViewController {
                         messages: nil,
                         coverImageURL: nil)
         Task {
+            print("여기는 1")
             guard let vfUser = await firebaseManager.requestUser() else { return }
+            print("여기는 2")
             firebaseManager.requestPost(user: vfUser , club: club, chat: chat)
+            print("여기는 3")
         }
     }
     
