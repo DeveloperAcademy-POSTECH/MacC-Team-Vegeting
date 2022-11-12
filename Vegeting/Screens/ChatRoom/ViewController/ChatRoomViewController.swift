@@ -55,8 +55,11 @@ class ChatRoomViewController: UIViewController {
 
     private let messageTextView: UITextView = {
         let textView = UITextView()
-        textView.backgroundColor = .red
-        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.backgroundColor = .gray.withAlphaComponent(0.1)
+        textView.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        textView.layer.masksToBounds = true
+        textView.layer.cornerRadius = 13
+        textView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 16)
         return textView
     }()
 
