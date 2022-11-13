@@ -8,7 +8,7 @@
 import MapKit
 import UIKit
 
-class MapView: UIView {
+final class MapView: UIView {
     
     public let map = MKMapView()
     
@@ -54,5 +54,4 @@ class MapView: UIView {
             currentLocationButton.heightAnchor.constraint(equalToConstant: 38)
         ])
     }
-    
 }

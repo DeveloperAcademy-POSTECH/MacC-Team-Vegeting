@@ -8,14 +8,14 @@
 import MapKit
 import UIKit
 
-class LocationAuthViewController: UIViewController {
+final class LocationAuthViewController: UIViewController {
     
     //포항공대 위치 - default
-    let firstLocation = CLLocationCoordinate2D(latitude: 36.0106098, longitude: 129.321296)
-    let defaultSpanValue = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+    private let defaultLocation = CLLocationCoordinate2D(latitude: 36.0106098, longitude: 129.321296)
+    private let defaultSpanValue = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
     
-    public var currentLatitude: CLLocationDegrees?
-    public var currentLongitude: CLLocationDegrees?
+    private var currentLatitude: CLLocationDegrees?
+    private var currentLongitude: CLLocationDegrees?
     
     private let progressBarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -33,15 +33,15 @@ class LocationAuthViewController: UIViewController {
     
     private let mapView = MapView()
     private var locationManager = CLLocationManager()
-    public let geocoder = CLGeocoder()
+    private let geocoder = CLGeocoder()
     
-    public let locationTextField: UITextField = {
-        let textField = UITextField()
-        textField.textColor = UIColor(hex: "#616161")
-        textField.font = .preferredFont(forTextStyle: .body)
-        textField.layer.cornerRadius = 8
-        textField.backgroundColor = UIColor(hex: "#F2F2F2")
-        return textField
+    private let locationDisplayLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .body)
+        label.textColor = UIColor(hex: "#616161")
+        label.layer.cornerRadius = 8
+        label.backgroundColor = UIColor(hex: "#F2F2F2")
+        return label
     }()
     
     private let locationNoticeLabel: UILabel = {
@@ -73,24 +73,24 @@ class LocationAuthViewController: UIViewController {
         setupLayout()
     }
     
-    func configureLocationManager() {
+    private func configureLocationManager() {
         locationManager.requestWhenInUseAuthorization()
         locationManager.delegate = self
     }
     
-    func configureMap() {
+    private func configureMap() {
         //처음 보여줄 위치
-        mapView.map.setRegion(MKCoordinateRegion(center: firstLocation,
+        mapView.map.setRegion(MKCoordinateRegion(center: defaultLocation,
                                                  span: defaultSpanValue), animated: true)
     }
     
-    func configureUI() {
+    private func configureUI() {
         view.backgroundColor = .systemBackground
         view.addSubviews(progressBarImageView, locationMessageLabel, mapView,
-                         locationTextField, locationNoticeLabel, nextButton)
+                         locationDisplayLabel, locationNoticeLabel, nextButton)
     }
     
-    func setupLayout() {
+    private func setupLayout() {
         NSLayoutConstraint.activate([
             progressBarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 116),
             progressBarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -111,14 +111,14 @@ class LocationAuthViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            locationTextField.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 23),
-            locationTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            locationTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            locationTextField.heightAnchor.constraint(equalToConstant: 50)
+            locationDisplayLabel.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: 23),
+            locationDisplayLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            locationDisplayLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            locationDisplayLabel.heightAnchor.constraint(equalToConstant: 50)
         ])
         
         NSLayoutConstraint.activate([
-            locationNoticeLabel.topAnchor.constraint(equalTo: locationTextField.bottomAnchor, constant: 10),
+            locationNoticeLabel.topAnchor.constraint(equalTo: locationDisplayLabel.bottomAnchor, constant: 10),
             locationNoticeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             locationNoticeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
@@ -147,9 +147,20 @@ class LocationAuthViewController: UIViewController {
         mapView.map.setUserTrackingMode(.follow, animated: true)
     }
     
+    private func currentLocationButtonAction() {
+        mapView.currentLocationButton.addTarget(self, action: #selector(findCurrentLocation), for: .touchUpInside)
+    }
+    
+    private func nextButtonActive() {
+        if !(locationDisplayLabel.text == "") {
+            nextButton.isEnabled = true
+            nextButton.setTitleColor(UIColor.label, for: .normal)
+            nextButton.setBackgroundColor(UIColor(hex: "#FFD243"), for: .normal)
+        }
+    }
     
     /// 위치 권한 설정 함수
-    func checkCurrentLocationAuthorization(authorizationStatus: CLAuthorizationStatus) {
+    private func checkCurrentLocationAuthorization(authorizationStatus: CLAuthorizationStatus) {
         switch authorizationStatus {
         case .notDetermined:
             print("notDetermined")
@@ -183,7 +194,7 @@ class LocationAuthViewController: UIViewController {
         }
     }
     
-    func goSetting() {
+    private func goSetting() {
         let alert = UIAlertController(title: "위치권한 요청", message: "위치 권한 허용이 필요합니다.", preferredStyle: .alert)
         let settingAction = UIAlertAction(title: "설정", style: .default) { action in
             guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
@@ -202,7 +213,7 @@ class LocationAuthViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    public func checkUserLocationServicesAuthorization() {
+    private func checkUserLocationServicesAuthorization() {
         let authorizationStatus: CLAuthorizationStatus
         if #available(iOS 14, *) {
             authorizationStatus = locationManager.authorizationStatus
@@ -214,14 +225,9 @@ class LocationAuthViewController: UIViewController {
             checkCurrentLocationAuthorization(authorizationStatus: authorizationStatus)
         }
     }
-
-    func currentLocationButtonAction() {
-        mapView.currentLocationButton.addTarget(self, action: #selector(findCurrentLocation), for: .touchUpInside)
-    }
 }
 
 extension LocationAuthViewController: CLLocationManagerDelegate {
-
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else {
             return
@@ -235,8 +241,10 @@ extension LocationAuthViewController: CLLocationManagerDelegate {
                 return
             }
             DispatchQueue.main.async {
-                self.locationTextField.text = "\(address.locality!) \(address.subLocality!)"
+                self.locationDisplayLabel.text = "\(address.locality!) \(address.subLocality!)"
             }
         }
+        
+        nextButtonActive()
     }
 }
