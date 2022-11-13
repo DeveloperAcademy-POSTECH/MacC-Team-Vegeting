@@ -18,7 +18,7 @@ class CategoryView: UIView {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13, weight: .medium)
         label.textAlignment = .center
-        label.textColor = .labelGay2
+        label.textColor = .labelGray2
         return label
     }()
     

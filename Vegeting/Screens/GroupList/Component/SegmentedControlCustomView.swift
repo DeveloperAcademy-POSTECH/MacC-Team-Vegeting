@@ -75,7 +75,7 @@ class SegmentedControlCustomView: UIView {
             } else {
                 button.tintColor = .secondaryLabel
             }
-            button.addTarget(self, action: #selector(didTapTab(_:)), for: .touchUpInside)
+            button.addTarget(self, action: #selector(tabButtonTapped(_:)), for: .touchUpInside)
         }
     }
     
@@ -85,7 +85,7 @@ class SegmentedControlCustomView: UIView {
         configureSegmentButton()
     }
     
-    @objc private func didTapTab(_ sender: UIButton) {
+    @objc private func tabButtonTapped(_ sender: UIButton) {
         guard let label = sender.titleLabel?.text else { return }
         switch label {
         case SectionTabs.oneDayClub.rawValue:
@@ -104,18 +104,18 @@ class SegmentedControlCustomView: UIView {
     private func setupLayout() {
         addSubviews(segmentStackView, lineView, indicatorView)
         
+        NSLayoutConstraint.activate([
+            segmentStackView.topAnchor.constraint(equalTo: topAnchor),
+            segmentStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            segmentStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+        ])
+        
         leadingAnchors = segmentStackView.arrangedSubviews.map { buttonView in
             indicatorView.leadingAnchor.constraint(equalTo: buttonView.leadingAnchor)
         }
         trailingAnchors = segmentStackView.arrangedSubviews.map { buttonView in
             indicatorView.trailingAnchor.constraint(equalTo: buttonView.trailingAnchor)
         }
-        
-        NSLayoutConstraint.activate([
-            segmentStackView.topAnchor.constraint(equalTo: topAnchor),
-            segmentStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            segmentStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-        ])
         
         NSLayoutConstraint.activate([
             leadingAnchors[0],
@@ -128,8 +128,8 @@ class SegmentedControlCustomView: UIView {
         NSLayoutConstraint.activate([
             lineView.topAnchor.constraint(equalTo: indicatorView.bottomAnchor, constant: -1),
             lineView.heightAnchor.constraint(equalToConstant: 1),
-            lineView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            lineView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            lineView.leadingAnchor.constraint(equalTo: segmentStackView.leadingAnchor),
+            lineView.trailingAnchor.constraint(equalTo: segmentStackView.trailingAnchor),
         ])
     }
 }

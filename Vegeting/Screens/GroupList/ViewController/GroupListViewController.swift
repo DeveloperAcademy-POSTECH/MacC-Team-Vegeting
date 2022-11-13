@@ -35,7 +35,7 @@ class GroupListViewController: UIViewController {
         let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 18, weight: .regular)
         button.setImage(UIImage(systemName: "magnifyingglass", withConfiguration: imageConfig), for: .normal)
         button.tintColor = .black
-        button.addTarget(self, action: #selector(tapSearchButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(searchButtontapped), for: .touchUpInside)
         return button
     }()
     
@@ -44,17 +44,17 @@ class GroupListViewController: UIViewController {
         let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 18, weight: .regular)
         button.setImage(UIImage(systemName: "square.and.pencil", withConfiguration: imageConfig), for: .normal)
         button.tintColor = .black
-        button.addTarget(self, action: #selector(tapAddClubButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(addClubButtontapped), for: .touchUpInside)
         return button
     }()
     
     @objc
-    private func tapSearchButton() {
+    private func searchButtontapped() {
         print("tapSearchButton")
     }
     
     @objc
-    private func tapAddClubButton() {
+    private func addClubButtontapped() {
         print("tapAddClubButton")
     }
     
