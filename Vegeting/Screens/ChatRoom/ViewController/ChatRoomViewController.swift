@@ -10,11 +10,16 @@ import UIKit
 class ChatRoomViewController: UIViewController {
 
     private let vm = chatRoomViewModel(count: 40)
-    
+        
+    static let dateElementKind = "date-element-kind"
     private let chatListCollectionView: UICollectionView = {
 
+        let dateAnchor = NSCollectionLayoutAnchor(edges: [.top])
+        let dateSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(22))
+        let dateSupplementaryItem = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: dateSize, elementKind: dateElementKind, containerAnchor: dateAnchor)
+
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let item = NSCollectionLayoutItem(layoutSize: itemSize, supplementaryItems: [dateSupplementaryItem])
 
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
@@ -27,6 +32,7 @@ class ChatRoomViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(OtherChatContentCollectionViewCell.self, forCellWithReuseIdentifier: OtherChatContentCollectionViewCell.identifier)
         collectionView.register(MyChatContentCollectionViewCell.self, forCellWithReuseIdentifier: MyChatContentCollectionViewCell.identifier)
+        collectionView.register(DateInChatDividerCollectionReusableView.self, forSupplementaryViewOfKind: dateElementKind, withReuseIdentifier: DateInChatDividerCollectionReusableView.identifier)
         return collectionView
     }()
 
@@ -124,6 +130,17 @@ extension ChatRoomViewController: UICollectionViewDataSource {
             return cell
         }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: DateInChatDividerCollectionReusableView.identifier, for: indexPath) as? DateInChatDividerCollectionReusableView else {
+            return UICollectionReusableView()
+        }
+        if indexPath.row == 0 {
+            header.isHidden = true
+        }
+        return header
+    }
+    
 }
 
 extension ChatRoomViewController: UICollectionViewDelegate {

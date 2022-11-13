@@ -11,14 +11,16 @@ struct TemporaryMessage {
     let status: SenderType
     let profileUserName: String
     let messageContent: String
+    let time: Date
 }
 
 final class chatRoomViewModel {
     var temporaryMessages: [TemporaryMessage] = []
-    
+    let currentDate = Date()
     init(count: Int) {
-        for _ in 0..<count {
-            let data = TemporaryMessage(status: randomTestSenderType(), profileUserName: randomUserNameText(), messageContent: randomContentText())
+        for time in 0..<count {
+            let sendDate = Calendar.current.date(byAdding: .hour, value: time, to: currentDate)!
+            let data = TemporaryMessage(status: randomTestSenderType(), profileUserName: randomUserNameText(), messageContent: randomContentText(), time: sendDate)
             temporaryMessages.append(data)
         }
     }

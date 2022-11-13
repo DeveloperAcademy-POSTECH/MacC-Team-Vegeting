@@ -9,11 +9,12 @@ import UIKit
 
 class DateInChatDividerCollectionReusableView: UICollectionReusableView {
     
+    static let identifier = "DateInChatDividerCollectionReusableView"
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.text = "2023년 9월 8일"
         label.font = UIFont.systemFont(ofSize: 13, weight: .regular)
-        label.textColor = .gray.withAlphaComponent(0.1)
+        label.textColor = .red
         return label
     }()
     
