@@ -149,7 +149,18 @@ extension FirebaseManager {
         } catch {
             print(error.localizedDescription)
         }
-    }    
+    }
+
+    func requestChat(participatedChat: ParticipatedChatRoom) -> AnyPublisher<Chat, Error> {
+        guard let chatID = participatedChat.chatID else { return Fail(error: ErrorLiteral.emptyChatID).eraseToAnyPublisher() }
+        return db.collection(Path.chat.rawValue).document(chatID).snapshotPublisher(includeMetadataChanges: true)
+            .catch { error in
+                return Fail(error: error)
+                    .eraseToAnyPublisher()
+            }
+            .tryMap { try $0.data(as: Chat.self) }
+            .eraseToAnyPublisher()
+    }
 }
 
 // MARK: Firebase Authentifcation 전용(유저 회원가입 및 로그인 담당)
