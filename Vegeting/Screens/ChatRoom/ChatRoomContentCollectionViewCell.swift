@@ -53,7 +53,8 @@ class ChatRoomContentCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setRandomLabel() {
+    func configure() {
+        
         contentLabel.text = randomTestText()
         let senderType = randomTestSenderType()
         
@@ -63,10 +64,14 @@ class ChatRoomContentCollectionViewCell: UICollectionViewCell {
         case .other:
             setupComponentLayoutOther()
         }
+        
         configureUI()
         setupLayout()
     }
+}
 
+// MARK: 채팅방 데이터를 위한 임시 함수
+extension ChatRoomContentCollectionViewCell {
     private func randomTestSenderType() -> SenderType {
         let randomSenderType = SenderType.allCases.randomElement()!
         return randomSenderType
@@ -77,9 +82,9 @@ class ChatRoomContentCollectionViewCell: UICollectionViewCell {
         let idx = Int.random(in: 0...3)
         return labelCase[idx]
     }
-    
 }
 
+// MARK: Layout 관련 함수
 extension ChatRoomContentCollectionViewCell {
     
     private func setupComponentLayoutMine() {
@@ -94,7 +99,6 @@ extension ChatRoomContentCollectionViewCell {
     }
     
     private func setupComponentLayoutOther() {
-        
         contentLabelAnchors = [
             contentLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 78),
             contentLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -66),
@@ -112,8 +116,6 @@ extension ChatRoomContentCollectionViewCell {
     private func setupLayout() {
         guard let contentLabelAnchors = contentLabelAnchors, let dateTimeLabelAnchors = dateTimeLabelAnchors else { return }
         let contentLabelConstraints = [
-//            contentLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 78),
-//            contentLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -66),
             contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
         ]
@@ -128,7 +130,6 @@ extension ChatRoomContentCollectionViewCell {
         ]
         
         let dateTimeLabelConstraints = [
-//            dateTimeLabel.leadingAnchor.constraint(equalTo: backgroundPaddingView.trailingAnchor, constant: 8),
             dateTimeLabel.bottomAnchor.constraint(equalTo: backgroundPaddingView.bottomAnchor)
         ]
         

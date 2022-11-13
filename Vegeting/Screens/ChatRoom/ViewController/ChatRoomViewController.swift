@@ -109,7 +109,7 @@ extension ChatRoomViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatRoomContentCollectionViewCell.identifier, for: indexPath) as? ChatRoomContentCollectionViewCell else { return UICollectionViewCell() }
         
-        cell.setRandomLabel()
+        cell.configure()
         return cell
     }
 }
