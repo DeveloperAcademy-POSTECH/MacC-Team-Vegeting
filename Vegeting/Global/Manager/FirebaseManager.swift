@@ -74,7 +74,7 @@ extension FirebaseManager {
                                  messages: nil, coverImageURL: chat.coverImageURL)
             
             let recentChat = RecentChat(chatRoomID: docChat.documentID, chatRoomName: chat.chatRoomName
-                                        ,lastSentMessage: nil, lastSentTime: Date())
+                                        ,lastSentMessage: nil, lastSentTime: Date(), coverImageURL: chat.coverImageURL)
             
             try docClub.setData(from: addedClub)
             try docChat.setData(from: addedChat)
@@ -147,9 +147,9 @@ extension FirebaseManager {
     }
     
     /// 채팅 보내기
-    func requestMessage(chat: Chat, message: Message) async {
+    func registerMessage(chat: Chat, message: Message) async {
         await sendMessage(chat: chat, message: message)
-        requestRecentMessageInChat(chat: chat, message: message)
+        registerRecentMessageOnChat(chat: chat, message: message)
     }
     
     func sendMessage(chat: Chat, message: Message) async {
@@ -162,10 +162,10 @@ extension FirebaseManager {
         }
     }
     
-    func requestRecentMessageInChat(chat: Chat, message: Message) {
+    func registerRecentMessageOnChat(chat: Chat, message: Message) {
         guard let chatID = chat.chatRoomID else { return }
         do {
-            let recentChat = RecentChat(chatRoomID: chatID, chatRoomName: chat.chatRoomName, lastSentMessage: message.content, lastSentTime: message.createdAt)
+            let recentChat = RecentChat(chatRoomID: chatID, chatRoomName: chat.chatRoomName, lastSentMessage: message.content, lastSentTime: message.createdAt, coverImageURL: chat.coverImageURL)
             try db.collection(Path.recentChat.rawValue).document(chatID).setData(from: recentChat)
         } catch {
             print(error.localizedDescription)
