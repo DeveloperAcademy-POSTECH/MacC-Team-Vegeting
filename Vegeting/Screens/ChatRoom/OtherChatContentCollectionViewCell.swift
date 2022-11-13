@@ -10,6 +10,7 @@ import UIKit
 enum SenderType: CaseIterable {
     case mine
     case other
+    case otherNeedProfile
 }
 
 
@@ -20,6 +21,8 @@ class OtherChatContentCollectionViewCell: UICollectionViewCell {
     private enum SizeLiteral: CGFloat {
         case profileImageSize = 37.0
     }
+    
+    private var contentLabelTopAnchor: NSLayoutConstraint?
     
     private let backgroundPaddingView: UIView = {
         let view = UIView()
@@ -75,8 +78,40 @@ class OtherChatContentCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        if let contentLabelTopAnchor = contentLabelTopAnchor {
+            contentLabelTopAnchor.isActive = false
+        }
+    }
+    
     func configure() {
-        contentLabel.text = randomTestText()        
+        contentLabel.text = randomContentText()
+        profileUserNameLabel.text = randomUserNameText()
+        let senderType = randomTestSenderType()
+        
+        
+        
+        switch senderType {
+        case .otherNeedProfile:
+            setupLayoutOtherContentAndProfile()
+        default:
+            setupLayoutOtherContent()
+        }
+    }
+    
+    private func setupLayoutOtherContentAndProfile() {
+        profileImageView.isHidden = false
+        profileUserNameLabel.isHidden = false
+        contentLabelTopAnchor = contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 36)
+        contentLabelTopAnchor?.isActive = true
+    }
+    
+    private func setupLayoutOtherContent() {
+        profileImageView.isHidden = true
+        profileUserNameLabel.isHidden = true
+        contentLabelTopAnchor = contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8)
+        contentLabelTopAnchor?.isActive = true
     }
 }
 
@@ -87,9 +122,15 @@ extension OtherChatContentCollectionViewCell {
         return randomSenderType
     }
     
-    private func randomTestText() -> String {
+    private func randomContentText() -> String {
         let labelCase = ["감자님이 저번에 말씀하셨던 곳이 거기인가요?", "와 저도 거기 진짜 가보고 싶었는데 ....... 리조또랑 퐁듀가 진짜 맛있고, 피클도 꼭 추가해야 한대요~!!!!", "고구마 함박집 창문동에 담달에 드디어 오픈 한대요!", "타임은 LG 클로이 서브봇을 로보틱스 분야 최고의 발명품으로 꼽았다. 라이다 센서와 3D 카메라를 사용해 혼잡한 공간에서도 안정적으로 주행하고, 66파운드(30kg) 물품을 연속 11시간 운반할 수 있다고 설명했다. 가정용 식물재배기인 LG 틔운은 식물을 잘 키우는 요령이 없는 사람도 집안에서 쉽게 재배할 수 있는 점을 강조했다."]
         let idx = Int.random(in: 0...3)
+        return labelCase[idx]
+    }
+    
+    private func randomUserNameText() -> String {
+        let labelCase = ["채식쪼아", "채식의 마술사", "채식없인 못살아"]
+        let idx = Int.random(in: 0...2)
         return labelCase[idx]
     }
 }
@@ -105,6 +146,7 @@ extension OtherChatContentCollectionViewCell {
     private func setupLayout() {
         
         setupProfileLayout()
+        
         
         let contentLabelConstraints = [
             contentLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 78),
@@ -126,7 +168,7 @@ extension OtherChatContentCollectionViewCell {
             dateTimeLabel.leadingAnchor.constraint(equalTo: backgroundPaddingView.trailingAnchor, constant: 8),
             dateTimeLabel.bottomAnchor.constraint(equalTo: backgroundPaddingView.bottomAnchor)
         ]
-
+        
         [contentLabelConstraints, dateTimeLabelConstraints, backgroundPaddingViewConstraints].forEach { constraints in
             NSLayoutConstraint.activate(constraints)
         }
