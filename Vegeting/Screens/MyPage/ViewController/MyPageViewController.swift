@@ -31,6 +31,8 @@ class MyPageViewController: UIViewController {
                                                 MyPageSettingElement(text: "로그아웃", isSmallTitle: false),
                                                 MyPageSettingElement(text: "회원탈퇴", isSmallTitle: false)]
     
+    private var vfUser: VFUser? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
@@ -42,7 +44,7 @@ class MyPageViewController: UIViewController {
         view.addSubview(tableView)
         tableView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
                              leading: view.leadingAnchor,
-                             bottom: view.bottomAnchor,
+                             bottom: view.safeAreaLayoutGuide.bottomAnchor,
                              trailing: view.trailingAnchor)
     }
     
@@ -74,7 +76,11 @@ extension MyPageViewController: UITableViewDataSource {
         case 0:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageProfileTableViewCell.className, for: indexPath) as? MyPageProfileTableViewCell else { return UITableViewCell() }
             cell.delegate = self
-            cell.configure(image: "coverImage", nickName: "내가제일잘나과", step: "플렉시테리언")
+            Task {
+                guard let vfUser = await FirebaseManager.shared.requestUser() else { return }
+                cell.configure(image: "coverImage", nickName: vfUser.userName, step: "플렉시테리언")
+                self.vfUser = vfUser
+            }
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageTableViewCell.className, for: indexPath) as? MyPageTableViewCell else { return UITableViewCell() }
@@ -92,7 +98,10 @@ extension MyPageViewController: UITableViewDataSource {
 extension MyPageViewController: MyPageProfileTableViewCellDelegate {
     func profileEditButtonTapped() {
         let viewController = MyProfileEditViewController()
-        viewController.configure(with: ModalModel(nickname: "내가 짱이얌", vegetarianStep: "플렉시테리언", ageGroup: "20대", location: "포항시 남구", gender: "여성", introduction: "사람을 좋아하고, 자연을 사랑하는 플렉시테리언입니다. 이곳에서 소중한 인연 많이 만들어갔으면 좋겠어요."))
+        guard let vfUser = self.vfUser else { return } // return에 아직 vfuser값이 들어오지 않았을 경우 에러 처리 or 뷰 처리
+        let modalModel = ModalModel(nickname: vfUser.userName, vegetarianStep: "플렉시테리언", ageGroup: "20대", location: "포항시 남구", gender: "여성", introduction: "사람을 좋아하고, 자연을 사랑하는 플렉시테리언입니다. 이곳에서 소중한 인연 많이 만들어갔으면 좋겠어요.")
+        viewController.configure(with: modalModel)
+        
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
