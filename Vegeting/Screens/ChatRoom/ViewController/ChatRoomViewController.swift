@@ -5,6 +5,7 @@
 //  Created by yudonlee on 2022/11/12.
 //
 
+import Combine
 import UIKit
 
 class ChatRoomViewController: UIViewController {
@@ -12,24 +13,24 @@ class ChatRoomViewController: UIViewController {
     private let vm = chatRoomViewModel(count: 40)
     
     private let chatListCollectionView: UICollectionView = {
-
+        
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
+        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         group.interItemSpacing = .fixed(20)
         
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 10
-    
+        
         let layout = UICollectionViewCompositionalLayout(section: section)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(OtherChatContentCollectionViewCell.self, forCellWithReuseIdentifier: OtherChatContentCollectionViewCell.identifier)
         collectionView.register(MyChatContentCollectionViewCell.self, forCellWithReuseIdentifier: MyChatContentCollectionViewCell.identifier)
         return collectionView
     }()
-
+    
     private let transferMessageStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -37,7 +38,7 @@ class ChatRoomViewController: UIViewController {
         stackView.spacing = 10
         return stackView
     }()
-
+    
     private let plusButton: UIButton = {
         let button = UIButton()
         let imageConfig = UIImage.SymbolConfiguration(font: UIFont.systemFont(ofSize: 22))
@@ -45,12 +46,13 @@ class ChatRoomViewController: UIViewController {
         button.setImage(image, for: .normal)
         return button
     }()
-
-    private let sendButton: UIButton = {
+    
+    private lazy var sendButton: UIButton = {
         let button = UIButton()
         let imageConfig = UIImage.SymbolConfiguration(font: UIFont.systemFont(ofSize: 22))
         let image = UIImage(systemName: "location", withConfiguration: imageConfig)
         button.setImage(image, for: .normal)
+        button.addTarget(self, action: #selector(sendButtonTapped(_:)), for: .touchUpInside)
         return button
     }()
 
@@ -64,7 +66,7 @@ class ChatRoomViewController: UIViewController {
         textView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 16)
         return textView
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
