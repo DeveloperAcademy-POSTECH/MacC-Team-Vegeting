@@ -38,6 +38,7 @@
 		7615B648291EA06D00A34DA4 /* OtherChatContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7615B647291EA06D00A34DA4 /* OtherChatContentCollectionViewCell.swift */; };
 		7615B64C2920BA5500A34DA4 /* MyChatContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7615B64B2920BA5500A34DA4 /* MyChatContentCollectionViewCell.swift */; };
 		7615B64E2920CA3E00A34DA4 /* ChatRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7615B64D2920CA3E00A34DA4 /* ChatRoomViewModel.swift */; };
+		7615B6512920E4D200A34DA4 /* DateInChatDividerCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7615B6502920E4D200A34DA4 /* DateInChatDividerCollectionReusableView.swift */; };
 		7628CC792913DEAE00CDA679 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7628CC782913DEAE00CDA679 /* AuthManager.swift */; };
 		7628CC7B2914AF7B00CDA679 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		7645E74A290700E5009E2E3B /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E749290700E5009E2E3B /* SignInViewController.swift */; };
@@ -113,9 +114,10 @@
 		4AFA58B1290526C300679142 /* NumberOfGroupPeopleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfGroupPeopleView.swift; sourceTree = "<group>"; };
 		4AFA58B42905280F00679142 /* NumberOfPeopleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfPeopleCollectionViewCell.swift; sourceTree = "<group>"; };
 		7615B644291EA03900A34DA4 /* ChatRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
-		7615B647291EA06D00A34DA4 /* OtherChatContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OtherChatContentCollectionViewCell.swift; path = Vegeting/Screens/ChatRoom/OtherChatContentCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
+		7615B647291EA06D00A34DA4 /* OtherChatContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OtherChatContentCollectionViewCell.swift; path = Vegeting/Screens/ChatRoom/Component/OtherChatContentCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
 		7615B64B2920BA5500A34DA4 /* MyChatContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChatContentCollectionViewCell.swift; sourceTree = "<group>"; };
 		7615B64D2920CA3E00A34DA4 /* ChatRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModel.swift; sourceTree = "<group>"; };
+		7615B6502920E4D200A34DA4 /* DateInChatDividerCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateInChatDividerCollectionReusableView.swift; sourceTree = "<group>"; };
 		7628CC772913DB5F00CDA679 /* Vegeting.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vegeting.entitlements; sourceTree = "<group>"; };
 		7628CC782913DEAE00CDA679 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		7645E749290700E5009E2E3B /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -379,6 +381,7 @@
 			children = (
 				7615B647291EA06D00A34DA4 /* OtherChatContentCollectionViewCell.swift */,
 				7615B64B2920BA5500A34DA4 /* MyChatContentCollectionViewCell.swift */,
+				7615B6502920E4D200A34DA4 /* DateInChatDividerCollectionReusableView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -673,6 +676,7 @@
 				A26198782909567100ECCC4F /* LabelWithImageStackView.swift in Sources */,
 				4ADC12EB2901833F00C0FFB6 /* StringLiteral.swift in Sources */,
 				A215B29E2906FA3E00DD60B2 /* UITextField+Extension.swift in Sources */,
+				7615B6512920E4D200A34DA4 /* DateInChatDividerCollectionReusableView.swift in Sources */,
 				4AC8F0632906BD18007D3946 /* LocationSearchingViewController.swift in Sources */,
 				4ACF36D62910A87700B95115 /* UINavigationController+Back.swift in Sources */,
 				A7C8DF242901274500F38AD7 /* AppDelegate.swift in Sources */,
