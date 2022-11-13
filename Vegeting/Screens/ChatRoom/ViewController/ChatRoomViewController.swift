@@ -104,6 +104,7 @@ class ChatRoomViewController: UIViewController {
 extension ChatRoomViewController {
     @objc private func sendButtonTapped(_ sender: Any) {
         input.send(.sendButtonTapped(text: messageTextView.text))
+        messageTextView.text = ""
     }
 }
 
