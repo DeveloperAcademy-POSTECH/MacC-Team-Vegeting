@@ -50,7 +50,6 @@ class ChatRoomListViewController: UIViewController {
         setupNavigationBar()
         setupLayout()
         configureUI()
-        signIn(self)
     }
     
     // MARK: - func
