@@ -15,7 +15,7 @@ struct Chat: Identifiable, Codable {
     let clubID: String?
     let chatRoomName: String
     let participants: [Participant]?
-    let messages: [Message]?
+    var messages: [Message]?
     let coverImageURL: String?
 }
 
