@@ -79,20 +79,8 @@ class ChatRoomListViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .white
     }
- 
-    @objc
-    func signIn(_ sender: Any) {
-        AuthManager.shared.signInUser(email: "admintest1@macvegeting.com"
-                                      , password: "123456789").sink { completion in
-            if case .failure(let error) = completion {
-                print(error)
-            }
-        } receiveValue: { [weak self] user in
-            self?.fbUser = user
-            self?.requestUserInfo()
-        }.store(in: &cancellables)
-    }
     
+    // 추후 로그인되고 user의 정보가 AuthManager에서 저장되면 없어질 코드
     func requestUserInfo() {
         Task { [weak self] in
             user = await FirebaseManager.shared.requestUser()
@@ -101,15 +89,10 @@ class ChatRoomListViewController: UIViewController {
             self?.bind()
         }
     }
+    
     func bind() {
         guard let user = user else { return }
-        
-        // user를 받아서 유저가 들어가 있는 채팅방을 chatList에 넣어주고
-        // recentChats의 id를 이용해 chatList에서 해당 채팅방을 찾아서
-        // 새로운 모델이 필요하나
-        // chatName, imageURL, lastSentMessage, lastSentTime, 을 모아서 새로운 모델을?
-        
-        
+
         FirebaseManager.shared.requestRecentChat(user: user) { result in
             switch result {
             case .success(let recentChats):
