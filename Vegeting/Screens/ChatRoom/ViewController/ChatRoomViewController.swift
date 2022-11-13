@@ -13,7 +13,7 @@ class ChatRoomViewController: UIViewController {
     private let vm = ChatRoomViewModel()
     
     private var input: PassthroughSubject<ChatRoomViewModel.Input, Never> = .init()
-    private var messages: [Message] = []
+    private var messageBubbles: [MessageBubble] = []
     private var cancellables =  Set<AnyCancellable>()
     
     private let chatListCollectionView: UICollectionView = {
@@ -72,6 +72,7 @@ class ChatRoomViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureUI()
         setupLayout()
         bind()
@@ -84,8 +85,8 @@ class ChatRoomViewController: UIViewController {
         
         output.sink { [weak self] event in
             switch event {
-            case .localChatDataChanged(let messages), .serverChatDataChanged(let messages):
-                self?.messages = messages
+            case .localChatDataChanged(let messageBubbles), .serverChatDataChanged(let messageBubbles):
+                self?.messageBubbles = messageBubbles
                 DispatchQueue.main.async {
                     self?.chatListCollectionView.reloadData()
                 }
@@ -111,16 +112,24 @@ extension ChatRoomViewController {
 extension ChatRoomViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return messages.count
+        return messageBubbles.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OtherChatContentCollectionViewCell.identifier, for: indexPath) as? OtherChatContentCollectionViewCell else { return UICollectionViewCell() }
-        
-        let data = messages[indexPath.row]
-        cell.configure(with: data)
-        return cell
+        let data = messageBubbles[indexPath.row]
+        switch data.senderType {
+        case .mine:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyChatContentCollectionViewCell.identifier, for: indexPath) as? MyChatContentCollectionViewCell else { return UICollectionViewCell() }
+            cell.configure(with: data)
+            return cell
+            
+        default:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OtherChatContentCollectionViewCell.identifier, for: indexPath) as? OtherChatContentCollectionViewCell else { return UICollectionViewCell() }
+            cell.configure(with: data)
+            return cell
+            
+        }
     }
 }
 
