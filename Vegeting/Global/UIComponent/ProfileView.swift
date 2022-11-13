@@ -138,7 +138,7 @@ final class ProfileView: UIView {
     }
     
     private func configureUI() {
-        self.backgroundColor = .white
+        self.backgroundColor = .clear
         self.layer.cornerRadius = 24
     }
     
