@@ -28,6 +28,7 @@ final class UserProfileViewController: UIViewController {
     
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 55
         imageView.clipsToBounds = true
         imageView.backgroundColor = UIColor(hex: "#F2F2F2")
@@ -42,7 +43,7 @@ final class UserProfileViewController: UIViewController {
         button.layer.masksToBounds = true
         button.backgroundColor = .white
         button.layer.cornerRadius = 15
-        button.addTarget(self, action: #selector(presentPicker), for: .touchUpInside)
+        button.addTarget(self, action: #selector(cameraButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -97,9 +98,7 @@ final class UserProfileViewController: UIViewController {
         nicknameTextField.layer.addSublayer(border)
         nicknameTextField.delegate = self
         
-        NotificationCenter.default.addObserver(self, selector: #selector(textDidChangeForLabel(_:)),
-                                               name: UITextField.textDidChangeNotification,
-                                               object: nicknameTextField)
+        nicknameTextField.addTarget(self, action: #selector(textDidChangeForLabel), for: .editingChanged)
     }
     
     func configureUI() {
@@ -162,7 +161,7 @@ final class UserProfileViewController: UIViewController {
     }
     
     @objc
-    private func presentPicker() {
+    private func cameraButtonTapped() {
         var configuration = PHPickerConfiguration(photoLibrary: .shared())
         
         configuration.filter = PHPickerFilter.images
@@ -174,37 +173,41 @@ final class UserProfileViewController: UIViewController {
     }
     
     @objc
-    private func textDidChangeForLabel(_ notification: Notification) {
-        if let nicknameTextField = notification.object as? UITextField {
-            if let text = nicknameTextField.text {
-                if text.count > nicknameMaxLength {
-                    nicknameTextField.resignFirstResponder()
-                }
-                
-                if text.count >= nicknameMaxLength {
-                    let index = text.index(text.startIndex, offsetBy: nicknameMaxLength)
-                    let newString = text[text.startIndex..<index]
-                    nicknameTextField.text = String(newString)
-                } else if text.count < nicknameMinLength {
-                    nicknameLimitWarningLabel.text = "2글자 이상 10글자 이하로 입력해주세요"
-                    nicknameLimitWarningLabel.textColor = .red
-                } else {
-                    nicknameLimitWarningLabel.text = "사용 가능한 닉네임입니다."
-                    nicknameLimitWarningLabel.textColor = .blue
-                    
-                    nextButton.isEnabled = true
-                    nextButton.setTitleColor(UIColor.label, for: .normal)
-                    nextButton.setBackgroundColor(UIColor(hex: "#FFD243"), for: .normal)
-                }
-            }
+    private func textDidChangeForLabel() {
+        guard let text = nicknameTextField.text else { return }
+        
+        //maxLength 초과 시 키보드를 아래로 내려주는 역할
+        if text.count >= nicknameMaxLength {
+            nicknameTextField.resignFirstResponder()
         }
+        
+        if text.count > nicknameMaxLength {
+            let index = text.index(text.startIndex, offsetBy: nicknameMaxLength)
+            let newString = text[text.startIndex..<index]
+            nicknameTextField.text = String(newString)
+        } else if text.count < nicknameMinLength {
+            nicknameLimitWarningLabel.text = "2글자 이상 10글자 이하로 입력해주세요"
+            nicknameLimitWarningLabel.textColor = .red
+        } else {
+            nicknameLimitWarningLabel.text = "사용 가능한 닉네임입니다."
+            nicknameLimitWarningLabel.textColor = .blue
+            
+            nextButtonActive()
+        }
+    }
+    
+    private func nextButtonActive() {
+        nextButton.isEnabled = true
+        nextButton.setTitleColor(UIColor.label, for: .normal)
+        nextButton.setBackgroundColor(UIColor(hex: "#FFD243"), for: .normal)
     }
 }
 
 extension UserProfileViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
-        guard let text = textField.text else { return false}
+        guard let text = textField.text else { return false }
+        print("\(text), count: \(text.count), length: \(range.length), location: \(range.location)")
         
         if text.count >= nicknameMaxLength && range.length == 0 && range.location < nicknameMaxLength {
             return false
@@ -222,8 +225,8 @@ extension UserProfileViewController: PHPickerViewControllerDelegate {
         if let itemProvider = itemProvider,
            itemProvider.canLoadObject(ofClass: UIImage.self) {
             itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
-                DispatchQueue.main.async {
-                    self.profileImageView.image = image as? UIImage
+                DispatchQueue.main.async { [weak self] in
+                    self?.profileImageView.image = image as? UIImage
                 }
             }
         }
