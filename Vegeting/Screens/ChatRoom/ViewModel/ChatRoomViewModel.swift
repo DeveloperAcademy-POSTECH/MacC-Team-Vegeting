@@ -40,13 +40,51 @@ final class ChatRoomViewModel: ViewModelType {
             switch event {
             case .viewWillAppear:
                 break
-//                self?.messagesFromServer()
             case .sendButtonTapped(let text):
-//                self?.sendMessageFromLocal(text: text)
+                self?.sendMessageFromLocal(text: text)
                 break
             }
         }.store(in: &cancellables)
         return output.eraseToAnyPublisher()
+    }
+    
+    private func requestMessagesFromServer() {
+        guard let participatedChatRoom = participatedChatRoom else { return }
+        
+        FirebaseManager.shared.requestChat(participatedChat: participatedChatRoom).sink { [weak self] completion in
+            if case .failure(let error) = completion {
+                self?.output.send(.failToGetDataFromServer(error: error))
+            }
+        } receiveValue: { [weak self] chat in
+            self?.chat = chat
+            self?.output.send(.serverChatDataChanged(messages: self?.chat?.messages ?? []))
+        }.store(in: &cancellables)
+    }
+
+    private func sendMessageFromLocal(text: String) {
+        guard let user = self.user else { return }
+        let message = Message(senderID: user.userID, senderName: user.userName, senderProfileImageURL: user.imageURL, contentType: "text", createdAt: Date(), imageURL: nil, content: text)
+        chat?.messages?.append(message)
+        
+        guard let chat = chat, let messages = chat.messages else { return }
+        output.send(.localChatDataChanged(messages: messages))
+        
+        Task {
+            await FirebaseManager.shared.requestMessage(chat: chat, message: message)
+        }
+    }
+    
+    func configure(with participatedChatRoom: ParticipatedChatRoom) {
+        self.participatedChatRoom = participatedChatRoom
+    }
+    
+    init() {
+        Task { [weak self] in
+            self?.user = await FirebaseManager.shared.requestUser()
+            guard let participatedChatRoom = self?.user?.participatedChats?.last else { return }
+            self?.participatedChatRoom = participatedChatRoom
+            requestMessagesFromServer()
+        }
     }
     
 }
