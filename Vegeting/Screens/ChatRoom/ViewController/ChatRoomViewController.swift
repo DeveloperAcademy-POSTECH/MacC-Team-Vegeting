@@ -9,6 +9,8 @@ import UIKit
 
 class ChatRoomViewController: UIViewController {
 
+    private let vm = chatRoomViewModel(count: 40)
+    
     private let chatListCollectionView: UICollectionView = {
 
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
@@ -104,21 +106,21 @@ class ChatRoomViewController: UIViewController {
 
 extension ChatRoomViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return vm.temporaryMessages.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let data = vm.temporaryMessages[indexPath.row]
         
-        let testMine = Int.random(in: 0...1)
-        if testMine == 0 {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OtherChatContentCollectionViewCell.identifier, for: indexPath) as? OtherChatContentCollectionViewCell else { return UICollectionViewCell() }
-            cell.configure()
-            return cell
-
-        } else {
+        switch data.status {
+        case .mine:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyChatContentCollectionViewCell.identifier, for: indexPath) as? MyChatContentCollectionViewCell else { return UICollectionViewCell() }
-
-            cell.configure()
+            cell.configure(with: data)
+            return cell
+        default:
+            
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OtherChatContentCollectionViewCell.identifier, for: indexPath) as? OtherChatContentCollectionViewCell else { return UICollectionViewCell() }
+            cell.configure(with: data)
             return cell
         }
     }
