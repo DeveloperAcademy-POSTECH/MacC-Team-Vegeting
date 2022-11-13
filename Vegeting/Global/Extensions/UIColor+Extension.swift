@@ -8,6 +8,10 @@
 import UIKit
 
 extension UIColor {
+    static let textFieldGray = UIColor(hex: "#F2F2F2")
+    static let labelGray1 = UIColor(hex: "#8E8E93")
+    static let labelGray2 = UIColor(hex: "#333333")
+    
 }
 
 extension UIColor {
