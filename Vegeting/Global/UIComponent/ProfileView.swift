@@ -114,7 +114,7 @@ final class ProfileView: UIView {
         
         profileImageView.constraint(top: self.topAnchor,
                                     leading: self.leadingAnchor,
-                                    padding: UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 0))
+                                    padding: UIEdgeInsets(top: 25, left: 30, bottom: 0, right: 0))
         profileImageView.constraint(.widthAnchor, constant: 103)
         profileImageView.constraint(.heightAnchor, constant: 103)
         
