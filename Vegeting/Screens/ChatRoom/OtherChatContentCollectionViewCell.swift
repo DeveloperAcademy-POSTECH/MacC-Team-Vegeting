@@ -90,29 +90,9 @@ class OtherChatContentCollectionViewCell: UICollectionViewCell {
         profileUserNameLabel.text = randomUserNameText()
         let senderType = randomTestSenderType()
         
-        
-        
-        switch senderType {
-        case .otherNeedProfile:
-            setupLayoutOtherContentAndProfile()
-        default:
-            setupLayoutOtherContent()
-        }
+        updateLayout(senderType: senderType)
     }
     
-    private func setupLayoutOtherContentAndProfile() {
-        profileImageView.isHidden = false
-        profileUserNameLabel.isHidden = false
-        contentLabelTopAnchor = contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 36)
-        contentLabelTopAnchor?.isActive = true
-    }
-    
-    private func setupLayoutOtherContent() {
-        profileImageView.isHidden = true
-        profileUserNameLabel.isHidden = true
-        contentLabelTopAnchor = contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8)
-        contentLabelTopAnchor?.isActive = true
-    }
 }
 
 // MARK: 채팅방 데이터를 위한 임시 함수
@@ -138,15 +118,30 @@ extension OtherChatContentCollectionViewCell {
 // MARK: Layout 관련 함수
 extension OtherChatContentCollectionViewCell {
 
+    private func updateLayout(senderType: SenderType) {
+        let hiddenStatus: Bool
+        
+        switch senderType {
+        case .otherNeedProfile:
+            hiddenStatus = false
+            contentLabelTopAnchor = contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 36)
+        default:
+            hiddenStatus = true
+            contentLabelTopAnchor = contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8)
+        }
+        
+        profileImageView.isHidden = hiddenStatus
+        profileUserNameLabel.isHidden = hiddenStatus
+        contentLabelTopAnchor?.isActive = true
+    }
+    
     private func configureUI() {
         contentView.addSubviews(backgroundPaddingView, contentLabel, dateTimeLabel)
         contentView.addSubviews(profileImageView, profileUserNameLabel)
     }
     
     private func setupLayout() {
-        
         setupProfileLayout()
-        
         
         let contentLabelConstraints = [
             contentLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 78),
@@ -176,7 +171,6 @@ extension OtherChatContentCollectionViewCell {
     }
     
     private func setupProfileLayout() {
-        
         let profileImageViewConstraints = [
             profileImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
