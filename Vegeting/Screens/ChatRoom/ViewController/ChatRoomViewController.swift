@@ -99,7 +99,6 @@ class ChatRoomViewController: UIViewController {
     
 }
 
-
 // MARK: target-action 함수
 extension ChatRoomViewController {
     @objc private func sendButtonTapped(_ sender: Any) {
