@@ -74,17 +74,11 @@ final class ChatRoomViewModel: ViewModelType {
         }
     }
     
-    func configure(with participatedChatRoom: ParticipatedChatRoom) {
+    func configure(participatedChatRoom: ParticipatedChatRoom, user: VFUser) {
         self.participatedChatRoom = participatedChatRoom
-    }
-    
-    init() {
-        Task { [weak self] in
-            self?.user = await FirebaseManager.shared.requestUser()
-            guard let participatedChatRoom = self?.user?.participatedChats?.last else { return }
-            self?.participatedChatRoom = participatedChatRoom
-            requestMessagesFromServer()
-        }
+        self.user = user
+        requestMessagesFromServer()
+        
     }
     
 }

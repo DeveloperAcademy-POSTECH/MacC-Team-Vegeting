@@ -95,8 +95,9 @@ class ChatRoomViewController: UIViewController {
         }.store(in: &cancellables)
     }
     
-    
-    
+    func configureVM(participatedChatRoom: ParticipatedChatRoom, user: VFUser) {
+        vm.configure(participatedChatRoom: participatedChatRoom, user: user)
+    }
 }
 
 // MARK: target-action 함수
