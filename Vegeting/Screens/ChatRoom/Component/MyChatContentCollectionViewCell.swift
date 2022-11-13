@@ -13,10 +13,11 @@ class MyChatContentCollectionViewCell: UICollectionViewCell {
     
     private let backgroundPaddingView: UIView = {
         let view = UIView()
-        //        임시 컬러 삽입
-        view.backgroundColor = UIColor.gray.withAlphaComponent(0.2)
+        
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 21
+        view.layer.borderColor = UIColor.gray.withAlphaComponent(0.2).cgColor
+        view.layer.borderWidth = 1.5
         return view
     }()
     
@@ -31,7 +32,6 @@ class MyChatContentCollectionViewCell: UICollectionViewCell {
     private let dateTimeLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.text = "12:24"
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         return label
     }()
@@ -47,8 +47,11 @@ class MyChatContentCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with model: TemporaryMessage) {
-        contentLabel.text = model.messageContent
+    func configure(with model: MessageBubble) {
+        contentLabel.text = model.message.content
+        dateTimeLabel.text = model.message.createdAt.toHourAndMinuteString()
+        
+        backgroundPaddingView.layer.cornerRadius = model.message.content?.count ?? 0 > 3 ? 21 : 16
     }
     
 }
@@ -65,8 +68,8 @@ extension MyChatContentCollectionViewCell {
         let contentLabelConstraints = [
             contentLabel.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 160),
             contentLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -37),
-            contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
         ]
         
         

@@ -44,7 +44,6 @@ class OtherChatContentCollectionViewCell: UICollectionViewCell {
     private let dateTimeLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.text = "12:24"
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         return label
     }()
@@ -85,11 +84,12 @@ class OtherChatContentCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configure(with model: Message) {
-        contentLabel.text = model.content
-        profileUserNameLabel.text = model.senderName
-        let senderType = SenderType.other
-        updateLayout(senderType: senderType)
+    func configure(with model: MessageBubble) {
+        contentLabel.text = model.message.content
+        dateTimeLabel.text = model.message.createdAt.toHourAndMinuteString()
+        profileUserNameLabel.text = model.message.senderName
+        backgroundPaddingView.layer.cornerRadius = model.message.content?.count ?? 0 > 3 ? 21 : 16
+        updateLayout(senderType: model.senderType)
     }
     
 }
@@ -125,16 +125,16 @@ extension OtherChatContentCollectionViewCell {
         let contentLabelConstraints = [
             contentLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 78),
             contentLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -66),
-            contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 36),
-            contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40),
+            contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
         ]
         
         
         let backgroundPaddingViewConstraints = [
             backgroundPaddingView.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor, constant: -16),
             backgroundPaddingView.trailingAnchor.constraint(equalTo: contentLabel.trailingAnchor, constant: 16),
-            backgroundPaddingView.topAnchor.constraint(equalTo: contentLabel.topAnchor, constant: -8),
-            backgroundPaddingView.bottomAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 8)
+            backgroundPaddingView.topAnchor.constraint(equalTo: contentLabel.topAnchor, constant: -12),
+            backgroundPaddingView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
             
         ]
         
