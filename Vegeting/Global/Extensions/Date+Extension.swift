@@ -14,4 +14,10 @@ extension Date {
         return dateFormatter.string(from: self)
     }
     
+    func toHourAndMinuteString() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko")
+        dateFormatter.dateFormat = "hh:mm"
+        return dateFormatter.string(from: self)
+    }
 }
