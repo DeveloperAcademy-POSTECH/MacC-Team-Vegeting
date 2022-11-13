@@ -85,11 +85,10 @@ class OtherChatContentCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configure(with model: TemporaryMessage) {
-        contentLabel.text = model.messageContent
-        profileUserNameLabel.text = model.profileUserName
-        let senderType = model.status
-        
+    func configure(with model: Message) {
+        contentLabel.text = model.content
+        profileUserNameLabel.text = model.senderName
+        let senderType = SenderType.other
         updateLayout(senderType: senderType)
     }
     
