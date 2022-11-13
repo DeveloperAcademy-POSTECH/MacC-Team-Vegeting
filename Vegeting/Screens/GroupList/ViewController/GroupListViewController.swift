@@ -8,9 +8,13 @@
 import UIKit
 
 class GroupListViewController: UIViewController {
-    private var clubList: [Club] = []
-
-    private let participants: [Participant] = []
+    private var clubList = MockData.club {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                self?.collectionView.reloadData()
+            }
+        }
+    }
     
     private lazy var navigationBarView: UIStackView = {
         let hStackView = UIStackView()
@@ -112,9 +116,9 @@ class GroupListViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: customSegmentedControl.bottomAnchor, constant: 10),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }

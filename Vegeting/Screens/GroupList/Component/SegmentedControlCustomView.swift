@@ -40,7 +40,7 @@ class SegmentedControlCustomView: UIView {
                 UIView.animate(withDuration: 0.15, delay: 0, options: .curveEaseInOut) { [weak self] in
                     self?.segmentStackView.arrangedSubviews[idx].tintColor = idx == self?.selectedTab ? .label : .secondaryLabel
                     self?.leadingAnchors[idx].isActive = idx == self?.selectedTab ? true : false
-                    self?.trailingAnchros[idx].isActive = idx == self?.selectedTab ? true : false
+                    self?.trailingAnchors[idx].isActive = idx == self?.selectedTab ? true : false
                     self?.layoutIfNeeded()
                 } completion: { _ in }
             }
@@ -50,7 +50,7 @@ class SegmentedControlCustomView: UIView {
     private var tabs: [UIButton] = ["하루 모임", "정기 모임"].map { buttonTitle in
         let button = UIButton(type: .system)
         button.setTitle(buttonTitle, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize:   17, weight: .semibold)
+        button.titleLabel?.font = .preferredFont(forTextStyle: .headline)
         button.tintColor = .label
         return button
     }
@@ -63,7 +63,7 @@ class SegmentedControlCustomView: UIView {
     }()
     
     private var leadingAnchors: [NSLayoutConstraint] = []
-    private var trailingAnchros: [NSLayoutConstraint] = []
+    private var trailingAnchors: [NSLayoutConstraint] = []
     
     private func configureSegmentButton() {
         for (idx, button) in segmentStackView.arrangedSubviews.enumerated() {
@@ -113,13 +113,13 @@ class SegmentedControlCustomView: UIView {
         leadingAnchors = segmentStackView.arrangedSubviews.map { buttonView in
             indicatorView.leadingAnchor.constraint(equalTo: buttonView.leadingAnchor)
         }
-        trailingAnchros = segmentStackView.arrangedSubviews.map { buttonView in
+        trailingAnchors = segmentStackView.arrangedSubviews.map { buttonView in
             indicatorView.trailingAnchor.constraint(equalTo: buttonView.trailingAnchor)
         }
         
         NSLayoutConstraint.activate([
             leadingAnchors[0],
-            trailingAnchros[0],
+            trailingAnchors[0],
             indicatorView.topAnchor.constraint(equalTo: segmentStackView.arrangedSubviews[0].bottomAnchor),
             indicatorView.heightAnchor.constraint(equalToConstant: 3),
             indicatorView.bottomAnchor.constraint(equalTo: bottomAnchor),
