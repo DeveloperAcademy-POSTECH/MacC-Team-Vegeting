@@ -68,7 +68,6 @@ final class ChatRoomViewController: UIViewController {
         setupLayout()
     }
 
-
     private func configureUI() {
         view.addSubviews(chatListCollectionView,transferMessageStackView)
         view.backgroundColor = .systemBackground
@@ -87,7 +86,6 @@ final class ChatRoomViewController: UIViewController {
             transferMessageStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             transferMessageStackView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor, constant: -12)
         ]
-
 
         let chatListCollectionViewConstraints = [
             chatListCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
