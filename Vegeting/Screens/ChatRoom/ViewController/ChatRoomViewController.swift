@@ -23,7 +23,7 @@ class ChatRoomViewController: UIViewController {
     
         let layout = UICollectionViewCompositionalLayout(section: section)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(ChatRoomContentCollectionViewCell.self, forCellWithReuseIdentifier: ChatRoomContentCollectionViewCell.identifier)
+        collectionView.register(ChatRoomContentCollectionViewCell.self, forCellWithReuseIdentifier: ChatRoomContentCollectionViewCell.className)
         return collectionView
     }()
 
@@ -107,7 +107,7 @@ extension ChatRoomViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatRoomContentCollectionViewCell.identifier, for: indexPath) as? ChatRoomContentCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatRoomContentCollectionViewCell.className, for: indexPath) as? ChatRoomContentCollectionViewCell else { return UICollectionViewCell() }
         
         cell.configure()
         return cell
