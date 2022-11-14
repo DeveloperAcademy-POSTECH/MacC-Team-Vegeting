@@ -8,6 +8,13 @@
 import UIKit
 
 extension UIColor {
+    
+    static let mainYellow = UIColor(hex: "#FFD243")
+    static let mainDisabledYellow = UIColor(hex: "#FFF6DA")
+    static let textFieldGray = UIColor(hex: "#F2F2F2")
+    static let labelGray1 = UIColor(hex: "#8E8E93")
+    static let labelGray2 = UIColor(hex: "#333333")
+    
 }
 
 extension UIColor {

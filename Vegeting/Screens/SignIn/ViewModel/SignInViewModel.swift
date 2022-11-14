@@ -72,7 +72,7 @@ final class SignInViewModel {
             if let error = error {
                 self?.output.send(.didFailToSignInWithKakao(error: error))
             }
-            self?.didSignWithKakaoSucceed()
+            self?.validateKakaoUserData()
         }
     }
     
@@ -83,18 +83,18 @@ final class SignInViewModel {
             if let error = error {
                 self?.output.send(.didFailToSignInWithKakao(error: error))
             }
-            self?.didSignWithKakaoSucceed()
+            self?.validateKakaoUserData()
         }
     }
     
-    
-    /// 카카오 로그인이 성공한지 판단하는 함수
-    private func didSignWithKakaoSucceed() {
+    /// 카카오 로그인 데이터 정보를 받고, 해당 정보가 유효하면 FirebaseAuth에 로그인을 시도합니다.
+    private func validateKakaoUserData() {
         UserApi.shared.me { [weak self] kakaoUser, error in
             if let error = error {
                 self?.output.send(.didFailToSignInWithKakao(error: error))
+            } else {
+                self?.registerKakaoUserToAuth(user: kakaoUser)
             }
-            self?.registerKakaoUserToAuth(user: kakaoUser)
                 
         }
     }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ChatRoomViewController: UIViewController {
+final class ChatRoomViewController: UIViewController {
 
     private let chatListCollectionView: UICollectionView = {
 
@@ -23,7 +23,7 @@ class ChatRoomViewController: UIViewController {
     
         let layout = UICollectionViewCompositionalLayout(section: section)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(ChatRoomContentCollectionViewCell.self, forCellWithReuseIdentifier: ChatRoomContentCollectionViewCell.identifier)
+        collectionView.register(ChatRoomContentCollectionViewCell.self, forCellWithReuseIdentifier: ChatRoomContentCollectionViewCell.className)
         return collectionView
     }()
 
@@ -66,15 +66,13 @@ class ChatRoomViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         setupLayout()
+        configureCollectionViewDelegate()
     }
-
 
     private func configureUI() {
         view.addSubviews(chatListCollectionView,transferMessageStackView)
         view.backgroundColor = .systemBackground
-
-        chatListCollectionView.dataSource = self
-        chatListCollectionView.delegate = self
+        
     }
 
     private func setupLayout() {
@@ -87,7 +85,6 @@ class ChatRoomViewController: UIViewController {
             transferMessageStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             transferMessageStackView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor, constant: -12)
         ]
-
 
         let chatListCollectionViewConstraints = [
             chatListCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -107,7 +104,7 @@ extension ChatRoomViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatRoomContentCollectionViewCell.identifier, for: indexPath) as? ChatRoomContentCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatRoomContentCollectionViewCell.className, for: indexPath) as? ChatRoomContentCollectionViewCell else { return UICollectionViewCell() }
         
         cell.configure()
         return cell
@@ -117,5 +114,13 @@ extension ChatRoomViewController: UICollectionViewDataSource {
 extension ChatRoomViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         view.endEditing(true)
+    }
+}
+
+extension ChatRoomViewController {
+    private func configureCollectionViewDelegate() {
+        chatListCollectionView.dataSource = self
+        chatListCollectionView.delegate = self
+
     }
 }
