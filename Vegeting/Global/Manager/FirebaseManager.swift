@@ -9,6 +9,8 @@ import Combine
 import Foundation
 
 import Firebase
+import FirebaseFirestore
+import FirebaseFirestoreCombineSwift
 import FirebaseAuthCombineSwift
 
 final class FirebaseManager {
@@ -53,7 +55,6 @@ final class FirebaseManager {
 
 // MARK: Firebase 첫 모임생성
 extension FirebaseManager {
-    
     
     func registerChatAndPost(user: VFUser, club: Club, chat: Chat) -> (clubID: String, chatID: String)? {
         do {
@@ -111,77 +112,32 @@ extension FirebaseManager {
 // MARK: Firebase 채팅
 extension FirebaseManager {
     //  채팅창 정보 불러오기(한 채팅방 아이디로)
-        func requestChat(participatedChat: ParticipatedChatRoom) async -> Chat? {
-            guard let chatID = participatedChat.chatID else { return nil }
-            do {
-                let data = try await db.collection("Chats").document(chatID).getDocument().data(as: Chat.self)
-                return data
-            } catch {
-                print(error.localizedDescription)
-            }
-            return nil
-        }
-        
-    //   채팅창 정보 불러오기(유저가 갖고 있는 chatting방 전체)
-        func requestAllChats(user: VFUser) async -> [Chat]? {
-            guard let participatedChats = user.participatedChats else { return nil }
-            let chatList = participatedChats.map { $0.chatID }
-            
-            do {
-                let result = try await db.collection("Chats").whereField(FieldPath.documentID(), in: chatList as [Any]).getDocuments().documents.compactMap { querySnapShot in
-                    try querySnapShot.data(as: Chat.self)
-                }
-                
-                return result
-            } catch {
-                print(error.localizedDescription)
-            }
-            return nil
-        }
-    
-    /// 채팅방 입장시, 유저의 데이터 업데이트
-    func updateUserEnteringChat(user: VFUser, club: Club, chat: Chat) async {
+    func requestChat(participatedChat: ParticipatedChatRoom) async -> Chat? {
+        guard let chatID = participatedChat.chatID else { return nil }
         do {
-            let participatedClub = ParticipatedClub(clubID: club.clubID, clubName: club.clubTitle, profileImageURL: club.coverImageURL)
-            let participatedChatRoom = ParticipatedChatRoom(chatID: chat.chatRoomID, chatName: chat.chatRoomName, imageURL: chat.coverImageURL)
-            let encodedParticipatedClub = try Firestore.Encoder().encode(participatedClub)
-            let encodedParticipatedChat = try Firestore.Encoder().encode(participatedChatRoom)
-            try await db.collection(Path.user.rawValue).document(user.userID).updateData(
-                ["participatedClub": FieldValue.arrayUnion([encodedParticipatedClub]),
-                 "participatedChat": FieldValue.arrayUnion([encodedParticipatedChat])])
+            let data = try await db.collection("Chats").document(chatID).getDocument().data(as: Chat.self)
+            return data
         } catch {
             print(error.localizedDescription)
         }
+        return nil
     }
     
-    func updateClubAndChat(user: VFUser, club: Club, chat: Chat) async {
-        guard let clubID = club.clubID, let chatID = chat.chatRoomID else { return }
+    //   채팅창 정보 불러오기(유저가 갖고 있는 chatting방 전체)
+    func requestAllChats(user: VFUser) async -> [Chat]? {
+        guard let participatedChats = user.participatedChats else { return nil }
+        let chatList = participatedChats.map { $0.chatID }
+        
         do {
-            let participant = try Firestore.Encoder().encode(Participant(userID: user.userID, name: user.userName, profileImageURL: user.imageURL))
-            try await db.collection(Path.chat.rawValue).document(chatID).updateData(["participants": FieldValue.arrayUnion([participant])])
-            try await db.collection(Path.club.rawValue).document(clubID).updateData(["participants": FieldValue.arrayUnion([participant])])
+            let result = try await db.collection("Chats").whereField(FieldPath.documentID(), in: chatList as [Any]).getDocuments().documents.compactMap { querySnapShot in
+                try querySnapShot.data(as: Chat.self)
+            }
+            
+            return result
         } catch {
-                print(error.localizedDescription)
+            print(error.localizedDescription)
         }
-        
-    }
-     
-    /// 채팅 입장시 정보 update
-    func updateInformation(user: VFUser, club: Club, chat: Chat) async {
-        await updateUserEnteringChat(user: user, club: club, chat: chat)
-        await updateClubAndChat(user: user, club: club, chat: chat)
-    }
-    
-    /// 채팅창 입장하기
-    func enterClub(user: VFUser, club: Club) {
-//        Club에 참여 채팅자 추가
-//        Chat에 참여 채팅자 추가
-//        User에 참여 채팅자 추가
-        Task {
-            guard let chat = await requestChat(participatedChat: ParticipatedChatRoom(chatID: club.chatID, chatName: "", imageURL: nil)) else { return }
-            await updateInformation(user: user, club: club, chat: chat)
-        }
-        
+        return nil
     }
     
     /// 채팅 보내기
@@ -193,14 +149,12 @@ extension FirebaseManager {
         } catch {
             print(error.localizedDescription)
         }
-    }
-    
+    }    
 }
 
 // MARK: Firebase Authentifcation 전용(유저 회원가입 및 로그인 담당)
 extension FirebaseManager {
     //  MARK: 유저 회원가입
-    
     /// Firebase Authentification에 등록하는 함수
     /// - Returns: Firebase User 객체
     func requestRegisterUser(email: String, password: String) -> AnyPublisher<User, Error> {
@@ -239,5 +193,15 @@ extension FirebaseManager {
             print(error.localizedDescription)
         }
         return nil
+    }
+    
+    func isUserAlreadyExisted(user: User) -> AnyPublisher<Bool, Error> {
+        return db.collection(Path.user.rawValue).document(user.uid).getDocument()
+            .catch { error in
+                return Fail(error: error)
+                    .eraseToAnyPublisher()
+            } .map(\.exists)
+            .eraseToAnyPublisher()
+        
     }
 }
