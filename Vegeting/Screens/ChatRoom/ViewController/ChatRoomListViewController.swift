@@ -83,7 +83,7 @@ class ChatRoomListViewController: UIViewController {
         }
     }
     
-    private func bind() {
+    private func updateRecenChat() {
         guard let user = user else { return }
         
         FirebaseManager.shared.requestRecentChat(user: user) { result in
