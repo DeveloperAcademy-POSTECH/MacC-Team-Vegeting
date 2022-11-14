@@ -73,6 +73,7 @@
 		A2F369D12908258B007F3732 /* GroupInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F369D02908258B007F3732 /* GroupInfoView.swift */; };
 		A2F369D929090E72007F3732 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F369D829090E72007F3732 /* UIButton+Extension.swift */; };
 		A2F369DD290948BB007F3732 /* GroupListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F369DC290948BB007F3732 /* GroupListViewController.swift */; };
+		A7164B3129123E7100FFB668 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7164B3029123E7100FFB668 /* UserProfileViewController.swift */; };
 		A73AAAF32904E26D0050CA81 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73AAAF22904E26D0050CA81 /* PostDetailViewController.swift */; };
 		A76096422908ACA900636A99 /* ProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76096412908ACA900636A99 /* ProfileCollectionViewCell.swift */; };
 		A760964B2909530600636A99 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A760964A2909530600636A99 /* MainTabBarViewController.swift */; };
@@ -157,6 +158,7 @@
 		A2F369D02908258B007F3732 /* GroupInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupInfoView.swift; sourceTree = "<group>"; };
 		A2F369D829090E72007F3732 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		A2F369DC290948BB007F3732 /* GroupListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListViewController.swift; sourceTree = "<group>"; };
+		A7164B3029123E7100FFB668 /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		A73AAAF22904E26D0050CA81 /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		A76096412908ACA900636A99 /* ProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewCell.swift; sourceTree = "<group>"; };
 		A760964A2909530600636A99 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
@@ -340,6 +342,7 @@
 			isa = PBXGroup;
 			children = (
 				4AFF0F4D2919F7A200F7496C /* MyPage */,
+				A7164B2F29123DFD00FFB668 /* RegisterUserProfile */,
 				A2F369DA29094877007F3732 /* GroupList */,
 				4AF67E8F291204B600D4A2C4 /* ChatRoom */,
 				A75F9E1D2904DC3700CFD884 /* PostDetail */,
@@ -537,6 +540,14 @@
 				A2F369DC290948BB007F3732 /* GroupListViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		A7164B2F29123DFD00FFB668 /* RegisterUserProfile */ = {
+			isa = PBXGroup;
+			children = (
+				A7164B3029123E7100FFB668 /* UserProfileViewController.swift */,
+			);
+			path = RegisterUserProfile;
 			sourceTree = "<group>";
 		};
 		A75F9E1D2904DC3700CFD884 /* PostDetail */ = {
@@ -754,7 +765,7 @@
 				7645E75729070FC6009E2E3B /* FirebaseManager.swift in Sources */,
 				7628CC792913DEAE00CDA679 /* AuthManager.swift in Sources */,
 				4A060C082913AA5E00D75699 /* InterestCollectionViewCell.swift in Sources */,
-				7628CC792913DEAE00CDA679 /* AuthManager.swift in Sources */,
+				A7164B3129123E7100FFB668 /* UserProfileViewController.swift in Sources */,
 				4ADC12DD2901800D00C0FFB6 /* UIColor+Extension.swift in Sources */,
 				4AFF0F552919F8E100F7496C /* MyPageProfileTableViewCell.swift in Sources */,
 				A2007F49291444730003DABB /* SegmentedControlCustomView.swift in Sources */,
@@ -954,7 +965,6 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = S45U2Z8NHP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Vegeting/Global/Supports/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -994,7 +1004,6 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = S45U2Z8NHP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Vegeting/Global/Supports/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
