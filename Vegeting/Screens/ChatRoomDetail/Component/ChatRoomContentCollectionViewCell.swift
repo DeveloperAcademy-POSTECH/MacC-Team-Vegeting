@@ -51,8 +51,17 @@ class ChatRoomContentCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        guard let contentLabelAnchors = contentLabelAnchors, let dateTimeLabelAnchors = dateTimeLabelAnchors else { return }
+
+        [contentLabelAnchors, dateTimeLabelAnchors].forEach { constraints in
+            NSLayoutConstraint.deactivate(constraints)
+        }
+
+    }
+    
     func configure() {
-        
         contentLabel.text = randomTestText()
         let senderType = randomTestSenderType()
         
