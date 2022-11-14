@@ -87,7 +87,7 @@ final class LocationAuthViewController: UIViewController {
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            progressBarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 116),
+            progressBarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height * 1/10),
             progressBarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             progressBarImageView.widthAnchor.constraint(equalToConstant: 186),
             progressBarImageView.heightAnchor.constraint(equalToConstant: 26)
@@ -102,7 +102,7 @@ final class LocationAuthViewController: UIViewController {
             mapView.topAnchor.constraint(equalTo: locationMessageLabel.bottomAnchor, constant: 14),
             mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            mapView.heightAnchor.constraint(equalToConstant: 354)
+            mapView.heightAnchor.constraint(equalToConstant: view.frame.height * 4/10)
         ])
         
         NSLayoutConstraint.activate([
@@ -120,7 +120,7 @@ final class LocationAuthViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55)
+            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(view.frame.height * 1/25))
         ])
     }
     
@@ -206,20 +206,21 @@ final class LocationAuthViewController: UIViewController {
 }
 
 extension LocationAuthViewController: CLLocationManagerDelegate {
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else {
             return
         }
         
         //위도 경도를 주소로 변환
-        geocoder.reverseGeocodeLocation(CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)) { placeMarks, error in
+        geocoder.reverseGeocodeLocation(CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude), preferredLocale: Locale(identifier: "Ko-kr")) { placeMarks, error in
             guard let placeMarks = placeMarks,
                   let address = placeMarks.last,
                   error == nil else {
                 return
             }
             DispatchQueue.main.async { [weak self] in
-                self?.locationDisplayLabel.text = "  \(address.locality!) \(address.subLocality!)"
+                self?.locationDisplayLabel.text = "  \(address.locality ?? "") \(address.subLocality ?? address.name!)"
             }
         }
         
