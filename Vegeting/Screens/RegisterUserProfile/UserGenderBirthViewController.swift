@@ -216,7 +216,9 @@ extension UserGenderBirthViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
         
-        if string.count <= 4 {
+        guard let text = textField.text else { return false }
+        
+        if text.count <= 4 {
             return false
         }
         return true
