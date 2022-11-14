@@ -9,7 +9,7 @@ import UIKit
 
 class ChatRoomViewController: UIViewController {
 
-    private let vm = chatRoomViewModel(count: 40)
+    private let viewModel = chatRoomViewModel(count: 40)
     
     private let chatListCollectionView: UICollectionView = {
 
@@ -106,11 +106,11 @@ class ChatRoomViewController: UIViewController {
 
 extension ChatRoomViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return vm.temporaryMessages.count
+        return viewModel.temporaryMessages.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let data = vm.temporaryMessages[indexPath.row]
+        let data = viewModel.temporaryMessages[indexPath.row]
         
         switch data.status {
         case .mine:
