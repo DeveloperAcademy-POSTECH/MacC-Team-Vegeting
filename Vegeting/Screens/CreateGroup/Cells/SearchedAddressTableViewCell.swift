@@ -71,6 +71,12 @@ class SearchedLocationResultTableViewCell: UITableViewCell {
         self.setupLayoutForAddress()
     }
     
+    func configure(with autoSearchedLocalTitle: String) {
+        locationLabel.text = autoSearchedLocalTitle
+        locationLabel.textColor = .black
+        self.setupLayoutForAddress()
+    }
+    
     func configure(with place: Place) {
         locationLabel.text = place.addressName
         locationLabel.textColor = .gray
