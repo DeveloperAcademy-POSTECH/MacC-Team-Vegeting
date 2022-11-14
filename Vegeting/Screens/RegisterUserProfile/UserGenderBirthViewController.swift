@@ -83,6 +83,7 @@ final class UserGenderBirthViewController: UIViewController {
         yearPicker.dataSource = self
         yearPicker.delegate = self
         yearPicker.backgroundColor = .systemBackground
+        yearPicker.selectRow(50, inComponent: 0, animated: true)
         birthDisplayTextField.inputView = yearPicker
     }
     
@@ -207,9 +208,8 @@ extension UserGenderBirthViewController: UIPickerViewDelegate, UIPickerViewDataS
         birthDisplayTextField.text = "  \(row+1940)"
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        nextButtonActive()
-    }
+    
+    
 }
 
 //출생년도 textField 수동 입력이 불가능하도록 설정
@@ -223,5 +223,9 @@ extension UserGenderBirthViewController: UITextFieldDelegate {
             return false
         }
         return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        nextButtonActive()
     }
 }
