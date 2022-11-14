@@ -224,10 +224,9 @@ final class FirstCreateGroupViewController: UIViewController {
                                                leading: view.leadingAnchor,
                                                padding: UIEdgeInsets(top: 24, left: 20, bottom: 0, right: 0))
         
-        bottomButton.constraint(leading: view.leadingAnchor,
-                                bottom: view.bottomAnchor,
-                                trailing: view.trailingAnchor,
-                                padding: UIEdgeInsets(top: 0, left: 20, bottom: 55, right: 20))
+        bottomButton.constraint(bottom: view.bottomAnchor,
+                                centerX: view.safeAreaLayoutGuide.centerXAnchor,
+                                padding: UIEdgeInsets(top: 0, left: 0, bottom: 55, right: 0))
     }
     
     private func configureUI() {
