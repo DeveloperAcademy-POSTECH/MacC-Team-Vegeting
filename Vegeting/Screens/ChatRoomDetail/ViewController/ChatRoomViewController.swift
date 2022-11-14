@@ -66,14 +66,13 @@ final class ChatRoomViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         setupLayout()
+        configureCollectionViewDelegate()
     }
 
     private func configureUI() {
         view.addSubviews(chatListCollectionView,transferMessageStackView)
         view.backgroundColor = .systemBackground
-
-        chatListCollectionView.dataSource = self
-        chatListCollectionView.delegate = self
+        
     }
 
     private func setupLayout() {
@@ -115,5 +114,13 @@ extension ChatRoomViewController: UICollectionViewDataSource {
 extension ChatRoomViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         view.endEditing(true)
+    }
+}
+
+extension ChatRoomViewController {
+    private func configureCollectionViewDelegate() {
+        chatListCollectionView.dataSource = self
+        chatListCollectionView.delegate = self
+
     }
 }
