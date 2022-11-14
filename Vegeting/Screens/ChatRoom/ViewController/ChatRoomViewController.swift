@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ChatRoomViewController: UIViewController {
+final class ChatRoomViewController: UIViewController {
 
     private let chatListCollectionView: UICollectionView = {
 
