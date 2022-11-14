@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import Combine
 
 final class FirstCreateGroupViewController: UIViewController {
     
     //MARK: - properties
+    var cancellables = Set<AnyCancellable>()
     
     private let categoryTitleLabel: UILabel = {
         let label = UILabel()
@@ -100,10 +102,21 @@ final class FirstCreateGroupViewController: UIViewController {
         return label
     }()
     
-    private let numberOfGroupCollectionView: NumberOfGroupPeopleView = {
+    private lazy var numberOfGroupCollectionView: NumberOfGroupPeopleView = {
         let view = NumberOfGroupPeopleView()
+        view.delegate = self
         view.isHidden = true
         return view
+    }()
+    
+    private lazy var bottomButton: BottomButton = {
+        let button = BottomButton()
+        button.setTitle("다음으로", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = .preferredFont(forTextStyle: .body, compatibleWith: .init(legibilityWeight: .bold))
+        button.isEnabled = false
+        button.addTarget(self, action: #selector(bottomButtonTapped), for: .touchUpInside)
+        return button
     }()
     
     //MARK: - lifeCycle
@@ -134,6 +147,19 @@ final class FirstCreateGroupViewController: UIViewController {
         numberOfGroupCollectionView.isHidden = false
     }
     
+    @objc
+    private func bottomButtonTapped() {
+        guard let selectedCategory = categoryCollectionView.getSelectedCategory(),
+              let selectedNumberOfPeople = numberOfGroupCollectionView.getSelectedNumber() else { return }
+        let passedData = IncompleteClub(clubCategory: selectedCategory,
+                                        clubLocation: locationLabel.text ?? "",
+                                        createdAt: datePicker.date,
+                                        maxNumberOfPeople: selectedNumberOfPeople)
+        let viewController = SecondCreateGroupViewController()
+        viewController.configure(with: passedData)
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
     private func setupLayout() {
         
         view.addSubviews(categoryTitleLabel,
@@ -145,7 +171,8 @@ final class FirstCreateGroupViewController: UIViewController {
                          datePicker,
                          datePickerFooterLabel,
                          numberOfGroupPeopleTitleLabel,
-                         numberOfGroupCollectionView)
+                         numberOfGroupCollectionView,
+                         bottomButton)
         
         categoryTitleLabel.constraint(top: view.safeAreaLayoutGuide.topAnchor,
                                       leading: view.leadingAnchor,
@@ -196,6 +223,10 @@ final class FirstCreateGroupViewController: UIViewController {
         numberOfGroupCollectionView.constraint(top: numberOfGroupPeopleTitleLabel.bottomAnchor,
                                                leading: view.leadingAnchor,
                                                padding: UIEdgeInsets(top: 24, left: 20, bottom: 0, right: 0))
+        
+        bottomButton.constraint(bottom: view.bottomAnchor,
+                                centerX: view.safeAreaLayoutGuide.centerXAnchor,
+                                padding: UIEdgeInsets(top: 0, left: 0, bottom: 55, right: 0))
     }
     
     private func configureUI() {
@@ -216,4 +247,11 @@ extension FirstCreateGroupViewController: GroupCategoryViewDelegate {
     func didSelectCategory(didSelectItemAt indexPath: IndexPath) {
         self.showLocationView()
     }
+}
+
+extension FirstCreateGroupViewController: NumberOfGroupPeopleViewDelegate {
+    func didSelectedItem() {
+        bottomButton.isEnabled = true
+    }
+    
 }
