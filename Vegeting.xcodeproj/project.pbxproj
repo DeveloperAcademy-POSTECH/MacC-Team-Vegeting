@@ -34,10 +34,6 @@
 		4AFA58AF29050B5C00679142 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA58AE29050B5C00679142 /* String+Extension.swift */; };
 		4AFA58B2290526C300679142 /* NumberOfGroupPeopleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA58B1290526C300679142 /* NumberOfGroupPeopleView.swift */; };
 		4AFA58B52905280F00679142 /* NumberOfPeopleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AFA58B42905280F00679142 /* NumberOfPeopleCollectionViewCell.swift */; };
-		7615B645291EA03900A34DA4 /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7615B644291EA03900A34DA4 /* ChatRoomViewController.swift */; };
-		7615B648291EA06D00A34DA4 /* OtherChatContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7615B647291EA06D00A34DA4 /* OtherChatContentCollectionViewCell.swift */; };
-		7615B64C2920BA5500A34DA4 /* MyChatContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7615B64B2920BA5500A34DA4 /* MyChatContentCollectionViewCell.swift */; };
-		7615B64E2920CA3E00A34DA4 /* ChatRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7615B64D2920CA3E00A34DA4 /* ChatRoomViewModel.swift */; };
 		7628CC792913DEAE00CDA679 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7628CC782913DEAE00CDA679 /* AuthManager.swift */; };
 		7628CC7B2914AF7B00CDA679 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		7645E74A290700E5009E2E3B /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E749290700E5009E2E3B /* SignInViewController.swift */; };
@@ -112,10 +108,6 @@
 		4AFA58AE29050B5C00679142 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		4AFA58B1290526C300679142 /* NumberOfGroupPeopleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfGroupPeopleView.swift; sourceTree = "<group>"; };
 		4AFA58B42905280F00679142 /* NumberOfPeopleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfPeopleCollectionViewCell.swift; sourceTree = "<group>"; };
-		7615B644291EA03900A34DA4 /* ChatRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
-		7615B647291EA06D00A34DA4 /* OtherChatContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OtherChatContentCollectionViewCell.swift; path = Vegeting/Screens/ChatRoomDetailRoom/Component/OtherChatContentCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
-		7615B64B2920BA5500A34DA4 /* MyChatContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChatContentCollectionViewCell.swift; sourceTree = "<group>"; };
-		7615B64D2920CA3E00A34DA4 /* ChatRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModel.swift; sourceTree = "<group>"; };
 		7628CC772913DB5F00CDA679 /* Vegeting.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vegeting.entitlements; sourceTree = "<group>"; };
 		7628CC782913DEAE00CDA679 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		7645E749290700E5009E2E3B /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -303,7 +295,6 @@
 		4ADC12DA29017B9E00C0FFB6 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				765C9E6B2922395F0090B14A /* ChatRoomDetailRoom */,
 				A2F369DA29094877007F3732 /* GroupList */,
 				A75F9E1D2904DC3700CFD884 /* PostDetail */,
 				7645E748290700CD009E2E3B /* SignIn */,
@@ -356,31 +347,6 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		7615B643291EA01E00A34DA4 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				7615B644291EA03900A34DA4 /* ChatRoomViewController.swift */,
-			);
-			path = ViewController;
-			sourceTree = "<group>";
-		};
-		7615B646291EA04B00A34DA4 /* Component */ = {
-			isa = PBXGroup;
-			children = (
-				7615B647291EA06D00A34DA4 /* OtherChatContentCollectionViewCell.swift */,
-				7615B64B2920BA5500A34DA4 /* MyChatContentCollectionViewCell.swift */,
-			);
-			path = Component;
-			sourceTree = "<group>";
-		};
-		7615B64F2920CA4500A34DA4 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				7615B64D2920CA3E00A34DA4 /* ChatRoomViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
 		7645E748290700CD009E2E3B /* SignIn */ = {
 			isa = PBXGroup;
 			children = (
@@ -413,16 +379,6 @@
 				7628CC782913DEAE00CDA679 /* AuthManager.swift */,
 			);
 			path = Manager;
-			sourceTree = "<group>";
-		};
-		765C9E6B2922395F0090B14A /* ChatRoomDetailRoom */ = {
-			isa = PBXGroup;
-			children = (
-				7615B64F2920CA4500A34DA4 /* ViewModel */,
-				7615B646291EA04B00A34DA4 /* Component */,
-				7615B643291EA01E00A34DA4 /* ViewController */,
-			);
-			path = ChatRoomDetailRoom;
 			sourceTree = "<group>";
 		};
 		76B027EF2901726E002C9DF7 /* VegetingTests */ = {
@@ -660,7 +616,6 @@
 				4ADC12E52901817800C0FFB6 /* UILabel+Extension.swift in Sources */,
 				4A31CD2A2903D89600E5E422 /* GroupCategoryCollectionViewCell.swift in Sources */,
 				7645E7512907031D009E2E3B /* SignInViewModel.swift in Sources */,
-				7615B645291EA03900A34DA4 /* ChatRoomViewController.swift in Sources */,
 				7645E74A290700E5009E2E3B /* SignInViewController.swift in Sources */,
 				A760964B2909530600636A99 /* MainTabBarViewController.swift in Sources */,
 				4ADC12EF290183F500C0FFB6 /* BaseViewController.swift in Sources */,
@@ -668,7 +623,6 @@
 				4ADC12F12901856B00C0FFB6 /* UIView+Constraint.swift in Sources */,
 				A2F369D12908258B007F3732 /* GroupInfoView.swift in Sources */,
 				A73AAAF32904E26D0050CA81 /* PostDetailViewController.swift in Sources */,
-				7615B648291EA06D00A34DA4 /* OtherChatContentCollectionViewCell.swift in Sources */,
 				4A31CD272903D86200E5E422 /* GroupCategoryView.swift in Sources */,
 				A26198782909567100ECCC4F /* LabelWithImageStackView.swift in Sources */,
 				4ADC12EB2901833F00C0FFB6 /* StringLiteral.swift in Sources */,
@@ -683,8 +637,6 @@
 				76B0283B290528F8002C9DF7 /* Chat.swift in Sources */,
 				4AFA58B2290526C300679142 /* NumberOfGroupPeopleView.swift in Sources */,
 				7628CC7B2914AF7B00CDA679 /* (null) in Sources */,
-				7615B64C2920BA5500A34DA4 /* MyChatContentCollectionViewCell.swift in Sources */,
-				7615B64E2920CA3E00A34DA4 /* ChatRoomViewModel.swift in Sources */,
 				4AB5C27729078AE90064C41E /* Address.swift in Sources */,
 				4ADC12E72901818900C0FFB6 /* UIStackView+Extention.swift in Sources */,
 				76B02839290526AF002C9DF7 /* Club.swift in Sources */,
