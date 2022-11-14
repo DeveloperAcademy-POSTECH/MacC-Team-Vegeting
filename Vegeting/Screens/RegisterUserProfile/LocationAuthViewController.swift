@@ -52,14 +52,10 @@ final class LocationAuthViewController: UIViewController {
         return label
     }()
     
-    private let nextButton: UIButton = {
-        let button = UIButton()
+    private let nextButton: BottomButton = {
+        let button = BottomButton()
         button.setTitle("다음으로", for: .normal)
-        button.setTitleColor(UIColor(hex: "#8E8E93"), for: .normal)
-        button.setBackgroundColor(UIColor(hex: "#FFF6DA"), for: .normal)
         button.isEnabled = false
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 8
         return button
     }()
     
@@ -125,8 +121,7 @@ final class LocationAuthViewController: UIViewController {
         NSLayoutConstraint.activate([
             nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55),
-            nextButton.heightAnchor.constraint(equalToConstant: 50)
+            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55)
         ])
     }
     
@@ -176,18 +171,6 @@ final class LocationAuthViewController: UIViewController {
         @unknown default:
             print("unknown")
         }
-        //#available 여러 플랫폼에서 서로 다른 처리 결정. 여기에서는 14 이상
-        if #available(iOS 14.0, *) {
-            let accuracyState = locationManager.accuracyAuthorization
-            switch accuracyState {
-            case .fullAccuracy:
-                print("full")
-            case .reducedAccuracy:
-                print("reduced")
-            @unknown default:
-                print("Unknown")
-            }
-        }
     }
     
     private func goSetting() {
@@ -236,8 +219,8 @@ extension LocationAuthViewController: CLLocationManagerDelegate {
                   error == nil else {
                 return
             }
-            DispatchQueue.main.async {
-                self.locationDisplayLabel.text = "\(address.locality!) \(address.subLocality!)"
+            DispatchQueue.main.async { [weak self] in
+                self?.locationDisplayLabel.text = "  \(address.locality!) \(address.subLocality!)"
             }
         }
         
