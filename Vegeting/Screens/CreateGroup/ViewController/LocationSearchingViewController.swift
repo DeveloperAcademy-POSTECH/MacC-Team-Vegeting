@@ -5,6 +5,7 @@
 //  Created by 최동권 on 2022/10/24.
 //
 
+import MapKit
 import UIKit
 
 import Alamofire
@@ -25,29 +26,26 @@ final class LocationSearchingViewController: UIViewController {
         return tableView
     }()
     
-    private lazy var emptyResultView = EmptyResultView() {
-        didSet {
-            setupEmptyResultViewLayout()
-        }
-    }
+    //    private lazy var emptyResultView = EmptyResultView() {
+    //        didSet {
+    //            setupEmptyResultViewLayout()
+    //        }
+    //    }
     
-    private var addressResultList: [Address] = [] {
-        didSet {
-            DispatchQueue.main.async { [weak self] in
-                self?.resultTableView.reloadData()
-            }
-        }
-    }
+    private var addressResultList: [Address] = []
+    
     private var placeResultList: [Place] = [] {
         didSet {
-            if placeResultList != oldValue {
+            if !placeResultList.isEmpty {
                 DispatchQueue.main.async { [weak self] in
                     self?.resultTableView.reloadData()
-                    self?.checkEmptyResultState()
                 }
             }
         }
     }
+    
+    private var autoSearchCompleter = MKLocalSearchCompleter()
+    private var autoSearchResults = [MKLocalSearchCompletion]()
     
     weak var delegate: LocationSearchingViewControllerDelegate?
     
@@ -57,11 +55,17 @@ final class LocationSearchingViewController: UIViewController {
         super.viewDidLoad()
         setupNavigationBar()
         setupResultTableViewLayout()
+        configureDelegate()
         configureTableView()
         configureUI()
     }
     
     // MARK: - func
+    
+    private func configureDelegate() {
+        autoSearchCompleter.delegate = self
+        autoSearchCompleter.resultTypes = .address
+    }
     
     private func setupNavigationBar() {
         let backButton = UIBarButtonItem(image: ImageLiteral.backwardChevronSymbol,
@@ -71,8 +75,11 @@ final class LocationSearchingViewController: UIViewController {
         navigationItem.leftBarButtonItem = backButton
         
         let searchController = UISearchController(searchResultsController: nil)
-        searchController.navigationItem.backButtonDisplayMode = .minimal
+        searchController.delegate = self
         searchController.searchBar.placeholder = "구, 동, 장소를 입력해주세요."
+        searchController.searchBar.delegate = self
+        searchController.isActive = true
+        searchController.searchBar.becomeFirstResponder()
         self.navigationItem.searchController = searchController
         self.navigationItem.hidesSearchBarWhenScrolling = false
     }
@@ -82,21 +89,21 @@ final class LocationSearchingViewController: UIViewController {
         resultTableView.dataSource = self
     }
     
-    private func checkEmptyResultState() {
-        if addressResultList.isEmpty && placeResultList.isEmpty {
-            emptyResultView = EmptyResultView()
-        } else {
-            emptyResultView.removeFromSuperview()
-        }
-    }
+    //    private func checkEmptyResultState() {
+    //        if addressResultList.isEmpty && placeResultList.isEmpty {
+    //            emptyResultView = EmptyResultView()
+    //        } else {
+    //            emptyResultView.removeFromSuperview()
+    //        }
+    //    }
     
-    private func setupEmptyResultViewLayout() {
-        view.addSubview(emptyResultView)
-        emptyResultView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
-                                   leading: view.leadingAnchor,
-                                   bottom: view.bottomAnchor,
-                                   trailing: view.trailingAnchor)
-    }
+    //    private func setupEmptyResultViewLayout() {
+    //        view.addSubview(emptyResultView)
+    //        emptyResultView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
+    //                                   leading: view.leadingAnchor,
+    //                                   bottom: view.bottomAnchor,
+    //                                   trailing: view.trailingAnchor)
+    //    }
     
     private func setupResultTableViewLayout() {
         view.addSubview(resultTableView)
@@ -117,6 +124,7 @@ final class LocationSearchingViewController: UIViewController {
     
     private func requestAddress(keyword: String) async {
         guard let apiKey = StringLiteral.kakaoAPIKey else { return }
+        
         let headers: HTTPHeaders = [
             "Authorization": apiKey
         ]
@@ -130,7 +138,7 @@ final class LocationSearchingViewController: UIViewController {
         Session.default.request(StringLiteral.kakaoRestAPIAddress,
                                 method: .get,
                                 parameters: parameters,
-                                headers: headers).responseJSON(completionHandler: { response in
+                                headers: headers).responseJSON(completionHandler: { [weak self] response in
             switch response.result {
             case .success(let value):
                 var list: [Address] = []
@@ -144,8 +152,7 @@ final class LocationSearchingViewController: UIViewController {
                                             latitudeY: latitudeY))
                     }
                 }
-                self.addressResultList = list
-                
+                self?.addressResultList = list
                 
             case .failure(let error):
                 print(error)
@@ -155,6 +162,7 @@ final class LocationSearchingViewController: UIViewController {
     
     private func requestPlace(keyword: String) async {
         guard let apiKey = StringLiteral.kakaoAPIKey else { return }
+        
         let headers: HTTPHeaders = [
             "Authorization": apiKey
         ]
@@ -168,7 +176,7 @@ final class LocationSearchingViewController: UIViewController {
         AF.request(StringLiteral.kakaoRestAPIKeyword,
                    method: .get,
                    parameters: parameters,
-                   headers: headers).responseJSON(completionHandler: { response in
+                   headers: headers).responseJSON(completionHandler: { [weak self] response in
             switch response.result {
             case .success(let value):
                 var list: [Place] = []
@@ -184,10 +192,8 @@ final class LocationSearchingViewController: UIViewController {
                                           latitudeY: latitudeY))
                     }
                 }
-                self.placeResultList = list
-                DispatchQueue.main.async { [weak self] in
-                    self?.resultTableView.reloadData()
-                }
+                self?.placeResultList = list
+                self?.autoSearchCompleter.queryFragment = keyword
                 
             case .failure(let error):
                 print(error)
@@ -198,14 +204,18 @@ final class LocationSearchingViewController: UIViewController {
 
 extension LocationSearchingViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return addressResultList.count + placeResultList.count
+        let totalCount = addressResultList.count + placeResultList.count
+        return totalCount == 0 ? autoSearchResults.count : totalCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = resultTableView.dequeueReusableCell(withIdentifier: SearchedLocationResultTableViewCell.className, for: indexPath) as? SearchedLocationResultTableViewCell else { return UITableViewCell() }
         let totalAddress = addressResultList.count
+        let totalCount = addressResultList.count + placeResultList.count
         
-        if indexPath.row < totalAddress {
+        if totalCount == 0 {
+            cell.configure(with: autoSearchResults[indexPath.row].title)
+        } else if indexPath.row < totalAddress {
             cell.configure(with: addressResultList[indexPath.row])
         } else {
             cell.configure(with: placeResultList[indexPath.row - totalAddress])
@@ -233,12 +243,40 @@ extension LocationSearchingViewController: UITableViewDelegate {
 }
 
 extension LocationSearchingViewController: UISearchBarDelegate {
-    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        if searchText.isEmpty {
+            autoSearchResults.removeAll()
+        }
+        
         Task {
             await requestAddress(keyword: searchText)
             await requestPlace(keyword: searchText)
         }
+        
     }
 }
 
+extension LocationSearchingViewController: UISearchControllerDelegate {
+    func didPresentSearchController(searchController: UISearchController) {
+        searchController.searchBar.becomeFirstResponder()
+    }
+}
+
+extension LocationSearchingViewController: MKLocalSearchCompleterDelegate {
+    
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        let isResultNotEmpty = !completer.results.isEmpty
+        if isResultNotEmpty {
+            autoSearchResults = completer.results
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.resultTableView.reloadData()
+        }
+    }
+    
+    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
+        print(error.localizedDescription)
+    }
+}

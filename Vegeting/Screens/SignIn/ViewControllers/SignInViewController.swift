@@ -5,151 +5,131 @@
 //  Created by yudonlee on 2022/10/25.
 //
 
+import AuthenticationServices
 import Combine
+import CryptoKit
 import UIKit
 
 class SignInViewController: UIViewController {
     
-//    MARK: viewModel등 Combine 관련 요소
-    private var viewModel = SignInViewModel()
-    private var cancelBag: Set<AnyCancellable> = []
-    
-//    MARK: UI Component 영역
-    private let registerTitleLabel: UILabel = {
-        
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "아이디를 로그인하세요!(없으면 자동생성됨)"
-        label.font = .systemFont(ofSize: 20 , weight: .bold)
-        return label
+    private let brandingImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.backgroundColor = .gray
+        return imageView
     }()
     
-    private let emailTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.attributedPlaceholder = NSAttributedString(string: "Email(4자이상)", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        textField.layer.borderColor = UIColor.blue.cgColor
-        
-        return textField
-    }()
-    
-    private let passwordTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.attributedPlaceholder = NSAttributedString(string: "Password(8자이상)", attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        
-        textField.layer.borderColor = UIColor.blue.cgColor
-        textField.isSecureTextEntry = true
-        
-        return textField
-    }()
-    
-    private let registerButton: UIButton = {
-
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("로그인", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .bold)
-        button.backgroundColor = UIColor(red: 29/255, green: 161/255, blue: 242/255, alpha: 1)
-        button.tintColor = .white
-        button.layer.cornerRadius = 20
-        button.isEnabled = false
+    private lazy var appleSignInButton: ASAuthorizationAppleIDButton = {
+        let button = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
+        button.addTarget(self, action: #selector(appleSignInButtonTapped(_:)), for: .touchUpInside)
         return button
     }()
+    
+    private lazy var kakaoSignInButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "kakao_login_large_wide"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.addTarget(self, action: #selector(kakaoSignInButtonTapped(_:)), for: .touchUpInside)
+        return button
+    }()
+    
+    private var viewModel = SignInViewModel()
+    private let input: PassthroughSubject<SignInViewModel.Input, Never> = .init()
+    private var cancellables = Set<AnyCancellable>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //        Layout 설정 및 UI 컴포넌트 구성
+        configureUI()
         setupLayout()
-        configureConstraints()
-        hideKeyboardWhenTappedAround()
-        bindViews()
+        
+        bind()
     }
     
-    /// view를 바인딩 할 때 사용합니다.
-    private func bindViews() {
-        registerButton.addTarget(self, action: #selector(didTapRegisterButton), for: .touchUpInside)
+    private func bind() {
+        let output = viewModel.transform(input: input.eraseToAnyPublisher())
         
-        NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification, object: emailTextField).sink { _ in
-        } receiveValue: { [weak self] notification in
-            guard let textField = notification.object as? UITextField, let text = textField.text else {
-                return
+        output.sink { [weak self] event in
+            switch event {
+            case .didFirstSignInWithApple, .didFirstSignInWithKakao:
+//                TODO: Profile 생성 ViewController로 이동하도록 구현
+                break
+            case .didFailToSignInWithApple(let error), .didFailToSignInWithKakao(let error):
+                print(error.localizedDescription)
+            case .didAlreadySignInWithApple, .didAlreadySignInWithKakao:
+                self?.navigationController?.dismiss(animated: true)
             }
-            self?.viewModel.email = text
-            self?.viewModel.validateRegistrationForm()
-        }.store(in: &cancelBag)
-        
-        NotificationCenter.default.publisher(for: UITextField.textDidChangeNotification, object: passwordTextField).sink { _ in
-        } receiveValue: { [weak self] notification in
-            guard let textField = notification.object as? UITextField, let text = textField.text else {
-                return
-            }
-            self?.viewModel.password = text
-            self?.viewModel.validateRegistrationForm()
-        }.store(in: &cancelBag)
-        
-        viewModel.$isRegistrationFormValid.sink { [weak self] validationState in
-            self?.registerButton.isEnabled = validationState
-        }
-        .store(in: &cancelBag)
-        
-        viewModel.$user.sink { [weak self] user in
-            guard user != nil else { return }
-            self?.navigationController?.dismiss(animated: true)
-        }
-        .store(in: &cancelBag)
+        }.store(in: &cancellables)
     }
-    
-    
-    
     
 }
 
-// MARK: Constraint 및 UI 관련 함수
+// MARK: 로그인 버튼 관련 함수
+extension SignInViewController {
+    
+    @objc private func appleSignInButtonTapped(_ sender: Any) {
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        
+        let authrizationController = ASAuthorizationController(authorizationRequests: [request])
+        authrizationController.delegate = self
+        authrizationController.presentationContextProvider = self
+        authrizationController.performRequests()
+    }
+    
+    @objc private func kakaoSignInButtonTapped(_ sender: Any) {
+        input.send(.kakaoSignInButtonTapped)
+    }
+}
+
+extension SignInViewController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+    
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        if case let appleIDCredential as ASAuthorizationAppleIDCredential = authorization.credential {
+            guard let appleIDToken = appleIDCredential.identityToken else { return }
+            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else { return }
+            
+            input.send(.appleSignInEventOccurred(tokenID: idTokenString))
+        }
+    }
+    
+}
+
+
+// MARK: Layout 및 UI설정 함수
 extension SignInViewController {
     
     private func setupLayout() {
-        view.addSubviews(emailTextField, passwordTextField, registerTitleLabel, registerButton)
+        let brandingImageViewConstraints = [
+            brandingImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            brandingImageView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            brandingImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 70),
+            brandingImageView.heightAnchor.constraint(equalToConstant: 270)
+        ]
+        let kakaoSignInButtonConstriants = [
+            kakaoSignInButton.bottomAnchor.constraint(equalTo: appleSignInButton.topAnchor, constant: -20),
+            kakaoSignInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            kakaoSignInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+        ]
+        
+        let appleSignInButtonConstraints =  [
+            appleSignInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            appleSignInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            appleSignInButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -120),
+            appleSignInButton.heightAnchor.constraint(equalToConstant: 50)
+        ]
+        
+        constraintsActivate(kakaoSignInButtonConstriants, appleSignInButtonConstraints,brandingImageViewConstraints)
+    }
+    
+    private func configureUI() {
         view.backgroundColor = .systemBackground
-        view.backgroundColor = .white
+        view.addSubviews(appleSignInButton, kakaoSignInButton, brandingImageView)
     }
     
-    private func configureConstraints() {
-        let registerTitleLabelConstraints = [
-            registerTitleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            registerTitleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20)
-        ]
-        
-        let emailTextFieldConstraints = [
-            emailTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            emailTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            emailTextField.topAnchor.constraint(equalTo: registerTitleLabel.bottomAnchor, constant: 16),
-            emailTextField.heightAnchor.constraint(equalToConstant: 60)
-        ]
-        
-        let passwordTextFieldConstraints = [
-            passwordTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            passwordTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 16),
-            passwordTextField.heightAnchor.constraint(equalToConstant: 60)
-        ]
-        
-        let registerButtonConstraints = [
-            registerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            registerButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 16),
-            registerButton.widthAnchor.constraint(equalToConstant: 100),
-            registerButton.heightAnchor.constraint(equalToConstant: 50)
-        ]
-        constraintsActivate(registerTitleLabelConstraints,emailTextFieldConstraints, passwordTextFieldConstraints, registerButtonConstraints)
-    }
-    
-}
-
-// MARK: UI component Delegate 지정
-extension SignInViewController {
-    
-    @objc private func didTapRegisterButton() {
-        viewModel.createUser()
-    }
-        
 }

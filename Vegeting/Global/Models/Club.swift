@@ -12,10 +12,20 @@ import FirebaseFirestoreSwift
 struct Club: Identifiable, Codable {
     @DocumentID var id: String?
     let clubID: String?
-    let clubTitle, clubCategory, hostID: String
+    let chatID: String?
+    let clubTitle: String
+    let clubCategory: String
+    let clubContent: String
+    let hostID: String?
     let participants: [Participant]?
     let createdAt: Date
     let maxNumberOfPeople: Int
     var coverImageURL: String?
-    
+}
+
+struct IncompleteClub {
+    var clubCategory: String
+    var clubLocation: String
+    var createdAt: Date
+    var maxNumberOfPeople: Int
 }
