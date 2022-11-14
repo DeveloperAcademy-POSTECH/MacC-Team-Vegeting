@@ -19,5 +19,4 @@ struct Club: Identifiable, Codable {
     let createdAt: Date
     let maxNumberOfPeople: Int
     var coverImageURL: String?
-    
 }

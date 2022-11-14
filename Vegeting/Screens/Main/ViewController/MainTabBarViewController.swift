@@ -8,31 +8,34 @@
 import UIKit
 
 class MainTabBarViewController: UITabBarController {
-    
     private let findClubTab: UINavigationController = {
-        let controller = UINavigationController(rootViewController: ViewController()) //TODO: 모임 찾기 뷰로 연결
-        controller.tabBarItem.image = UIImage(systemName: "person.3.fill")
+        let controller = UINavigationController(rootViewController: GroupListViewController()) //TODO: 모임 찾기 뷰로 연결
+        let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 14, weight: .medium)
+        controller.tabBarItem.image = UIImage(systemName: "person.3.fill", withConfiguration: imageConfig)
         controller.title = "모임 찾기"
         return controller
     }()
     
     private let findFriendTab: UINavigationController = {
         let controller = UINavigationController(rootViewController: ViewController()) //TODO: 친구 찾기 뷰로 연결
-        controller.tabBarItem.image = UIImage(systemName: "map")
+        let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 14, weight: .medium)
+        controller.tabBarItem.image = UIImage(systemName: "map", withConfiguration: imageConfig)
         controller.title = "친구 찾기"
         return controller
     }()
     
     private let chattingTab: UINavigationController = {
         let controller = UINavigationController(rootViewController: ViewController()) //TODO: 채팅 뷰로 연결
-        controller.tabBarItem.image = UIImage(systemName: "message")
+        let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 14, weight: .medium)
+        controller.tabBarItem.image = UIImage(systemName: "message", withConfiguration: imageConfig)
         controller.title = "채팅"
         return controller
     }()
     
     private let myPageTab: UINavigationController = {
-        let controller = UINavigationController(rootViewController: MyPageViewController())
-        controller.tabBarItem.image = UIImage(systemName: "person")
+        let controller = UINavigationController(rootViewController: ViewController()) //TODO: 마이페이지 뷰로 연결
+        let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 14, weight: .medium)
+        controller.tabBarItem.image = UIImage(systemName: "person", withConfiguration: imageConfig)
         controller.title = "마이페이지"
         return controller
     }()
@@ -51,6 +54,9 @@ class MainTabBarViewController: UITabBarController {
     }
     
     func configureUI() {
+        tabBar.backgroundColor = .white
+        tabBar.layer.borderWidth = 0.4
+        tabBar.layer.borderColor = UIColor(hex: "#999999").cgColor
         view.backgroundColor = .white
     }
     

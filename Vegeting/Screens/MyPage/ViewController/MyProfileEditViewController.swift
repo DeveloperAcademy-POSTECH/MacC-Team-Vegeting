@@ -9,7 +9,7 @@ import UIKit
 
 class MyProfileEditViewController: UIViewController {
     
-    private let profileView = ProfileVIew()
+    private let profileView = ProfileView()
     
     private let bottomButton: BottomButton = {
        let button = BottomButton()
