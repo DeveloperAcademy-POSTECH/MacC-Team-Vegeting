@@ -110,7 +110,7 @@ extension ChatRoomViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let data = viewModel.temporaryMessages[indexPath.row]
+        let data = viewModel.temporaryMessages[indexPath.item]
         
         switch data.status {
         case .mine:
