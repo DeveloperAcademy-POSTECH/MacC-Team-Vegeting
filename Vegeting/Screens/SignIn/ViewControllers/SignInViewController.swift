@@ -28,6 +28,7 @@ class SignInViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(named: "kakao_login_large_wide"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
+        button.addTarget(self, action: #selector(kakaoSignInButtonTapped(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -38,7 +39,7 @@ class SignInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        Layout 설정 및 UI 컴포넌트 구성
+        //        Layout 설정 및 UI 컴포넌트 구성
         configureUI()
         setupLayout()
         
@@ -50,12 +51,12 @@ class SignInViewController: UIViewController {
         
         output.sink { [weak self] event in
             switch event {
-            case .isFirstSignIn:
-                let navigationController = UINavigationController(rootViewController: FirstCreateGroupViewController())
-                self?.navigationController?.pushViewController(navigationController, animated: true)
-            case .isSignInFailed(let error):
+            case .didFirstSignInWithApple, .didFirstSignInWithKakao:
+//                TODO: Profile 생성 ViewController로 이동하도록 구현
+                break
+            case .didFailToSignInWithApple(let error), .didFailToSignInWithKakao(let error):
                 print(error.localizedDescription)
-            case .isAlreadySignIn:
+            case .didAlreadySignInWithApple, .didAlreadySignInWithKakao:
                 self?.navigationController?.dismiss(animated: true)
             }
         }.store(in: &cancellables)
@@ -63,20 +64,23 @@ class SignInViewController: UIViewController {
     
 }
 
-// MARK: apple로 로그인하기 관련 함수
+// MARK: 로그인 버튼 관련 함수
 extension SignInViewController {
     
     @objc private func appleSignInButtonTapped(_ sender: Any) {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
         request.requestedScopes = [.fullName, .email]
-
+        
         let authrizationController = ASAuthorizationController(authorizationRequests: [request])
         authrizationController.delegate = self
         authrizationController.presentationContextProvider = self
         authrizationController.performRequests()
     }
     
+    @objc private func kakaoSignInButtonTapped(_ sender: Any) {
+        input.send(.kakaoSignInButtonTapped)
+    }
 }
 
 extension SignInViewController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
@@ -84,16 +88,16 @@ extension SignInViewController: ASAuthorizationControllerDelegate, ASAuthorizati
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return self.view.window!
     }
-
+    
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if case let appleIDCredential as ASAuthorizationAppleIDCredential = authorization.credential {
             guard let appleIDToken = appleIDCredential.identityToken else { return }
             guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else { return }
             
-            input.send(.appleSignInButtonTapped(tokenID: idTokenString))
+            input.send(.appleSignInEventOccurred(tokenID: idTokenString))
         }
     }
-
+    
 }
 
 
