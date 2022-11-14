@@ -59,6 +59,11 @@ final class GroupCategoryView: UIView {
     func changeCategoryList(with list: [String]) {
         categoryList = list
     }
+    
+    func getSelectedCategory() -> String? {
+        guard let index = categoryCollectionView.indexPathsForSelectedItems?.first?.item else { return nil }
+        return categoryList[index]
+    }
 }
 
 extension GroupCategoryView: UICollectionViewDataSource {

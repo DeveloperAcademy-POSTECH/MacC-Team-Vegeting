@@ -25,7 +25,7 @@ class MainTabBarViewController: UITabBarController {
     }()
     
     private let chattingTab: UINavigationController = {
-        let controller = UINavigationController(rootViewController: ViewController()) //TODO: 채팅 뷰로 연결
+        let controller = UINavigationController(rootViewController: ChatRoomListViewController()) //TODO: 채팅 뷰로 연결
         let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 14, weight: .medium)
         controller.tabBarItem.image = UIImage(systemName: "message", withConfiguration: imageConfig)
         controller.title = "채팅"
@@ -33,7 +33,7 @@ class MainTabBarViewController: UITabBarController {
     }()
     
     private let myPageTab: UINavigationController = {
-        let controller = UINavigationController(rootViewController: ViewController()) //TODO: 마이페이지 뷰로 연결
+        let controller = UINavigationController(rootViewController: MyPageViewController()) //TODO: 마이페이지 뷰로 연결
         let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 14, weight: .medium)
         controller.tabBarItem.image = UIImage(systemName: "person", withConfiguration: imageConfig)
         controller.title = "마이페이지"
