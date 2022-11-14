@@ -207,7 +207,6 @@ extension UserProfileViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
         guard let text = textField.text else { return false }
-        print("\(text), count: \(text.count), length: \(range.length), location: \(range.location)")
         
         if text.count >= nicknameMaxLength && range.length == 0 && range.location < nicknameMaxLength {
             return false
