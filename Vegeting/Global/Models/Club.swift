@@ -13,8 +13,9 @@ struct Club: Identifiable, Codable {
     @DocumentID var id: String?
     let clubID: String?
     let chatID: String?
-    let clubTitle, clubCategory: String?
-    let clubContent: String?
+    let clubTitle: String
+    let clubCategory: String
+    let clubContent: String
     let hostID: String?
     let participants: [Participant]?
     let createdAt: Date

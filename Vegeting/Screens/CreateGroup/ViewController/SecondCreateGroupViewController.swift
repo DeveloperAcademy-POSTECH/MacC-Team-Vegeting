@@ -135,11 +135,12 @@ final class SecondCreateGroupViewController: BaseViewController {
     
     @objc
     private func registerButtonTapped() {
-        guard let incompleteClub = groupInfoStackView.getData() else { return }
+        guard let incompleteClub = groupInfoStackView.getData(),
+        let clubTitle = titleTextField.text else { return }
         let firebaseManager = FirebaseManager.shared
         
         let club = Club(id: nil, clubID: nil, chatID: nil,
-                        clubTitle: titleTextField.text,
+                        clubTitle: clubTitle,
                         clubCategory: incompleteClub.clubCategory,
                         clubContent: contentTextView.text,
                         hostID: nil, participants: nil,
