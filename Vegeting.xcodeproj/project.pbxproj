@@ -58,6 +58,8 @@
 		76548E2E291AB11700418994 /* RecentChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76548E2D291AB11700418994 /* RecentChat.swift */; };
 		76B027F12901726E002C9DF7 /* VegetingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B027F02901726E002C9DF7 /* VegetingTests.swift */; };
 		76B0282629051FC9002C9DF7 /* VFUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B0282529051FC9002C9DF7 /* VFUser.swift */; };
+		76B02829290520BB002C9DF7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76B02828290520BB002C9DF7 /* GoogleService-Info.plist */; };
+		76B0282A290520C5002C9DF7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76B02828290520BB002C9DF7 /* GoogleService-Info.plist */; };
 		76B0282D29052209002C9DF7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 76B0282C29052209002C9DF7 /* FirebaseAuth */; };
 		76B0282F29052209002C9DF7 /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = 76B0282E29052209002C9DF7 /* FirebaseAuthCombine-Community */; };
 		76B0283129052209002C9DF7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 76B0283029052209002C9DF7 /* FirebaseFirestore */; };
@@ -87,6 +89,7 @@
 		A73AAAF32904E26D0050CA81 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73AAAF22904E26D0050CA81 /* PostDetailViewController.swift */; };
 		A76096422908ACA900636A99 /* ProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76096412908ACA900636A99 /* ProfileCollectionViewCell.swift */; };
 		A760964B2909530600636A99 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A760964A2909530600636A99 /* MainTabBarViewController.swift */; };
+		A764CCED291748FB005C9E0F /* UserGenderBirthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A764CCEC291748FB005C9E0F /* UserGenderBirthViewController.swift */; };
 		A7C8DF242901274500F38AD7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C8DF232901274500F38AD7 /* AppDelegate.swift */; };
 		A7C8DF262901274500F38AD7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C8DF252901274500F38AD7 /* SceneDelegate.swift */; };
 		A7C8DF282901274500F38AD7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C8DF272901274500F38AD7 /* ViewController.swift */; };
@@ -178,6 +181,7 @@
 		A73AAAF22904E26D0050CA81 /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
 		A76096412908ACA900636A99 /* ProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewCell.swift; sourceTree = "<group>"; };
 		A760964A2909530600636A99 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
+		A764CCEC291748FB005C9E0F /* UserGenderBirthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGenderBirthViewController.swift; sourceTree = "<group>"; };
 		A7C8DF202901274500F38AD7 /* Vegeting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vegeting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7C8DF232901274500F38AD7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A7C8DF252901274500F38AD7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -594,6 +598,7 @@
 			children = (
 				A71C543E291A793C00FBD231 /* Component */,
 				A7164B3029123E7100FFB668 /* UserProfileViewController.swift */,
+				A764CCEC291748FB005C9E0F /* UserGenderBirthViewController.swift */,
 				A71C543C291A655200FBD231 /* LocationAuthViewController.swift */,
 			);
 			path = RegisterUserProfile;
@@ -607,6 +612,15 @@
 			path = Component;
 			sourceTree = "<group>";
 		};
+		A75F9E1D2904DC3700CFD884 /* PostDetail */ = {
+			isa = PBXGroup;
+			children = (
+				A73AAAF22904E26D0050CA81 /* PostDetailViewController.swift */,
+				A76096412908ACA900636A99 /* ProfileCollectionViewCell.swift */,
+            );
+			path = PostDetail;
+            sourceTree = "<group>";
+        };
 		A75F9E1D2904DC3700CFD884 /* PostDetail */ = {
 			isa = PBXGroup;
 			children = (
@@ -835,6 +849,7 @@
 				4A060C082913AA5E00D75699 /* InterestCollectionViewCell.swift in Sources */,
 				A7164B3129123E7100FFB668 /* UserProfileViewController.swift in Sources */,
 				4ADC12DD2901800D00C0FFB6 /* UIColor+Extension.swift in Sources */,
+				A764CCED291748FB005C9E0F /* UserGenderBirthViewController.swift in Sources */,
 				4AFF0F552919F8E100F7496C /* MyPageProfileTableViewCell.swift in Sources */,
 				A2007F49291444730003DABB /* SegmentedControlCustomView.swift in Sources */,
 				A215B29C2906DB6400DD60B2 /* PhotoPickerView.swift in Sources */,
