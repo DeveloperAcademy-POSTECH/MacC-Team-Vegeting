@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MyPageProfileTableViewCellDelegate: AnyObject {
-    func didTouchUpInsideEditButton()
+    func profileEditButtonTapped()
 }
 
 class MyPageProfileTableViewCell: UITableViewCell {
@@ -18,13 +18,14 @@ class MyPageProfileTableViewCell: UITableViewCell {
         imageView.layer.masksToBounds = true
         imageView.layer.bounds.size = .init(width: 60, height: 60)
         imageView.layer.cornerRadius = imageView.bounds.height / 2
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
     private let labelStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 1
+        stackView.spacing = 3
         return stackView
     }()
     
@@ -41,7 +42,7 @@ class MyPageProfileTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var editButton: UIButton = {
+    private lazy var profileEditButton: UIButton = {
         let button = UIButton()
         button.setTitle("프로필 편집", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 13, weight: .medium)
@@ -53,7 +54,7 @@ class MyPageProfileTableViewCell: UITableViewCell {
         return button
     }()
     
-    private let divierView: UIView = {
+    private let separatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .systemGray6
         return view
@@ -69,15 +70,9 @@ class MyPageProfileTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
-    }
-    
+
     private func setupLayout() {
-        contentView.addSubviews(profileImageView, labelStackView, editButton, divierView)
+        contentView.addSubviews(profileImageView, labelStackView, profileEditButton, separatorView)
         labelStackView.addArrangedSubviews(nicknameLabel, vegetarianStepLabel)
         
         profileImageView.constraint(top: contentView.topAnchor,
@@ -91,17 +86,17 @@ class MyPageProfileTableViewCell: UITableViewCell {
                                   centerY: contentView.centerYAnchor,
                                   padding: UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 0))
         
-        editButton.constraint(trailing: contentView.trailingAnchor,
+        profileEditButton.constraint(trailing: contentView.trailingAnchor,
                               centerY: contentView.centerYAnchor,
                               padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 20))
-        editButton.constraint(.widthAnchor, constant: 79)
-        editButton.constraint(.heightAnchor, constant: 33)
+        profileEditButton.constraint(.widthAnchor, constant: 79)
+        profileEditButton.constraint(.heightAnchor, constant: 33)
         
-        divierView.constraint(leading: contentView.leadingAnchor,
+        separatorView.constraint(leading: contentView.leadingAnchor,
                               bottom: contentView.bottomAnchor,
                               trailing: contentView.trailingAnchor,
                               padding: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
-        divierView.constraint(.heightAnchor, constant: 1)
+        separatorView.constraint(.heightAnchor, constant: 1)
     }
 
    func configure(image: String, nickName: String, step: String) {
@@ -112,6 +107,6 @@ class MyPageProfileTableViewCell: UITableViewCell {
     
     @objc
     private func showProfileEditView() {
-        delegate?.didTouchUpInsideEditButton()
+        delegate?.profileEditButtonTapped()
     }
 }

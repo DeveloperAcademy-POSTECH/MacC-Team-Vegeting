@@ -19,17 +19,17 @@ class MyPageViewController: UIViewController {
         return tableView
     }()
     
-    private let tableCellList: [MyPageTable] = [MyPageTable(text: "모임", isSmallTitle: true),
-                                                     MyPageTable(text: "주최한 모임", isSmallTitle: false),
-                                                     MyPageTable(text: "설정", isSmallTitle: true),
-                                                     MyPageTable(text: "채팅 알람", isSmallTitle: false, isSwitch: true),
-                                                     MyPageTable(text: "차단한 사용자 관리", isSmallTitle: false),
-                                                     MyPageTable(text: "안내", isSmallTitle: true),
-                                                     MyPageTable(text: "공지사항", isSmallTitle: false),
-                                                     MyPageTable(text: "고객센터", isSmallTitle: false),
-                                                     MyPageTable(text: "게정", isSmallTitle: true),
-                                                     MyPageTable(text: "로그아웃", isSmallTitle: false),
-                                                     MyPageTable(text: "회원탈퇴", isSmallTitle: false)]
+    private let tableCellList: [MyPageSettingElement] = [MyPageSettingElement(text: "모임", isSmallTitle: true),
+                                                MyPageSettingElement(text: "주최한 모임", isSmallTitle: false),
+                                                MyPageSettingElement(text: "설정", isSmallTitle: true),
+                                                MyPageSettingElement(text: "채팅 알람", isSmallTitle: false, isSwitch: true),
+                                                MyPageSettingElement(text: "차단한 사용자 관리", isSmallTitle: false),
+                                                MyPageSettingElement(text: "안내", isSmallTitle: true),
+                                                MyPageSettingElement(text: "공지사항", isSmallTitle: false),
+                                                MyPageSettingElement(text: "고객센터", isSmallTitle: false),
+                                                MyPageSettingElement(text: "게정", isSmallTitle: true),
+                                                MyPageSettingElement(text: "로그아웃", isSmallTitle: false),
+                                                MyPageSettingElement(text: "회원탈퇴", isSmallTitle: false)]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +37,7 @@ class MyPageViewController: UIViewController {
         configureUI()
         setupNavigationBar()
     }
-
+    
     private func setupLayout() {
         view.addSubview(tableView)
         tableView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
@@ -90,7 +90,7 @@ extension MyPageViewController: UITableViewDataSource {
 }
 
 extension MyPageViewController: MyPageProfileTableViewCellDelegate {
-    func didTouchUpInsideEditButton() {
+    func profileEditButtonTapped() {
         let viewController = MyProfileEditViewController()
         viewController.configure(with: ModalModel(nickname: "내가 짱이얌", vegetarianStep: "플렉시테리언", ageGroup: "20대", location: "포항시 남구", gender: "여성", introduction: "사람을 좋아하고, 자연을 사랑하는 플렉시테리언입니다. 이곳에서 소중한 인연 많이 만들어갔으면 좋겠어요."))
         self.navigationController?.pushViewController(viewController, animated: true)
