@@ -23,8 +23,8 @@ class BottomButton: UIButton {
         layer.masksToBounds = true
         layer.cornerRadius = 10
         titleLabel?.font = .preferredFont(forTextStyle: .body)
-        setBackgroundColor(UIColor.green, for: .normal)
-        setBackgroundColor(UIColor.gray, for: .disabled)
+        setBackgroundColor(.mainYellow, for: .normal)
+        setBackgroundColor(.mainDisabledYellow, for: .disabled)
         setTitleColor(.white, for: .normal)
         setTitleColor(.white, for: .disabled)
     }
