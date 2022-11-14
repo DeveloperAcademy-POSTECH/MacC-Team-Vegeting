@@ -28,7 +28,7 @@ class ChatRoomListViewController: UIViewController {
     }()
     
     private let chatList: [TempChatModel] = [TempChatModel(latestChatDate: Date()), TempChatModel(latestChatDate: Date().addingTimeInterval(-31000)), TempChatModel(latestChatDate: Date().addingTimeInterval(-60000)), TempChatModel(latestChatDate: Date().addingTimeInterval(-150000))]
-
+    
     // MARK: - lifeCycle
     
     override func viewDidLoad() {
@@ -57,7 +57,7 @@ class ChatRoomListViewController: UIViewController {
         let navigationTitleLabel = UILabel()
         navigationTitleLabel.text = "내가 참여한 모임"
         navigationTitleLabel.font = .preferredFont(forTextStyle: .title2,
-                                              compatibleWith: .init(legibilityWeight: .bold))
+                                                   compatibleWith: .init(legibilityWeight: .bold))
         let leftBarButtonItem = UIBarButtonItem(customView: navigationTitleLabel)
         navigationItem.leftBarButtonItem = leftBarButtonItem
     }
