@@ -74,7 +74,6 @@ final class LocationAuthViewController: UIViewController {
     }
     
     private func configureLocationManager() {
-        locationManager.requestWhenInUseAuthorization()
         locationManager.delegate = self
     }
     
@@ -133,18 +132,15 @@ final class LocationAuthViewController: UIViewController {
     
     @objc
     private func findCurrentLocation() {
-        //유저의 현재 위치 정보(locationManager.location)가 없으면(nil) 위치 허용 권한 확인
-        guard let currentLocation = locationManager.location else {
-            checkUserLocationServicesAuthorization()
-            return
-        }
-        
-        //사용자 위치 정보 업데이트 -> didUpdateLocations delegate 메서드를 호출
-        locationManager.startUpdatingLocation()
-        
         //사용자 현재 위치 표시
         mapView.map.showsUserLocation = true
         mapView.map.setUserTrackingMode(.follow, animated: true)
+
+        //유저의 현재 위치 정보(locationManager.location)가 없으면(nil)-> 허용 안함 클릭 시 위치 허용 권한 확인
+        guard let _ = locationManager.location else {
+            checkUserLocationServicesAuthorization()
+            return
+        }
     }
     
     private func currentLocationButtonAction() {
@@ -162,19 +158,19 @@ final class LocationAuthViewController: UIViewController {
     /// 위치 권한 설정 함수
     private func checkCurrentLocationAuthorization(authorizationStatus: CLAuthorizationStatus) {
         switch authorizationStatus {
-        case .notDetermined:
+        case .notDetermined: ///위치 권한을 요청 받지 않은 상태 (초기 상태)
             print("notDetermined")
             locationManager.requestWhenInUseAuthorization()
             locationManager.startUpdatingLocation()
-        case .restricted:
+        case .restricted: ///유저가 기기 설정에서 모든 앱이 위치를 사용할 수 없게 설정했을 경우
             print("restricted")
             goSetting()
-        case .denied:
+        case .denied: ///유저가 위치 권한을 허용 안함으로 설정함
             print("denided")
             goSetting()
-        case .authorizedAlways:
+        case .authorizedAlways: ///유저가 이 앱이 백그라운드에서도 위치 정보에 접근할 수 있도록 허용함
             print("always")
-        case .authorizedWhenInUse:
+        case .authorizedWhenInUse: ///유저가 이 앱이 포그라운드에서 위치 정보에 접근할 수 있도록 허용함
             print("wheninuse")
             locationManager.startUpdatingLocation()
         @unknown default:
