@@ -16,8 +16,6 @@ enum SenderType: CaseIterable {
 
 class OtherChatContentCollectionViewCell: UICollectionViewCell {
     
-    static let identifier = "OtherChatContentCollectionViewCell"
-        
     private enum SizeLiteral: CGFloat {
         case profileImageSize = 37.0
     }

@@ -25,8 +25,8 @@ class ChatRoomViewController: UIViewController {
     
         let layout = UICollectionViewCompositionalLayout(section: section)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(OtherChatContentCollectionViewCell.self, forCellWithReuseIdentifier: OtherChatContentCollectionViewCell.identifier)
-        collectionView.register(MyChatContentCollectionViewCell.self, forCellWithReuseIdentifier: MyChatContentCollectionViewCell.identifier)
+        collectionView.register(OtherChatContentCollectionViewCell.self, forCellWithReuseIdentifier: OtherChatContentCollectionViewCell.className)
+        collectionView.register(MyChatContentCollectionViewCell.self, forCellWithReuseIdentifier: MyChatContentCollectionViewCell.className)
         return collectionView
     }()
 
@@ -114,12 +114,12 @@ extension ChatRoomViewController: UICollectionViewDataSource {
         
         switch data.status {
         case .mine:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyChatContentCollectionViewCell.identifier, for: indexPath) as? MyChatContentCollectionViewCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyChatContentCollectionViewCell.className, for: indexPath) as? MyChatContentCollectionViewCell else { return UICollectionViewCell() }
             cell.configure(with: data)
             return cell
         default:
             
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OtherChatContentCollectionViewCell.identifier, for: indexPath) as? OtherChatContentCollectionViewCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OtherChatContentCollectionViewCell.className, for: indexPath) as? OtherChatContentCollectionViewCell else { return UICollectionViewCell() }
             cell.configure(with: data)
             return cell
         }

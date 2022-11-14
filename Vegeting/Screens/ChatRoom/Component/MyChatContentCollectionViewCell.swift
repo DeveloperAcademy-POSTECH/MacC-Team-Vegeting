@@ -9,8 +9,6 @@ import UIKit
 
 class MyChatContentCollectionViewCell: UICollectionViewCell {
     
-    static let identifier = "MyChatContentCollectionViewCell"
-    
     private let backgroundPaddingView: UIView = {
         let view = UIView()
         //        임시 컬러 삽입
