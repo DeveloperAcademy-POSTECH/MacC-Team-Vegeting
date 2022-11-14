@@ -65,6 +65,25 @@ class ChatRoomListViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .white
     }
+    
+    private func bind() {
+        guard let user = user else { return }
+
+        FirebaseManager.shared.requestRecentChat(user: user) { result in
+            switch result {
+            case .success(let recentChats):
+                self.chatList = recentChats.map { recentChat in
+                    let title = recentChat.chatRoomName ?? ""
+                    let lastestChat = recentChat.lastSentMessage ?? ""
+                    let lastestChatDate = recentChat.lastSentTime ?? Date()
+                    let result = TempChatModel(title: title, latestChat: lastestChat, latestChatDate: lastestChatDate)
+                    return result
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
 }
 
 extension ChatRoomListViewController: UITableViewDataSource {
