@@ -8,7 +8,7 @@
 import UIKit
 
 class GroupListViewController: UIViewController {
-    private var clubList = MockData.club {
+    private var clubList: [Club] = [] {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 self?.collectionView.reloadData()
@@ -82,6 +82,15 @@ class GroupListViewController: UIViewController {
         configureUI()
         setupLayout()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Task {
+            clubList = await FirebaseManager.shared.requestClubInformation() ?? []
+        }
+    }
+    
+    
     
     private func configureCollectionView() {
         collectionView.delegate = self
