@@ -765,7 +765,6 @@
 				7645E75729070FC6009E2E3B /* FirebaseManager.swift in Sources */,
 				7628CC792913DEAE00CDA679 /* AuthManager.swift in Sources */,
 				4A060C082913AA5E00D75699 /* InterestCollectionViewCell.swift in Sources */,
-				7628CC792913DEAE00CDA679 /* AuthManager.swift in Sources */,
 				A7164B3129123E7100FFB668 /* UserProfileViewController.swift in Sources */,
 				4ADC12DD2901800D00C0FFB6 /* UIColor+Extension.swift in Sources */,
 				4AFF0F552919F8E100F7496C /* MyPageProfileTableViewCell.swift in Sources */,
