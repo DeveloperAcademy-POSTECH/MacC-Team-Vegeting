@@ -16,7 +16,7 @@ final class FirstCreateGroupViewController: UIViewController {
         label.text = "모임 주제는 무엇인가요?"
         label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
         return label
-    }() 
+    }()
     
     private lazy var categoryCollectionView: GroupCategoryView = {
         let view = GroupCategoryView()
@@ -74,8 +74,11 @@ final class FirstCreateGroupViewController: UIViewController {
         datePicker.datePickerMode = .dateAndTime
         datePicker.preferredDatePickerStyle = .compact
         datePicker.locale = Locale(identifier: "ko-KR")
-        datePicker.minimumDate = Date()
-        datePicker.maximumDate = Date().addingTimeInterval(2678400)
+        
+        let now = Date()
+        datePicker.minimumDate = now
+//        datePicker.maximumDate = Date().addingTimeInterval(2678400)
+        datePicker.maximumDate = Calendar.current.date(byAdding: .month, value: 1, to: now)
         datePicker.isHidden = true
         datePicker.addTarget(self, action: #selector(showNumberOfGroupPeopleView), for: .valueChanged)
         return datePicker
