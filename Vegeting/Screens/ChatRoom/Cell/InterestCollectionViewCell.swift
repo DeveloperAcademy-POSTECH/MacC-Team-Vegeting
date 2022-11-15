@@ -11,10 +11,11 @@ class InterestCollectionViewCell: UICollectionViewCell {
     
     // MARK: - properties
     
-    private let backgroundContentView: UIView = {
+    private lazy var backgroundContentView: UIView = {
         let view = UIView()
         view.layer.masksToBounds = true
         view.backgroundColor = .systemGray6
+        view.layer.cornerRadius = self.bounds.size.height / 2
         return view
     }()
     
@@ -50,9 +51,7 @@ class InterestCollectionViewCell: UICollectionViewCell {
     }
     
     private func configureUI() {
-        layer.masksToBounds = false
-        let cellCornerRadius = self.bounds.size.height / 2
-        backgroundContentView.layer.cornerRadius = cellCornerRadius
+        layer.masksToBounds = true
     }
 
     func configure(with itemText: String) {

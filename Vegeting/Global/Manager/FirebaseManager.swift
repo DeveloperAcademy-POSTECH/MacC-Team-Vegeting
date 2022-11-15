@@ -23,6 +23,7 @@ final class FirebaseManager {
         case user = "Users"
         case club = "Clubs"
         case chat = "Chats"
+        case recentChat = "RecentChats"
     }
     
     //    TODO: 추후 회원가입을 위한 Model 따로 만들기
@@ -60,21 +61,27 @@ extension FirebaseManager {
         do {
             let docChat = db.collection(Path.chat.rawValue).document()
             let docClub = db.collection(Path.club.rawValue).document()
+            let docRecentChat = db.collection(Path.recentChat.rawValue).document(docChat.documentID)
             
             let participant = Participant(userID: user.userID, name: user.userName, profileImageURL: user.imageURL)
             let addedClub = Club(clubID: docClub.documentID, chatID: docChat.documentID,
                                  clubTitle: club.clubTitle, clubCategory: club.clubCategory,
-                                 hostID: user.userID, participants: [participant],
-                                 createdAt: club.createdAt, maxNumberOfPeople: club.maxNumberOfPeople)
+                                 clubContent: club.clubContent, hostID: user.userID,
+                                 participants: [participant], createdAt: club.createdAt,
+                                 maxNumberOfPeople: club.maxNumberOfPeople)
             
             let addedChat = Chat(chatRoomID: docChat.documentID, clubID: docClub.documentID,
                                  chatRoomName: chat.chatRoomName, participants: [participant],
                                  messages: nil, coverImageURL: chat.coverImageURL)
             
+            let recentChat = RecentChat(chatRoomID: docChat.documentID, chatRoomName: chat.chatRoomName
+                                        ,lastSentMessage: nil, lastSentTime: Date(), coverImageURL: chat.coverImageURL)
+            
             try docClub.setData(from: addedClub)
             try docChat.setData(from: addedChat)
-            
+            try docRecentChat.setData(from: recentChat)
             return (docClub.documentID, docChat.documentID)
+            
         } catch {
             print(error.localizedDescription)
         }
@@ -87,7 +94,7 @@ extension FirebaseManager {
             let document = db.collection(Path.user.rawValue).document(user.userID)
             let encodedParticipatedClub = try Firestore.Encoder().encode(participatedClub)
             let encodedParticipatedChat = try Firestore.Encoder().encode(participatedChatRoom)
-            document.updateData(["participatedClub": FieldValue.arrayUnion([encodedParticipatedClub]), "participatedChat": FieldValue.arrayUnion([encodedParticipatedChat])])
+            document.updateData(["participatedClubs": FieldValue.arrayUnion([encodedParticipatedClub]), "participatedChats": FieldValue.arrayUnion([encodedParticipatedChat])])
             
         } catch {
             print(error.localizedDescription)
@@ -101,7 +108,7 @@ extension FirebaseManager {
         
         guard let result = result else { return }
         
-        let participatedClub = ParticipatedClub(clubID: result.clubID, clubName: club.clubTitle, profileImageURL: club.coverImageURL)
+        let participatedClub = ParticipatedClub(clubID: result.clubID, clubName: club.clubTitle ?? "", profileImageURL: club.coverImageURL)
         let participatedChatRoom = ParticipatedChatRoom(chatID: result.chatID, chatName: chat.chatRoomName, imageURL: chat.coverImageURL)
         
         requestUpdateUser(user: user, participatedChatRoom: participatedChatRoom, participatedClub: participatedClub)
@@ -115,7 +122,7 @@ extension FirebaseManager {
     func requestChat(participatedChat: ParticipatedChatRoom) async -> Chat? {
         guard let chatID = participatedChat.chatID else { return nil }
         do {
-            let data = try await db.collection("Chats").document(chatID).getDocument().data(as: Chat.self)
+            let data = try await db.collection(Path.chat.rawValue).document(chatID).getDocument().data(as: Chat.self)
             return data
         } catch {
             print(error.localizedDescription)
@@ -141,7 +148,12 @@ extension FirebaseManager {
     }
     
     /// 채팅 보내기
-    func requestMessage(chat: Chat, message: Message) async {
+    func registerMessage(chat: Chat, message: Message) async {
+        await sendMessage(chat: chat, message: message)
+        registerRecentMessageOnChat(chat: chat, message: message)
+    }
+    
+    func sendMessage(chat: Chat, message: Message) async {
         guard let chatID = chat.chatRoomID else { return }
         do {
             let message = try Firestore.Encoder().encode(message)
@@ -149,7 +161,43 @@ extension FirebaseManager {
         } catch {
             print(error.localizedDescription)
         }
-    }    
+    }
+    
+    func registerRecentMessageOnChat(chat: Chat, message: Message) {
+        guard let chatID = chat.chatRoomID else { return }
+        do {
+            let recentChat = RecentChat(chatRoomID: chatID, chatRoomName: chat.chatRoomName, lastSentMessage: message.content, lastSentTime: message.createdAt, coverImageURL: chat.coverImageURL)
+            try db.collection(Path.recentChat.rawValue).document(chatID).setData(from: recentChat)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func requestRecentChat(user: VFUser) -> AnyPublisher<[RecentChat], Error> {
+        guard let participatedChatRoomIDs =  user.participatedChats?.compactMap(\.chatID) else {
+            return Fail(error: FBError.didFailToLoadChat)
+                .eraseToAnyPublisher()
+        }
+        
+        return db.collection(Path.recentChat.rawValue).whereField(FieldPath.documentID(), in: participatedChatRoomIDs).snapshotPublisher()
+            .tryMap { try $0.documents.compactMap { try $0.data(as: RecentChat.self) } }
+            .eraseToAnyPublisher()
+    }
+    
+    func requestRecentChat(user: VFUser, completion: @escaping (Result<[RecentChat], Error>) -> Void) {
+        guard let participatedChatRoomIDs =  user.participatedChats?.compactMap(\.chatID) else { return }
+        
+        db.collection(Path.recentChat.rawValue).whereField(FieldPath.documentID(), in: participatedChatRoomIDs).addSnapshotListener { querySnapshot, error in
+            if let error = error {
+                print("Error getting documents: \(error)")
+                completion(.failure(error))
+            } else {
+                let datas = querySnapshot!.documents.map { try? $0.data(as: RecentChat.self) }
+                let recentChats = datas.compactMap({ $0 })
+                completion(.success(recentChats))
+            }
+        }
+    }
 }
 
 // MARK: Firebase Authentifcation 전용(유저 회원가입 및 로그인 담당)

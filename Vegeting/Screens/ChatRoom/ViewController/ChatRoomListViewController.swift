@@ -9,9 +9,9 @@ import UIKit
 
 struct TempChatModel {
     let imageName: String = "coverImage"
-    let title: String = "안녕안녕돼지가든입니다."
+    let title: String
     let currentNumer: Int = 5
-    let latestChat: String = "이거이거 우리 워케이션 갈까요 말까요?"
+    let latestChat: String
     var latestChatDate: Date
     let unreadChatCount: Int = 5
 }
@@ -27,7 +27,15 @@ class ChatRoomListViewController: UIViewController {
         return tableView
     }()
     
-    private let chatList: [TempChatModel] = [TempChatModel(latestChatDate: Date()), TempChatModel(latestChatDate: Date().addingTimeInterval(-31000)), TempChatModel(latestChatDate: Date().addingTimeInterval(-60000)), TempChatModel(latestChatDate: Date().addingTimeInterval(-150000))]
+    private var chatList: [TempChatModel] = [] {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                self?.tableView.reloadData()
+            }
+        }
+    }
+    
+    private var user: VFUser? = nil
     
     // MARK: - lifeCycle
     
@@ -37,6 +45,7 @@ class ChatRoomListViewController: UIViewController {
         setupNavigationBar()
         setupLayout()
         configureUI()
+        requestUserInfo()
     }
     
     // MARK: - func
@@ -65,6 +74,34 @@ class ChatRoomListViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .white
     }
+    func requestUserInfo() {
+        Task { [weak self] in
+            self?.user = await FirebaseManager.shared.requestUser()
+            guard let user = user else { return }
+            self?.user = user
+            self?.bind()
+        }
+    }
+    
+    private func bind() {
+        guard let user = user else { return }
+        
+        FirebaseManager.shared.requestRecentChat(user: user) { result in
+            switch result {
+            case .success(let recentChats):
+                self.chatList = recentChats.map { recentChat in
+                    let title = recentChat.chatRoomName ?? ""
+                    let lastestChat = recentChat.lastSentMessage ?? ""
+                    let lastestChatDate = recentChat.lastSentTime ?? Date()
+                    let result = TempChatModel(title: title, latestChat: lastestChat, latestChatDate: lastestChatDate)
+                    return result
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+  
 }
 
 extension ChatRoomListViewController: UITableViewDataSource {

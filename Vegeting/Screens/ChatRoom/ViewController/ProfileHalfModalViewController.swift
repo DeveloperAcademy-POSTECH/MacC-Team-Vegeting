@@ -28,7 +28,7 @@ class ProfileHalfModalViewController: UIViewController {
         return button
     }()
     
-    private let profileView = ProfileVIew()
+    private let profileView = ProfileView()
     
     // MARK: - lifeCycle
     
@@ -48,13 +48,17 @@ class ProfileHalfModalViewController: UIViewController {
                                 padding: UIEdgeInsets(top: 25, left: 0, bottom: 0, right: 24))
         reportButton.constraint(.widthAnchor, constant: 30)
         reportButton.constraint(.heightAnchor, constant: 30)
+
+        NSLayoutConstraint(item: view as Any,
+                           attribute: .centerY,
+                           relatedBy: .equal,
+                           toItem: profileView,
+                           attribute: .centerY,
+                           multiplier: 1.0,
+                           constant: 0).isActive = true
         
-        profileView.constraint(top: reportButton.bottomAnchor,
-                               leading: view.leadingAnchor,
-                               trailing: view.trailingAnchor,
-                               padding: UIEdgeInsets(top: 25, left: 0, bottom: 0, right: 0))
-        
-        
+        profileView.constraint(leading: view.leadingAnchor,
+                               trailing: view.trailingAnchor)
     }
     
     private func configureUI() {
