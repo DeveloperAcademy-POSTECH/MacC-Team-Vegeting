@@ -55,6 +55,7 @@ class MyClubsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        hideTabBar()
         Task {
             myClubList = await FirebaseManager.shared.requestMyClubInformation() ?? []
         }
@@ -68,6 +69,11 @@ class MyClubsViewController: UIViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        showTabBar()
+    }
+    
     private func configureCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -75,6 +81,15 @@ class MyClubsViewController: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .systemBackground
+    }
+    
+    private func hideTabBar() {
+        tabBarController?.tabBar.frame.origin = CGPoint(x: 0, y: UIScreen.main.bounds.height)
+    }
+
+    private func showTabBar() {
+        let tabBarheight = tabBarController?.tabBar.frame.height ?? 0
+        tabBarController?.tabBar.frame.origin = CGPoint(x: 0, y: UIScreen.main.bounds.height - (tabBarheight + 1))
     }
     
     private func setupCollectionViewLayout() {
