@@ -80,6 +80,7 @@
 		A26198762909539B00ECCC4F /* ClubListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26198752909539B00ECCC4F /* ClubListCollectionViewCell.swift */; };
 		A26198782909567100ECCC4F /* LabelWithImageStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26198772909567100ECCC4F /* LabelWithImageStackView.swift */; };
 		A261987D290A350300ECCC4F /* BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A261987C290A350300ECCC4F /* BottomButton.swift */; };
+		A2C7DE582923720300269339 /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C7DE572923720300269339 /* FirebaseStorageManager.swift */; };
 		A2F369D12908258B007F3732 /* GroupInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F369D02908258B007F3732 /* GroupInfoView.swift */; };
 		A2F369D929090E72007F3732 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F369D829090E72007F3732 /* UIButton+Extension.swift */; };
 		A2F369DD290948BB007F3732 /* GroupListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F369DC290948BB007F3732 /* GroupListViewController.swift */; };
@@ -174,6 +175,7 @@
 		A26198752909539B00ECCC4F /* ClubListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubListCollectionViewCell.swift; sourceTree = "<group>"; };
 		A26198772909567100ECCC4F /* LabelWithImageStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelWithImageStackView.swift; sourceTree = "<group>"; };
 		A261987C290A350300ECCC4F /* BottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButton.swift; sourceTree = "<group>"; };
+		A2C7DE572923720300269339 /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
 		A2F369D02908258B007F3732 /* GroupInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupInfoView.swift; sourceTree = "<group>"; };
 		A2F369D829090E72007F3732 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		A2F369DC290948BB007F3732 /* GroupListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListViewController.swift; sourceTree = "<group>"; };
@@ -519,6 +521,7 @@
 			children = (
 				7645E75629070FC6009E2E3B /* FirebaseManager.swift */,
 				7628CC782913DEAE00CDA679 /* AuthManager.swift */,
+				A2C7DE572923720300269339 /* FirebaseStorageManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -801,6 +804,7 @@
 				A7C8DF282901274500F38AD7 /* ViewController.swift in Sources */,
 				4A060C0A2913D77200D75699 /* TestViewController.swift in Sources */,
 				4A060C062913AA4300D75699 /* InterestView.swift in Sources */,
+				A2C7DE582923720300269339 /* FirebaseStorageManager.swift in Sources */,
 				76B0282629051FC9002C9DF7 /* VFUser.swift in Sources */,
 				76B0283D29052937002C9DF7 /* Participant.swift in Sources */,
 				4ADC12ED2901838200C0FFB6 /* ImageLiteral.swift in Sources */,
