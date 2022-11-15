@@ -62,9 +62,11 @@ final class UserProfileViewController: UIViewController {
         return textField
     }()
     
-    private lazy var nicknameLimitWarningLabel: UILabel = {
+    private let nicknameTextCountLabel: UILabel = {
         let label = UILabel()
+        label.textColor = UIColor(hex: "#8E8E93")
         label.font = .preferredFont(forTextStyle: .subheadline)
+        label.text = "0/10"
         return label
     }()
     
@@ -107,7 +109,7 @@ final class UserProfileViewController: UIViewController {
         view.backgroundColor = .white
         view.addSubviews(progressBarImageView, profileMessageLabel, profileImageView,
                          nicknameMessageLabel, cameraButton, nicknameTextField,
-                         nicknameLimitWarningLabel, nextButton)
+                         nicknameTextCountLabel, nextButton)
     }
     
     func setupLayout() {
@@ -145,13 +147,13 @@ final class UserProfileViewController: UIViewController {
         NSLayoutConstraint.activate([
             nicknameTextField.topAnchor.constraint(equalTo: nicknameMessageLabel.bottomAnchor, constant: 17),
             nicknameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            nicknameTextField.widthAnchor.constraint(equalToConstant: 350),
+            nicknameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             nicknameTextField.heightAnchor.constraint(equalToConstant: 50)
         ])
         
         NSLayoutConstraint.activate([
-            nicknameLimitWarningLabel.topAnchor.constraint(equalTo: nicknameTextField.bottomAnchor, constant: 13),
-            nicknameLimitWarningLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
+            nicknameTextCountLabel.topAnchor.constraint(equalTo: nicknameTextField.bottomAnchor, constant: 13),
+            nicknameTextCountLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
         
         NSLayoutConstraint.activate([
@@ -177,25 +179,26 @@ final class UserProfileViewController: UIViewController {
     @objc
     private func textDidChangeForLabel() {
         guard let text = nicknameTextField.text else { return }
+        var textLength = text.count
         
         //maxLength 초과 시 키보드를 아래로 내려주는 역할
         if text.count >= nicknameMaxLength {
             nicknameTextField.resignFirstResponder()
         }
         
+        //maxLength 이상의 글자를 붙여넣을 경우 잘라주는 역할
         if text.count > nicknameMaxLength {
             let index = text.index(text.startIndex, offsetBy: nicknameMaxLength)
             let newString = text[text.startIndex..<index]
             nicknameTextField.text = String(newString)
+            textLength = newString.count
         } else if text.count < nicknameMinLength {
-            nicknameLimitWarningLabel.text = "2글자 이상 10글자 이하로 입력해주세요"
-            nicknameLimitWarningLabel.textColor = .red
+            //TODO: nextButtonInActive()
         } else {
-            nicknameLimitWarningLabel.text = "사용 가능한 닉네임입니다."
-            nicknameLimitWarningLabel.textColor = .blue
-            
             nextButtonActive()
         }
+        
+        nicknameTextCountLabel.text = "\(textLength)/10"
     }
     
     private func nextButtonActive() {
