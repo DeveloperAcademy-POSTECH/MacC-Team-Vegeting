@@ -49,7 +49,6 @@ class MyProfileEditViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        self.navigationController?.navigationBar.topItem?.title = ""
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.title = "내 프로필"
     }

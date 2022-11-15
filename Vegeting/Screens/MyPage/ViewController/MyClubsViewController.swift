@@ -21,7 +21,7 @@ class MyClubsViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumInteritemSpacing = 20
-        layout.minimumLineSpacing = 20
+        layout.minimumLineSpacing = 30
         layout.sectionInset = UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
@@ -106,8 +106,6 @@ class MyClubsViewController: UIViewController {
     
     private func setupNavigationBar() {
         navigationItem.title = "참여한 모임"
-        self.navigationController?.navigationBar.topItem?.title = ""
-        self.navigationController?.navigationBar.tintColor = .black
     }
     
     private func setupEmptyViewLayout() {

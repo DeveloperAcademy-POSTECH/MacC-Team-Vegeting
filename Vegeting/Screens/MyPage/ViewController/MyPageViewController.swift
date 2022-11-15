@@ -52,6 +52,7 @@ class MyPageViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
+        self.navigationItem.backButtonDisplayMode = .minimal
         self.navigationItem.title = "마이페이지"
     }
 }
