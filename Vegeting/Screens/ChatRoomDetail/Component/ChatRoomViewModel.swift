@@ -81,5 +81,19 @@ final class ChatRoomViewModel: ViewModelType {
         
     }
     
+    init() {
+//        AuthManager.shared.signInUser(email: "admintest1@macvegeting.com", password: "123456789").sink { completion in
+//            print(completion)
+//        } receiveValue: { user in
+//            print(user)
+//        }.store(in: &cancellables)
+
+        Task {
+            let user = await FirebaseManager.shared.requestUser()
+            guard let user = user, let participatedChatRoom = user.participatedChats?.last else { return }
+            configure(participatedChatRoom: participatedChatRoom, user: user)
+        }
+    }
+    
 }
 
