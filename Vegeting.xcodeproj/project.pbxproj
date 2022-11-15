@@ -57,7 +57,7 @@
 		765C9E8029230BB00090B14A /* OtherChatContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765C9E7A29230BB00090B14A /* OtherChatContentCollectionViewCell.swift */; };
 		765C9E8129230BB00090B14A /* MyChatContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765C9E7B29230BB00090B14A /* MyChatContentCollectionViewCell.swift */; };
 		765C9E8229230BB00090B14A /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765C9E7D29230BB00090B14A /* ChatRoomViewController.swift */; };
-		765C9E8329230BB00090B14A /* ChatRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765C9E7F29230BB00090B14A /* ChatRoomViewModel.swift */; };
+		765C9E8729231A730090B14A /* ChatRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 765C9E8629231A720090B14A /* ChatRoomViewModel.swift */; };
 		76B027F12901726E002C9DF7 /* VegetingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B027F02901726E002C9DF7 /* VegetingTests.swift */; };
 		76B0282629051FC9002C9DF7 /* VFUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B0282529051FC9002C9DF7 /* VFUser.swift */; };
 		76B0282D29052209002C9DF7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 76B0282C29052209002C9DF7 /* FirebaseAuth */; };
@@ -158,7 +158,7 @@
 		765C9E7A29230BB00090B14A /* OtherChatContentCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OtherChatContentCollectionViewCell.swift; sourceTree = "<group>"; };
 		765C9E7B29230BB00090B14A /* MyChatContentCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyChatContentCollectionViewCell.swift; sourceTree = "<group>"; };
 		765C9E7D29230BB00090B14A /* ChatRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
-		765C9E7F29230BB00090B14A /* ChatRoomViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModel.swift; sourceTree = "<group>"; };
+		765C9E8629231A720090B14A /* ChatRoomViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModel.swift; sourceTree = "<group>"; };
 		76B027EE2901726E002C9DF7 /* VegetingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VegetingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		76B027F02901726E002C9DF7 /* VegetingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VegetingTests.swift; sourceTree = "<group>"; };
 		76B0282529051FC9002C9DF7 /* VFUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VFUser.swift; sourceTree = "<group>"; };
@@ -484,7 +484,7 @@
 			children = (
 				765C9E7929230BB00090B14A /* Component */,
 				765C9E7C29230BB00090B14A /* ViewController */,
-				765C9E7E29230BB00090B14A /* ViewModel */,
+				765C9E8529231A640090B14A /* ViewModel */,
 			);
 			path = ChatRoomDetail;
 			sourceTree = "<group>";
@@ -540,13 +540,12 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
-		765C9E7E29230BB00090B14A /* ViewModel */ = {
+		765C9E8529231A640090B14A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				765C9E7F29230BB00090B14A /* ChatRoomViewModel.swift */,
+				765C9E8629231A720090B14A /* ChatRoomViewModel.swift */,
 			);
-			name = ViewModel;
-			path = ../../../../ChatRoomDetailRoom/ViewModel;
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		76B027EF2901726E002C9DF7 /* VegetingTests */ = {
@@ -833,7 +832,7 @@
 				4ACF36D62910A87700B95115 /* UINavigationController+Back.swift in Sources */,
 				A7C8DF242901274500F38AD7 /* AppDelegate.swift in Sources */,
 				4AFA58AA2903EA6400679142 /* UIView+Extension.swift in Sources */,
-				765C9E8329230BB00090B14A /* ChatRoomViewModel.swift in Sources */,
+				765C9E8729231A730090B14A /* ChatRoomViewModel.swift in Sources */,
 				4A50D5A52908E03600D1ADE4 /* EmptyResultView.swift in Sources */,
 				4ADC12E92901819800C0FFB6 /* UIScreen+Extension.swift in Sources */,
 				A7C8DF262901274500F38AD7 /* SceneDelegate.swift in Sources */,
