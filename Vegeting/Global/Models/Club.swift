@@ -20,7 +20,7 @@ struct Club: Identifiable, Codable {
     let participants: [Participant]?
     let createdAt: Date
     let maxNumberOfPeople: Int
-    var coverImageURL: String?
+    var coverImageURL: URL?
 }
 
 struct IncompleteClub {
