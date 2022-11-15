@@ -50,13 +50,16 @@ class MainTabBarViewController: UITabBarController {
     }
     
     func configureTabBar() {
-        tabBar.tintColor = .label
+        tabBar.tintColor = .black
+        let appearance = UITabBarAppearance()
+        appearance.configureWithDefaultBackground()
+        appearance.backgroundColor = .systemBackground
+        tabBar.standardAppearance = appearance
+        tabBar.scrollEdgeAppearance = appearance
     }
     
     func configureUI() {
         tabBar.backgroundColor = .white
-        tabBar.layer.borderWidth = 0.4
-        tabBar.layer.borderColor = UIColor(hex: "#999999").cgColor
         view.backgroundColor = .white
     }
     
