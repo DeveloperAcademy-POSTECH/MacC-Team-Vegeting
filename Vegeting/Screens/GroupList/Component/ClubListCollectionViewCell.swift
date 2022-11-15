@@ -50,26 +50,25 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
         addSubviews(coverImageView, categoryView, titleLabel, clubInfoLabel)
         
         NSLayoutConstraint.activate([
-            coverImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
+            coverImageView.topAnchor.constraint(equalTo: self.topAnchor),
             coverImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             coverImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             coverImageView.heightAnchor.constraint(equalToConstant: 87)
         ])
         
         NSLayoutConstraint.activate([
-            categoryView.topAnchor.constraint(equalTo: coverImageView.bottomAnchor, constant: 9),
-            categoryView.leadingAnchor.constraint(equalTo: coverImageView.leadingAnchor),
+            categoryView.topAnchor.constraint(equalTo: coverImageView.bottomAnchor, constant: 8),
+            categoryView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
         ])
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: categoryView.bottomAnchor, constant: 9),
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: clubInfoLabel.topAnchor, constant: -5)
         ])
         
         NSLayoutConstraint.activate([
-            clubInfoLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
             clubInfoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            clubInfoLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5)
+            clubInfoLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
     

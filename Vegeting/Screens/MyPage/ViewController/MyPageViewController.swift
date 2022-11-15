@@ -16,6 +16,7 @@ class MyPageViewController: UIViewController {
         tableView.register(MyPageTableViewCell.self, forCellReuseIdentifier: MyPageTableViewCell.className)
         tableView.register(MyPageProfileTableViewCell.self, forCellReuseIdentifier: MyPageProfileTableViewCell.className)
         tableView.dataSource = self
+        tableView.delegate = self
         return tableView
     }()
     
@@ -75,18 +76,30 @@ extension MyPageViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageProfileTableViewCell.className, for: indexPath) as? MyPageProfileTableViewCell else { return UITableViewCell() }
             cell.delegate = self
             cell.configure(image: "coverImage", nickName: "내가제일잘나과", step: "플렉시테리언")
+            cell.selectionStyle = .none
             return cell
         case 1:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageTableViewCell.className, for: indexPath) as? MyPageTableViewCell else { return UITableViewCell() }
-            
             cell.configure(with: tableCellList[indexPath.row])
+            cell.selectionStyle = .none
             return cell
-        default: return UITableViewCell()
+        default:
+            return UITableViewCell()
         }
-        
     }
-    
-    
+}
+
+extension MyPageViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.row {
+        case 1 :
+            let modalViewController = MyClubsViewController()
+            modalViewController.modalPresentationStyle = .pageSheet
+            self.present(modalViewController, animated: true)
+        default:
+            return
+        }
+    }
 }
 
 extension MyPageViewController: MyPageProfileTableViewCellDelegate {
