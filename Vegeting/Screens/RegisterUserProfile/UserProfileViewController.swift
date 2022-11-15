@@ -70,6 +70,7 @@ final class UserProfileViewController: UIViewController {
         let button = BottomButton()
         button.setTitle("다음으로", for: .normal)
         button.isEnabled = false
+        button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -88,7 +89,7 @@ final class UserProfileViewController: UIViewController {
         hideKeyboardWhenTappedAround()
     }
     
-    public func configureNavBar() {
+    func configureNavBar() {
         navigationItem.title = "프로필 설정"
         navigationController?.navigationBar.tintColor = .label
         navigationController?.navigationBar.topItem?.title = ""
@@ -194,7 +195,7 @@ final class UserProfileViewController: UIViewController {
         } else {
             nicknameLimitWarningLabel.text = "사용 가능한 닉네임입니다."
             nicknameLimitWarningLabel.textColor = .blue
-        
+            
             nextButtonActive()
         }
     }
@@ -207,6 +208,11 @@ final class UserProfileViewController: UIViewController {
         nextButton.isEnabled = true
         nextButton.setTitleColor(UIColor.label, for: .normal)
         nextButton.setBackgroundColor(UIColor(hex: "#FFD243"), for: .normal)
+    }
+    
+    @objc
+    private func nextButtonTapped() {
+        navigationController?.pushViewController(LocationAuthViewController(), animated: true)
     }
 }
 

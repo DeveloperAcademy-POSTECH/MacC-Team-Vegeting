@@ -56,6 +56,7 @@ final class LocationAuthViewController: UIViewController {
         let button = BottomButton()
         button.setTitle("다음으로", for: .normal)
         button.isEnabled = false
+        button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -72,6 +73,7 @@ final class LocationAuthViewController: UIViewController {
     
     public func configureNavBar() {
         navigationItem.title = "프로필 설정"
+        navigationController?.navigationBar.tintColor = .label
         navigationController?.navigationBar.topItem?.title = ""
     }
     
@@ -153,6 +155,11 @@ final class LocationAuthViewController: UIViewController {
             nextButton.setTitleColor(UIColor.label, for: .normal)
             nextButton.setBackgroundColor(UIColor(hex: "#FFD243"), for: .normal)
         }
+    }
+    
+    @objc
+    private func nextButtonTapped() {
+        navigationController?.pushViewController(UserGenderBirthViewController(), animated: true)
     }
     
     /// 위치 권한 설정 함수
