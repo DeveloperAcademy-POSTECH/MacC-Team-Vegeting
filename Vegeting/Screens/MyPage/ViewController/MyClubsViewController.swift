@@ -13,6 +13,7 @@ class MyClubsViewController: UIViewController {
             DispatchQueue.main.async { [weak self] in
                 self?.collectionView.reloadData()
             }
+            self.viewDidAppear(true)
         }
     }
 
@@ -29,17 +30,41 @@ class MyClubsViewController: UIViewController {
         return collectionView
     }()
     
+    private lazy var emptyImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "emptyImage")
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+    private lazy var emptyLabel: UILabel = {
+        let label = UILabel()
+        label.text = "아직 주최한 모임이 없어요.\n 관심있는 주제로 모임을 모집해보세요."
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.lineBreakMode = .byWordWrapping
+        label.font = .preferredFont(forTextStyle: .body)
+        return label
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureCollectionView()
         configureUI()
-        setupLayout()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Task {
             myClubList = await FirebaseManager.shared.requestMyClubInformation() ?? []
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if myClubList.isEmpty {
+            setupEmptyViewLayout()
+        } else {
+            setupCollectionViewLayout()
         }
     }
     
@@ -52,7 +77,7 @@ class MyClubsViewController: UIViewController {
         view.backgroundColor = .systemBackground
     }
     
-    private func setupLayout() {
+    private func setupCollectionViewLayout() {
         view.addSubviews(collectionView)
         
         NSLayoutConstraint.activate([
@@ -60,6 +85,22 @@ class MyClubsViewController: UIViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+    
+    private func setupEmptyViewLayout() {
+        view.addSubviews(emptyLabel, emptyImageView)
+        
+        NSLayoutConstraint.activate([
+            emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            emptyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+        ])
+        
+        NSLayoutConstraint.activate([
+            emptyImageView.widthAnchor.constraint(equalToConstant: view.bounds.width / 2),
+            emptyImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyImageView.bottomAnchor.constraint(equalTo: emptyLabel.topAnchor, constant: -30),
+            emptyImageView.heightAnchor.constraint(equalToConstant: 130)
         ])
     }
 }
@@ -87,6 +128,6 @@ extension MyClubsViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.frame.width - 20) / 2, height: 210)
+        return CGSize(width: (collectionView.frame.width - 20) / 2, height: 165)
     }
 }
