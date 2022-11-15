@@ -7,8 +7,10 @@
 
 import UIKit
 
-final class ChatRoomViewController: UIViewController {
+class ChatRoomViewController: UIViewController {
 
+    private let viewModel = chatRoomViewModel(count: 40)
+    
     private let chatListCollectionView: UICollectionView = {
 
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
@@ -23,7 +25,8 @@ final class ChatRoomViewController: UIViewController {
     
         let layout = UICollectionViewCompositionalLayout(section: section)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(ChatRoomContentCollectionViewCell.self, forCellWithReuseIdentifier: ChatRoomContentCollectionViewCell.className)
+        collectionView.register(OtherChatContentCollectionViewCell.self, forCellWithReuseIdentifier: OtherChatContentCollectionViewCell.className)
+        collectionView.register(MyChatContentCollectionViewCell.self, forCellWithReuseIdentifier: MyChatContentCollectionViewCell.className)
         return collectionView
     }()
 
@@ -66,13 +69,15 @@ final class ChatRoomViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         setupLayout()
-        configureCollectionViewDelegate()
     }
+
 
     private func configureUI() {
         view.addSubviews(chatListCollectionView,transferMessageStackView)
         view.backgroundColor = .systemBackground
-        
+
+        chatListCollectionView.dataSource = self
+        chatListCollectionView.delegate = self
     }
 
     private func setupLayout() {
@@ -85,6 +90,7 @@ final class ChatRoomViewController: UIViewController {
             transferMessageStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             transferMessageStackView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor, constant: -12)
         ]
+
 
         let chatListCollectionViewConstraints = [
             chatListCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -100,27 +106,28 @@ final class ChatRoomViewController: UIViewController {
 
 extension ChatRoomViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 20
+        return viewModel.temporaryMessages.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatRoomContentCollectionViewCell.className, for: indexPath) as? ChatRoomContentCollectionViewCell else { return UICollectionViewCell() }
+        let data = viewModel.temporaryMessages[indexPath.item]
         
-        cell.configure()
-        return cell
+        switch data.status {
+        case .mine:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyChatContentCollectionViewCell.className, for: indexPath) as? MyChatContentCollectionViewCell else { return UICollectionViewCell() }
+            cell.configure(with: data)
+            return cell
+        default:
+            
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OtherChatContentCollectionViewCell.className, for: indexPath) as? OtherChatContentCollectionViewCell else { return UICollectionViewCell() }
+            cell.configure(with: data)
+            return cell
+        }
     }
 }
 
 extension ChatRoomViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         view.endEditing(true)
-    }
-}
-
-extension ChatRoomViewController {
-    private func configureCollectionViewDelegate() {
-        chatListCollectionView.dataSource = self
-        chatListCollectionView.delegate = self
-
     }
 }
