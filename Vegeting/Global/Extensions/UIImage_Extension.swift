@@ -8,6 +8,7 @@
 import UIKit
 
 extension UIImage {
+    // 해상도를 너무 높지 않게 조절, 파일 크기가 너무 높지 않도록
     var scaledToSafeUploadSize: UIImage? {
         let maxImageSideLength: CGFloat = 480
         let largerSide: CGFloat = max(size.width, size.height)
@@ -17,6 +18,7 @@ extension UIImage {
         return image(scaledTo: newImageSize)
     }
     
+    // 이미지를 입력받은 size에 맞춰 조절
     private func image(scaledTo size: CGSize) -> UIImage? {
         defer {
             UIGraphicsEndImageContext()
