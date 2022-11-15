@@ -21,7 +21,7 @@ class MyPageViewController: UIViewController {
     }()
     
     private let tableCellList: [MyPageSettingElement] = [MyPageSettingElement(text: "모임", isSmallTitle: true),
-                                                MyPageSettingElement(text: "주최한 모임", isSmallTitle: false),
+                                                MyPageSettingElement(text: "참여한 모임", isSmallTitle: false),
                                                 MyPageSettingElement(text: "설정", isSmallTitle: true),
                                                 MyPageSettingElement(text: "채팅 알람", isSmallTitle: false, isSwitch: true),
                                                 MyPageSettingElement(text: "차단한 사용자 관리", isSmallTitle: false),
@@ -43,7 +43,7 @@ class MyPageViewController: UIViewController {
         view.addSubview(tableView)
         tableView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
                              leading: view.leadingAnchor,
-                             bottom: view.bottomAnchor,
+                             bottom: view.safeAreaLayoutGuide.bottomAnchor,
                              trailing: view.trailingAnchor)
     }
     
@@ -93,9 +93,8 @@ extension MyPageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 1 :
-            let modalViewController = MyClubsViewController()
-            modalViewController.modalPresentationStyle = .pageSheet
-            self.present(modalViewController, animated: true)
+            let viewController = MyClubsViewController()
+            self.navigationController?.pushViewController(viewController, animated: true)
         default:
             return
         }

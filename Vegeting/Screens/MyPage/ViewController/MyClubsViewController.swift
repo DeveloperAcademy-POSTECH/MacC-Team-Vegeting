@@ -39,7 +39,7 @@ class MyClubsViewController: UIViewController {
     
     private lazy var emptyLabel: UILabel = {
         let label = UILabel()
-        label.text = "아직 주최한 모임이 없어요.\n 관심있는 주제로 모임을 모집해보세요."
+        label.text = "아직 참여한 모임이 없어요.\n 관심있는 주제의 모임에 참여해보세요."
         label.numberOfLines = 0
         label.textAlignment = .center
         label.lineBreakMode = .byWordWrapping
@@ -51,6 +51,7 @@ class MyClubsViewController: UIViewController {
         super.viewDidLoad()
         configureCollectionView()
         configureUI()
+        setupNavigationBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -101,6 +102,12 @@ class MyClubsViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func setupNavigationBar() {
+        navigationItem.title = "참여한 모임"
+        self.navigationController?.navigationBar.topItem?.title = ""
+        self.navigationController?.navigationBar.tintColor = .black
     }
     
     private func setupEmptyViewLayout() {
