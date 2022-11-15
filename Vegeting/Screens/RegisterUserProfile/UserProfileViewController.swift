@@ -70,14 +70,10 @@ final class UserProfileViewController: UIViewController {
         return label
     }()
     
-    private let nextButton: UIButton = {
-        let button = UIButton()
+    private let nextButton: BottomButton = {
+        let button = BottomButton()
         button.setTitle("다음으로", for: .normal)
-        button.setTitleColor(UIColor(hex: "#8E8E93"), for: .normal)
-        button.setBackgroundColor(UIColor(hex: "#FFF6DA"), for: .normal)
         button.isEnabled = false
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 8
         return button
     }()
     
@@ -114,14 +110,14 @@ final class UserProfileViewController: UIViewController {
     
     func setupLayout() {
         NSLayoutConstraint.activate([
-            progressBarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 116),
+            progressBarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height * 1/10),
             progressBarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             progressBarImageView.widthAnchor.constraint(equalToConstant: 186),
             progressBarImageView.heightAnchor.constraint(equalToConstant: 26)
         ])
         
         NSLayoutConstraint.activate([
-            profileMessageLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 178),
+            profileMessageLabel.topAnchor.constraint(equalTo: progressBarImageView.bottomAnchor, constant: view.frame.height * 1/10),
             profileMessageLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 21)
         ])
         
@@ -157,10 +153,8 @@ final class UserProfileViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55),
-            nextButton.heightAnchor.constraint(equalToConstant: 50)
+            nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(view.frame.height * 1/25))
         ])
     }
     
@@ -192,13 +186,19 @@ final class UserProfileViewController: UIViewController {
             let newString = text[text.startIndex..<index]
             nicknameTextField.text = String(newString)
             textLength = newString.count
-        } else if text.count < nicknameMinLength {
-            //TODO: nextButtonInActive()
+        }
+        
+        if text.count < nicknameMinLength {
+            nextButtonInactive()
         } else {
             nextButtonActive()
         }
         
         nicknameTextCountLabel.text = "\(textLength)/10"
+    }
+    
+    private func nextButtonInactive() {
+        nextButton.isEnabled = false
     }
     
     private func nextButtonActive() {
