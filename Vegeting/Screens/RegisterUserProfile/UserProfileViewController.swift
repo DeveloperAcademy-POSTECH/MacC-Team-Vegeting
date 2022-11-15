@@ -26,12 +26,14 @@ final class UserProfileViewController: UIViewController {
         return label
     }()
     
-    private let profileImageView: UIImageView = {
+    private lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 55
         imageView.clipsToBounds = true
         imageView.backgroundColor = UIColor(hex: "#F2F2F2")
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(presentPHPicker)))
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
@@ -43,7 +45,7 @@ final class UserProfileViewController: UIViewController {
         button.layer.masksToBounds = true
         button.backgroundColor = .white
         button.layer.cornerRadius = 15
-        button.addTarget(self, action: #selector(cameraButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(presentPHPicker), for: .touchUpInside)
         return button
     }()
     
@@ -161,12 +163,12 @@ final class UserProfileViewController: UIViewController {
     }
     
     @objc
-    private func cameraButtonTapped() {
+    private func presentPHPicker() {
         var configuration = PHPickerConfiguration(photoLibrary: .shared())
-        
+
         configuration.filter = PHPickerFilter.images
         configuration.selectionLimit = 1
-        
+
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
         present(picker, animated: true)
