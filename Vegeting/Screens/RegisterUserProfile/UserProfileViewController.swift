@@ -66,14 +66,10 @@ final class UserProfileViewController: UIViewController {
         return label
     }()
     
-    private let nextButton: UIButton = {
-        let button = UIButton()
+    private let nextButton: BottomButton = {
+        let button = BottomButton()
         button.setTitle("다음으로", for: .normal)
-        button.setTitleColor(UIColor(hex: "#8E8E93"), for: .normal)
-        button.setBackgroundColor(UIColor(hex: "#FFF6DA"), for: .normal)
         button.isEnabled = false
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 8
         return button
     }()
     
@@ -86,8 +82,16 @@ final class UserProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureNavBar()
         configureUI()
         setupLayout()
+        hideKeyboardWhenTappedAround()
+    }
+    
+    public func configureNavBar() {
+        navigationItem.title = "프로필 설정"
+        navigationController?.navigationBar.tintColor = .label
+        navigationController?.navigationBar.topItem?.title = ""
     }
     
     func configureTextField() {
@@ -110,7 +114,7 @@ final class UserProfileViewController: UIViewController {
     
     func setupLayout() {
         NSLayoutConstraint.activate([
-            progressBarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 116),
+            progressBarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height * 1/10),
             progressBarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             progressBarImageView.widthAnchor.constraint(equalToConstant: 186),
             progressBarImageView.heightAnchor.constraint(equalToConstant: 26)
@@ -153,10 +157,8 @@ final class UserProfileViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55),
-            nextButton.heightAnchor.constraint(equalToConstant: 50)
+            nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(view.frame.height * 1/25))
         ])
     }
     
@@ -188,12 +190,17 @@ final class UserProfileViewController: UIViewController {
         } else if text.count < nicknameMinLength {
             nicknameLimitWarningLabel.text = "2글자 이상 10글자 이하로 입력해주세요"
             nicknameLimitWarningLabel.textColor = .red
+            nextButtonInactive()
         } else {
             nicknameLimitWarningLabel.text = "사용 가능한 닉네임입니다."
             nicknameLimitWarningLabel.textColor = .blue
-            
+        
             nextButtonActive()
         }
+    }
+    
+    private func nextButtonInactive() {
+        nextButton.isEnabled = false
     }
     
     private func nextButtonActive() {

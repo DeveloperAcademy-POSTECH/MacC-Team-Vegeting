@@ -63,10 +63,16 @@ final class LocationAuthViewController: UIViewController {
         super.viewDidLoad()
         
         configureLocationManager()
+        configureNavBar()
         configureMap()
         configureUI()
         currentLocationButtonAction()
         setupLayout()
+    }
+    
+    public func configureNavBar() {
+        navigationItem.title = "프로필 설정"
+        navigationController?.navigationBar.topItem?.title = ""
     }
     
     private func configureLocationManager() {

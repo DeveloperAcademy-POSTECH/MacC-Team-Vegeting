@@ -90,11 +90,17 @@ final class UserGenderBirthViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureNavBar()
         configureUI()
         configureTextField()
         setupLayout()
         createBirthYearPicker()
         hideKeyboardWhenTappedAround()
+    }
+    
+    public func configureNavBar() {
+        navigationItem.title = "프로필 설정"
+        navigationController?.navigationBar.topItem?.title = ""
     }
     
     private func configureTextField() {
@@ -188,6 +194,10 @@ final class UserGenderBirthViewController: UIViewController {
             nextButton.setTitleColor(UIColor.label, for: .normal)
             nextButton.setBackgroundColor(UIColor(hex: "#FFD243"), for: .normal)
         }
+    }
+    
+    private func nextButtonTapped() {
+        //TODO: 프로필 설정 4번째 뷰(채식 단계 설정, 한줄 소개)로 연결
     }
 }
 
