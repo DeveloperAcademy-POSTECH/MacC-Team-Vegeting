@@ -56,8 +56,7 @@ final class FirebaseManager {
     /// - Returns: 내가 참여한 클럽 정보가 나타난다.
     func requestMyClubInformation() async -> [Club]? {
         do {
-//            let currentUserUID = auth.currentUser?.uid
-            let currentUserUID  = "CoBJInhnWtRiQErYD9VDBIdDYS23"
+            let currentUserUID = auth.currentUser?.uid
             var myClubs: [Club] = []
             let querySnapshot = try await db.collection(Path.club.rawValue).getDocuments()
             querySnapshot.documents.forEach { snapshot in
@@ -74,7 +73,6 @@ final class FirebaseManager {
             return nil
         }
     }
-    
 }
 
 // MARK: Firebase 첫 모임생성
