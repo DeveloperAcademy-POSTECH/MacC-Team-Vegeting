@@ -119,7 +119,29 @@ extension OtherChatContentCollectionViewCell {
     
     private func setupLayout() {
         setupProfileLayout()
+        setupMessageLayout()
+    }
+    
+    private func setupProfileLayout() {
+        let profileImageViewConstraints = [
+            profileImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            profileImageView.widthAnchor.constraint(equalToConstant: SizeLiteral.profileImageSize.rawValue),
+            profileImageView.heightAnchor.constraint(equalToConstant: SizeLiteral.profileImageSize.rawValue)
+        ]
         
+        let profileUserNameLabelConstraints = [
+            profileUserNameLabel.topAnchor.constraint(equalTo: profileImageView.topAnchor, constant: 4),
+            profileUserNameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 8),
+        ]
+        
+        [profileImageViewConstraints, profileUserNameLabelConstraints].forEach { constraints in
+            NSLayoutConstraint.activate(constraints)
+        }
+        
+    }
+    
+    private func setupMessageLayout() {
         let contentLabelConstraints = [
             contentLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 78),
             contentLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -66),
@@ -142,25 +164,5 @@ extension OtherChatContentCollectionViewCell {
         [contentLabelConstraints, dateTimeLabelConstraints, backgroundPaddingViewConstraints].forEach { constraints in
             NSLayoutConstraint.activate(constraints)
         }
-        
-    }
-    
-    private func setupProfileLayout() {
-        let profileImageViewConstraints = [
-            profileImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            profileImageView.widthAnchor.constraint(equalToConstant: SizeLiteral.profileImageSize.rawValue),
-            profileImageView.heightAnchor.constraint(equalToConstant: SizeLiteral.profileImageSize.rawValue)
-        ]
-        
-        let profileUserNameLabelConstraints = [
-            profileUserNameLabel.topAnchor.constraint(equalTo: profileImageView.topAnchor, constant: 4),
-            profileUserNameLabel.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 8),
-        ]
-        
-        [profileImageViewConstraints, profileUserNameLabelConstraints].forEach { constraints in
-            NSLayoutConstraint.activate(constraints)
-        }
-        
     }
 }
