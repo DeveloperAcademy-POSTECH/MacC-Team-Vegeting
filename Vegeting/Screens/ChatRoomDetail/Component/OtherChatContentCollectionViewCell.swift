@@ -68,7 +68,6 @@ class OtherChatContentCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureUI()
         setupLayout()
     }
     
@@ -112,17 +111,13 @@ extension OtherChatContentCollectionViewCell {
         contentLabelTopAnchor?.isActive = true
     }
     
-    private func configureUI() {
-        contentView.addSubviews(backgroundPaddingView, contentLabel, dateTimeLabel)
-        contentView.addSubviews(profileImageView, profileUserNameLabel)
-    }
-    
     private func setupLayout() {
         setupProfileLayout()
         setupMessageLayout()
     }
     
     private func setupProfileLayout() {
+        contentView.addSubviews(profileImageView, profileUserNameLabel)
         let profileImageViewConstraints = [
             profileImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -142,6 +137,7 @@ extension OtherChatContentCollectionViewCell {
     }
     
     private func setupMessageLayout() {
+        contentView.addSubviews(backgroundPaddingView, contentLabel, dateTimeLabel)
         let contentLabelConstraints = [
             contentLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 78),
             contentLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -66),
