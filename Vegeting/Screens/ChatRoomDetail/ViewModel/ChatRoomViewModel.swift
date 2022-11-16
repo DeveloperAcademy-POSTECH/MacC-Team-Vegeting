@@ -78,8 +78,6 @@ final class ChatRoomViewModel: ViewModelType {
         self.participatedChatRoom = participatedChatRoom
         self.user = user
         requestMessagesFromServer()
-        
     }
-    
 }
 
