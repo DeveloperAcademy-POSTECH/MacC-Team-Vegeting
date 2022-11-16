@@ -132,7 +132,6 @@ extension OtherChatContentCollectionViewCell {
             backgroundPaddingView.trailingAnchor.constraint(equalTo: contentLabel.trailingAnchor, constant: 16),
             backgroundPaddingView.topAnchor.constraint(equalTo: contentLabel.topAnchor, constant: -8),
             backgroundPaddingView.bottomAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 8)
-            
         ]
         
         let dateTimeLabelConstraints = [
