@@ -76,7 +76,6 @@ final class ChatRoomViewController: UIViewController {
         configureUI()
         setupLayout()
         bind()
-        
     }
     
     private func bind() {
