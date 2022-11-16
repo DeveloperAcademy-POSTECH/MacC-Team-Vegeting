@@ -75,9 +75,7 @@ class ChatRoomViewController: UIViewController {
         configureUI()
         setupLayout()
         bind()
-        
     }
-    
     
     private func bind() {
         let output = vm.transform(input: input.eraseToAnyPublisher())
