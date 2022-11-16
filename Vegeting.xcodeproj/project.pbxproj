@@ -115,7 +115,7 @@
 		4AFA58B1290526C300679142 /* NumberOfGroupPeopleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfGroupPeopleView.swift; sourceTree = "<group>"; };
 		4AFA58B42905280F00679142 /* NumberOfPeopleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberOfPeopleCollectionViewCell.swift; sourceTree = "<group>"; };
 		7615B644291EA03900A34DA4 /* ChatRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewController.swift; sourceTree = "<group>"; };
-		7615B647291EA06D00A34DA4 /* OtherChatContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OtherChatContentCollectionViewCell.swift; path = Vegeting/Screens/ChatRoomDetail/ViewController/OtherChatContentCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
+		7615B647291EA06D00A34DA4 /* OtherChatContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = OtherChatContentCollectionViewCell.swift; path = Vegeting/Screens/ChatRoomDetail/Component/OtherChatContentCollectionViewCell.swift; sourceTree = SOURCE_ROOT; };
 		7615B64B2920BA5500A34DA4 /* MyChatContentCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyChatContentCollectionViewCell.swift; sourceTree = "<group>"; };
 		7615B64D2920CA3E00A34DA4 /* ChatRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModel.swift; sourceTree = "<group>"; };
 		7615B6532921096800A34DA4 /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
@@ -417,7 +417,7 @@
 		765C9E8A29231D170090B14A /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				7615B644291EA03900A34DA4 /* ChatRoomViewController.swift */,
+				7615B64D2920CA3E00A34DA4 /* ChatRoomViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -425,7 +425,8 @@
 		765C9E8B29231D1C0090B14A /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				7615B64D2920CA3E00A34DA4 /* ChatRoomViewModel.swift */,
+				7615B647291EA06D00A34DA4 /* OtherChatContentCollectionViewCell.swift */,
+				7615B64B2920BA5500A34DA4 /* MyChatContentCollectionViewCell.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -433,8 +434,7 @@
 		765C9E8C29231D220090B14A /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				7615B647291EA06D00A34DA4 /* OtherChatContentCollectionViewCell.swift */,
-				7615B64B2920BA5500A34DA4 /* MyChatContentCollectionViewCell.swift */,
+				7615B644291EA03900A34DA4 /* ChatRoomViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
