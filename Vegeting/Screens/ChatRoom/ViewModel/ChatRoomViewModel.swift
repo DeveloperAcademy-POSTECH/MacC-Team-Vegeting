@@ -84,14 +84,17 @@ final class ChatRoomViewModel: ViewModelType {
         guard let user = user else { return [] }
         
 //        만약 이전 기록이 없더라도, 현재 유저ID로 하게 된다면 Sender 판단 로직에 오류가 발생할 수 없음.
-        let previousSenderID = user.userID
+        var previousSenderID = user.userID
         
-        return messages.enumerated().map { (idx, message) in
+        return messages.map { message in
             if message.senderID == user.userID {
+                previousSenderID = message.senderID
                 return MessageBubble(message: message, senderType: .mine)
             } else if message.senderID == previousSenderID {
+                previousSenderID = message.senderID
                 return MessageBubble(message: message, senderType: .other)
             } else {
+                previousSenderID = message.senderID
                 return MessageBubble(message: message, senderType: .otherWithProfile)
             }
         }
