@@ -87,6 +87,7 @@
 		A71C543D291A655200FBD231 /* LocationAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71C543C291A655200FBD231 /* LocationAuthViewController.swift */; };
 		A71C5440291A797300FBD231 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71C543F291A797300FBD231 /* MapView.swift */; };
 		A73AAAF32904E26D0050CA81 /* PostDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73AAAF22904E26D0050CA81 /* PostDetailViewController.swift */; };
+		A7414C4E2924EF2F00EE7623 /* UserTypeIntroductionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7414C4D2924EF2F00EE7623 /* UserTypeIntroductionViewController.swift */; };
 		A76096422908ACA900636A99 /* ProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76096412908ACA900636A99 /* ProfileCollectionViewCell.swift */; };
 		A760964B2909530600636A99 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A760964A2909530600636A99 /* MainTabBarViewController.swift */; };
 		A764CCED291748FB005C9E0F /* UserGenderBirthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A764CCEC291748FB005C9E0F /* UserGenderBirthViewController.swift */; };
@@ -181,6 +182,7 @@
 		A71C543C291A655200FBD231 /* LocationAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationAuthViewController.swift; sourceTree = "<group>"; };
 		A71C543F291A797300FBD231 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		A73AAAF22904E26D0050CA81 /* PostDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDetailViewController.swift; sourceTree = "<group>"; };
+		A7414C4D2924EF2F00EE7623 /* UserTypeIntroductionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTypeIntroductionViewController.swift; sourceTree = "<group>"; };
 		A76096412908ACA900636A99 /* ProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewCell.swift; sourceTree = "<group>"; };
 		A760964A2909530600636A99 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		A764CCEC291748FB005C9E0F /* UserGenderBirthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGenderBirthViewController.swift; sourceTree = "<group>"; };
@@ -612,6 +614,7 @@
 				A7164B3029123E7100FFB668 /* UserProfileViewController.swift */,
 				A764CCEC291748FB005C9E0F /* UserGenderBirthViewController.swift */,
 				A71C543C291A655200FBD231 /* LocationAuthViewController.swift */,
+				A7414C4D2924EF2F00EE7623 /* UserTypeIntroductionViewController.swift */,
 			);
 			path = RegisterUserProfile;
 			sourceTree = "<group>";
@@ -825,6 +828,7 @@
 				A73AAAF32904E26D0050CA81 /* PostDetailViewController.swift in Sources */,
 				4A31CD272903D86200E5E422 /* GroupCategoryView.swift in Sources */,
 				A26198782909567100ECCC4F /* LabelWithImageStackView.swift in Sources */,
+				A7414C4E2924EF2F00EE7623 /* UserTypeIntroductionViewController.swift in Sources */,
 				4ADC12EB2901833F00C0FFB6 /* StringLiteral.swift in Sources */,
 				4A705EF42921CA75002CE1B1 /* MockData.swift in Sources */,
 				A215B29E2906FA3E00DD60B2 /* UITextField+Extension.swift in Sources */,
