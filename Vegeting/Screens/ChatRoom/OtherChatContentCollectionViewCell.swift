@@ -62,7 +62,6 @@ final class OtherChatContentCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
