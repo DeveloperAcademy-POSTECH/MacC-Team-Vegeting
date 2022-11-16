@@ -19,7 +19,6 @@ struct MessageBubble {
     let senderType: SenderType
 }
 
-
 final class ChatRoomViewModel: ViewModelType {
     
     enum Input {
@@ -39,7 +38,6 @@ final class ChatRoomViewModel: ViewModelType {
     private var participatedChatRoom: ParticipatedChatRoom?
     private var chat: Chat?
     private var user: VFUser?
-    
     
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
@@ -81,6 +79,7 @@ final class ChatRoomViewModel: ViewModelType {
             await FirebaseManager.shared.requestMessage(chat: chat, message: message)
         }
     }
+    
     private func messagesToMessageBubbles(messages: [Message]) -> [MessageBubble] {
         guard let user = user else { return [] }
         

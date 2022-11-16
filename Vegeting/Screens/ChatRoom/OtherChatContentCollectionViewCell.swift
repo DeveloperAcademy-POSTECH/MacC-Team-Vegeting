@@ -13,7 +13,6 @@ enum SenderType: CaseIterable {
     case otherNeedProfile
 }
 
-
 final class OtherChatContentCollectionViewCell: UICollectionViewCell {
     
     private enum SizeLiteral: CGFloat {
