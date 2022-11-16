@@ -9,6 +9,8 @@ import UIKit
 
 final class UserTypeIntroductionViewController: UIViewController {
     
+    let introductionMaxLength = 60
+    
     private let progressBarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "progress4")
@@ -63,8 +65,13 @@ final class UserTypeIntroductionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureTextField()
         configureUI()
         setupLayout()
+    }
+    
+    private func configureTextField() {
+        introductionTextField.addTarget(self, action: #selector(textDidChangeForLabel), for: .editingChanged)
     }
     
     private func configureUI() {
@@ -116,6 +123,22 @@ final class UserTypeIntroductionViewController: UIViewController {
             nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(view.frame.height * 1/25))
         ])
+    }
+    
+    @objc
+    private func textDidChangeForLabel() {
+        guard let text = introductionTextField.text else { return }
+        var textLength = text.count
+        
+        //maxLength 이상의 글자를 붙여넣을 경우 잘라주는 역할
+        if text.count > introductionMaxLength {
+            let index = text.index(text.startIndex, offsetBy: introductionMaxLength)
+            let newString = text[text.startIndex..<index]
+            introductionTextField.text = String(newString)
+            textLength = newString.count
+        }
+        
+        introductionCountLabel.text = "\(textLength)/60"
     }
     
 }
