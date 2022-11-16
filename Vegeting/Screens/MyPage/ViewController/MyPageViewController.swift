@@ -120,7 +120,7 @@ extension MyPageViewController: MyPageProfileTableViewCellDelegate {
         let viewController = MyProfileEditViewController()
         guard let vfUser = self.vfUser else { return } // return에 아직 vfuser값이 들어오지 않았을 경우 에러 처리 or 뷰 처리
         
-        let modalModel = ModalModel(nickname: vfUser.userName, vegetarianStep: vfUser.vegetarianType, ageGroup: vfUser.ageGroup, location: vfUser.location, gender: vfUser.gender, introduction: "사람을 좋아하고, 자연을 사랑하는 플렉시테리언입니다. 이곳에서 소중한 인연 많이 만들어갔으면 좋겠어요.")
+        let modalModel = ModalModel(nickname: vfUser.userName, vegetarianStep: vfUser.vegetarianType, ageGroup: vfUser.birth.toAgeGroup(), location: vfUser.location, gender: vfUser.gender, introduction: "사람을 좋아하고, 자연을 사랑하는 플렉시테리언입니다. 이곳에서 소중한 인연 많이 만들어갔으면 좋겠어요.")
         
         viewController.configure(with: modalModel)
         self.navigationController?.pushViewController(viewController, animated: true)

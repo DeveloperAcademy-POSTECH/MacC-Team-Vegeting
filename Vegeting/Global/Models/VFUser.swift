@@ -13,7 +13,7 @@ struct VFUser: Identifiable, Codable, Equatable {
     let userID: String
     let userName: String
     let imageURL: String?
-    let ageGroup: String
+    let birth: Int
     let location: String
     let gender: String
     let vegetarianType: String

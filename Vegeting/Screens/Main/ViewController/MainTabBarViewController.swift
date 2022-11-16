@@ -45,7 +45,6 @@ class MainTabBarViewController: UITabBarController {
         
         configureTabBar()
         configureUI()
-        
         setViewControllers([findClubTab, findFriendTab, chattingTab, myPageTab], animated: true)
     }
     
