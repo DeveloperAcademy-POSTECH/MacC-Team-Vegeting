@@ -8,9 +8,60 @@
 import UIKit
 
 class GroupListViewController: UIViewController {
-    private var clubList: [Club] = []
-
-    private let participants: [Participant] = []
+    private var clubList = MockData.club {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                self?.collectionView.reloadData()
+            }
+        }
+    }
+    
+    private lazy var navigationBarView: UIStackView = {
+        let hStackView = UIStackView()
+        hStackView.setHorizontalStack()
+        return hStackView
+    }()
+    
+    private lazy var navigationTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "모집 중인 모임"
+        label.font = .systemFont(ofSize: 22, weight: .semibold)
+        label.sizeToFit()
+        return label
+    }()
+    
+    private lazy var searchButton: UIButton = {
+        let button = UIButton(type: .system)
+        let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 18, weight: .regular)
+        button.setImage(UIImage(systemName: "magnifyingglass", withConfiguration: imageConfig), for: .normal)
+        button.tintColor = .black
+        button.addTarget(self, action: #selector(searchButtontapped), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var addClubButton: UIButton = {
+        let button = UIButton(type: .system)
+        let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 18, weight: .regular)
+        button.setImage(UIImage(systemName: "square.and.pencil", withConfiguration: imageConfig), for: .normal)
+        button.tintColor = .black
+        button.addTarget(self, action: #selector(addClubButtontapped), for: .touchUpInside)
+        return button
+    }()
+    
+    @objc
+    private func searchButtontapped() {
+        print("tapSearchButton")
+    }
+    
+    @objc
+    private func addClubButtontapped() {
+        print("tapAddClubButton")
+    }
+    
+    private lazy var customSegmentedControl: SegmentedControlCustomView = {
+        let segmentedControl = SegmentedControlCustomView()
+        return segmentedControl
+    }()
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -26,6 +77,7 @@ class GroupListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setCustomNavigationBar()
         configureCollectionView()
         configureUI()
         setupLayout()
@@ -40,14 +92,33 @@ class GroupListViewController: UIViewController {
         view.backgroundColor = .systemBackground
     }
     
+    private func setCustomNavigationBar() {
+        let rightButtonStackView = UIStackView()
+        rightButtonStackView.setHorizontalStack()
+        rightButtonStackView.spacing = 15
+        rightButtonStackView.addArrangedSubviews(searchButton, addClubButton)
+        
+        navigationBarView.addArrangedSubviews(navigationTitleLabel, rightButtonStackView)
+        let space = view.frame.width - navigationTitleLabel.frame.width
+        navigationBarView.spacing = space - 115
+
+        navigationItem.titleView = navigationBarView
+    }
+    
     private func setupLayout() {
-        view.addSubviews(collectionView)
+        view.addSubviews(customSegmentedControl, collectionView)
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            customSegmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 18),
+            customSegmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            customSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+        ])
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: customSegmentedControl.bottomAnchor, constant: 10),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }
@@ -67,7 +138,6 @@ extension GroupListViewController: UICollectionViewDataSource {
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClubListCollectionViewCell.className, for: indexPath) as? ClubListCollectionViewCell else { return UICollectionViewCell() }
         cell.configure(with: clubList[indexPath.item])
-        cell.layer.backgroundColor = UIColor.init(hex: "#e3e3e3").cgColor
         return cell
     }
 }
