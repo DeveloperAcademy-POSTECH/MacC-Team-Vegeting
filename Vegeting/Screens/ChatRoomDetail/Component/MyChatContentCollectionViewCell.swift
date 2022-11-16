@@ -22,7 +22,7 @@ class MyChatContentCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.lineBreakMode = .byCharWrapping
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        label.font = .preferredFont(forTextStyle: .callout)
         return label
     }()
     
@@ -30,7 +30,7 @@ class MyChatContentCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.numberOfLines = 0
         label.text = "12:24"
-        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        label.font = .preferredFont(forTextStyle: .caption1)
         return label
     }()
     
