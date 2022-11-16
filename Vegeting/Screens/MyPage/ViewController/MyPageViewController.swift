@@ -36,11 +36,11 @@ class MyPageViewController: UIViewController {
                                                          MyPageSettingElement(text: "로그아웃", isSmallTitle: false),
                                                          MyPageSettingElement(text: "회원탈퇴", isSmallTitle: false)]
     
-    private var vfUser: VFUser? = nil {
-        didSet {
+    private var vfUser: VFUser? = nil { 
+        didSet { 
             if oldValue != self.vfUser {
-                DispatchQueue.main.async {
-                    self.tableView.reloadSections(.init(integer: TableSection.profile.rawValue), with: .none)
+                DispatchQueue.main.async { [weak self] in
+                    self?.tableView.reloadSections(.init(integer: TableSection.profile.rawValue), with: .none)
                 }
             }
         }
