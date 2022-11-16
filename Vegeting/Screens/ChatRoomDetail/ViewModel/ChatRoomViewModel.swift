@@ -17,7 +17,6 @@ struct TemporaryMessage {
 final class ChatRoomViewModel: ViewModelType {
     
     enum Input {
-        case viewWillAppear
         case sendButtonTapped(text: String)
     }
     
@@ -38,8 +37,6 @@ final class ChatRoomViewModel: ViewModelType {
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
             switch event {
-            case .viewWillAppear:
-                break
             case .sendButtonTapped(let text):
                 self?.sendMessageFromLocal(text: text)
                 break
@@ -78,6 +75,15 @@ final class ChatRoomViewModel: ViewModelType {
         self.participatedChatRoom = participatedChatRoom
         self.user = user
         requestMessagesFromServer()
+    }
+    
+    init() {
+        Task {
+            guard let user = await
+                    FirebaseManager.shared.requestUser() else { return }
+            guard let participated = user.participatedChats?.first else { return }
+            configure(participatedChatRoom: participated, user: user)
+        }
     }
 }
 
