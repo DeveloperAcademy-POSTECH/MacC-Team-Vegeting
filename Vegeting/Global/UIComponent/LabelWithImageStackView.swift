@@ -10,14 +10,14 @@ import UIKit
 class LabelWithImageStackView: UIStackView {
     private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.tintColor = .labelGray2
+        imageView.tintColor = .vfBlack
         return imageView
     }()
     
     private lazy var label: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 13, weight: .regular)
-        label.textColor = .labelGray2
+        label.textColor = .vfBlack
         return label
     }()
     
