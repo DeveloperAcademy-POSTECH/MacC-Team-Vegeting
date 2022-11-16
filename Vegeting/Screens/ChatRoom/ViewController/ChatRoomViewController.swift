@@ -8,7 +8,7 @@
 import Combine
 import UIKit
 
-class ChatRoomViewController: UIViewController {
+final class ChatRoomViewController: UIViewController {
     
     private let vm = ChatRoomViewModel()
     
@@ -30,8 +30,8 @@ class ChatRoomViewController: UIViewController {
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(OtherChatContentCollectionViewCell.self, forCellWithReuseIdentifier: OtherChatContentCollectionViewCell.identifier)
-        collectionView.register(MyChatContentCollectionViewCell.self, forCellWithReuseIdentifier: MyChatContentCollectionViewCell.identifier)
+        collectionView.register(OtherChatContentCollectionViewCell.self, forCellWithReuseIdentifier: OtherChatContentCollectionViewCell.className)
+        collectionView.register(MyChatContentCollectionViewCell.self, forCellWithReuseIdentifier: MyChatContentCollectionViewCell.className)
         return collectionView
     }()
     
@@ -63,7 +63,7 @@ class ChatRoomViewController: UIViewController {
     private let messageTextView: UITextView = {
         let textView = UITextView()
         textView.backgroundColor = .gray.withAlphaComponent(0.1)
-        textView.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        textView.font = .preferredFont(forTextStyle: .callout)
         textView.layer.masksToBounds = true
         textView.layer.cornerRadius = 13
         textView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 16)

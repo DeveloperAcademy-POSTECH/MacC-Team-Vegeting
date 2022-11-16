@@ -14,10 +14,8 @@ enum SenderType: CaseIterable {
 }
 
 
-class OtherChatContentCollectionViewCell: UICollectionViewCell {
+final class OtherChatContentCollectionViewCell: UICollectionViewCell {
     
-    static let identifier = "OtherChatContentCollectionViewCell"
-        
     private enum SizeLiteral: CGFloat {
         case profileImageSize = 37.0
     }
@@ -37,14 +35,14 @@ class OtherChatContentCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.lineBreakMode = .byCharWrapping
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        label.font = .preferredFont(forTextStyle: .callout)
         return label
     }()
     
     private let dateTimeLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        label.font = .preferredFont(forTextStyle: .caption1)
         return label
     }()
     
@@ -61,8 +59,7 @@ class OtherChatContentCollectionViewCell: UICollectionViewCell {
     
     private let profileUserNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "초보 채식인"
-        label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        label.font = .preferredFont(forTextStyle: .subheadline)
         return label
     }()
     

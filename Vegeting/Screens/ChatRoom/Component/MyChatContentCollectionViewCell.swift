@@ -7,9 +7,7 @@
 
 import UIKit
 
-class MyChatContentCollectionViewCell: UICollectionViewCell {
-    
-    static let identifier = "MyChatContentCollectionViewCell"
+final class MyChatContentCollectionViewCell: UICollectionViewCell {
     
     private let backgroundPaddingView: UIView = {
         let view = UIView()
@@ -25,14 +23,14 @@ class MyChatContentCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.lineBreakMode = .byCharWrapping
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        label.font = .preferredFont(forTextStyle: .callout)
         return label
     }()
     
     private let dateTimeLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        label.font = .preferredFont(forTextStyle: .caption1)
         return label
     }()
     
