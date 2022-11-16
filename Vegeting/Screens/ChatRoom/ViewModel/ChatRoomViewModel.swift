@@ -92,7 +92,7 @@ final class ChatRoomViewModel: ViewModelType {
             } else if message.senderID == previousSenderID {
                 return MessageBubble(message: message, senderType: .other)
             } else {
-                return MessageBubble(message: message, senderType: .otherNeedProfile)
+                return MessageBubble(message: message, senderType: .otherWithProfile)
             }
         }
     }

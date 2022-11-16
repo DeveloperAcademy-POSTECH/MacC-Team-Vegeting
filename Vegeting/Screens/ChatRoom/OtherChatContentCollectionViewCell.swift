@@ -10,7 +10,7 @@ import UIKit
 enum SenderType: CaseIterable {
     case mine
     case other
-    case otherNeedProfile
+    case otherWithProfile
 }
 
 final class OtherChatContentCollectionViewCell: UICollectionViewCell {
@@ -96,7 +96,7 @@ extension OtherChatContentCollectionViewCell {
         let hiddenStatus: Bool
         
         switch senderType {
-        case .otherNeedProfile:
+        case .otherWithProfile:
             hiddenStatus = false
             contentLabelTopAnchor = contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 36)
         default:
