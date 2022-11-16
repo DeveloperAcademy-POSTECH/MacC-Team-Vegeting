@@ -24,11 +24,15 @@ final class UserTypeIntroductionViewController: UIViewController {
         return label
     }()
     
-    private let vegetarianTypeTextField: UITextField = {
-        let textField = UITextField()
-        textField.backgroundColor = UIColor(hex: "#F2F2F2")
-        textField.layer.cornerRadius = 8
-        return textField
+    private let vegetarianTypeSelectButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("채식 단계", for: .normal)
+        button.backgroundColor = UIColor(hex: "#F2F2F2")
+        button.setTitleColor(UIColor(hex: "#8E8E93"), for: .normal)
+        button.titleLabel?.font = .preferredFont(forTextStyle: .callout)
+        button.contentHorizontalAlignment = .leading
+        button.layer.cornerRadius = 8
+        return button
     }()
     
     private let introductionLabel: UILabel = {
@@ -76,7 +80,7 @@ final class UserTypeIntroductionViewController: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .systemBackground
-        view.addSubviews(progressBarImageView, vegetarianTypeLabel, vegetarianTypeTextField,
+        view.addSubviews(progressBarImageView, vegetarianTypeLabel, vegetarianTypeSelectButton,
                          introductionLabel, introductionTextField, introductionCountLabel, nextButton)
     }
     
@@ -95,14 +99,14 @@ final class UserTypeIntroductionViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            vegetarianTypeTextField.topAnchor.constraint(equalTo: vegetarianTypeLabel.bottomAnchor, constant: 14),
-            vegetarianTypeTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            vegetarianTypeTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            vegetarianTypeTextField.heightAnchor.constraint(equalToConstant: 50)
+            vegetarianTypeSelectButton.topAnchor.constraint(equalTo: vegetarianTypeLabel.bottomAnchor, constant: 14),
+            vegetarianTypeSelectButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            vegetarianTypeSelectButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            vegetarianTypeSelectButton.heightAnchor.constraint(equalToConstant: 50)
         ])
         
         NSLayoutConstraint.activate([
-            introductionLabel.topAnchor.constraint(equalTo: vegetarianTypeTextField.bottomAnchor, constant: view.frame.height * 1/8),
+            introductionLabel.topAnchor.constraint(equalTo: vegetarianTypeSelectButton.bottomAnchor, constant: view.frame.height * 1/8),
             introductionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             introductionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
