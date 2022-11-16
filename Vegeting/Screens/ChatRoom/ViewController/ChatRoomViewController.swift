@@ -10,7 +10,7 @@ import UIKit
 
 final class ChatRoomViewController: UIViewController {
     
-    private let vm = ChatRoomViewModel()
+    private let viewModel = ChatRoomViewModel()
     
     private var input: PassthroughSubject<ChatRoomViewModel.Input, Never> = .init()
     private var messageBubbles: [MessageBubble] = []
@@ -80,7 +80,7 @@ final class ChatRoomViewController: UIViewController {
     }
     
     private func bind() {
-        let output = vm.transform(input: input.eraseToAnyPublisher())
+        let output = viewModel.transform(input: input.eraseToAnyPublisher())
         
         output.sink { [weak self] event in
             switch event {
@@ -95,8 +95,8 @@ final class ChatRoomViewController: UIViewController {
         }.store(in: &cancellables)
     }
     
-    func configureVM(participatedChatRoom: ParticipatedChatRoom, user: VFUser) {
-        vm.configure(participatedChatRoom: participatedChatRoom, user: user)
+    func configureViewModel(participatedChatRoom: ParticipatedChatRoom, user: VFUser) {
+        viewModel.configure(participatedChatRoom: participatedChatRoom, user: user)
     }
 }
 
@@ -116,7 +116,7 @@ extension ChatRoomViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let data = messageBubbles[indexPath.row]
+        let data = messageBubbles[indexPath.item]
         switch data.senderType {
         case .mine:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyChatContentCollectionViewCell.className, for: indexPath) as? MyChatContentCollectionViewCell else { return UICollectionViewCell() }
