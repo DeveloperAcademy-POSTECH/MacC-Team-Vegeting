@@ -60,7 +60,6 @@ class MainTabBarViewController: UITabBarController {
     }
     
     func configureUI() {
-        tabBar.backgroundColor = .white
         view.backgroundColor = .white
     }
     
