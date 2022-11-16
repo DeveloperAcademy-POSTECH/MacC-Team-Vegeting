@@ -127,7 +127,6 @@ extension OtherChatContentCollectionViewCell {
             contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
         ]
         
-        
         let backgroundPaddingViewConstraints = [
             backgroundPaddingView.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor, constant: -16),
             backgroundPaddingView.trailingAnchor.constraint(equalTo: contentLabel.trailingAnchor, constant: 16),
@@ -163,7 +162,6 @@ extension OtherChatContentCollectionViewCell {
         [profileImageViewConstraints, profileUserNameLabelConstraints].forEach { constraints in
             NSLayoutConstraint.activate(constraints)
         }
-        
         
     }
 }
