@@ -70,7 +70,6 @@ extension MyChatContentCollectionViewCell {
             contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
         ]
         
-        
         let backgroundPaddingViewConstraints = [
             backgroundPaddingView.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor, constant: -16),
             backgroundPaddingView.trailingAnchor.constraint(equalTo: contentLabel.trailingAnchor, constant: 16),

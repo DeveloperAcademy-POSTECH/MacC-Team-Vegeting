@@ -116,32 +116,7 @@ extension OtherChatContentCollectionViewCell {
     
     private func setupLayout() {
         setupProfileLayout()
-        
-        let contentLabelConstraints = [
-            contentLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 78),
-            contentLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -66),
-            contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40),
-            contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
-        ]
-        
-        
-        let backgroundPaddingViewConstraints = [
-            backgroundPaddingView.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor, constant: -16),
-            backgroundPaddingView.trailingAnchor.constraint(equalTo: contentLabel.trailingAnchor, constant: 16),
-            backgroundPaddingView.topAnchor.constraint(equalTo: contentLabel.topAnchor, constant: -12),
-            backgroundPaddingView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-            
-        ]
-        
-        let dateTimeLabelConstraints = [
-            dateTimeLabel.leadingAnchor.constraint(equalTo: backgroundPaddingView.trailingAnchor, constant: 8),
-            dateTimeLabel.bottomAnchor.constraint(equalTo: backgroundPaddingView.bottomAnchor)
-        ]
-        
-        [contentLabelConstraints, dateTimeLabelConstraints, backgroundPaddingViewConstraints].forEach { constraints in
-            NSLayoutConstraint.activate(constraints)
-        }
-        
+        setupMessageLayout()
     }
     
     private func setupProfileLayout() {
@@ -160,7 +135,31 @@ extension OtherChatContentCollectionViewCell {
         [profileImageViewConstraints, profileUserNameLabelConstraints].forEach { constraints in
             NSLayoutConstraint.activate(constraints)
         }
+    }
+    
+    private func setupMessageLayout() {
+        let contentLabelConstraints = [
+            contentLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 78),
+            contentLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -66),
+            contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40),
+            contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
+        ]
         
+        let backgroundPaddingViewConstraints = [
+            backgroundPaddingView.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor, constant: -16),
+            backgroundPaddingView.trailingAnchor.constraint(equalTo: contentLabel.trailingAnchor, constant: 16),
+            backgroundPaddingView.topAnchor.constraint(equalTo: contentLabel.topAnchor, constant: -12),
+            backgroundPaddingView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            
+        ]
         
+        let dateTimeLabelConstraints = [
+            dateTimeLabel.leadingAnchor.constraint(equalTo: backgroundPaddingView.trailingAnchor, constant: 8),
+            dateTimeLabel.bottomAnchor.constraint(equalTo: backgroundPaddingView.bottomAnchor)
+        ]
+        
+        [contentLabelConstraints, dateTimeLabelConstraints, backgroundPaddingViewConstraints].forEach { constraints in
+            NSLayoutConstraint.activate(constraints)
+        }
     }
 }
