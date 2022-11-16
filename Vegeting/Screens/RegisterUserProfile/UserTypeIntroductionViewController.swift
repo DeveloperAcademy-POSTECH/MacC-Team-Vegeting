@@ -40,6 +40,8 @@ final class UserTypeIntroductionViewController: UIViewController {
         let textField = UITextField()
         textField.backgroundColor = UIColor(hex: "#F2F2F2")
         textField.layer.cornerRadius = 8
+        textField.contentVerticalAlignment = .top
+        textField.placeholder = "나에 대한 간략한 소개를 입력해주세요."
         return textField
     }()
     
