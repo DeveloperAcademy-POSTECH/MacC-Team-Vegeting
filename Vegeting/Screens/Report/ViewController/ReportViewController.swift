@@ -15,14 +15,16 @@ enum ReportType {
 
 class ReportViewController: UIViewController {
     
-    var entryPoint: ReportType = .report
+    var entryPoint: ReportType = .unregister
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.showsVerticalScrollIndicator = false
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(ReportObjectTableViewCell.self, forCellReuseIdentifier: ReportObjectTableViewCell.className)
         tableView.register(ReportTableViewCell.self, forCellReuseIdentifier: ReportTableViewCell.className)
+        tableView.register(ReportTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: ReportTableViewHeaderView.className)
         return tableView
     }()
     
@@ -113,25 +115,46 @@ extension ReportViewController: UITableViewDataSource {
             switch indexPath.section {
             case 0:
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: ReportObjectTableViewCell.className, for: indexPath) as? ReportObjectTableViewCell else { return UITableViewCell() }
+                cell.selectionStyle = .none
                 cell.configure(hostName: "초보채식인", clubName: "리틀갱스터 같이 가요")
                 return cell
             case 1:
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: ReportTableViewCell.className, for: indexPath) as? ReportTableViewCell else { return UITableViewCell() }
+                cell.selectionStyle = .none
                 cell.configure(with: reportElementList[indexPath.row])
                 return cell
             default:
                 return UITableViewCell()
             }
-          
+            
         case .block:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ReportTableViewCell.className, for: indexPath) as? ReportTableViewCell else { return UITableViewCell() }
-            cell.configure(with: reportElementList[indexPath.row])
+            cell.selectionStyle = .none
+            cell.configure(with: blockElementList[indexPath.row])
             return cell
         case .unregister:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ReportTableViewCell.className, for: indexPath) as? ReportTableViewCell else { return UITableViewCell() }
-            cell.configure(with: reportElementList[indexPath.row])
+            cell.selectionStyle = .none
+            cell.configure(with: unregisterElementList[indexPath.row])
             return cell
         }
     }
     
+}
+
+extension ReportViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: ReportTableViewHeaderView.className) as?  ReportTableViewHeaderView else { return UIView() }
+        switch entryPoint {
+        case .report:
+            if section == 1 {
+                headerView.configure(with: "신고 사유 (최대 3개 선택)")
+            }
+        case .block:
+            headerView.configure(with: "‘초보채식인'\n사용자를 차단하는 이유가 무언인가요?")
+        case .unregister:
+            headerView.configure(with: "탈퇴 사유 (최대 3개 선택)")
+        }
+        return headerView
+    }
 }
