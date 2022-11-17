@@ -24,7 +24,7 @@ final class UserTypeIntroductionViewController: UIViewController {
         return label
     }()
     
-    private let vegetarianTypeSelectButton: UIButton = {
+    private lazy var vegetarianTypeSelectButton: UIButton = {
         let button = UIButton()
         button.setTitle("채식 단계", for: .normal)
         button.backgroundColor = UIColor(hex: "#F2F2F2")
@@ -32,6 +32,7 @@ final class UserTypeIntroductionViewController: UIViewController {
         button.titleLabel?.font = .preferredFont(forTextStyle: .callout)
         button.contentHorizontalAlignment = .leading
         button.layer.cornerRadius = 8
+        button.addTarget(self, action: #selector(vegetarianTypeButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -48,6 +49,8 @@ final class UserTypeIntroductionViewController: UIViewController {
         textField.layer.cornerRadius = 8
         textField.contentVerticalAlignment = .top
         textField.placeholder = "나에 대한 간략한 소개를 입력해주세요."
+        
+        
         return textField
     }()
     
@@ -135,7 +138,7 @@ final class UserTypeIntroductionViewController: UIViewController {
         var textLength = text.count
         
         //maxLength 이상의 글자를 붙여넣을 경우 잘라주는 역할
-        if text.count > introductionMaxLength {
+        if textLength > introductionMaxLength {
             let index = text.index(text.startIndex, offsetBy: introductionMaxLength)
             let newString = text[text.startIndex..<index]
             introductionTextField.text = String(newString)
@@ -143,6 +146,14 @@ final class UserTypeIntroductionViewController: UIViewController {
         }
         
         introductionCountLabel.text = "\(textLength)/60"
+    }
+    
+    @objc
+    private func vegetarianTypeButtonTapped() {
+        let modalViewController = SelectVegetarianTypeViewController()
+        modalViewController.modalPresentationStyle = .fullScreen
+        
+        present(modalViewController, animated: true)
     }
     
 }

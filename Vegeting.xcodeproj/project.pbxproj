@@ -91,6 +91,8 @@
 		A76096422908ACA900636A99 /* ProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76096412908ACA900636A99 /* ProfileCollectionViewCell.swift */; };
 		A760964B2909530600636A99 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A760964A2909530600636A99 /* MainTabBarViewController.swift */; };
 		A764CCED291748FB005C9E0F /* UserGenderBirthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A764CCEC291748FB005C9E0F /* UserGenderBirthViewController.swift */; };
+		A794B11529264C1F000FE69A /* VegetarianTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A794B11429264C1F000FE69A /* VegetarianTypeTableViewCell.swift */; };
+		A7B5B4F029263EE500421EF1 /* SelectVegetarianTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B5B4EF29263EE500421EF1 /* SelectVegetarianTypeViewController.swift */; };
 		A7C8DF242901274500F38AD7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C8DF232901274500F38AD7 /* AppDelegate.swift */; };
 		A7C8DF262901274500F38AD7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C8DF252901274500F38AD7 /* SceneDelegate.swift */; };
 		A7C8DF282901274500F38AD7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C8DF272901274500F38AD7 /* ViewController.swift */; };
@@ -186,6 +188,8 @@
 		A76096412908ACA900636A99 /* ProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewCell.swift; sourceTree = "<group>"; };
 		A760964A2909530600636A99 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		A764CCEC291748FB005C9E0F /* UserGenderBirthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGenderBirthViewController.swift; sourceTree = "<group>"; };
+		A794B11429264C1F000FE69A /* VegetarianTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VegetarianTypeTableViewCell.swift; sourceTree = "<group>"; };
+		A7B5B4EF29263EE500421EF1 /* SelectVegetarianTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectVegetarianTypeViewController.swift; sourceTree = "<group>"; };
 		A7C8DF202901274500F38AD7 /* Vegeting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vegeting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7C8DF232901274500F38AD7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A7C8DF252901274500F38AD7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -623,6 +627,8 @@
 			isa = PBXGroup;
 			children = (
 				A71C543F291A797300FBD231 /* MapView.swift */,
+				A7B5B4EF29263EE500421EF1 /* SelectVegetarianTypeViewController.swift */,
+				A794B11429264C1F000FE69A /* VegetarianTypeTableViewCell.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -832,6 +838,7 @@
 				4ADC12EB2901833F00C0FFB6 /* StringLiteral.swift in Sources */,
 				4A705EF42921CA75002CE1B1 /* MockData.swift in Sources */,
 				A215B29E2906FA3E00DD60B2 /* UITextField+Extension.swift in Sources */,
+				A794B11529264C1F000FE69A /* VegetarianTypeTableViewCell.swift in Sources */,
 				4AC8F0632906BD18007D3946 /* LocationSearchingViewController.swift in Sources */,
 				4ACF36D62910A87700B95115 /* UINavigationController+Back.swift in Sources */,
 				A7C8DF242901274500F38AD7 /* AppDelegate.swift in Sources */,
@@ -866,6 +873,7 @@
 				4AFF0F532919F8C400F7496C /* MyPageTableViewCell.swift in Sources */,
 				A215B29C2906DB6400DD60B2 /* PhotoPickerView.swift in Sources */,
 				4AC8F0652906C5E0007D3946 /* SearchedAddressTableViewCell.swift in Sources */,
+				A7B5B4F029263EE500421EF1 /* SelectVegetarianTypeViewController.swift in Sources */,
 				4AF67E932912050B00D4A2C4 /* ChatRoomListViewController.swift in Sources */,
 				A71C543D291A655200FBD231 /* LocationAuthViewController.swift in Sources */,
 				4ADC12F32901857F00C0FFB6 /* UIViewController+Alert.swift in Sources */,
