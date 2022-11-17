@@ -91,8 +91,6 @@ class GroupListViewController: UIViewController {
         }
     }
     
-    
-    
     private func configureCollectionView() {
         collectionView.delegate = self
         collectionView.dataSource = self

@@ -132,7 +132,7 @@ class MyClubsViewController: UIViewController {
 
 extension MyClubsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(myClubList[indexPath.item])
+        // TODO : 모임글 선택하면 해당 모임글의 상세화면으로 넘어가기
     }
 }
 

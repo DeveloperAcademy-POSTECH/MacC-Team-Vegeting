@@ -15,7 +15,6 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     
     private lazy var coverImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "star")
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 8
         return imageView
@@ -32,14 +31,12 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .labelGray1
         label.font = .preferredFont(forTextStyle: .footnote)
-        
         return label
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLayout()
-        configureUI()
     }
     
     required init?(coder: NSCoder) {
@@ -72,12 +69,9 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    private func configureUI() {
-    }
-    
     func configure(with item: Club) {
         coverImageView.image = UIImage(named: item.coverImageURL ?? "groupCoverImage1")
-        categoryView.configure(text: item.clubCategory ?? "", backgroundColor: .textFieldGray )
+        categoryView.configure(text: item.clubCategory, backgroundColor: .textFieldGray )
         titleLabel.text = item.clubTitle
         let participantsCount = item.participants?.count ?? 0
         clubInfoLabel.text = "서울시 동작구ㆍ\(participantsCount)/\(item.maxNumberOfPeople) 모집"
