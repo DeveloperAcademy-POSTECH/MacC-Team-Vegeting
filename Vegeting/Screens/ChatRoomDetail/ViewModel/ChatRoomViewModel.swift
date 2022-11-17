@@ -9,14 +9,14 @@ import Combine
 import Foundation
 
 struct TemporaryMessage {
-    let status: SenderType
+    let status: MessageType
     let profileUserName: String
     let messageContent: String
 }
 
 struct MessageBubble {
     let message: Message
-    let senderType: SenderType
+    let senderType: MessageType
 }
 
 final class ChatRoomViewModel: ViewModelType {

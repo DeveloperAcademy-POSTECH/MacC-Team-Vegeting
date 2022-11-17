@@ -7,10 +7,11 @@
 
 import UIKit
 
-enum SenderType: CaseIterable {
+enum MessageType: CaseIterable {
     case mine
     case other
     case otherWithProfile
+    case date
 }
 
 final class OtherChatContentCollectionViewCell: UICollectionViewCell {
@@ -94,7 +95,7 @@ final class OtherChatContentCollectionViewCell: UICollectionViewCell {
 // MARK: Layout 관련 함수
 extension OtherChatContentCollectionViewCell {
 
-    private func updateLayout(senderType: SenderType) {
+    private func updateLayout(senderType: MessageType) {
         contentLabelTopAnchor?.isActive = false
         let hiddenStatus: Bool
         
@@ -105,7 +106,7 @@ extension OtherChatContentCollectionViewCell {
         case .other:
             hiddenStatus = true
             contentLabelTopAnchor = contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12)
-        case .mine:
+        case .mine, .date:
             return
         }
         
