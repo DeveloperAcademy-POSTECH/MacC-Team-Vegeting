@@ -10,14 +10,13 @@ import Foundation
 extension Date {
     func toString(format: String) -> String {
         let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko")
         dateFormatter.dateFormat = format
         return dateFormatter.string(from: self)
     }
     
-    func toHourAndMinuteString() -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko")
-        dateFormatter.dateFormat = "a h:mm"
-        return dateFormatter.string(from: self)
+    func toMessageTimeText() -> String {
+        return toString(format: "a h:mm")
     }
+    
 }

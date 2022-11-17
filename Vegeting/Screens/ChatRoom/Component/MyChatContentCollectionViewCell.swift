@@ -47,7 +47,7 @@ final class MyChatContentCollectionViewCell: UICollectionViewCell {
     
     func configure(with model: MessageBubble) {
         contentLabel.text = model.message.content
-        dateTimeLabel.text = model.message.createdAt.toHourAndMinuteString()
+        dateTimeLabel.text = model.message.createdAt.toMessageTimeText()
         
         backgroundPaddingView.layer.cornerRadius = model.message.content?.count ?? 0 > 3 ? 21 : 16
     }
@@ -68,6 +68,8 @@ extension MyChatContentCollectionViewCell {
             contentLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -37),
             contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
             contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
+            contentLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 18),
+            contentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 18)
         ]
         
         let backgroundPaddingViewConstraints = [

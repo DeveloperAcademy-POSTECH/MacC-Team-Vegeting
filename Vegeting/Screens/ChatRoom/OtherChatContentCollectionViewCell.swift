@@ -81,7 +81,7 @@ final class OtherChatContentCollectionViewCell: UICollectionViewCell {
     
     func configure(with model: MessageBubble) {
         contentLabel.text = model.message.content
-        dateTimeLabel.text = model.message.createdAt.toHourAndMinuteString()
+        dateTimeLabel.text = model.message.createdAt.toMessageTimeText()
         profileUserNameLabel.text = model.message.senderName
         backgroundPaddingView.layer.cornerRadius = model.message.content?.count ?? 0 > 3 ? 21 : 16
         updateLayout(senderType: model.senderType)
