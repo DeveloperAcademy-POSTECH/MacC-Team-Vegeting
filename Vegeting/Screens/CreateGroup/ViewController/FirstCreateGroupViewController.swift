@@ -125,6 +125,7 @@ final class FirstCreateGroupViewController: UIViewController {
         super.viewDidLoad()
         setupLayout()
         configureUI()
+        setupNavigationBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -135,6 +136,10 @@ final class FirstCreateGroupViewController: UIViewController {
     
     private func hideTabBar() {
         self.tabBarController?.tabBar.isHidden = true
+    }
+    
+    private func setupNavigationBar() {
+        self.navigationItem.backButtonDisplayMode = .minimal
     }
     
     private func showLocationView() {

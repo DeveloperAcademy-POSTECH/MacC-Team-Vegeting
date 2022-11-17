@@ -166,6 +166,8 @@ final class SecondCreateGroupViewController: BaseViewController {
                 FirebaseManager.shared.requestPost(user: vfUser, club: club, chat: chat)
             }
         }
+        
+        navigationController?.popToRootViewController(animated: true)
     }
 
     private func getImageURL(completion: @escaping (URL?) -> Void) {
