@@ -23,10 +23,10 @@ class BottomButton: UIButton {
         layer.masksToBounds = true
         layer.cornerRadius = 10
         titleLabel?.font = .preferredFont(forTextStyle: .body)
-        setBackgroundColor(.mainYellow, for: .normal)
-        setBackgroundColor(.mainDisabledYellow, for: .disabled)
-        setTitleColor(.enabledBlack, for: .normal)
-        setTitleColor(.disabledBlack, for: .disabled)
+        setBackgroundColor(.vfYellow1, for: .normal)
+        setBackgroundColor(.vfYellow2, for: .disabled)
+        setTitleColor(.vfBlack, for: .normal)
+        setTitleColor(.vfGray3, for: .disabled)
     }
 
     private func setupLayout() {
