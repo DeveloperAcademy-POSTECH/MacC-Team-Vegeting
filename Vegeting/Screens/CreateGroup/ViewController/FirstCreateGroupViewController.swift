@@ -127,7 +127,15 @@ final class FirstCreateGroupViewController: UIViewController {
         configureUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        hideTabBar()
+    }
+    
     //MARK: - func
+    
+    private func hideTabBar() {
+        self.tabBarController?.tabBar.isHidden = true
+    }
     
     private func showLocationView() {
         locationTitleLabel.isHidden = false
@@ -153,7 +161,7 @@ final class FirstCreateGroupViewController: UIViewController {
               let selectedNumberOfPeople = numberOfGroupCollectionView.getSelectedNumber() else { return }
         let passedData = IncompleteClub(clubCategory: selectedCategory,
                                         clubLocation: locationLabel.text ?? "",
-                                        createdAt: datePicker.date,
+                                        dateToMeet: datePicker.date,
                                         maxNumberOfPeople: selectedNumberOfPeople)
         let viewController = SecondCreateGroupViewController()
         viewController.configure(with: passedData)

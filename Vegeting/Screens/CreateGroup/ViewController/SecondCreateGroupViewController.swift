@@ -73,9 +73,13 @@ final class SecondCreateGroupViewController: BaseViewController {
         return button
     }()
     
+    //MARK: - lifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    //MARK: - func
     
     override func setupLayout() {
         view.addSubviews(coverPickerView, groupInfoStackView, titleTextField, titleWordsCountLabel,
@@ -138,27 +142,43 @@ final class SecondCreateGroupViewController: BaseViewController {
         let clubTitle = titleTextField.text else { return }
         let firebaseManager = FirebaseManager.shared
         
-        let club = Club(id: nil, clubID: nil, chatID: nil,
+        var club = Club(id: nil, clubID: nil, chatID: nil,
                         clubTitle: clubTitle,
                         clubCategory: incompleteClub.clubCategory,
                         clubContent: contentTextView.text,
                         hostID: nil, participants: nil,
-                        createdAt: incompleteClub.createdAt,
-                        maxNumberOfPeople: incompleteClub.maxNumberOfPeople,
-                        coverImageURL: nil)
+                        dateToMeet: incompleteClub.dateToMeet,
+                        createdAt: Date(),
+                        maxNumberOfPeople: incompleteClub.maxNumberOfPeople)
         
         let chat = Chat(chatRoomID: nil,
                         clubID: nil,
-                        chatRoomName: titleTextField.text ?? "",
+                        chatRoomName: clubTitle,
                         participants: nil,
                         messages: nil,
                         coverImageURL: nil)
-        Task {
-            guard let vfUser = await firebaseManager.requestUser() else { return }
-            firebaseManager.requestPost(user: vfUser , club: club, chat: chat)
+        
+        getImageURL() { url in
+            club.coverImageURL = url
+            Task {
+                guard let vfUser = await firebaseManager.requestUser() else { return }
+                FirebaseManager.shared.requestPost(user: vfUser, club: club, chat: chat)
+            }
         }
     }
 
+    private func getImageURL(completion: @escaping (URL?) -> Void) {
+        if !coverPickerView.isDefaultImage {
+            guard let image = coverPickerView.getImageView() else { return completion(nil) }
+            FirebaseStorageManager.uploadImage(image: image, folderName: "club") { url in
+                guard let url = url else {return}
+                completion(url)
+            }
+        } else {
+            completion(nil)
+        }
+    }
+    
     @objc
     private func didTextFieldChanged() {
         checkRegisterButtonEnabled()
