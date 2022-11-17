@@ -32,12 +32,21 @@ class MyPageViewController: UIViewController {
                                                 MyPageSettingElement(text: "로그아웃", isSmallTitle: false),
                                                 MyPageSettingElement(text: "회원탈퇴", isSmallTitle: false)]
     
+    //MARK: - lifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
         configureUI()
         setupNavigationBar()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        showTabBar()
+    }
+    
+    //MARK: - func
     
     private func setupLayout() {
         view.addSubview(tableView)
@@ -51,8 +60,13 @@ class MyPageViewController: UIViewController {
         view.backgroundColor = .white
     }
     
+    private func showTabBar() {
+        tabBarController?.tabBar.isHidden = false
+    }
+    
     private func setupNavigationBar() {
         self.navigationItem.backButtonDisplayMode = .minimal
+        self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.title = "마이페이지"
     }
 }

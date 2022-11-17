@@ -65,11 +65,6 @@ class MyClubsViewController: UIViewController {
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        showTabBar()
-    }
-    
     // MARK: - func
     
     private func configureCollectionView() {
@@ -82,12 +77,7 @@ class MyClubsViewController: UIViewController {
     }
     
     private func hideTabBar() {
-        tabBarController?.tabBar.frame.origin = CGPoint(x: 0, y: UIScreen.main.bounds.height)
-    }
-
-    private func showTabBar() {
-        let tabBarheight = tabBarController?.tabBar.frame.height ?? 0
-        tabBarController?.tabBar.frame.origin = CGPoint(x: 0, y: UIScreen.main.bounds.height - (tabBarheight + 1))
+        tabBarController?.tabBar.isHidden = true
     }
     
     private func setupNavigationBar() {
