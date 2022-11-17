@@ -13,7 +13,7 @@ class MyClubsViewController: UIViewController {
             DispatchQueue.main.async { [weak self] in
                 self?.collectionView.reloadData()
             }
-            self.viewDidAppear(true)
+            setupLayout()
         }
     }
 
@@ -47,8 +47,11 @@ class MyClubsViewController: UIViewController {
         return label
     }()
     
+    // MARK: - lifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureCollectionView()
         configureUI()
         setupNavigationBar()
@@ -57,16 +60,8 @@ class MyClubsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         hideTabBar()
-        Task {
-            myClubList = await FirebaseManager.shared.requestMyClubInformation() ?? []
-        }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        if myClubList.isEmpty {
-            setupEmptyViewLayout()
-        } else {
-            setupCollectionViewLayout()
+        Task { [weak self] in
+            self?.myClubList = await FirebaseManager.shared.requestMyClubInformation() ?? []
         }
     }
     
@@ -74,6 +69,8 @@ class MyClubsViewController: UIViewController {
         super.viewWillDisappear(animated)
         showTabBar()
     }
+    
+    // MARK: - func
     
     private func configureCollectionView() {
         collectionView.delegate = self
@@ -93,6 +90,18 @@ class MyClubsViewController: UIViewController {
         tabBarController?.tabBar.frame.origin = CGPoint(x: 0, y: UIScreen.main.bounds.height - (tabBarheight + 1))
     }
     
+    private func setupNavigationBar() {
+        navigationItem.title = "참여한 모임"
+    }
+    
+    private func setupLayout() {
+        if myClubList.isEmpty {
+            setupEmptyViewLayout()
+        } else {
+            setupCollectionViewLayout()
+        }
+    }
+    
     private func setupCollectionViewLayout() {
         view.addSubviews(collectionView)
         
@@ -102,10 +111,6 @@ class MyClubsViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-    }
-    
-    private func setupNavigationBar() {
-        navigationItem.title = "참여한 모임"
     }
     
     private func setupEmptyViewLayout() {
