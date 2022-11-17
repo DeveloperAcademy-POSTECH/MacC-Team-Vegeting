@@ -18,6 +18,7 @@ struct Club: Identifiable, Codable {
     let clubContent: String
     let hostID: String?
     let participants: [Participant]?
+    let dateToMeet: Date
     let createdAt: Date
     let maxNumberOfPeople: Int
     var coverImageURL: URL?
@@ -26,6 +27,6 @@ struct Club: Identifiable, Codable {
 struct IncompleteClub {
     var clubCategory: String
     var clubLocation: String
-    var createdAt: Date
+    var dateToMeet: Date
     var maxNumberOfPeople: Int
 }
