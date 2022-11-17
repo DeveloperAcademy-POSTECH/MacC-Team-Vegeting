@@ -66,8 +66,8 @@ extension MyChatContentCollectionViewCell {
     private func setupLayout() {
         
         let contentLabelConstraints = [
-            contentLabel.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 160),
-            contentLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -37),
+            contentLabel.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 111),
+            contentLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -36),
             contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
             contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
             contentLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 18),

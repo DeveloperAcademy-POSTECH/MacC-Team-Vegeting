@@ -95,6 +95,7 @@ final class OtherChatContentCollectionViewCell: UICollectionViewCell {
 extension OtherChatContentCollectionViewCell {
 
     private func updateLayout(senderType: SenderType) {
+        contentLabelTopAnchor?.isActive = false
         let hiddenStatus: Bool
         
         switch senderType {
@@ -103,7 +104,7 @@ extension OtherChatContentCollectionViewCell {
             contentLabelTopAnchor = contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 36)
         default:
             hiddenStatus = true
-            contentLabelTopAnchor = contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8)
+            contentLabelTopAnchor = contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12)
         }
         
         profileImageView.isHidden = hiddenStatus
@@ -142,8 +143,7 @@ extension OtherChatContentCollectionViewCell {
     private func setupMessageLayout() {
         let contentLabelConstraints = [
             contentLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 78),
-            contentLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -66),
-            contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40),
+            contentLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -94),
             contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
             contentLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 18),
             contentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 18)
@@ -153,7 +153,7 @@ extension OtherChatContentCollectionViewCell {
             backgroundPaddingView.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor, constant: -16),
             backgroundPaddingView.trailingAnchor.constraint(equalTo: contentLabel.trailingAnchor, constant: 16),
             backgroundPaddingView.topAnchor.constraint(equalTo: contentLabel.topAnchor, constant: -12),
-            backgroundPaddingView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            backgroundPaddingView.bottomAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 12)
             
         ]
         
