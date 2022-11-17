@@ -185,12 +185,12 @@ final class UserProfileViewController: UIViewController {
         var textLength = text.count
         
         //maxLength 초과 시 키보드를 아래로 내려주는 역할
-        if text.count >= nicknameMaxLength {
+        if textLength >= nicknameMaxLength {
             nicknameTextField.resignFirstResponder()
         }
         
         //maxLength 이상의 글자를 붙여넣을 경우 잘라주는 역할
-        if text.count > nicknameMaxLength {
+        if textLength > nicknameMaxLength {
             let index = text.index(text.startIndex, offsetBy: nicknameMaxLength)
             let newString = text[text.startIndex..<index]
             nicknameTextField.text = String(newString)
