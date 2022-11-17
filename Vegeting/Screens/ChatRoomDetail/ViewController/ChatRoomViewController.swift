@@ -123,7 +123,7 @@ extension ChatRoomViewController: UICollectionViewDataSource {
             cell.configure(with: data)
             return cell
             
-        default:
+        case .otherWithProfile, .other:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OtherChatContentCollectionViewCell.className, for: indexPath) as? OtherChatContentCollectionViewCell else { return UICollectionViewCell() }
             cell.configure(with: data)
             return cell

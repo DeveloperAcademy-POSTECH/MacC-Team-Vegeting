@@ -102,9 +102,11 @@ extension OtherChatContentCollectionViewCell {
         case .otherWithProfile:
             hiddenStatus = false
             contentLabelTopAnchor = contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 36)
-        default:
+        case .other:
             hiddenStatus = true
             contentLabelTopAnchor = contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12)
+        case .mine:
+            return
         }
         
         profileImageView.isHidden = hiddenStatus
