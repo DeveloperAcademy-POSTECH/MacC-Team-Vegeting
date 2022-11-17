@@ -240,7 +240,6 @@ final class FirstCreateGroupViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .white
     }
-    
 }
 
 extension FirstCreateGroupViewController: LocationSearchingViewControllerDelegate {
@@ -248,7 +247,6 @@ extension FirstCreateGroupViewController: LocationSearchingViewControllerDelegat
         locationLabel.text = text
         self.showDateView()
     }
-    
 }
 
 extension FirstCreateGroupViewController: GroupCategoryViewDelegate {
@@ -261,5 +259,4 @@ extension FirstCreateGroupViewController: NumberOfGroupPeopleViewDelegate {
     func didSelectedItem() {
         bottomButton.isEnabled = true
     }
-    
 }
