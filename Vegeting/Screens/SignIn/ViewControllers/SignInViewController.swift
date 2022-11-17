@@ -13,7 +13,6 @@ import UIKit
 class SignInViewController: UIViewController {
     
     private let brandingImageView: UIImageView = {
-        
         let imageView = UIImageView()
         imageView.backgroundColor = .gray
         return imageView
@@ -92,24 +91,11 @@ extension SignInViewController: ASAuthorizationControllerDelegate, ASAuthorizati
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        switch authorization.credential {
-        case let appleIDCredential as ASAuthorizationAppleIDCredential:
-            
-            guard let appleIDToken = appleIDCredential.identityToken else {
-                print("Unable to fetch identity token")
-                return
-            }
-            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-                print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
-                return
-            }
+        if case let appleIDCredential as ASAuthorizationAppleIDCredential = authorization.credential {
+            guard let appleIDToken = appleIDCredential.identityToken else { return }
+            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else { return }
             
             input.send(.appleSignInEventOccurred(tokenID: idTokenString))
-            
-        default:
-            break
-            
-            
         }
     }
     
