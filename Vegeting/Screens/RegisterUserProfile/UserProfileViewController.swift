@@ -22,7 +22,7 @@ final class UserProfileViewController: UIViewController {
     private let profileMessageLabel: UILabel = {
         let label = UILabel()
         label.text = "프로필 사진을 선택해주세요."
-        label.font = .preferredFont(forTextStyle: .title3)
+        label.font = .preferredFont(forTextStyle: .title3, compatibleWith: .init(legibilityWeight: .bold))
         return label
     }()
     
@@ -31,8 +31,8 @@ final class UserProfileViewController: UIViewController {
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 55
         imageView.clipsToBounds = true
-        imageView.backgroundColor = UIColor(hex: "#F2F2F2")
-        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(presentPHPicker)))
+        imageView.backgroundColor = .textFieldGray
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileImageViewTapped)))
         imageView.isUserInteractionEnabled = true
         return imageView
     }()
@@ -45,14 +45,14 @@ final class UserProfileViewController: UIViewController {
         button.layer.masksToBounds = true
         button.backgroundColor = .white
         button.layer.cornerRadius = 15
-        button.addTarget(self, action: #selector(presentPHPicker), for: .touchUpInside)
+        button.addTarget(self, action: #selector(cameraButtontapped), for: .touchUpInside)
         return button
     }()
     
     private let nicknameMessageLabel: UILabel = {
         let label = UILabel()
         label.text = "닉네임을 입력해주세요."
-        label.font = .preferredFont(forTextStyle: .title3)
+        label.font = .preferredFont(forTextStyle: .title3, compatibleWith: .init(legibilityWeight: .bold))
         return label
     }()
     
@@ -64,7 +64,7 @@ final class UserProfileViewController: UIViewController {
     
     private let nicknameTextCountLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor(hex: "#8E8E93")
+        label.textColor = .labelGray1
         label.font = .preferredFont(forTextStyle: .subheadline)
         label.text = "0/10"
         return label
@@ -159,6 +159,15 @@ final class UserProfileViewController: UIViewController {
     }
     
     @objc
+    private func profileImageViewTapped() {
+        presentPHPicker()
+    }
+    
+    @objc
+    private func cameraButtontapped() {
+        presentPHPicker()
+    }
+    
     private func presentPHPicker() {
         var configuration = PHPickerConfiguration(photoLibrary: .shared())
 
@@ -188,13 +197,16 @@ final class UserProfileViewController: UIViewController {
             textLength = newString.count
         }
         
-        if text.count < nicknameMinLength {
-            nextButtonInactive()
-        } else {
-            nextButtonActive()
-        }
-        
-        nicknameTextCountLabel.text = "\(textLength)/10"
+        changeButtonStatus(textLength: textLength)
+        configureTextCountLabel(textLength: textLength)
+    }
+    
+    private func changeButtonStatus(textLength: Int) {
+        textLength < nicknameMinLength ? nextButtonInactive() : nextButtonActive()
+    }
+    
+    private func configureTextCountLabel(textLength: Int) {
+        nicknameTextCountLabel.text = "\(textLength)/\(nicknameMaxLength)"
     }
     
     private func nextButtonInactive() {
@@ -203,8 +215,6 @@ final class UserProfileViewController: UIViewController {
     
     private func nextButtonActive() {
         nextButton.isEnabled = true
-        nextButton.setTitleColor(UIColor.label, for: .normal)
-        nextButton.setBackgroundColor(UIColor(hex: "#FFD243"), for: .normal)
     }
 }
 
