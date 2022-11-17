@@ -57,7 +57,7 @@ class GroupInfoView: UIStackView {
     func configure(with data: IncompleteClub) {
         self.data = data
         categoryLabel.text = data.clubCategory
-        locationLabel.text = data.clubLocation
+        locationLabel.text = data.placeToMeet
         dateLabel.text = data.dateToMeet.toString(format: "M월 d일")
         capacityLabel.text = "1/" + String(data.maxNumberOfPeople)
     }

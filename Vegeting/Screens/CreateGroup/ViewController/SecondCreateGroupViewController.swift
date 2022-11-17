@@ -149,6 +149,7 @@ final class SecondCreateGroupViewController: BaseViewController {
                         hostID: nil, participants: nil,
                         dateToMeet: incompleteClub.dateToMeet,
                         createdAt: Date(),
+                        placeToMeet: incompleteClub.placeToMeet,
                         maxNumberOfPeople: incompleteClub.maxNumberOfPeople)
         
         let chat = Chat(chatRoomID: nil,

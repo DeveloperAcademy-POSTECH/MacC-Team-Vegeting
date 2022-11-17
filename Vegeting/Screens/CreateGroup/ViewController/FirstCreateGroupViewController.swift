@@ -160,7 +160,7 @@ final class FirstCreateGroupViewController: UIViewController {
         guard let selectedCategory = categoryCollectionView.getSelectedCategory(),
               let selectedNumberOfPeople = numberOfGroupCollectionView.getSelectedNumber() else { return }
         let passedData = IncompleteClub(clubCategory: selectedCategory,
-                                        clubLocation: locationLabel.text ?? "",
+                                        placeToMeet: locationLabel.text ?? "",
                                         dateToMeet: datePicker.date,
                                         maxNumberOfPeople: selectedNumberOfPeople)
         let viewController = SecondCreateGroupViewController()
