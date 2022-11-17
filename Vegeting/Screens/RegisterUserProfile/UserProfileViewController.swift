@@ -31,7 +31,7 @@ final class UserProfileViewController: UIViewController {
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 55
         imageView.clipsToBounds = true
-        imageView.backgroundColor = .textFieldGray
+        imageView.backgroundColor = .vfGray4
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileImageViewTapped)))
         imageView.isUserInteractionEnabled = true
         return imageView
@@ -64,7 +64,7 @@ final class UserProfileViewController: UIViewController {
     
     private let nicknameTextCountLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .labelGray1
+        label.textColor = .vfGray3
         label.font = .preferredFont(forTextStyle: .subheadline)
         label.text = "0/10"
         return label
@@ -102,7 +102,7 @@ final class UserProfileViewController: UIViewController {
     }
     
     func configureUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         view.addSubviews(progressBarImageView, profileMessageLabel, profileImageView,
                          nicknameMessageLabel, cameraButton, nicknameTextField,
                          nicknameTextCountLabel, nextButton)
