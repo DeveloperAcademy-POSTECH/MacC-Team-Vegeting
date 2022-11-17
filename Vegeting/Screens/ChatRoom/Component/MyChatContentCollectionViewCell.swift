@@ -49,7 +49,9 @@ final class MyChatContentCollectionViewCell: UICollectionViewCell {
         contentLabel.text = model.message.content
         dateTimeLabel.text = model.message.createdAt.toMessageTimeText()
         
-        backgroundPaddingView.layer.cornerRadius = model.message.content?.count ?? 0 > 3 ? 21 : 16
+        if let text = model.message.content {
+            contentLabel.textAlignment = text.count > 1 ? .left : .center
+        }
     }
     
 }

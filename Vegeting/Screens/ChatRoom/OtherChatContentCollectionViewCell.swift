@@ -83,7 +83,11 @@ final class OtherChatContentCollectionViewCell: UICollectionViewCell {
         contentLabel.text = model.message.content
         dateTimeLabel.text = model.message.createdAt.toMessageTimeText()
         profileUserNameLabel.text = model.message.senderName
-        backgroundPaddingView.layer.cornerRadius = model.message.content?.count ?? 0 > 3 ? 21 : 16
+        
+        
+        if let text = model.message.content {
+            contentLabel.textAlignment = text.count > 1 ? .left : .center
+        }
         updateLayout(senderType: model.senderType)
     }
     
@@ -143,6 +147,8 @@ extension OtherChatContentCollectionViewCell {
             contentLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -66),
             contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40),
             contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
+            contentLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 18),
+            contentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 18)
         ]
         
         let backgroundPaddingViewConstraints = [
