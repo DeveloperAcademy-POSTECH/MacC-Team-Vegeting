@@ -76,12 +76,25 @@ class GroupListViewController: UIViewController {
         return collectionView
     }()
     
+    //MARK: - lifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setCustomNavigationBar()
         configureCollectionView()
         configureUI()
         setupLayout()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        showTabBar()
+    }
+    
+    //MARK: - func
+    
+    private func showTabBar() {
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     private func configureCollectionView() {
@@ -104,6 +117,8 @@ class GroupListViewController: UIViewController {
         navigationBarView.spacing = space - 115
 
         navigationItem.titleView = navigationBarView
+        navigationItem.backButtonDisplayMode = .minimal
+        navigationController?.navigationBar.tintColor = .black
     }
     
     private func setupLayout() {
