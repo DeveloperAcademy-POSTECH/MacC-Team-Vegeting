@@ -62,7 +62,7 @@ final class ChatRoomViewController: UIViewController {
     
     private let messageTextView: UITextView = {
         let textView = UITextView()
-        textView.backgroundColor = .gray.withAlphaComponent(0.1)
+        textView.backgroundColor = .vfGray4
         textView.font = .preferredFont(forTextStyle: .callout)
         textView.layer.masksToBounds = true
         textView.layer.cornerRadius = 13

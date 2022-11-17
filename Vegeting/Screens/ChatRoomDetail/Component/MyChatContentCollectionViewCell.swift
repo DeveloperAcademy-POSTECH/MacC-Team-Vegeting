@@ -14,7 +14,7 @@ final class MyChatContentCollectionViewCell: UICollectionViewCell {
         
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 21
-        view.layer.borderColor = UIColor.gray.withAlphaComponent(0.2).cgColor
+        view.layer.borderColor = UIColor.vfGray3.cgColor
         view.layer.borderWidth = 1.5
         return view
     }()

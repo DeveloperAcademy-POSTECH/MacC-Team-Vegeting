@@ -23,8 +23,7 @@ final class OtherChatContentCollectionViewCell: UICollectionViewCell {
     
     private let backgroundPaddingView: UIView = {
         let view = UIView()
-        //        임시 컬러 삽입
-        view.backgroundColor = UIColor.gray.withAlphaComponent(0.2)
+        view.backgroundColor = .vfGray4
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 21
         return view
@@ -47,8 +46,7 @@ final class OtherChatContentCollectionViewCell: UICollectionViewCell {
     
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
-        //        임시 컬러
-        imageView.backgroundColor = .gray.withAlphaComponent(0.5)
+        imageView.backgroundColor = .vfGray3
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = SizeLiteral.profileImageSize.rawValue / 2
         imageView.clipsToBounds = true
