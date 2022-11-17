@@ -20,4 +20,8 @@ extension Date {
         return toString(format: "a h:mm")
     }
     
+    func toMessageDateTitleText() -> String {
+        return toString(format: "yyyy년 MM월 dd일")
+    }
+    
 }

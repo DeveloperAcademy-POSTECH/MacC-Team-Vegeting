@@ -12,7 +12,6 @@ class MessageDateCollectionViewCell: UICollectionViewCell {
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .footnote)
-        label.text = "2022년 9월 13일"
         return label
     }()
     
@@ -24,6 +23,10 @@ class MessageDateCollectionViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(message: MessageBubble) {
+        dateLabel.text = message.message.createdAt.toMessageDateTitleText()
     }
 }
 
