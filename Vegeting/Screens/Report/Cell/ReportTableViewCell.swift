@@ -11,10 +11,12 @@ class ReportTableViewCell: UITableViewCell {
     
     // MARK: - properties
     
-    private let checkButton: UIButton = {
+    private lazy var checkButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "circle"), for: .normal)
         button.setImage(UIImage(systemName: "checkmark.circle.fill"), for: .selected)
+        button.addTarget(self, action: #selector(checkButtonTapped), for: .touchUpInside)
+        button.tintColor = .black
         return button
     }()
     
@@ -54,4 +56,8 @@ class ReportTableViewCell: UITableViewCell {
         reportLabel.text = reportText
     }
     
+    @objc
+    private func checkButtonTapped() {
+        checkButton.isSelected.toggle()
+    }
 }
