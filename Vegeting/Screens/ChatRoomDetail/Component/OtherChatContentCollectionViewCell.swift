@@ -24,7 +24,7 @@ final class OtherChatContentCollectionViewCell: UICollectionViewCell {
     private let backgroundPaddingView: UIView = {
         let view = UIView()
         //        임시 컬러 삽입
-        view.backgroundColor = UIColor.gray.withAlphaComponent(0.2)
+        view.backgroundColor = .vfGray4
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 21
         return view
