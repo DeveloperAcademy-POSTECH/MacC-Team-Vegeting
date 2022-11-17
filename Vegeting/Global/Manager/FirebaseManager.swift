@@ -263,4 +263,22 @@ extension FirebaseManager {
             .eraseToAnyPublisher()
         
     }
+    
+    func isPossibleNickname(newName: String) async -> Bool {
+        do {
+            let querySnapshot = try await db.collection(Path.user.rawValue).getDocuments()
+            let data = querySnapshot.documents.compactMap { snapshot in
+                try? snapshot.data(as: VFUser.self)
+            }
+            for user in data {
+                if user.userName == newName {
+                    return false
+                }
+            }
+            return true
+        } catch {
+            print(error.localizedDescription)
+            return false
+        }
+    }
 }
