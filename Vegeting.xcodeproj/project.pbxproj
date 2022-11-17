@@ -37,7 +37,6 @@
 		4ADC12F32901857F00C0FFB6 /* UIViewController+Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADC12F22901857F00C0FFB6 /* UIViewController+Alert.swift */; };
 		4AE1409A2925EEF4005485A8 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE140992925EEF4005485A8 /* ReportViewController.swift */; };
 		4AE1409F2925F07C005485A8 /* ReportTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE1409E2925F07C005485A8 /* ReportTableViewCell.swift */; };
-		4AE140A22925F183005485A8 /* RadioCheckButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE140A12925F183005485A8 /* RadioCheckButton.swift */; };
 		4AE140A429260AE8005485A8 /* ReportObjectTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE140A329260AE8005485A8 /* ReportObjectTableViewCell.swift */; };
 		4AF67E932912050B00D4A2C4 /* ChatRoomListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF67E922912050B00D4A2C4 /* ChatRoomListViewController.swift */; };
 		4AF67E95291206C000D4A2C4 /* ChatRoomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF67E94291206C000D4A2C4 /* ChatRoomTableViewCell.swift */; };
@@ -141,7 +140,6 @@
 		4ADC12F22901857F00C0FFB6 /* UIViewController+Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alert.swift"; sourceTree = "<group>"; };
 		4AE140992925EEF4005485A8 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
 		4AE1409E2925F07C005485A8 /* ReportTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTableViewCell.swift; sourceTree = "<group>"; };
-		4AE140A12925F183005485A8 /* RadioCheckButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioCheckButton.swift; sourceTree = "<group>"; };
 		4AE140A329260AE8005485A8 /* ReportObjectTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportObjectTableViewCell.swift; sourceTree = "<group>"; };
 		4AF67E922912050B00D4A2C4 /* ChatRoomListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomListViewController.swift; sourceTree = "<group>"; };
 		4AF67E94291206C000D4A2C4 /* ChatRoomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomTableViewCell.swift; sourceTree = "<group>"; };
@@ -440,7 +438,6 @@
 		4AE140A02925F160005485A8 /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				4AE140A12925F183005485A8 /* RadioCheckButton.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -857,7 +854,6 @@
 				A2F369D929090E72007F3732 /* UIButton+Extension.swift in Sources */,
 				4AE140A429260AE8005485A8 /* ReportObjectTableViewCell.swift in Sources */,
 				A7C8DF282901274500F38AD7 /* ViewController.swift in Sources */,
-				4AE140A22925F183005485A8 /* RadioCheckButton.swift in Sources */,
 				4A060C0A2913D77200D75699 /* TestViewController.swift in Sources */,
 				4A060C062913AA4300D75699 /* InterestView.swift in Sources */,
 				76B0282629051FC9002C9DF7 /* VFUser.swift in Sources */,

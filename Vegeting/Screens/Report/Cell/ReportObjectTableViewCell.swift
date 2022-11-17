@@ -53,27 +53,32 @@ class ReportObjectTableViewCell: UITableViewCell {
     // MARK: - func
     
     private func setupLayout() {
-        addSubviews(titleUserNameLabel, userNameLabel, titleClubNameLabel, clubNameLabel)
+        contentView.addSubviews(titleUserNameLabel, userNameLabel, titleClubNameLabel, clubNameLabel)
         
-        titleUserNameLabel.constraint(top: self.topAnchor,
-                                      leading: self.leadingAnchor,
+        titleUserNameLabel.constraint(top: contentView.topAnchor,
+                                      leading: contentView.leadingAnchor,
                                       padding: UIEdgeInsets(top: 27, left: 20, bottom: 0, right: 0))
-        userNameLabel.constraint(top: self.topAnchor,
-                                 leading: self.leadingAnchor,
-                                 trailing: self.trailingAnchor,
+        
+        userNameLabel.constraint(top: contentView.topAnchor,
+                                 leading: contentView.leadingAnchor,
+                                 trailing: contentView.trailingAnchor,
                                  padding: UIEdgeInsets(top: 27, left: 80, bottom: 0, right: 20))
+        
         titleClubNameLabel.constraint(top: titleUserNameLabel.bottomAnchor,
-                                      leading: self.leadingAnchor,
+                                      leading: contentView.leadingAnchor,
+                                      bottom: contentView.bottomAnchor,
                                       padding: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 0))
+        
         clubNameLabel.constraint(top: userNameLabel.bottomAnchor,
-                                 leading: self.leadingAnchor,
-                                 trailing: self.trailingAnchor,
+                                 leading: contentView.leadingAnchor,
+                                 bottom: contentView.bottomAnchor,
+                                 trailing: contentView.trailingAnchor,
                                  padding: UIEdgeInsets(top: 20, left: 80, bottom: 20, right: 20))
     }
     
-    func configure(with data: Club) {
-//        userNameLabel =  host 닉네임도 저장해야 할듯
-        clubNameLabel.text = data.clubTitle
+    func configure(hostName: String, clubName: String) {
+        userNameLabel.text = hostName
+        clubNameLabel.text = clubName
     }
     
 }
