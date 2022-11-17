@@ -13,6 +13,7 @@ enum SenderType: CaseIterable {
     case otherNeedProfile
 }
 
+
 class OtherChatContentCollectionViewCell: UICollectionViewCell {
     
     private enum SizeLiteral: CGFloat {
@@ -34,7 +35,7 @@ class OtherChatContentCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.lineBreakMode = .byCharWrapping
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        label.font = .preferredFont(forTextStyle: .callout)
         return label
     }()
     
@@ -42,7 +43,7 @@ class OtherChatContentCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.numberOfLines = 0
         label.text = "12:24"
-        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        label.font = .preferredFont(forTextStyle: .caption1)
         return label
     }()
     
@@ -60,14 +61,13 @@ class OtherChatContentCollectionViewCell: UICollectionViewCell {
     private let profileUserNameLabel: UILabel = {
         let label = UILabel()
         label.text = "초보 채식인"
-        label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        label.font = .preferredFont(forTextStyle: .subheadline)
         return label
     }()
     
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureUI()
         setupLayout()
     }
     
@@ -82,11 +82,10 @@ class OtherChatContentCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configure(with model: TemporaryMessage) {
-        contentLabel.text = model.messageContent
-        profileUserNameLabel.text = model.profileUserName
-        let senderType = model.status
-        
+    func configure(with model: Message) {
+        contentLabel.text = model.content
+        profileUserNameLabel.text = model.senderName
+        let senderType = SenderType.other
         updateLayout(senderType: senderType)
     }
     
@@ -112,18 +111,13 @@ extension OtherChatContentCollectionViewCell {
         contentLabelTopAnchor?.isActive = true
     }
     
-    private func configureUI() {
-        contentView.addSubviews(backgroundPaddingView, contentLabel, dateTimeLabel)
-        contentView.addSubviews(profileImageView, profileUserNameLabel)
-    }
-    
     private func setupLayout() {
         setupProfileLayout()
         setupMessageLayout()
-        
     }
     
     private func setupProfileLayout() {
+        contentView.addSubviews(profileImageView, profileUserNameLabel)
         let profileImageViewConstraints = [
             profileImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -143,6 +137,7 @@ extension OtherChatContentCollectionViewCell {
     }
     
     private func setupMessageLayout() {
+        contentView.addSubviews(backgroundPaddingView, contentLabel, dateTimeLabel)
         let contentLabelConstraints = [
             contentLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 78),
             contentLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -66),
@@ -155,7 +150,6 @@ extension OtherChatContentCollectionViewCell {
             backgroundPaddingView.trailingAnchor.constraint(equalTo: contentLabel.trailingAnchor, constant: 16),
             backgroundPaddingView.topAnchor.constraint(equalTo: contentLabel.topAnchor, constant: -8),
             backgroundPaddingView.bottomAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 8)
-            
         ]
         
         let dateTimeLabelConstraints = [
@@ -166,6 +160,5 @@ extension OtherChatContentCollectionViewCell {
         [contentLabelConstraints, dateTimeLabelConstraints, backgroundPaddingViewConstraints].forEach { constraints in
             NSLayoutConstraint.activate(constraints)
         }
-        
     }
 }
