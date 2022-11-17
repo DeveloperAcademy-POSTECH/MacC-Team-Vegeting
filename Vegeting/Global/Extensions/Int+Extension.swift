@@ -12,6 +12,7 @@ extension Int {
         let thisYear = Calendar.current.component(.year, from: Date())
         let age = thisYear - self + 1
         let ageGroup = (age / 10) * 10
-        return String(ageGroup)
+        
+        return String(ageGroup) + "대"
     }
 }
