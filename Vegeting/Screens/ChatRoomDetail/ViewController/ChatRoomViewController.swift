@@ -32,6 +32,7 @@ final class ChatRoomViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(OtherChatContentCollectionViewCell.self, forCellWithReuseIdentifier: OtherChatContentCollectionViewCell.className)
         collectionView.register(MyChatContentCollectionViewCell.self, forCellWithReuseIdentifier: MyChatContentCollectionViewCell.className)
+        collectionView.register(MessageDateCollectionViewCell.self, forCellWithReuseIdentifier: MessageDateCollectionViewCell.className)
         return collectionView
     }()
     
@@ -128,7 +129,8 @@ extension ChatRoomViewController: UICollectionViewDataSource {
             cell.configure(with: data)
             return cell
         case .date:
-            return UICollectionViewCell()
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MessageDateCollectionViewCell.className, for: indexPath) as? MessageDateCollectionViewCell else { return UICollectionViewCell() }
+            return cell
         }
     }
 }
