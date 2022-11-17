@@ -55,7 +55,8 @@ class GroupListViewController: UIViewController {
     
     @objc
     private func addClubButtontapped() {
-        print("tapAddClubButton")
+        let creatrViewController = FirstCreateGroupViewController()
+        navigationController?.pushViewController(creatrViewController, animated: true)
     }
     
     private lazy var customSegmentedControl: SegmentedControlCustomView = {
