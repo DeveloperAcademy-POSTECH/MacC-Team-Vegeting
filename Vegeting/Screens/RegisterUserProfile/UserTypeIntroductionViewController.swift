@@ -49,8 +49,6 @@ final class UserTypeIntroductionViewController: UIViewController {
         textField.layer.cornerRadius = 8
         textField.contentVerticalAlignment = .top
         textField.placeholder = "나에 대한 간략한 소개를 입력해주세요."
-        
-        
         return textField
     }()
     

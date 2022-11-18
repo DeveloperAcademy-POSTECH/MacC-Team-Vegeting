@@ -28,16 +28,18 @@ class SelectVegetarianTypeViewController: UIViewController {
     private lazy var cancelButton: UIButton = {
         let button = UIButton()
         button.setTitle("취소", for: .normal)
-        button.setTitleColor(.systemBlue, for: .normal)
+        button.setTitleColor(UIColor.mainYellow, for: .normal)
         button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         return button
     }()
     
     private lazy var completeButton: UIButton = {
         let button = UIButton()
-        button.setTitle("완료", for: .disabled)
+        button.setTitle("완료", for: .normal)
         button.setTitleColor(.lightGray, for: .disabled)
         button.isEnabled = false
+        button.setTitleColor(UIColor.mainYellow, for: .normal)
+        button.titleLabel?.font = .preferredFont(forTextStyle: .headline, compatibleWith: .init(legibilityWeight: .bold))
         return button
     }()
     
@@ -56,7 +58,7 @@ class SelectVegetarianTypeViewController: UIViewController {
         configureUI()
         setupLayout()
     }
-    
+
     private func configureUI() {
         view.backgroundColor = .systemBackground
         view.addSubviews(cancelButton, completeButton, vegetarianTypeTable)
@@ -92,6 +94,10 @@ class SelectVegetarianTypeViewController: UIViewController {
         dismissModal()
     }
     
+    private func completeButtonActive() {
+        completeButton.isEnabled = true
+    }
+    
     private func dismissModal() {
         self.dismiss(animated: true)
     }
@@ -99,7 +105,19 @@ class SelectVegetarianTypeViewController: UIViewController {
 }
 
 extension SelectVegetarianTypeViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) {
+            cell.accessoryType = .checkmark
+            cell.selectionStyle = .none
+            completeButtonActive()
+        }
+    }
     
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) {
+            cell.accessoryType = .none
+        }
+    }
 }
 
 extension SelectVegetarianTypeViewController: UITableViewDataSource {
