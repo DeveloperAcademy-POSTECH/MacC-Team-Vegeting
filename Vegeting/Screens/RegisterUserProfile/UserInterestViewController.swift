@@ -22,7 +22,7 @@ class UserInterestViewController: UIViewController {
         return label
     }()
         
-    private lazy var bottomButton: BottomButton = {
+    private lazy var profileRegisterButton: BottomButton = {
        let button = BottomButton()
         button.setTitle("프로필 설정 완료", for: .normal)
         button.isEnabled = false
@@ -48,7 +48,7 @@ class UserInterestViewController: UIViewController {
         view.addSubviews(progressBarImageView,
                          titleLabel,
                          selectInterestView,
-                         bottomButton)
+                         profileRegisterButton)
         
         progressBarImageView.constraint(top: view.topAnchor,
                                         leading: view.leadingAnchor,
@@ -65,7 +65,7 @@ class UserInterestViewController: UIViewController {
                                       trailing: view.trailingAnchor,
                                       padding: UIEdgeInsets(top: 11, left: 20, bottom: 0, right: 20))
         
-        bottomButton.constraint(bottom: view.bottomAnchor,
+        profileRegisterButton.constraint(bottom: view.bottomAnchor,
                                 centerX: view.centerXAnchor,
                                 padding: UIEdgeInsets(top: 0, left: 0, bottom: 55, right: 0))
     }
@@ -75,7 +75,7 @@ class UserInterestViewController: UIViewController {
     }
     
     @objc
-    private func makeProfile() {
+    private func profileRegisterButtonTapped() {
         print("생성됨")
     }
 }
@@ -84,9 +84,9 @@ extension UserInterestViewController: InterestViewDelegate {
     
     func setBottomButtonEnabled(selectedList: [String]) {
         if selectedList.isEmpty {
-            bottomButton.isEnabled = false
+            profileRegisterButton.isEnabled = false
         } else {
-            bottomButton.isEnabled = true
+            profileRegisterButton.isEnabled = true
         }
     }
 
