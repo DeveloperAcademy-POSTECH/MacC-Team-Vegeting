@@ -26,7 +26,7 @@ class UserInterestViewController: UIViewController {
        let button = BottomButton()
         button.setTitle("프로필 설정 완료", for: .normal)
         button.isEnabled = false
-        button.addTarget(self, action: #selector(makeProfile), for: .touchUpInside)
+        button.addTarget(self, action: #selector(profileRegisterButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -76,7 +76,7 @@ class UserInterestViewController: UIViewController {
     
     @objc
     private func profileRegisterButtonTapped() {
-        print("생성됨")
+        // TODO: 프로필 register 함수 구현
     }
 }
 
