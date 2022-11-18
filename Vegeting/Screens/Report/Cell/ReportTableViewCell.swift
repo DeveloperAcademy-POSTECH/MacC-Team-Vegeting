@@ -125,6 +125,8 @@ final class ReportTableViewCell: UITableViewCell {
         if reportLabel.text == "기타 (직접 입력)" {
             contentTextView.isHidden.toggle()
             contentWordsCountLabel.isHidden.toggle()
+//            contentTextView.removeFromSuperview()
+//            contentTextView.removeFromSuperview()
 //            delegate?.requestUpdate()
         }
     }

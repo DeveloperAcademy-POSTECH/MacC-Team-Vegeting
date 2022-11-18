@@ -38,6 +38,15 @@ class ReportViewController: UIViewController {
         return button
     }()
     
+    private let reportInformationLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .footnote)
+        label.textColor = .vfGray2
+        label.text = "차단하면, 해당 사용자가 작성한 모임모집글이 보이지 않습니다.\n차단한 사용자는 마이페이지 > 차단한 사용자 관리에서 확인하고 해제할 수 있습니다. "
+        label.numberOfLines = 0
+        return label
+    }()
+    
     private let reportElementList: [String] = ["모집글 성격과 맞지 않아요.", "불쾌감을 줍니다.", "개인정보 노출 문제가 있어요", "연애/19+ 만남을 유도합니다.", "법적인 문제가 있어요", "욕설/혐오/차별적 표현이 있습니다.", "음란물입니다.", "불쾌한 표현이 있습니다.", "홍보/도배글입니다.", "기타 (직접 입력)"]
     private let blockElementList: [String] = ["불쾌감을 줍니다.", "개인정보를 유출합니다.", "욕설/혐오/차별적 표현을사용해요", "다른 목적을 가지고 접근하는 것 같아요", "불쾌한 표현을 사용해요", "홍보/도배글을 작성합니다.", "기타 (직접 입력)" ]
     private let unregisterElementList: [String] = ["디자인이 마음에 안 들어요", "다른 더 좋은 서비스를 찾았어요.", "더 이상 채식을 하지 않아요.", "안 좋은 일을 겪었어요.", "자주 사용하지 않아요", "원하는 모임이 없어요.", "개인정보 유출이 걱정돼요.", "계정이 하나 더 있어요.", "앱 오류가 자주 발생해요", "기타 (직접 입력)"]
@@ -63,16 +72,23 @@ class ReportViewController: UIViewController {
     }
     
     private func setupLayout() {
-        view.addSubviews(tableView, reportButton)
+        view.addSubviews(tableView, reportInformationLabel, reportButton)
         tableView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
                              leading: view.leadingAnchor,
-                             bottom: reportButton.topAnchor,
+                             bottom: reportInformationLabel.topAnchor,
                              trailing: view.trailingAnchor,
-                             padding: UIEdgeInsets(top: 0, left: 0, bottom: 63, right: 0))
+                             padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
+        
+        reportInformationLabel.constraint(leading: view.leadingAnchor,
+                                          bottom: reportButton.topAnchor,
+                                          trailing: view.trailingAnchor,
+                                          padding: UIEdgeInsets(top: 0, left: 20, bottom: 16, right: 20))
         
         reportButton.constraint(bottom: view.safeAreaLayoutGuide.bottomAnchor,
                                 centerX: view.centerXAnchor,
                                 padding: UIEdgeInsets(top: 0, left: 0, bottom: 55, right: 0))
+        
+        
     }
     
     private func configureUI() {
@@ -142,6 +158,7 @@ extension ReportViewController: UITableViewDelegate {
         }
         return headerView
     }
+    
 }
 
 extension ReportViewController: ReportTableViewCellDelegate {
