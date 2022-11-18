@@ -116,6 +116,7 @@ extension MyPageViewController: UITableViewDataSource {
 }
 
 extension MyPageViewController: MyPageProfileTableViewCellDelegate {
+    
     func profileEditButtonTapped() {
         let viewController = MyProfileEditViewController()
         guard let vfUser = self.vfUser else { return } // return에 아직 vfuser값이 들어오지 않았을 경우 에러 처리 or 뷰 처리
@@ -125,6 +126,5 @@ extension MyPageViewController: MyPageProfileTableViewCellDelegate {
         viewController.configure(with: modalModel)
         self.navigationController?.pushViewController(viewController, animated: true)
     }
-    
     
 }
