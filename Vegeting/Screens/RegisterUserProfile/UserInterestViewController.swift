@@ -22,12 +22,10 @@ class UserInterestViewController: UIViewController {
         return label
     }()
         
-    private lazy var bottomButton: UIButton = {
+    private lazy var bottomButton: BottomButton = {
        let button = BottomButton()
         button.setTitle("프로필 설정 완료", for: .normal)
         button.isEnabled = false
-        button.setBackgroundColor(.systemGray, for: .disabled)
-        button.setBackgroundColor(.black, for: .normal)
         button.addTarget(self, action: #selector(makeProfile), for: .touchUpInside)
         return button
     }()
