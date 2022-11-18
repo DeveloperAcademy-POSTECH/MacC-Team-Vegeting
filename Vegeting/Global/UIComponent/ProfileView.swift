@@ -91,7 +91,7 @@ final class ProfileView: UIView {
         return label
     }()
     
-    private let interestCollectionView = InterestView()
+    private let interestCollectionView = InterestView(interestList: ["맛집", "요리", "동물권"], entryPoint: .profile)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
