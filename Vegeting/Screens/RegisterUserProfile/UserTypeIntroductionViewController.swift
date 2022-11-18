@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol SelectVegetarianTypeViewDelegate: AnyObject {
+    func didSelectVegetarianType(type: String)
+}
+
 final class UserTypeIntroductionViewController: UIViewController {
     
     let introductionMaxLength = 60
@@ -149,9 +153,14 @@ final class UserTypeIntroductionViewController: UIViewController {
     @objc
     private func vegetarianTypeButtonTapped() {
         let modalViewController = SelectVegetarianTypeViewController()
+        modalViewController.delegate = self
         modalViewController.modalPresentationStyle = .fullScreen
-        
         present(modalViewController, animated: true)
     }
-    
+}
+
+extension UserTypeIntroductionViewController: SelectVegetarianTypeViewDelegate {
+    func didSelectVegetarianType(type: String) {
+        vegetarianTypeSelectButton.setTitle(type, for: .normal)
+    }
 }

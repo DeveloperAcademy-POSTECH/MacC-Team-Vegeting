@@ -24,6 +24,9 @@ class SelectVegetarianTypeViewController: UIViewController {
                                               TypeDescription(type: "플렉시테리언", description: "채식을 지향하지만, 상황에 따라서 동물성도 소비해요."),
                                               TypeDescription(type: "비덩주의", description: "덩어리로 된 육류는 피하고, 육수 등은 소비해요."),
                                               TypeDescription(type: "간헐적 채식", description: "매일 채식을 하지는 못해도, 일상에서 조금씩 실천하려고 노력해요.")]
+    
+    weak var delegate: SelectVegetarianTypeViewDelegate?
+    private var selectedVegetarianType = ""
 
     private lazy var cancelButton: UIButton = {
         let button = UIButton()
@@ -40,6 +43,7 @@ class SelectVegetarianTypeViewController: UIViewController {
         button.isEnabled = false
         button.setTitleColor(UIColor.mainYellow, for: .normal)
         button.titleLabel?.font = .preferredFont(forTextStyle: .headline, compatibleWith: .init(legibilityWeight: .bold))
+        button.addTarget(self, action: #selector(completeButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -94,6 +98,13 @@ class SelectVegetarianTypeViewController: UIViewController {
         dismissModal()
     }
     
+    @objc
+    private func completeButtonTapped() {
+        print(selectedVegetarianType)
+        delegate?.didSelectVegetarianType(type: selectedVegetarianType)
+        dismissModal()
+    }
+    
     private func completeButtonActive() {
         completeButton.isEnabled = true
     }
@@ -101,7 +112,6 @@ class SelectVegetarianTypeViewController: UIViewController {
     private func dismissModal() {
         self.dismiss(animated: true)
     }
-    
 }
 
 extension SelectVegetarianTypeViewController: UITableViewDelegate {
@@ -109,6 +119,8 @@ extension SelectVegetarianTypeViewController: UITableViewDelegate {
         if let cell = tableView.cellForRow(at: indexPath) {
             cell.accessoryType = .checkmark
             cell.selectionStyle = .none
+            
+            selectedVegetarianType = vegetarianTypes[indexPath.row].type
             completeButtonActive()
         }
     }
