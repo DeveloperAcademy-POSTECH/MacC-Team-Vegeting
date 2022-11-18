@@ -121,6 +121,7 @@ extension ReportViewController: UITableViewDataSource {
             case 1:
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: ReportTableViewCell.className, for: indexPath) as? ReportTableViewCell else { return UITableViewCell() }
                 cell.selectionStyle = .none
+                cell.delegate = self
                 cell.configure(with: reportElementList[indexPath.row])
                 return cell
             default:
@@ -130,11 +131,13 @@ extension ReportViewController: UITableViewDataSource {
         case .block:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ReportTableViewCell.className, for: indexPath) as? ReportTableViewCell else { return UITableViewCell() }
             cell.selectionStyle = .none
+            cell.delegate = self
             cell.configure(with: blockElementList[indexPath.row])
             return cell
         case .unregister:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: ReportTableViewCell.className, for: indexPath) as? ReportTableViewCell else { return UITableViewCell() }
             cell.selectionStyle = .none
+            cell.delegate = self
             cell.configure(with: unregisterElementList[indexPath.row])
             return cell
         }
@@ -157,4 +160,13 @@ extension ReportViewController: UITableViewDelegate {
         }
         return headerView
     }
+}
+
+extension ReportViewController: ReportTableViewCellDelegate {
+    func requestUpdate() {
+        tableView.beginUpdates()
+        tableView.endUpdates()
+    }
+    
+    
 }
