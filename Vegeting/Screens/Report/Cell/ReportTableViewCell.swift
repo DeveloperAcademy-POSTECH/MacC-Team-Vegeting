@@ -53,7 +53,7 @@ final class ReportTableViewCell: UITableViewCell {
     private lazy var contentWordsCountLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        label.text = "0/500"
+        label.text = "0/300"
         label.font = .preferredFont(forTextStyle: .caption1)
         label.textColor = .lightGray
         label.textAlignment = .right
