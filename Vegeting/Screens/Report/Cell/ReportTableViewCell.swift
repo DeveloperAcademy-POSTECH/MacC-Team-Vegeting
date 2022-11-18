@@ -62,7 +62,7 @@ final class ReportTableViewCell: UITableViewCell {
     }()
     
     weak var delegate: ReportTableViewCellDelegate?
-    
+     
     // MARK: - lifeCycle
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -76,11 +76,9 @@ final class ReportTableViewCell: UITableViewCell {
     
     // MARK: - func
     
-    private func setupLayout() {
-        let isOtherOption = reportLabel.text == "기타 (직접 입력)"
-        
-        contentView.addSubviews(checkButton, stackView)
-        
+    func setupLayout(isOtherOption: Bool) {
+        //        let isOtherOption = reportLabel.text == "기타 (직접 입력)"
+        contentView.addSubviews(checkButton, reportLabel)
         checkButton.constraint(top: contentView.topAnchor,
                                leading: contentView.leadingAnchor,
                                bottom: isOtherOption ? nil : contentView.bottomAnchor,
@@ -88,19 +86,37 @@ final class ReportTableViewCell: UITableViewCell {
         checkButton.constraint(.widthAnchor, constant: 22)
         checkButton.constraint(.heightAnchor, constant: 22)
         
-        stackView.addArrangedSubview(reportLabel)
-        stackView.constraint(top: contentView.topAnchor,
+        reportLabel.constraint(top: contentView.topAnchor,
                                leading: checkButton.trailingAnchor,
                                bottom: isOtherOption ? nil : contentView.bottomAnchor,
                                trailing: contentView.trailingAnchor,
                                padding: UIEdgeInsets(top: 10.5, left: 18, bottom: 10.5, right: 22))
+        if isOtherOption {
+            setupLayoutTextView()
+        }
+        contentTextView.isHidden = true
+        contentWordsCountLabel.isHidden = true
     }
     
     func configure(with reportText: String) {
         reportLabel.text = reportText
         DispatchQueue.main.async { [weak self] in
-            self?.setupLayout()
+            //            self?.setupLayout()
         }
+    }
+    
+    private func setupLayoutTextView() {
+        contentView.addSubviews(contentTextView, contentWordsCountLabel)
+        contentTextView.constraint(top: reportLabel.bottomAnchor,
+                                   leading: checkButton.trailingAnchor,
+                                   trailing: contentView.trailingAnchor,
+                                   padding: UIEdgeInsets(top: 14, left: 14, bottom: 0, right: 20))
+        contentTextView.constraint(.heightAnchor, constant: 95)
+        
+        contentWordsCountLabel.constraint(top: contentTextView.bottomAnchor,
+                                          bottom: contentView.bottomAnchor,
+                                          trailing: contentView.trailingAnchor,
+                                          padding: UIEdgeInsets(top: 4, left: 0, bottom: 10.5, right: 20))
     }
     
     @objc
@@ -109,10 +125,10 @@ final class ReportTableViewCell: UITableViewCell {
         if reportLabel.text == "기타 (직접 입력)" {
             contentTextView.isHidden.toggle()
             contentWordsCountLabel.isHidden.toggle()
-            delegate?.requestUpdate()
+//            delegate?.requestUpdate()
         }
     }
-
+    
     private func updateContentCountLabel(characterCount: Int) {
         contentWordsCountLabel.text = "\(characterCount)/300"
     }

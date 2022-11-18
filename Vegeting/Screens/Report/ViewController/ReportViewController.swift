@@ -15,11 +15,13 @@ enum ReportType {
 
 class ReportViewController: UIViewController {
     
-    var entryPoint: ReportType = .unregister
+    var entryPoint: ReportType = .report
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.showsVerticalScrollIndicator = false
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(ReportObjectTableViewCell.self, forCellReuseIdentifier: ReportObjectTableViewCell.className)
@@ -110,6 +112,7 @@ extension ReportViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        var isOtherOption = false
         switch entryPoint {
         case .report:
             switch indexPath.section {
@@ -122,6 +125,11 @@ extension ReportViewController: UITableViewDataSource {
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: ReportTableViewCell.className, for: indexPath) as? ReportTableViewCell else { return UITableViewCell() }
                 cell.selectionStyle = .none
                 cell.delegate = self
+                if indexPath.row == reportElementList.count - 1{
+                    cell.setupLayout(isOtherOption: true)
+                } else {
+                    cell.setupLayout(isOtherOption: false)
+                }
                 cell.configure(with: reportElementList[indexPath.row])
                 return cell
             default:
