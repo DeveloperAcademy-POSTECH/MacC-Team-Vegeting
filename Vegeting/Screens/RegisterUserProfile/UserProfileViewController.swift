@@ -22,19 +22,22 @@ final class UserProfileViewController: UIViewController {
     private let profileMessageLabel: UILabel = {
         let label = UILabel()
         label.text = "프로필 사진을 선택해주세요."
-        label.font = .preferredFont(forTextStyle: .title3)
+        label.font = .preferredFont(forTextStyle: .title3, compatibleWith: .init(legibilityWeight: .bold))
         return label
     }()
     
-    private let profileImageView: UIImageView = {
+    private lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 55
         imageView.clipsToBounds = true
-        imageView.backgroundColor = UIColor(hex: "#F2F2F2")
+        imageView.backgroundColor = .vfGray4
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(profileImageViewTapped)))
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
-    private let cameraButton: UIButton = {
+    private lazy var cameraButton: UIButton = {
         let button = UIButton()
         var image = UIImage(systemName: "camera.circle.fill")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 30))
         button.setImage(image, for: .normal)
@@ -42,14 +45,14 @@ final class UserProfileViewController: UIViewController {
         button.layer.masksToBounds = true
         button.backgroundColor = .white
         button.layer.cornerRadius = 15
-        button.addTarget(self, action: #selector(presentPicker), for: .touchUpInside)
+        button.addTarget(self, action: #selector(cameraButtontapped), for: .touchUpInside)
         return button
     }()
     
     private let nicknameMessageLabel: UILabel = {
         let label = UILabel()
         label.text = "닉네임을 입력해주세요."
-        label.font = .preferredFont(forTextStyle: .title3)
+        label.font = .preferredFont(forTextStyle: .title3, compatibleWith: .init(legibilityWeight: .bold))
         return label
     }()
     
@@ -59,20 +62,18 @@ final class UserProfileViewController: UIViewController {
         return textField
     }()
     
-    private lazy var nicknameLimitWarningLabel: UILabel = {
+    private let nicknameTextCountLabel: UILabel = {
         let label = UILabel()
+        label.textColor = .vfGray3
         label.font = .preferredFont(forTextStyle: .subheadline)
+        label.text = "0/10"
         return label
     }()
     
-    private let nextButton: UIButton = {
-        let button = UIButton()
+    private let nextButton: BottomButton = {
+        let button = BottomButton()
         button.setTitle("다음으로", for: .normal)
-        button.setTitleColor(UIColor(hex: "#8E8E93"), for: .normal)
-        button.setBackgroundColor(UIColor(hex: "#FFF6DA"), for: .normal)
         button.isEnabled = false
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 8
         return button
     }()
     
@@ -97,26 +98,26 @@ final class UserProfileViewController: UIViewController {
         nicknameTextField.layer.addSublayer(border)
         nicknameTextField.delegate = self
         
-        NotificationCenter.default.addObserver(self, selector: #selector(textDidChangeForLabel(_:)),
-                                               name: UITextField.textDidChangeNotification,
-                                               object: nicknameTextField)
+        nicknameTextField.addTarget(self, action: #selector(textDidChangeForLabel), for: .editingChanged)
     }
     
     func configureUI() {
-        view.backgroundColor = .white
-        view.addSubviews(progressBarImageView, profileMessageLabel, profileImageView, nicknameMessageLabel, cameraButton, nicknameTextField, nicknameLimitWarningLabel, nextButton)
+        view.backgroundColor = .systemBackground
+        view.addSubviews(progressBarImageView, profileMessageLabel, profileImageView,
+                         nicknameMessageLabel, cameraButton, nicknameTextField,
+                         nicknameTextCountLabel, nextButton)
     }
     
     func setupLayout() {
         NSLayoutConstraint.activate([
-            progressBarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 116),
+            progressBarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height * 1/10),
             progressBarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             progressBarImageView.widthAnchor.constraint(equalToConstant: 186),
             progressBarImageView.heightAnchor.constraint(equalToConstant: 26)
         ])
         
         NSLayoutConstraint.activate([
-            profileMessageLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 178),
+            profileMessageLabel.topAnchor.constraint(equalTo: progressBarImageView.bottomAnchor, constant: view.frame.height * 1/10),
             profileMessageLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 21)
         ])
         
@@ -142,68 +143,85 @@ final class UserProfileViewController: UIViewController {
         NSLayoutConstraint.activate([
             nicknameTextField.topAnchor.constraint(equalTo: nicknameMessageLabel.bottomAnchor, constant: 17),
             nicknameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            nicknameTextField.widthAnchor.constraint(equalToConstant: 350),
+            nicknameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             nicknameTextField.heightAnchor.constraint(equalToConstant: 50)
         ])
         
         NSLayoutConstraint.activate([
-            nicknameLimitWarningLabel.topAnchor.constraint(equalTo: nicknameTextField.bottomAnchor, constant: 13),
-            nicknameLimitWarningLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
+            nicknameTextCountLabel.topAnchor.constraint(equalTo: nicknameTextField.bottomAnchor, constant: 13),
+            nicknameTextCountLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
         
         NSLayoutConstraint.activate([
-            nextButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55),
-            nextButton.heightAnchor.constraint(equalToConstant: 50)
+            nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(view.frame.height * 1/25))
         ])
     }
     
     @objc
-    private func presentPicker() {
+    private func profileImageViewTapped() {
+        presentPHPicker()
+    }
+    
+    @objc
+    private func cameraButtontapped() {
+        presentPHPicker()
+    }
+    
+    private func presentPHPicker() {
         var configuration = PHPickerConfiguration(photoLibrary: .shared())
-        
+
         configuration.filter = PHPickerFilter.images
         configuration.selectionLimit = 1
-        
+
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
         present(picker, animated: true)
     }
     
     @objc
-    private func textDidChangeForLabel(_ notification: Notification) {
-        if let nicknameTextField = notification.object as? UITextField {
-            if let text = nicknameTextField.text {
-                if text.count > nicknameMaxLength {
-                    nicknameTextField.resignFirstResponder()
-                }
-                
-                if text.count >= nicknameMaxLength {
-                    let index = text.index(text.startIndex, offsetBy: nicknameMaxLength)
-                    let newString = text[text.startIndex..<index]
-                    nicknameTextField.text = String(newString)
-                }
-                else if text.count < nicknameMinLength {
-                    nicknameLimitWarningLabel.text = "2글자 이상 10글자 이하로 입력해주세요"
-                    nicknameLimitWarningLabel.textColor = .red
-                } else {
-                    nicknameLimitWarningLabel.text = "사용 가능한 닉네임입니다."
-                    nicknameLimitWarningLabel.textColor = .blue
-                    
-                    nextButton.isEnabled = true
-                    nextButton.setTitleColor(UIColor.label, for: .normal)
-                    nextButton.setBackgroundColor(UIColor(hex: "#FFD243"), for: .normal)
-                }
-            }
+    private func textDidChangeForLabel() {
+        guard let text = nicknameTextField.text else { return }
+        var textLength = text.count
+        
+        //maxLength 초과 시 키보드를 아래로 내려주는 역할
+        if textLength >= nicknameMaxLength {
+            nicknameTextField.resignFirstResponder()
         }
+        
+        //maxLength 이상의 글자를 붙여넣을 경우 잘라주는 역할
+        if textLength > nicknameMaxLength {
+            let index = text.index(text.startIndex, offsetBy: nicknameMaxLength)
+            let newString = text[text.startIndex..<index]
+            nicknameTextField.text = String(newString)
+            textLength = newString.count
+        }
+        
+        changeButtonStatus(textLength: textLength)
+        configureTextCountLabel(textLength: textLength)
+    }
+    
+    private func changeButtonStatus(textLength: Int) {
+        textLength < nicknameMinLength ? nextButtonInactive() : nextButtonActive()
+    }
+    
+    private func configureTextCountLabel(textLength: Int) {
+        nicknameTextCountLabel.text = "\(textLength)/\(nicknameMaxLength)"
+    }
+    
+    private func nextButtonInactive() {
+        nextButton.isEnabled = false
+    }
+    
+    private func nextButtonActive() {
+        nextButton.isEnabled = true
     }
 }
 
 extension UserProfileViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
-        guard let text = textField.text else { return false}
+        guard let text = textField.text else { return false }
         
         if text.count >= nicknameMaxLength && range.length == 0 && range.location < nicknameMaxLength {
             return false
@@ -221,8 +239,8 @@ extension UserProfileViewController: PHPickerViewControllerDelegate {
         if let itemProvider = itemProvider,
            itemProvider.canLoadObject(ofClass: UIImage.self) {
             itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
-                DispatchQueue.main.async {
-                    self.profileImageView.image = image as? UIImage
+                DispatchQueue.main.async { [weak self] in
+                    self?.profileImageView.image = image as? UIImage
                 }
             }
         }

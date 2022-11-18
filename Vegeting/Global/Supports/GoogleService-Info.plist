@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>70912293072-kl8q8j4v02iknneig9fq7mit8t0u8ld9.apps.googleusercontent.com</string>
+	<string>70912293072-nl227gs257nh6pbd6284f419k0n63lkc.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.70912293072-kl8q8j4v02iknneig9fq7mit8t0u8ld9</string>
+	<string>com.googleusercontent.apps.70912293072-nl227gs257nh6pbd6284f419k0n63lkc</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBfsGUJPCifYrKpMwlpK1atA5O6FQYom2A</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.PigGarden.Vegeting</string>
+	<string>com.PigGarden.VegetarianFriends</string>
 	<key>PROJECT_ID</key>
 	<string>vegeting-fecc8</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:70912293072:ios:7fcbf6a5022e9ead6786d5</string>
+	<string>1:70912293072:ios:31b50cd320dd1bba6786d5</string>
 </dict>
 </plist>
