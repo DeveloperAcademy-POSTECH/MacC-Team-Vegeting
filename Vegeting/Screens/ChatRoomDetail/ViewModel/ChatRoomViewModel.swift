@@ -5,6 +5,7 @@
 //  Created by yudonlee on 2022/11/13.
 //
 
+import Combine
 import Foundation
 
 struct TemporaryMessage {
@@ -13,33 +14,67 @@ struct TemporaryMessage {
     let messageContent: String
 }
 
-final class chatRoomViewModel {
-    var temporaryMessages: [TemporaryMessage] = []
+final class ChatRoomViewModel: ViewModelType {
     
-    init(count: Int) {
-        for _ in 0..<count {
-            let data = TemporaryMessage(status: randomTestSenderType(), profileUserName: randomUserNameText(), messageContent: randomContentText())
-            temporaryMessages.append(data)
+    enum Input {
+        case sendButtonTapped(text: String)
+    }
+    
+    enum Output {
+        case localChatDataChanged(messages: [Message])
+        case serverChatDataChanged(messages: [Message])
+        case failToGetDataFromServer(error: Error)
+    }
+    
+    private var output: PassthroughSubject<Output, Never> = .init()
+    private var cancellables = Set<AnyCancellable>()
+    
+    private var participatedChatRoom: ParticipatedChatRoom?
+    private var chat: Chat?
+    private var user: VFUser?
+    
+    
+    func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
+        input.sink { [weak self] event in
+            switch event {
+            case .sendButtonTapped(let text):
+                self?.sendMessageFromLocal(text: text)
+                break
+            }
+        }.store(in: &cancellables)
+        return output.eraseToAnyPublisher()
+    }
+    
+    private func requestMessagesFromServer() {
+        guard let participatedChatRoom = participatedChatRoom else { return }
+        
+        FirebaseManager.shared.requestChat(participatedChat: participatedChatRoom).sink { [weak self] completion in
+            if case .failure(let error) = completion {
+                self?.output.send(.failToGetDataFromServer(error: error))
+            }
+        } receiveValue: { [weak self] chat in
+            self?.chat = chat
+            self?.output.send(.serverChatDataChanged(messages: self?.chat?.messages ?? []))
+        }.store(in: &cancellables)
+    }
+
+    private func sendMessageFromLocal(text: String) {
+        guard let user = self.user else { return }
+        let message = Message(senderID: user.userID, senderName: user.userName, senderProfileImageURL: user.imageURL, contentType: "text", createdAt: Date(), imageURL: nil, content: text)
+        chat?.messages?.append(message)
+        
+        guard let chat = chat, let messages = chat.messages else { return }
+        output.send(.localChatDataChanged(messages: messages))
+        
+        Task {
+            await FirebaseManager.shared.registerMessage(chat: chat, message: message)
         }
     }
     
+    func configure(participatedChatRoom: ParticipatedChatRoom, user: VFUser) {
+        self.participatedChatRoom = participatedChatRoom
+        self.user = user
+        requestMessagesFromServer()
+    }
 }
 
-extension chatRoomViewModel {
-    private func randomTestSenderType() -> SenderType {
-        let randomSenderType = SenderType.allCases.randomElement()!
-        return randomSenderType
-    }
-    
-    private func randomContentText() -> String {
-        let labelCase = ["감자님이 저번에 말씀하셨던 곳이 거기인가요?", "와 저도 거기 진짜 가보고 싶었는데 ....... 리조또랑 퐁듀가 진짜 맛있고, 피클도 꼭 추가해야 한대요~!!!!", "고구마 함박집 창문동에 담달에 드디어 오픈 한대요!", "타임은 LG 클로이 서브봇을 로보틱스 분야 최고의 발명품으로 꼽았다. 라이다 센서와 3D 카메라를 사용해 혼잡한 공간에서도 안정적으로 주행하고, 66파운드(30kg) 물품을 연속 11시간 운반할 수 있다고 설명했다. 가정용 식물재배기인 LG 틔운은 식물을 잘 키우는 요령이 없는 사람도 집안에서 쉽게 재배할 수 있는 점을 강조했다."]
-        let idx = Int.random(in: 0...3)
-        return labelCase[idx]
-    }
-    
-    private func randomUserNameText() -> String {
-        let labelCase = ["채식쪼아", "채식의 마술사", "채식없인 못살아"]
-        let idx = Int.random(in: 0...2)
-        return labelCase[idx]
-    }
-}
