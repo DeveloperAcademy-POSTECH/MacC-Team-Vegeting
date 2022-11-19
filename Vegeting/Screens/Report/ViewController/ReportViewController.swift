@@ -21,7 +21,7 @@ class ReportViewController: UIViewController {
         let tableView = UITableView()
         tableView.showsVerticalScrollIndicator = false
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.separatorStyle = .none
+//        tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(ReportObjectTableViewCell.self, forCellReuseIdentifier: ReportObjectTableViewCell.className)
@@ -29,7 +29,7 @@ class ReportViewController: UIViewController {
         tableView.register(ReportTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: ReportTableViewHeaderView.className)
         return tableView
     }()
-    
+   
     private let reportButton: BottomButton = {
         let button = BottomButton()
         button.isEnabled = false
@@ -49,7 +49,7 @@ class ReportViewController: UIViewController {
     
     private let reportElementList: [String] = ["모집글 성격과 맞지 않아요.", "불쾌감을 줍니다.", "개인정보 노출 문제가 있어요", "연애/19+ 만남을 유도합니다.", "법적인 문제가 있어요", "욕설/혐오/차별적 표현이 있습니다.", "음란물입니다.", "불쾌한 표현이 있습니다.", "홍보/도배글입니다.", "기타 (직접 입력)"]
     private let blockElementList: [String] = ["불쾌감을 줍니다.", "개인정보를 유출합니다.", "욕설/혐오/차별적 표현을사용해요", "다른 목적을 가지고 접근하는 것 같아요", "불쾌한 표현을 사용해요", "홍보/도배글을 작성합니다.", "기타 (직접 입력)" ]
-    private let unregisterElementList: [String] = ["디자인이 마음에 안 들어요", "다른 더 좋은 서비스를 찾았어요.", "더 이상 채식을 하지 않아요.", "안 좋은 일을 겪었어요.", "자주 사용하지 않아요", "원하는 모임이 없어요.", "개인정보 유출이 걱정돼요.", "계정이 하나 더 있어요.", "앱 오류가 자주 발생해요", "기타 (직접 입력)"]
+    private let unregisterElementList: [String] = ["디자인이 마음에 안 들어요", "다른 더 좋은 서비스를 찾았어요.", "더 이상 채식을 하지 않아요.", "안 좋은 일을 겪었어요.", "기타 (직접 입력)"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -162,10 +162,11 @@ extension ReportViewController: UITableViewDelegate {
 }
 
 extension ReportViewController: ReportTableViewCellDelegate {
+    
     func requestUpdate() {
         tableView.beginUpdates()
         tableView.endUpdates()
+        
     }
-    
     
 }
