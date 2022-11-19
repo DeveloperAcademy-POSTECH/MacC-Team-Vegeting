@@ -58,7 +58,8 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         
         NSLayoutConstraint.activate([
             participantsName.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 5),
-            participantsName.widthAnchor.constraint(equalToConstant: Constants.profileImageSize)
+            participantsName.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            participantsName.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
     
