@@ -236,13 +236,25 @@ extension ReportViewController: ReportTableViewCellDelegate {
         }
         
         reportButton.isEnabled = selectedElementList.isEmpty ? false : true
-        print(selectedElementList)
+        
     }
     
     
     func requestUpdateTableView() {
         tableView.beginUpdates()
         tableView.endUpdates()
+        var index: Int {
+            switch entryPoint {
+            case .report:
+                return reportElementList.count - 1
+            case .block:
+                return blockElementList.count - 1
+            case .unregister:
+                return unregisterElementList.count - 1
+            }
+        }
+        
+        tableView.scrollToRow(at: IndexPath(row: index, section: 0), at: .bottom, animated: true)
     }
 
 }
