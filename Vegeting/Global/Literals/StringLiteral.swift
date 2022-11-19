@@ -24,5 +24,6 @@ enum StringLiteral {
     // MARK: - ReportTableViewCell
     
     static let reportTableViewCellTextViewPlaceholder = "내용을 입력해 주세요."
+    static let reportTableViewCellTextViewOtherOption = "기타 (직접 입력)"
     
 }

@@ -13,15 +13,15 @@ enum ReportType {
     case unregister
 }
 
-class ReportViewController: UIViewController {
+final class ReportViewController: UIViewController {
     
-    var entryPoint: ReportType = .unregister
+    // MARK: - properties
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.showsVerticalScrollIndicator = false
         tableView.rowHeight = UITableView.automaticDimension
-//        tableView.separatorStyle = .none
+        tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(ReportObjectTableViewCell.self, forCellReuseIdentifier: ReportObjectTableViewCell.className)
@@ -30,11 +30,12 @@ class ReportViewController: UIViewController {
         return tableView
     }()
    
-    private let reportButton: BottomButton = {
+    private lazy var reportButton: BottomButton = {
         let button = BottomButton()
         button.isEnabled = false
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = .preferredFont(forTextStyle: .body, compatibleWith: .init(legibilityWeight: .bold))
+        button.addTarget(self, action: #selector(reportButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -47,16 +48,28 @@ class ReportViewController: UIViewController {
         return label
     }()
     
+    var entryPoint: ReportType = .unregister
+    private lazy var selectedElementList: [String] = []
+    
     private let reportElementList: [String] = ["모집글 성격과 맞지 않아요.", "불쾌감을 줍니다.", "개인정보 노출 문제가 있어요", "연애/19+ 만남을 유도합니다.", "법적인 문제가 있어요", "욕설/혐오/차별적 표현이 있습니다.", "음란물입니다.", "불쾌한 표현이 있습니다.", "홍보/도배글입니다.", "기타 (직접 입력)"]
     private let blockElementList: [String] = ["불쾌감을 줍니다.", "개인정보를 유출합니다.", "욕설/혐오/차별적 표현을사용해요", "다른 목적을 가지고 접근하는 것 같아요", "불쾌한 표현을 사용해요", "홍보/도배글을 작성합니다.", "기타 (직접 입력)" ]
-    private let unregisterElementList: [String] = ["디자인이 마음에 안 들어요", "다른 더 좋은 서비스를 찾았어요.", "더 이상 채식을 하지 않아요.", "안 좋은 일을 겪었어요.", "기타 (직접 입력)"]
+    private let unregisterElementList: [String] = ["디자인이 마음에 안 들어요", "다른 더 좋은 서비스를 찾았어요.", "더 이상 채식을 하지 않아요.", "안 좋은 일을 겪었어요.", "자주 사용하지 않아요.", "원하는 모임이 없어요.", "개인정보 유출이 걱정돼요", "다른 계정이 있어요", "앱 오류가 자주 발생해요.", "기타 (직접 입력)"]
+    
+    // MARK: - lifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupButtonTitle()
         setupLayout()
         configureUI()
+        hideKeyboardWhenTappedAround()
     }
+    
+    deinit {
+        selectedElementList.removeAll()
+    }
+    
+    // MARK: - func
     
     private func setupButtonTitle() {
         let buttonTitle: String
@@ -93,6 +106,53 @@ class ReportViewController: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .white
+    }
+    
+    @objc
+    private func reportButtonTapped() {
+        
+        let reportTitle: String
+        let reportMessage: String
+        
+        switch entryPoint {
+        case .report:
+            reportTitle = "신고하시겠습니까?"
+            reportMessage = "신고해주신 내용이 운영팀에 전달됩니다."
+        case .block:
+            reportTitle = "차단하시겠습니까?"
+            reportMessage = "차단한 사용자의 게시글이 노출되지 않습니다."
+        case .unregister:
+            reportTitle = "탈퇴하시겠습니까?"
+            reportMessage = "더 이상 해당 계정으로 로그인할 수 없습니다."
+        }
+        
+        makeRequestAlert(title: reportTitle,
+                         message: reportMessage,
+                         okTitle: "확인",
+                         cancelTitle: "취소") { _ in
+            // okAction
+            self.registerReport()
+        }
+    }
+    
+    private func registerReport() {
+        if selectedElementList.contains(StringLiteral.reportTableViewCellTextViewOtherOption) {
+            // TODO: reportButton 확인 시 firebase에 데이터 추가 & 차단, 탈퇴, 신고에 따라 분기처리
+            
+            var index: Int {
+                switch entryPoint {
+                case .report:
+                    return reportElementList.count - 1
+                case .block:
+                    return blockElementList.count - 1
+                case .unregister:
+                    return unregisterElementList.count - 1
+                }
+            }
+          
+            tableView.cellForRow(at: IndexPath(row: index, section: 0))
+        }
+        
     }
     
 }
@@ -141,6 +201,7 @@ extension ReportViewController: UITableViewDataSource {
         }
         cell.configure(with: unregisterElementList[indexPath.row])
     }
+    
 }
 
 extension ReportViewController: UITableViewDelegate {
@@ -162,9 +223,25 @@ extension ReportViewController: UITableViewDelegate {
 }
 
 extension ReportViewController: ReportTableViewCellDelegate {
+    func updateSelectedElement(with element: String) {
+        
+        let isInList = selectedElementList.contains(element)
+        
+        if isInList {
+            guard let index = selectedElementList.firstIndex(of: element) else { return }
+            selectedElementList.remove(at: index)
+        } else {
+            selectedElementList.append(element)
+        }
+        
+        reportButton.isEnabled = selectedElementList.isEmpty ? false : true
+        print(selectedElementList)
+    }
+    
+    
     func requestUpdateTableView() {
         tableView.beginUpdates()
         tableView.endUpdates()
     }
- 
+
 }

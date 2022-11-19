@@ -9,6 +9,7 @@ import UIKit
 
 protocol ReportTableViewCellDelegate: AnyObject {
     func requestUpdateTableView()
+    func updateSelectedElement(with element: String)
 }
 
 final class ReportTableViewCell: UITableViewCell {
@@ -44,7 +45,7 @@ final class ReportTableViewCell: UITableViewCell {
         textView.textColor = .lightGray
         textView.font = .preferredFont(forTextStyle: .body)
         textView.layer.cornerRadius = 5
-        textView.layer.backgroundColor = UIColor.vfGray4.cgColor
+        textView.backgroundColor = UIColor.vfGray4
         textView.textContainerInset = UIEdgeInsets(top: 16.0, left: 10.0, bottom: 16.0, right: 10.0)
         textView.isHidden = true
         textView.delegate = self
@@ -99,9 +100,6 @@ final class ReportTableViewCell: UITableViewCell {
     
     func configure(with reportText: String) {
         reportLabel.text = reportText
-        DispatchQueue.main.async { [weak self] in
-            //            self?.setupLayout()
-        }
     }
     
     private func setupLayoutTextView() {
@@ -113,12 +111,16 @@ final class ReportTableViewCell: UITableViewCell {
     
     @objc
     private func checkButtonTapped() {
+        
         checkButton.isSelected.toggle()
-        if reportLabel.text == "기타 (직접 입력)" {
+        
+        if reportLabel.text == StringLiteral.reportTableViewCellTextViewOtherOption {
             contentTextView.isHidden.toggle()
             contentWordsCountLabel.isHidden.toggle()
-            delegate?.requestUpdate()
+            delegate?.requestUpdateTableView()
         }
+        
+        delegate?.updateSelectedElement(with: reportLabel.text ?? "")
     }
     
     private func updateContentCountLabel(characterCount: Int) {
@@ -134,6 +136,10 @@ extension ReportTableViewCell: UITextViewDelegate {
             textView.text = nil
             textView.textColor = .black
         }
+        
+        textView.backgroundColor = .systemBackground
+        textView.layer.borderColor = UIColor.vfYellow1.cgColor
+        textView.layer.borderWidth = 1.5
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -146,6 +152,10 @@ extension ReportTableViewCell: UITextViewDelegate {
                 updateContentCountLabel(characterCount: 300)
             }
         }
+        
+        textView.backgroundColor = .vfGray4
+        textView.layer.borderColor = UIColor.vfYellow1.cgColor
+        textView.layer.borderWidth = 0
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
