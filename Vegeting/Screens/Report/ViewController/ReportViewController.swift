@@ -162,11 +162,9 @@ extension ReportViewController: UITableViewDelegate {
 }
 
 extension ReportViewController: ReportTableViewCellDelegate {
-    
-    func requestUpdate() {
+    func requestUpdateTableView() {
         tableView.beginUpdates()
         tableView.endUpdates()
-        
     }
-    
+ 
 }
