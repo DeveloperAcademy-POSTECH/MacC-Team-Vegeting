@@ -208,6 +208,7 @@ extension ReportViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: ReportTableViewHeaderView.className) as?  ReportTableViewHeaderView else { return UIView() }
+        headerView.contentView.backgroundColor = .systemBackground
         
         switch entryPoint {
         case .report:
