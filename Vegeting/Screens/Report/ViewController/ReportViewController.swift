@@ -194,11 +194,15 @@ extension ReportViewController: UITableViewDataSource {
     
     private func setupTableViewCell(cell: ReportTableViewCell, elementList: [String], indexPath: IndexPath) {
         let isOtherOption = indexPath.row == elementList.count - 1
-        if isOtherOption {
-            cell.setupLayout(isOtherOption: true)
-        } else {
-            cell.setupLayout(isOtherOption: false)
+        
+        DispatchQueue.main.async {
+            if isOtherOption {
+                cell.setupLayout(isOtherOption: true)
+            } else {
+                cell.setupLayout(isOtherOption: false)
+            }
         }
+      
         cell.configure(with: unregisterElementList[indexPath.row])
     }
     
