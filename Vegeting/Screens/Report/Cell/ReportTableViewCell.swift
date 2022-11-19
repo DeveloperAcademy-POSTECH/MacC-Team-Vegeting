@@ -20,7 +20,6 @@ final class ReportTableViewCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 5
-        stackView.alignment = .leading
         return stackView
     }()
     
