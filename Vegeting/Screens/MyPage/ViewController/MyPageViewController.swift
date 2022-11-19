@@ -86,8 +86,10 @@ extension MyPageViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case TableSection.profile.rawValue: return 1
-        case TableSection.setting.rawValue: return tableCellList.count
+        case TableSection.profile.rawValue:
+            return 1
+        case TableSection.setting.rawValue:
+            return tableCellList.count
         default: return 0
         }
     }
