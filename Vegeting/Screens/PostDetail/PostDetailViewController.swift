@@ -50,6 +50,12 @@ public class VerticalAlignLabel: UILabel {
 }
 
 final class PostDetailViewController: UIViewController {
+    
+    // MARK: - properties
+    
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
+    
     private let coverImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -62,8 +68,8 @@ final class PostDetailViewController: UIViewController {
         let button = UIButton()
         button.setTitle("맛집", for: .normal)
         button.setTitleColor(.label, for: .normal)
-        button.titleLabel?.font = .preferredFont(forTextStyle: .subheadline)
-        button.backgroundColor = .lightGray
+        button.titleLabel?.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .bold))
+        button.backgroundColor = .vfYellow2
         button.layer.cornerRadius = 15
         return button
     }()
@@ -75,6 +81,14 @@ final class PostDetailViewController: UIViewController {
         return label
     }()
     
+    private let informationStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 3
+        stackView.distribution = .fill
+        return stackView
+    }()
+    
     private let locationLabel: UILabel = {
         let label = UILabel()
         label.text = "서울시 동대문구"
@@ -83,9 +97,17 @@ final class PostDetailViewController: UIViewController {
         return label
     }()
     
+    private let dividerDot: UILabel = {
+        let label = UILabel()
+        label.text = "·"
+        label.font = .preferredFont(forTextStyle: .subheadline)
+        label.textColor = .gray
+        return label
+    }()
+    
     private let dateLabel: UILabel = {
         let label = UILabel()
-        label.text = "· 12월 19일"
+        label.text = "12월 19일"
         label.font = .preferredFont(forTextStyle: .subheadline)
         label.textColor = .gray
         return label
@@ -102,7 +124,7 @@ final class PostDetailViewController: UIViewController {
     private let participantsCapacityLabel: UILabel = {
         let label = UILabel()
         label.text = "참여하는 회원 5/6"
-        label.font = .preferredFont(forTextStyle: .title3)
+        label.font = .preferredFont(forTextStyle: .headline)
         return label
     }()
     
@@ -113,6 +135,7 @@ final class PostDetailViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 80, height: 80)
         layout.scrollDirection = .horizontal
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(ProfileCollectionViewCell.self, forCellWithReuseIdentifier: ProfileCollectionViewCell.className)
@@ -121,16 +144,13 @@ final class PostDetailViewController: UIViewController {
         return collectionView
     }()
     
-    private let enterButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .black
+    private let enterButton: BottomButton = {
+        let button = BottomButton()
         button.setTitle("참여하기", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .preferredFont(forTextStyle: .body)
-        button.layer.cornerRadius = 8
         return button
     }()
     
+    // MARK: - lifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -142,8 +162,11 @@ final class PostDetailViewController: UIViewController {
         setupLayout()
     }
     
+    // MARK: - func
+    
     private func configureUI() {
         view.backgroundColor = .white
+        scrollView.showsVerticalScrollIndicator = false
     }
     
     private func configureNavBar() {
@@ -159,64 +182,78 @@ final class PostDetailViewController: UIViewController {
          }
     
     private func configureAddSubviews() {
-        view.addSubviews(coverImageView, categoryLabel, titleLabel, locationLabel, dateLabel,
-                         contentTextLabel, participantsCapacityLabel, profileCollectionView, enterButton)
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.addSubviews(coverImageView, categoryLabel, titleLabel,
+                                 informationStackView, contentTextLabel, participantsCapacityLabel,
+                                profileCollectionView, enterButton)
+        informationStackView.addArrangedSubviews(locationLabel, dividerDot, dateLabel)
     }
     
     private func setupLayout() {
+        
+        // MARK: - ScrollView
+        
+        scrollView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
+                              leading: view.safeAreaLayoutGuide.leadingAnchor,
+                              bottom: view.bottomAnchor,
+                              trailing: view.safeAreaLayoutGuide.trailingAnchor)
+        
+        contentView.constraint(top: scrollView.contentLayoutGuide.topAnchor,
+                               leading: scrollView.contentLayoutGuide.leadingAnchor,
+                               bottom: scrollView.contentLayoutGuide.bottomAnchor,
+                               trailing: scrollView.contentLayoutGuide.trailingAnchor)
+        
+        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        
+        // MARK: - PostDetail
+        
         NSLayoutConstraint.activate([
-            coverImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            coverImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            coverImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            coverImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            coverImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            coverImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             coverImageView.heightAnchor.constraint(equalToConstant: 200)
         ])
         
         NSLayoutConstraint.activate([
             categoryLabel.topAnchor.constraint(equalTo: coverImageView.bottomAnchor, constant: 15),
-            categoryLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            categoryLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             categoryLabel.widthAnchor.constraint(equalToConstant: 66),
             categoryLabel.heightAnchor.constraint(equalToConstant: 31)
         ])
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 12),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
         ])
         
         NSLayoutConstraint.activate([
-            locationLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
-            locationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
+            informationStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 7),
+            informationStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20)
         ])
-        
+
         NSLayoutConstraint.activate([
-            dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
-            dateLabel.leadingAnchor.constraint(equalTo: locationLabel.trailingAnchor, constant: 5)
-        ])
-        
-        NSLayoutConstraint.activate([
-            contentTextLabel.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 12),
-            contentTextLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            contentTextLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            contentTextLabel.heightAnchor.constraint(equalToConstant: 180)
+            contentTextLabel.topAnchor.constraint(equalTo: informationStackView.bottomAnchor, constant: 19),
+            contentTextLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            contentTextLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
         ])
         
         NSLayoutConstraint.activate([
             participantsCapacityLabel.topAnchor.constraint(equalTo: contentTextLabel.bottomAnchor, constant: 15),
-            participantsCapacityLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
+            participantsCapacityLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20)
         ])
         
         NSLayoutConstraint.activate([
             profileCollectionView.topAnchor.constraint(equalTo: participantsCapacityLabel.bottomAnchor),
-            profileCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            profileCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            profileCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
+            profileCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
             profileCollectionView.heightAnchor.constraint(equalToConstant: 115)
         ])
         
         NSLayoutConstraint.activate([
             enterButton.topAnchor.constraint(equalTo: profileCollectionView.bottomAnchor, constant: 15),
-            enterButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            enterButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            enterButton.heightAnchor.constraint(equalToConstant: 48)
+            enterButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            enterButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
         ])
     }
     
