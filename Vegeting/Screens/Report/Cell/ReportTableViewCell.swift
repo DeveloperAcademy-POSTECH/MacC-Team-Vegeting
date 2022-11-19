@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ReportTableViewCellDelegate: AnyObject {
-    func requestUpdate()
+    func requestUpdateTableView()
 }
 
 final class ReportTableViewCell: UITableViewCell {
