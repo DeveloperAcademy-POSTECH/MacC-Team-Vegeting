@@ -16,6 +16,7 @@ struct Club: Identifiable, Codable {
     let clubTitle: String
     let clubCategory: String
     let clubContent: String
+    let clubLocation: String
     let hostID: String?
     let participants: [Participant]?
     let createdAt: Date
