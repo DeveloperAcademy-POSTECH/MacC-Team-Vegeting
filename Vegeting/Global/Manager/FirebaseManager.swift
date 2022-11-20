@@ -66,9 +66,9 @@ extension FirebaseManager {
             let participant = Participant(userID: user.userID, name: user.userName, profileImageURL: user.imageURL)
             let addedClub = Club(clubID: docClub.documentID, chatID: docChat.documentID,
                                  clubTitle: club.clubTitle, clubCategory: club.clubCategory,
-                                 clubContent: club.clubContent, hostID: user.userID,
-                                 participants: [participant], createdAt: club.createdAt,
-                                 maxNumberOfPeople: club.maxNumberOfPeople)
+                                 clubContent: club.clubContent, clubLocation: club.clubLocation,
+                                 hostID: user.userID, participants: [participant],
+                                 createdAt: club.createdAt, maxNumberOfPeople: club.maxNumberOfPeople)
             
             let addedChat = Chat(chatRoomID: docChat.documentID, clubID: docClub.documentID,
                                  chatRoomName: chat.chatRoomName, participants: [participant],

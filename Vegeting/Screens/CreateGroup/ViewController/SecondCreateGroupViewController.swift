@@ -143,6 +143,7 @@ final class SecondCreateGroupViewController: BaseViewController {
                         clubTitle: clubTitle,
                         clubCategory: incompleteClub.clubCategory,
                         clubContent: contentTextView.text,
+                        clubLocation: incompleteClub.clubLocation,
                         hostID: nil, participants: nil,
                         createdAt: incompleteClub.createdAt,
                         maxNumberOfPeople: incompleteClub.maxNumberOfPeople,

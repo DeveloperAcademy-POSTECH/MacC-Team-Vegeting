@@ -125,7 +125,9 @@ class GroupListViewController: UIViewController {
 
 extension GroupListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(clubList[indexPath.item])
+        let viewController = PostDetailViewController()
+        viewController.configure(with: clubList[indexPath.item])
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 

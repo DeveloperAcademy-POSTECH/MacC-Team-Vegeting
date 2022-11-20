@@ -131,6 +131,7 @@ final class PostDetailViewController: UIViewController {
     
     let profileImages = ["profile1.jpg", "profile2.jpg", "profile3.jpg", "profile4.jpg", "profile5.jpg"]
     let participantsNames = ["거북짱", "내가 올해 수영왕", "양송이좋아", "베프", "고수러버"]
+    private var participants: [Participant] = []
     
     private let profileCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -178,8 +179,9 @@ final class PostDetailViewController: UIViewController {
         categoryLabel.text = data.clubCategory
         locationLabel.text = data.clubLocation
         contentTextLabel.text = data.clubContent
-        participantsCapacityLabel.text = "참여하는 회원" + String(data.participants?.count ?? 0) + "/" + String(data.maxNumberOfPeople)
+        participantsCapacityLabel.text = "참여하는 회원 " + String(data.participants?.count ?? 0) + "/" + String(data.maxNumberOfPeople)
         
+        self.participants = data.participants ?? []
         self.club = data
     }
     
@@ -304,13 +306,17 @@ final class PostDetailViewController: UIViewController {
 
 extension PostDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return profileImages.count
+        return participants.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCollectionViewCell.className, for: indexPath)
                 as? ProfileCollectionViewCell else { return UICollectionViewCell() }
-        cell.configure(with: ParticipantsInfo(profileImage: UIImage(named: profileImages[indexPath.item]), participantsName: participantsNames[indexPath.item]))
+        
+        let tempParticipantsInfo = ParticipantsInfo(profileImage: UIImage(named: profileImages[indexPath.item]),
+                                                    participantsName: participants[indexPath.item].name)
+        
+        cell.configure(with: tempParticipantsInfo)
         return cell
     }
 }
