@@ -36,7 +36,7 @@ class ProfileCollectionViewCell: UICollectionViewCell {
        let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
-        stackView.spacing = 1
+        stackView.spacing = 2
         return stackView
     }()
     
