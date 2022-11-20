@@ -87,7 +87,7 @@ final class OtherChatContentCollectionViewCell: UICollectionViewCell {
         if let text = model.message.content {
             contentLabel.textAlignment = text.count > 1 ? .left : .center
         }
-        updateLayout(senderType: model.senderType)
+        updateLayout(senderType: model.messageType)
     }
     
 }

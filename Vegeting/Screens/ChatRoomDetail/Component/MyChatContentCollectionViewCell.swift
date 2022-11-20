@@ -70,7 +70,7 @@ extension MyChatContentCollectionViewCell {
             contentLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -36),
             contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
             contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
-            contentLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 18),
+        contentLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 18),
             contentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 18)
         ]
         

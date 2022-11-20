@@ -26,7 +26,7 @@ class MessageDateCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(message: MessageBubble) {
-        dateLabel.text = message.message.createdAt.toMessageDateTitleText()
+        dateLabel.text = message.message.createdAt.yearMonthDay()
     }
 }
 
@@ -35,8 +35,9 @@ extension MessageDateCollectionViewCell {
     private func setupLayout() {
         contentView.addSubviews(dateLabel)
         let dateLabelConstraints = [
+            dateLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             dateLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            dateLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            dateLabel.centerYAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ]
         NSLayoutConstraint.activate(dateLabelConstraints)
     }
