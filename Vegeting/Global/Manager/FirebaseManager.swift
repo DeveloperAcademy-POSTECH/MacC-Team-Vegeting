@@ -58,16 +58,24 @@ final class FirebaseManager {
         do {
             var myClubs: [Club] = []
             guard let currentUser = await requestUser() else { return nil }
-            let querySnapshot = try await db.collection(Path.club.rawValue).getDocuments()
-            currentUser.participatedClubs?.forEach{ myClub in
-                for snapshot in querySnapshot.documents {
-                    guard let club = try? snapshot.data(as: Club.self) else { return }
-                    if club.id == myClub.clubID {
-                        myClubs.append(club)
-                        break
-                    }
+            guard let participatedClubs = currentUser.participatedClubs else { return nil }
+            var participatedClubIDs = participatedClubs.map { $0.clubID ?? nil }
+            
+            while true {
+                var cnt = 0
+                var arr: [String?] = []
+                while !participatedClubIDs.isEmpty && cnt < 10 {
+                    cnt += 1
+                    arr.append(participatedClubIDs.removeFirst())
                 }
+                let querySnapshot = try await db.collection(Path.club.rawValue).whereField("clubID", in: arr as [Any]).getDocuments()
+                for snapshot in querySnapshot.documents {
+                    guard let club = try? snapshot.data(as: Club.self) else { return nil }
+                    myClubs.append(club)
+                }
+                if participatedClubIDs.isEmpty { break }
             }
+            
             return myClubs
         } catch {
             print(error.localizedDescription)
