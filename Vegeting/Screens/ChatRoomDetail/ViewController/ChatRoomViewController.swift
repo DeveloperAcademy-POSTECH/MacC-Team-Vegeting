@@ -8,30 +8,13 @@
 import Combine
 import UIKit
 
-
-fileprivate enum keyboardHeightType: Int {
-    case zeroNewLine = 0
-    case oneNewLine = 1
-    case twoNewLine = 2
-    case other
-
-    var height: CGFloat {
-        switch self {
-        case .zeroNewLine, .oneNewLine, .twoNewLine:
-            return CGFloat(46 + self.rawValue * 22)
-        case .other:
-            return CGFloat(46 + 2 * 22)
-        }
-    }
-}
-
 final class ChatRoomViewController: UIViewController {
     
     private let viewModel = ChatRoomViewModel()
     private var input: PassthroughSubject<ChatRoomViewModel.Input, Never> = .init()
     private var messageBubbles: [MessageBubble] = []
     private var cancellables =  Set<AnyCancellable>()
-    lazy private var messageTextViewHeightAnchor = messageTextView.heightAnchor.constraint(equalToConstant: 44)
+    lazy private var messageTextViewHeightAnchor = messageTextView.heightAnchor.constraint(equalToConstant: 46)
     
     private let chatListCollectionView: UICollectionView = {
         
@@ -84,7 +67,7 @@ final class ChatRoomViewController: UIViewController {
         textView.font = .preferredFont(forTextStyle: .callout)
         textView.layer.masksToBounds = true
         textView.layer.cornerRadius = 13
-        textView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 16)
+        textView.textContainerInset = UIEdgeInsets(top: 14, left: 8, bottom: 10, right: 16)
         return textView
     }()
     
@@ -133,13 +116,9 @@ extension ChatRoomViewController {
     }
     
     private func messageTextViewChanged() {
-        let textViewNewLineCount = (messageTextView.text.filter { $0 == "\n" }.count)
-        switch textViewNewLineCount {
-        case 0...2:
-            messageTextViewHeightAnchor.constant = CGFloat(46 + textViewNewLineCount * 22)
-        default:
-            break
-        }
+        let lineCount = (messageTextView.contentSize.height - 45) / 21
+        let lineHeightMultiplier = lineCount < 2 ? lineCount : 2
+        messageTextViewHeightAnchor.constant = CGFloat(45 + lineHeightMultiplier * 22)
     }
 }
 
