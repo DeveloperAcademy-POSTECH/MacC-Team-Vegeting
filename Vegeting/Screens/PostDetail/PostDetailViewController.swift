@@ -310,7 +310,7 @@ final class PostDetailViewController: UIViewController {
     }
 }
 
-extension PostDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension PostDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return participants.count
     }
@@ -324,7 +324,38 @@ extension PostDetailViewController: UICollectionViewDelegate, UICollectionViewDa
                                                     participantsName: participants[indexPath.item].name,
                                                     isHost: isHost)
         
+        
         cell.configure(with: tempParticipantsInfo)
         return cell
+    }
+
+}
+
+extension PostDetailViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        showProfileHalfModal(of: participants[indexPath.item])
+    }
+    
+    private func showProfileHalfModal(of user: Participant) {
+        
+        let viewController = ProfileHalfModalViewController()
+        viewController.modalPresentationStyle = .pageSheet
+        if let sheet = viewController.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = false
+        }
+        
+        let modalModel = ModalModel(nickname: user.name,
+                                    vegetarianStep: "플렉시테리언",
+                                    ageGroup: "20대",
+                                    location: "포항시 남구",
+                                    gender: "여성",
+                                    introduction: "사람을 좋아하고, 자연을 사랑하는 플렉시테리언입니다. 이곳에서 소중한 인연 많이 만들어갔으면 좋겠어요.")
+        
+        
+        viewController.configure(with: modalModel)
+        
+        present(viewController, animated: true, completion: nil)
     }
 }
