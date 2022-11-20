@@ -16,7 +16,7 @@ struct TemporaryMessage {
 
 struct MessageBubble {
     let message: Message
-    let senderType: MessageType
+    let messageType: MessageType
 }
 
 final class ChatRoomViewModel: ViewModelType {
@@ -85,19 +85,38 @@ final class ChatRoomViewModel: ViewModelType {
         
 //        만약 이전 기록이 없더라도, 현재 유저ID로 하게 된다면 Sender 판단 로직에 오류가 발생할 수 없음.
         var previousSenderID = user.userID
+        var messageDateLog: [String: Bool] = [:]
         
-        return messages.map { message in
+        return messages.flatMap { message in
+//            해당 셀이 날짜가 필요한지 아닌지를 알려주는 로직
+            var pairDateAndMessage = checkThisMessageNeedDate(messageDateLog: &messageDateLog, message: message)
+            
+//            해당 셀이 내가 보낸 메세지, 남이 보낸 메세지, 남이 보낸 메세지 + 프로필
             if message.senderID == user.userID {
                 previousSenderID = message.senderID
-                return MessageBubble(message: message, senderType: .mine)
+                pairDateAndMessage.append(MessageBubble(message: message, messageType: .mine))
             } else if message.senderID == previousSenderID {
                 previousSenderID = message.senderID
-                return MessageBubble(message: message, senderType: .other)
+                pairDateAndMessage.append(MessageBubble(message: message, messageType: .other))
             } else {
                 previousSenderID = message.senderID
-                return MessageBubble(message: message, senderType: .otherWithProfile)
+                pairDateAndMessage.append(MessageBubble(message: message, messageType: .otherWithProfile))
             }
+            
+//            [날짜, 나 or남이 보낸 메세지] or [나 or 남이 보낸 메세지]가 리턴된다.
+            return pairDateAndMessage
         }
+    }
+    
+    private func checkThisMessageNeedDate(messageDateLog: inout [String: Bool], message: Message) -> [MessageBubble] {
+        let date = message.createdAt.yearMonthDay()
+        if messageDateLog[date] == nil {
+            messageDateLog.updateValue(true, forKey: date)
+            return [MessageBubble(message: message, messageType: .date)]
+        } else {
+            return []
+        }
+        
     }
     
     func configure(participatedChatRoom: ParticipatedChatRoom, user: VFUser) {
