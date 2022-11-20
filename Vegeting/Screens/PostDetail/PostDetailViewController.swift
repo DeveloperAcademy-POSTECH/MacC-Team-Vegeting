@@ -64,14 +64,15 @@ final class PostDetailViewController: UIViewController {
         return imageView
     }()
     
-    private let categoryLabel: UIButton = {
-        let button = UIButton()
-        button.setTitle("맛집", for: .normal)
-        button.setTitleColor(.label, for: .normal)
-        button.titleLabel?.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .bold))
-        button.backgroundColor = .vfYellow2
-        button.layer.cornerRadius = 15
-        return button
+    private let categoryLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .vfYellow2
+        label.layer.cornerRadius = 15.5
+        label.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .bold))
+        label.textColor = .vfGray1
+        label.textAlignment = .center
+        label.layer.masksToBounds = true
+        return label
     }()
     
     private let titleLabel: UILabel = {
@@ -150,6 +151,14 @@ final class PostDetailViewController: UIViewController {
         return button
     }()
     
+    private var club: Club? = nil {
+        didSet {
+            DispatchQueue.main.async {
+                self.setupLayout()
+            }
+        }
+    }
+    
     // MARK: - lifeCycle
     
     override func viewDidLoad() {
@@ -159,10 +168,20 @@ final class PostDetailViewController: UIViewController {
         configureAddSubviews()
         configureUI()
         configureNavBar()
-        setupLayout()
+//        setupLayout()
     }
     
     // MARK: - func
+    
+    func configure(with data: Club) {
+        titleLabel.text = data.clubTitle
+        categoryLabel.text = data.clubCategory
+        locationLabel.text = data.clubLocation
+        contentTextLabel.text = data.clubContent
+        participantsCapacityLabel.text = "참여하는 회원" + String(data.participants?.count ?? 0) + "/" + String(data.maxNumberOfPeople)
+        
+        self.club = data
+    }
     
     private func configureUI() {
         view.backgroundColor = .white
@@ -215,10 +234,12 @@ final class PostDetailViewController: UIViewController {
             coverImageView.heightAnchor.constraint(equalToConstant: 200)
         ])
         
+        let width = (categoryLabel.text?.size(withAttributes: [.font : UIFont.preferredFont(forTextStyle: .subheadline)]).width ?? 0) + 40
+        
         NSLayoutConstraint.activate([
             categoryLabel.topAnchor.constraint(equalTo: coverImageView.bottomAnchor, constant: 15),
             categoryLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            categoryLabel.widthAnchor.constraint(equalToConstant: 66),
+            categoryLabel.widthAnchor.constraint(equalToConstant: width),
             categoryLabel.heightAnchor.constraint(equalToConstant: 31)
         ])
         
