@@ -254,6 +254,7 @@
 		4A31CD282903D86E00E5E422 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				4A060C072913AA5E00D75699 /* InterestCollectionViewCell.swift */,
 				4A31CD292903D89600E5E422 /* GroupCategoryCollectionViewCell.swift */,
 			);
 			path = Cell;
@@ -419,7 +420,6 @@
 			isa = PBXGroup;
 			children = (
 				4AF67E94291206C000D4A2C4 /* ChatRoomTableViewCell.swift */,
-				4A060C072913AA5E00D75699 /* InterestCollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
