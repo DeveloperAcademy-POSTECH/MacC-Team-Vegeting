@@ -93,12 +93,16 @@ final class ChatRoomViewController: UIViewController {
                 }
             case .failToGetDataFromServer(let error):
                 print(error.localizedDescription)
+            case .textViewHeight(let height):
+                self?.messageTextViewHeightAnchor.constant = height
             }
         }.store(in: &cancellables)
         
         let textChangePublihser = NotificationCenter.default.publisher(for: UITextView.textDidChangeNotification)
         textChangePublihser.sink { [weak self] _ in
-            self?.messageTextViewChanged()
+            guard let height = self?.messageTextView.contentSize.height, let text = self?.messageTextView.text else { return }
+            
+            self?.input.send(.textChanged(height: height, text: text))
         }.store(in: &cancellables)
     }
     
@@ -113,12 +117,6 @@ extension ChatRoomViewController {
     private func sendButtonTapped(_ sender: Any) {
         input.send(.sendButtonTapped(text: messageTextView.text))
         messageTextView.text = ""
-    }
-    
-    private func messageTextViewChanged() {
-        let lineCount = (messageTextView.contentSize.height - 45) / 21
-        let lineHeightMultiplier = lineCount < 2 ? lineCount : 2
-        messageTextViewHeightAnchor.constant = CGFloat(45 + lineHeightMultiplier * 22)
     }
 }
 

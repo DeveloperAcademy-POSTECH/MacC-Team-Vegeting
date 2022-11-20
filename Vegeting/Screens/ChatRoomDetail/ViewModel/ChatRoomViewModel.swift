@@ -24,12 +24,14 @@ final class ChatRoomViewModel: ViewModelType {
     enum Input {
         case viewWillAppear
         case sendButtonTapped(text: String)
+        case textChanged(height: CGFloat, text: String)
     }
     
     enum Output {
         case localChatDataChanged(messageBubbles: [MessageBubble])
         case serverChatDataChanged(messageBubbles: [MessageBubble])
         case failToGetDataFromServer(error: Error)
+        case textViewHeight(height: CGFloat)
     }
     
     private var output: PassthroughSubject<Output, Never> = .init()
@@ -43,6 +45,9 @@ final class ChatRoomViewModel: ViewModelType {
         input.sink { [weak self] event in
             switch event {
             case .viewWillAppear:
+                break
+            case .textChanged(let height, let text):
+                self?.calculateTextViewHeight(height: height, text: text)
                 break
             case .sendButtonTapped(let text):
                 self?.sendMessageFromLocal(text: text)
@@ -116,7 +121,12 @@ final class ChatRoomViewModel: ViewModelType {
         } else {
             return []
         }
-        
+    }
+    
+    private func calculateTextViewHeight(height: CGFloat, text: String) {
+        let lineCount = ((height - 45) / 21 + 1)
+        let lineHeightMultiplier = (lineCount < 4 ? lineCount : 3) - 1
+        self.output.send(.textViewHeight(height: CGFloat(45 + lineHeightMultiplier * 21)))
     }
     
     func configure(participatedChatRoom: ParticipatedChatRoom, user: VFUser) {
