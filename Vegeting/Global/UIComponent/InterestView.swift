@@ -99,27 +99,21 @@ extension InterestView: UICollectionViewDataSource {
 extension InterestView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-       
-        guard let selectedCellCount = collectionView.indexPathsForSelectedItems?.count else { return true }
-        
-        if selectedCellCount == 0 {
-            delegate?.setBottomButtonEnabled(to: true)
-            return true
-        } else if selectedCellCount == 1 || selectedCellCount ==  2 {
-            return true
-        } else {
-            return false
-        }
+        judgeBottomButtonEnabled(to: true, with: 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
+        judgeBottomButtonEnabled(to: false, with: 1)
+    }
+    
+    private func judgeBottomButtonEnabled(to result: Bool, with comparisonValue: Int) -> Bool {
         
-        guard let selectedCellCount = collectionView.indexPathsForSelectedItems?.count else { return true }
+        guard let selectedCellCount = interestCollectionView.indexPathsForSelectedItems?.count else { return true }
         
-        if selectedCellCount == 1 {
-            delegate?.setBottomButtonEnabled(to: false)
+        if selectedCellCount == comparisonValue {
+            delegate?.setBottomButtonEnabled(to: result)
             return true
-        } else if selectedCellCount == 2 || selectedCellCount ==  3 {
+        } else if selectedCellCount == comparisonValue + 1 || selectedCellCount == comparisonValue + 2 {
             return true
         } else {
             return false
