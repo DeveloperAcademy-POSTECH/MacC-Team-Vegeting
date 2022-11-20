@@ -9,6 +9,7 @@ import UIKit
 
 protocol SelectVegetarianTypeViewDelegate: AnyObject {
     func didSelectVegetarianType(type: String)
+    func didSelectVegetarianTypeForNextButton()
 }
 
 final class UserTypeIntroductionViewController: UIViewController {
@@ -37,6 +38,7 @@ final class UserTypeIntroductionViewController: UIViewController {
         button.titleLabel?.font = .preferredFont(forTextStyle: .callout)
         button.contentHorizontalAlignment = .leading
         button.layer.cornerRadius = 8
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         button.addTarget(self, action: #selector(vegetarianTypeButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -156,6 +158,16 @@ final class UserTypeIntroductionViewController: UIViewController {
 extension UserTypeIntroductionViewController: SelectVegetarianTypeViewDelegate {
     func didSelectVegetarianType(type: String) {
         vegetarianTypeSelectButton.setTitle(type, for: .normal)
+    }
+    
+    func didSelectVegetarianTypeForNextButton() {
+        guard let selectedType = vegetarianTypeSelectButton.titleLabel?.text else {
+            return
+        }
+        
+        if selectedType != vegetarianTypeSelectButtonTitle {
+            nextButtonActive()
+        }
     }
 }
 

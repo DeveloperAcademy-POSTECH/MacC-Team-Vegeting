@@ -104,8 +104,8 @@ class SelectVegetarianTypeViewController: UIViewController {
     
     @objc
     private func completeButtonTapped() {
-        print(selectedVegetarianType)
         delegate?.didSelectVegetarianType(type: selectedVegetarianType)
+        delegate?.didSelectVegetarianTypeForNextButton()
         dismissModal()
     }
     
