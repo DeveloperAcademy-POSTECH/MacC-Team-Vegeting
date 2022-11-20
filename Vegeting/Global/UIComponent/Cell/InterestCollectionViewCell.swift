@@ -26,7 +26,11 @@ class InterestCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    var isSelectedCell = false
+    override var isSelected: Bool {
+        didSet {
+            applySelectedState()
+        }
+    }
     
     // MARK: - init
     
@@ -62,8 +66,8 @@ class InterestCollectionViewCell: UICollectionViewCell {
     }
     
     func applySelectedState() {
-        backgroundContentView.backgroundColor = isSelectedCell ? .black : .systemGray6
-        interestLabel.textColor = isSelectedCell ? .white : .black
-        interestLabel.font = isSelectedCell ? .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .bold)) : .preferredFont(forTextStyle:.subheadline)
+        backgroundContentView.backgroundColor = isSelected ? .black : .systemGray6
+        interestLabel.textColor = isSelected ? .white : .black
+        interestLabel.font = isSelected ? .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .bold)) : .preferredFont(forTextStyle:.subheadline)
     }
 }

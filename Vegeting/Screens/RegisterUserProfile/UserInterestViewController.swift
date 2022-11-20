@@ -82,13 +82,7 @@ class UserInterestViewController: UIViewController {
 }
 
 extension UserInterestViewController: InterestViewDelegate {
-    
-    func setBottomButtonEnabled(selectedList: [String]) {
-        if selectedList.isEmpty {
-            profileRegisterButton.isEnabled = false
-        } else {
-            profileRegisterButton.isEnabled = true
-        }
+    func setBottomButtonEnabled(to isEnabled: Bool) {
+        profileRegisterButton.isEnabled = isEnabled
     }
-
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 protocol InterestViewDelegate: AnyObject {
-    func setBottomButtonEnabled(selectedList: [String])
+    func setBottomButtonEnabled(to isEnabled: Bool)
 }
 
 class InterestView: UIView {
@@ -41,6 +41,7 @@ class InterestView: UIView {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.allowsMultipleSelection = true
         collectionView.register(InterestCollectionViewCell.self, forCellWithReuseIdentifier: InterestCollectionViewCell.className)
         return collectionView
     }()
@@ -96,24 +97,32 @@ extension InterestView: UICollectionViewDataSource {
 }
 
 extension InterestView: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+       
+        guard let selectedCellCount = collectionView.indexPathsForSelectedItems?.count else { return true }
         
-        switch entryPoint {
-        case .profile:
-            return
-        case .register:
-            guard let cell = interestCollectionView.cellForItem(at: indexPath) as? InterestCollectionViewCell else { return }
-            cell.isSelectedCell.toggle()
-            
-            if cell.isSelectedCell && selectedInterestList.count < 3 {
-                selectedInterestList.append(interestList[indexPath.item])
-                cell.applySelectedState()
-            } else {
-                guard let index = selectedInterestList.firstIndex(of: interestList[indexPath.item]) else { return }
-                selectedInterestList.remove(at: index)
-                cell.applySelectedState()
-            }
-            delegate?.setBottomButtonEnabled(selectedList: self.selectedInterestList)
+        if selectedCellCount == 0 {
+            delegate?.setBottomButtonEnabled(to: true)
+            return true
+        } else if selectedCellCount == 1 || selectedCellCount ==  2 {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
+        
+        guard let selectedCellCount = collectionView.indexPathsForSelectedItems?.count else { return true }
+        
+        if selectedCellCount == 1 {
+            delegate?.setBottomButtonEnabled(to: false)
+            return true
+        } else if selectedCellCount == 2 || selectedCellCount ==  3 {
+            return true
+        } else {
+            return false
         }
     }
     
