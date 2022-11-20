@@ -14,6 +14,7 @@ protocol SelectVegetarianTypeViewDelegate: AnyObject {
 final class UserTypeIntroductionViewController: UIViewController {
     
     let introductionMaxLength = 60
+    let vegetarianTypeSelectButtonTitle = "채식 단계"
     
     private let progressBarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -30,7 +31,7 @@ final class UserTypeIntroductionViewController: UIViewController {
     
     private lazy var vegetarianTypeSelectButton: UIButton = {
         let button = UIButton()
-        button.setTitle("채식 단계", for: .normal)
+        button.setTitle("\(vegetarianTypeSelectButtonTitle)", for: .normal)
         button.backgroundColor = UIColor(hex: "#F2F2F2")
         button.setTitleColor(UIColor(hex: "#8E8E93"), for: .normal)
         button.titleLabel?.font = .preferredFont(forTextStyle: .callout)
@@ -47,13 +48,13 @@ final class UserTypeIntroductionViewController: UIViewController {
         return label
     }()
     
-    private let introductionTextField: UITextField = {
-        let textField = UITextField()
-        textField.backgroundColor = UIColor(hex: "#F2F2F2")
-        textField.layer.cornerRadius = 8
-        textField.contentVerticalAlignment = .top
-        textField.placeholder = "나에 대한 간략한 소개를 입력해주세요."
-        return textField
+    private let introductionTextView: UITextView = {
+        let textView = UITextView()
+        textView.backgroundColor = UIColor(hex: "#F2F2F2")
+        textView.layer.cornerRadius = 8
+        textView.font = .preferredFont(forTextStyle: .body)
+        textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        return textView
     }()
     
     private let introductionCountLabel: UILabel = {
@@ -74,19 +75,20 @@ final class UserTypeIntroductionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureTextField()
+        configureTextView()
         configureUI()
+        hideKeyboardWhenTappedAround()
         setupLayout()
     }
     
-    private func configureTextField() {
-        introductionTextField.addTarget(self, action: #selector(textDidChangeForLabel), for: .editingChanged)
+    private func configureTextView() {
+        introductionTextView.delegate = self
     }
     
     private func configureUI() {
         view.backgroundColor = .systemBackground
         view.addSubviews(progressBarImageView, vegetarianTypeLabel, vegetarianTypeSelectButton,
-                         introductionLabel, introductionTextField, introductionCountLabel, nextButton)
+                         introductionLabel, introductionTextView, introductionCountLabel, nextButton)
     }
     
     private func setupLayout() {
@@ -117,14 +119,14 @@ final class UserTypeIntroductionViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            introductionTextField.topAnchor.constraint(equalTo: introductionLabel.bottomAnchor, constant: 14),
-            introductionTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            introductionTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            introductionTextField.heightAnchor.constraint(equalToConstant: view.frame.height * 1/7)
+            introductionTextView.topAnchor.constraint(equalTo: introductionLabel.bottomAnchor, constant: 14),
+            introductionTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            introductionTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            introductionTextView.heightAnchor.constraint(equalToConstant: view.frame.height * 1/7)
         ])
         
         NSLayoutConstraint.activate([
-            introductionCountLabel.topAnchor.constraint(equalTo: introductionTextField.bottomAnchor, constant: 8),
+            introductionCountLabel.topAnchor.constraint(equalTo: introductionTextView.bottomAnchor, constant: 8),
             introductionCountLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
         
@@ -135,32 +137,46 @@ final class UserTypeIntroductionViewController: UIViewController {
     }
     
     @objc
-    private func textDidChangeForLabel() {
-        guard let text = introductionTextField.text else { return }
-        var textLength = text.count
-        
-        //maxLength 이상의 글자를 붙여넣을 경우 잘라주는 역할
-        if textLength > introductionMaxLength {
-            let index = text.index(text.startIndex, offsetBy: introductionMaxLength)
-            let newString = text[text.startIndex..<index]
-            introductionTextField.text = String(newString)
-            textLength = newString.count
-        }
-        
-        introductionCountLabel.text = "\(textLength)/60"
-    }
-    
-    @objc
     private func vegetarianTypeButtonTapped() {
         let modalViewController = SelectVegetarianTypeViewController()
         modalViewController.delegate = self
         modalViewController.modalPresentationStyle = .fullScreen
         present(modalViewController, animated: true)
     }
+    
+    private func updateIntroductionCountLabel(textLength: Int) {
+        introductionCountLabel.text = "\(textLength)/\(introductionMaxLength)"
+    }
+    
+    private func nextButtonActive() {
+        nextButton.isEnabled = true
+    }
 }
 
 extension UserTypeIntroductionViewController: SelectVegetarianTypeViewDelegate {
     func didSelectVegetarianType(type: String) {
         vegetarianTypeSelectButton.setTitle(type, for: .normal)
+    }
+}
+
+extension UserTypeIntroductionViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        guard let text = textView.text else { return }
+        var textLength = text.count
+        
+        //maxLength 초과 시 키보드 내려주는 역할
+        if textLength >= introductionMaxLength {
+            textView.resignFirstResponder()
+        }
+        
+        //maxLength 이상의 글자를 붙여넣을 경우 잘라주는 역할
+        if textLength > introductionMaxLength {
+            let index = text.index(text.startIndex, offsetBy: introductionMaxLength)
+            let newString = text[text.startIndex..<index]
+            introductionTextView.text = String(newString)
+            textLength = newString.count
+        }
+        
+        updateIntroductionCountLabel(textLength: textLength)
     }
 }

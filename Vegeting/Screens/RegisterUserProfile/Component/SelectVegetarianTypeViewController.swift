@@ -15,12 +15,12 @@ struct TypeDescription {
 class SelectVegetarianTypeViewController: UIViewController {
     
     var vegetarianTypes: [TypeDescription] = [TypeDescription(type: "프루테리언", description: "열매만 섭취해요."),
-                                              TypeDescription(type: "비건", description: "식물성만 섭취해요."),
-                                              TypeDescription(type: "락토", description: "식물성만 섭취해요."),
-                                              TypeDescription(type: "오보", description: "식물성만 섭취해요."),
-                                              TypeDescription(type: "락토 오보", description: "식물성만 섭취해요."),
-                                              TypeDescription(type: "페스코", description: "식물성만 섭취해요."),
-                                              TypeDescription(type: "폴로", description: "식물성만 섭취해요."),
+                                              TypeDescription(type: "비건", description: "완전한 식물성만 섭취해요."),
+                                              TypeDescription(type: "락토", description: "식물성을 섭취하고, 추가로 우유와 유제품은 소비해요."),
+                                              TypeDescription(type: "오보", description: "식물성을 섭취하고, 추가로 달걀 등 알은 소비해요."),
+                                              TypeDescription(type: "락토 오보", description: "식물성을 섭취하고, 추가로 우유 및 유제품과 달걀 등 알은 소비해요."),
+                                              TypeDescription(type: "페스코", description: "식물성을 섭취하고, 추가로 생선 등 어류는 소비해요."),
+                                              TypeDescription(type: "폴로", description: "식물성을 섭취하고, 추가로 닭고기나 오리고기 등 가금류는 소비해요."),
                                               TypeDescription(type: "플렉시테리언", description: "채식을 지향하지만, 상황에 따라서 동물성도 소비해요."),
                                               TypeDescription(type: "비덩주의", description: "덩어리로 된 육류는 피하고, 육수 등은 소비해요."),
                                               TypeDescription(type: "간헐적 채식", description: "매일 채식을 하지는 못해도, 일상에서 조금씩 실천하려고 노력해요.")]
@@ -88,6 +88,10 @@ class SelectVegetarianTypeViewController: UIViewController {
         ])
     }
     
+    private func dismissModal() {
+        self.dismiss(animated: true)
+    }
+    
     private func configureTableView() {
         vegetarianTypeTable.delegate = self
         vegetarianTypeTable.dataSource = self
@@ -107,10 +111,6 @@ class SelectVegetarianTypeViewController: UIViewController {
     
     private func completeButtonActive() {
         completeButton.isEnabled = true
-    }
-    
-    private func dismissModal() {
-        self.dismiss(animated: true)
     }
 }
 
