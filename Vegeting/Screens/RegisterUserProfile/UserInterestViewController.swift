@@ -62,8 +62,9 @@ class UserInterestViewController: UIViewController {
         
         selectInterestView.constraint(top: titleLabel.bottomAnchor,
                                       leading: view.leadingAnchor,
+                                      bottom: profileRegisterButton.topAnchor,
                                       trailing: view.trailingAnchor,
-                                      padding: UIEdgeInsets(top: 11, left: 20, bottom: 0, right: 20))
+                                      padding: UIEdgeInsets(top: 11, left: 20, bottom: 10, right: 20))
         
         profileRegisterButton.constraint(bottom: view.bottomAnchor,
                                 centerX: view.centerXAnchor,

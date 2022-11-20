@@ -21,9 +21,21 @@ class InterestView: UIView {
     }
     
     private let interestCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.minimumInteritemSpacing = 12
-        layout.minimumLineSpacing = 16
+        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(76),
+                                              heightDimension: .absolute(37))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                               heightDimension: .absolute(44))
+        
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
+                                                       subitems: [item])
+        group.interItemSpacing = .fixed(12)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 16
+        
+        let layout = UICollectionViewCompositionalLayout(section: section)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.showsVerticalScrollIndicator = false
@@ -58,8 +70,6 @@ class InterestView: UIView {
     private func setupLayout() {
         addSubview(interestCollectionView)
         interestCollectionView.constraint(to: self)
-        interestCollectionView.constraint(.heightAnchor, constant: 139)
-        interestCollectionView.constraint(.widthAnchor, constant: 270)
     }
     
     private func configureCollectionView() {
@@ -82,14 +92,6 @@ extension InterestView: UICollectionViewDataSource {
         
         cell.configure(with: interestList[indexPath.item])
         return cell
-    }
-}
-
-extension InterestView: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = interestList[indexPath.item].size(withAttributes: [.font : UIFont.preferredFont(forTextStyle: .subheadline)]).width + 50
-        
-        return CGSize(width: width, height: 34)
     }
 }
 
