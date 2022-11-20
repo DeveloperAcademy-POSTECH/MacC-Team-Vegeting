@@ -8,7 +8,7 @@
 import Foundation
 
 extension Int {
-    func toAgeGroup() -> String{
+    func toAgeGroup() -> String {
         let thisYear = Calendar.current.component(.year, from: Date())
         let age = thisYear - self + 1
         let ageGroup = (age / 10) * 10
