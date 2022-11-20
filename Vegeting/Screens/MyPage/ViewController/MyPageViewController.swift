@@ -42,7 +42,7 @@ class MyPageViewController: UIViewController {
         view.addSubview(tableView)
         tableView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
                              leading: view.leadingAnchor,
-                             bottom: view.bottomAnchor,
+                             bottom: view.safeAreaLayoutGuide.bottomAnchor,
                              trailing: view.trailingAnchor)
     }
     
