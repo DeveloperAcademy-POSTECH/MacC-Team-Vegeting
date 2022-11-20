@@ -46,7 +46,7 @@ final class UserTypeIntroductionViewController: UIViewController {
     private let introductionLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3, compatibleWith: .init(legibilityWeight: .bold))
-        label.text = "프로필에 들어갈 한줄 소개를 작성해주세요."
+        label.text = "프로필 한줄 소개를 작성해주세요."
         return label
     }()
     
