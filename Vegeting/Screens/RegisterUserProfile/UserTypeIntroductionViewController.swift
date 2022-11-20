@@ -150,6 +150,17 @@ final class UserTypeIntroductionViewController: UIViewController {
         introductionCountLabel.text = "\(textLength)/\(introductionMaxLength)"
     }
     
+    private func editingTextViewForm() {
+        introductionTextView.backgroundColor = .systemBackground
+        introductionTextView.layer.borderWidth = 2
+        introductionTextView.layer.borderColor = UIColor.vfYellow1.cgColor
+    }
+    
+    private func notEditingTextViewForm() {
+        introductionTextView.backgroundColor = UIColor(hex: "#F2F2F2")
+        introductionTextView.layer.borderWidth = 0
+    }
+    
     private func nextButtonActive() {
         nextButton.isEnabled = true
     }
@@ -158,6 +169,7 @@ final class UserTypeIntroductionViewController: UIViewController {
 extension UserTypeIntroductionViewController: SelectVegetarianTypeViewDelegate {
     func didSelectVegetarianType(type: String) {
         vegetarianTypeSelectButton.setTitle(type, for: .normal)
+        vegetarianTypeSelectButton.setTitleColor(.label, for: .normal)
     }
     
     func didSelectVegetarianTypeForNextButton() {
@@ -189,6 +201,15 @@ extension UserTypeIntroductionViewController: UITextViewDelegate {
             textLength = newString.count
         }
         
+        editingTextViewForm()
         updateIntroductionCountLabel(textLength: textLength)
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        editingTextViewForm()
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        notEditingTextViewForm()
     }
 }

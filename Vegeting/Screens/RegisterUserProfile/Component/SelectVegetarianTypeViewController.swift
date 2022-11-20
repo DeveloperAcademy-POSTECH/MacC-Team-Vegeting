@@ -31,7 +31,7 @@ class SelectVegetarianTypeViewController: UIViewController {
     private lazy var cancelButton: UIButton = {
         let button = UIButton()
         button.setTitle("취소", for: .normal)
-        button.setTitleColor(UIColor.mainYellow, for: .normal)
+        button.setTitleColor(UIColor.vfYellow1, for: .normal)
         button.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -41,7 +41,7 @@ class SelectVegetarianTypeViewController: UIViewController {
         button.setTitle("완료", for: .normal)
         button.setTitleColor(.lightGray, for: .disabled)
         button.isEnabled = false
-        button.setTitleColor(UIColor.mainYellow, for: .normal)
+        button.setTitleColor(UIColor.vfYellow1, for: .normal)
         button.titleLabel?.font = .preferredFont(forTextStyle: .headline, compatibleWith: .init(legibilityWeight: .bold))
         button.addTarget(self, action: #selector(completeButtonTapped), for: .touchUpInside)
         return button
