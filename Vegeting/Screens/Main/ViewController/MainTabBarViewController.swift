@@ -9,33 +9,34 @@ import UIKit
 
 class MainTabBarViewController: UITabBarController {
     private let findClubTab: UINavigationController = {
-        let controller = UINavigationController(rootViewController: GroupListViewController()) //TODO: 모임 찾기 뷰로 연결
-        let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 14, weight: .medium)
-        controller.tabBarItem.image = UIImage(systemName: "person.3.fill", withConfiguration: imageConfig)
+        let controller = UINavigationController(rootViewController: GroupListViewController())
+        controller.tabBarItem.image = UIImage(named: "clubStroke")
+        controller.tabBarItem.selectedImage = UIImage(named: "clubFill")
         controller.title = "모임 찾기"
         return controller
     }()
     
     private let findFriendTab: UINavigationController = {
-        let controller = UINavigationController(rootViewController: ViewController()) //TODO: 친구 찾기 뷰로 연결
-        let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 14, weight: .medium)
-        controller.tabBarItem.image = UIImage(systemName: "map", withConfiguration: imageConfig)
-        controller.title = "친구 찾기"
+        let controller = UINavigationController(rootViewController: ViewController())
+        controller.tabBarItem.image = UIImage(named: "calendarStroke")
+        controller.tabBarItem.selectedImage = UIImage(named: "calendarFill")
+        controller.title = "행사"
         return controller
     }()
     
     private let chattingTab: UINavigationController = {
-        let controller = UINavigationController(rootViewController: ChatRoomListViewController()) //TODO: 채팅 뷰로 연결
+        let controller = UINavigationController(rootViewController: ChatRoomListViewController())
         let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 14, weight: .medium)
         controller.tabBarItem.image = UIImage(systemName: "message", withConfiguration: imageConfig)
+        controller.tabBarItem.selectedImage = UIImage(systemName: "message.fill", withConfiguration: imageConfig)
         controller.title = "채팅"
         return controller
     }()
     
     private let myPageTab: UINavigationController = {
-        let controller = UINavigationController(rootViewController: MyPageViewController()) //TODO: 마이페이지 뷰로 연결
-        let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 14, weight: .medium)
-        controller.tabBarItem.image = UIImage(systemName: "person", withConfiguration: imageConfig)
+        let controller = UINavigationController(rootViewController: MyPageViewController())
+        controller.tabBarItem.image = UIImage(named: "mypageStroke")
+        controller.tabBarItem.selectedImage = UIImage(named: "mypageFill")
         controller.title = "마이페이지"
         return controller
     }()
@@ -49,13 +50,14 @@ class MainTabBarViewController: UITabBarController {
     }
     
     func configureTabBar() {
-        tabBar.tintColor = .label
+        tabBar.tintColor = .black
+        let appearance = UITabBarAppearance()
+        appearance.backgroundColor = .systemBackground
+        tabBar.standardAppearance = appearance
+        tabBar.scrollEdgeAppearance = appearance
     }
     
     func configureUI() {
-        tabBar.backgroundColor = .white
-        tabBar.layer.borderWidth = 0.4
-        tabBar.layer.borderColor = UIColor(hex: "#999999").cgColor
         view.backgroundColor = .white
     }
     
