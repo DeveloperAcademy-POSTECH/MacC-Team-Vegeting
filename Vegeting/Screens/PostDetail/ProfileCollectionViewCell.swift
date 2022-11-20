@@ -10,7 +10,7 @@ private enum Constants {
     static let profileImageSize = 80.0
     static let profileImageCGSize = CGSize(width: Constants.profileImageSize, height: Constants.profileImageSize)
     static let borderWidth = 2.0
-    static let spacing = 4.0
+    static let spacing = 5.0
 }
 
 class ProfileCollectionViewCell: UICollectionViewCell {
