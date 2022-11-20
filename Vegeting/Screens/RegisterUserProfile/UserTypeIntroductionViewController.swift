@@ -14,8 +14,8 @@ protocol SelectVegetarianTypeViewDelegate: AnyObject {
 
 final class UserTypeIntroductionViewController: UIViewController {
     
-    let introductionMaxLength = 60
     let vegetarianTypeSelectButtonTitle = "채식 단계"
+    let introductionMaxLength = 60
     
     private let progressBarImageView: UIImageView = {
         let imageView = UIImageView()
