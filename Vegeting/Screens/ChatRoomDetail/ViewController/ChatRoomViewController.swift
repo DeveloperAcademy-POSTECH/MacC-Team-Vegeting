@@ -117,6 +117,7 @@ extension ChatRoomViewController {
     private func sendButtonTapped(_ sender: Any) {
         input.send(.sendButtonTapped(text: messageTextView.text))
         messageTextView.text = ""
+        input.send(.textChanged(height: messageTextView.contentSize.height, text: messageTextView.text))
     }
 }
 

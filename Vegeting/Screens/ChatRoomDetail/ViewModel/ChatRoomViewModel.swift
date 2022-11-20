@@ -125,7 +125,7 @@ final class ChatRoomViewModel: ViewModelType {
     
     private func calculateTextViewHeight(height: CGFloat, text: String) {
         let lineCount = ((height - 45) / 21 + 1)
-        let lineHeightMultiplier = (lineCount < 4 ? lineCount : 3) - 1
+        let lineHeightMultiplier = min(lineCount - 1, 2)
         self.output.send(.textViewHeight(height: CGFloat(45 + lineHeightMultiplier * 21)))
     }
     
