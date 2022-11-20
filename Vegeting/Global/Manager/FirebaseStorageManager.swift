@@ -12,7 +12,7 @@ import UIKit
 class FirebaseStorageManager {
     static func uploadImage(image: UIImage, folderName: String, completion: @escaping (URL?) -> Void) {
         guard let scaledImage = image.scaledToSafeUploadSize,
-              let data = scaledImage.jpegData(compressionQuality: 0.4) else { return completion(nil)}
+              let data = scaledImage.jpegData(compressionQuality: 0.4) else { return completion(nil) }
         let metaData = StorageMetadata()
         metaData.contentType = "image/jpeg"
         
