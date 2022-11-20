@@ -134,8 +134,11 @@ extension ChatRoomViewController {
     
     private func messageTextViewChanged() {
         let textViewNewLineCount = (messageTextView.text.filter { $0 == "\n" }.count)
-        if let lineCase = keyboardHeightType(rawValue: textViewNewLineCount) {
-            messageTextViewHeightAnchor.constant = lineCase.height
+        switch textViewNewLineCount {
+        case 0...2:
+            messageTextViewHeightAnchor.constant = CGFloat(46 + textViewNewLineCount * 22)
+        default:
+            break
         }
     }
 }
@@ -151,7 +154,8 @@ extension ChatRoomViewController: UICollectionViewDataSource {
         let data = messageBubbles[indexPath.item]
         switch data.messageType {
         case .mine:
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyChatContentCollectionViewCell.className, for: indexPath) as? MyChatContentCollectionViewCell else { return UICollectionViewCell() }
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier:
+                    MyChatContentCollectionViewCell.className, for: indexPath) as? MyChatContentCollectionViewCell else { return UICollectionViewCell() }
             cell.configure(with: data)
             return cell
             
