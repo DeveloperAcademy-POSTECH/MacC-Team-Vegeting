@@ -36,6 +36,7 @@ class MyChatContentCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+    
         configureUI()
         setupLayout()
     }
@@ -65,6 +66,7 @@ extension MyChatContentCollectionViewCell {
             contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
         ]
+        
         
         let backgroundPaddingViewConstraints = [
             backgroundPaddingView.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor, constant: -16),
