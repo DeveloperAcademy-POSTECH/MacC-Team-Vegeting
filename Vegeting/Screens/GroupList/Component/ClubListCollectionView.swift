@@ -59,7 +59,7 @@ class ClubListCollectionView: UICollectionView {
 
 extension ClubListCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let detailViewController = PostDetailViewController()
+        let detailViewController = PostDetailViewController(club: clubList[indexPath.item])
         tapDelegate?.clubListCellTapped(viewController: detailViewController)
     }
 }

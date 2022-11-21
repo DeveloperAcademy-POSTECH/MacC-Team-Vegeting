@@ -50,6 +50,11 @@ public class VerticalAlignLabel: UILabel {
 }
 
 final class PostDetailViewController: UIViewController {
+    
+    // MARK: - properties
+    
+    private var club: Club
+    
     private let coverImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -131,6 +136,18 @@ final class PostDetailViewController: UIViewController {
         return button
     }()
     
+    // MARK: - init
+    
+    init(club: Club) {
+        self.club = club
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - lifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -141,6 +158,8 @@ final class PostDetailViewController: UIViewController {
         configureNavBar()
         setupLayout()
     }
+    
+    // MARK: - func
     
     private func configureUI() {
         view.backgroundColor = .white
