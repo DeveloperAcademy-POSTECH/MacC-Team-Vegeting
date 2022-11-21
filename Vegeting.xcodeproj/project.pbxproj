@@ -85,7 +85,7 @@
 		A26198762909539B00ECCC4F /* ClubListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26198752909539B00ECCC4F /* ClubListCollectionViewCell.swift */; };
 		A26198782909567100ECCC4F /* LabelWithImageStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26198772909567100ECCC4F /* LabelWithImageStackView.swift */; };
 		A261987D290A350300ECCC4F /* BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A261987C290A350300ECCC4F /* BottomButton.swift */; };
-		A2B077432923801D00DFEC08 /* UIImage_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B077422923801D00DFEC08 /* UIImage_Extension.swift */; };
+		A2B077432923801D00DFEC08 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B077422923801D00DFEC08 /* UIImage+Extension.swift */; };
 		A2B07746292381BE00DFEC08 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = A2B07745292381BE00DFEC08 /* FirebaseStorage */; };
 		A2C7DE582923720300269339 /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C7DE572923720300269339 /* FirebaseStorageManager.swift */; };
 		A2F369D12908258B007F3732 /* GroupInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F369D02908258B007F3732 /* GroupInfoView.swift */; };
@@ -188,7 +188,7 @@
 		A26198752909539B00ECCC4F /* ClubListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubListCollectionViewCell.swift; sourceTree = "<group>"; };
 		A26198772909567100ECCC4F /* LabelWithImageStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelWithImageStackView.swift; sourceTree = "<group>"; };
 		A261987C290A350300ECCC4F /* BottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButton.swift; sourceTree = "<group>"; };
-		A2B077422923801D00DFEC08 /* UIImage_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage_Extension.swift; sourceTree = "<group>"; };
+		A2B077422923801D00DFEC08 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		A2C7DE572923720300269339 /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
 		A2F369D02908258B007F3732 /* GroupInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupInfoView.swift; sourceTree = "<group>"; };
 		A2F369D829090E72007F3732 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
@@ -350,7 +350,7 @@
 				4AFA58AC29050B3800679142 /* Date+Extension.swift */,
 				4AFA58AE29050B5C00679142 /* String+Extension.swift */,
 				A215B29D2906FA3E00DD60B2 /* UITextField+Extension.swift */,
-				A2B077422923801D00DFEC08 /* UIImage_Extension.swift */,
+				A2B077422923801D00DFEC08 /* UIImage+Extension.swift */,
 				4A91B7D929252DE60053AD32 /* Int+Extension.swift */,
 			);
 			path = Extensions;
@@ -881,7 +881,7 @@
 				4A060C01291398A600D75699 /* ProfileHalfModalViewController.swift in Sources */,
 				A2F369D12908258B007F3732 /* GroupInfoView.swift in Sources */,
 				A73AAAF32904E26D0050CA81 /* PostDetailViewController.swift in Sources */,
-				A2B077432923801D00DFEC08 /* UIImage_Extension.swift in Sources */,
+				A2B077432923801D00DFEC08 /* UIImage+Extension.swift in Sources */,
 				7615B6542921096800A34DA4 /* ViewModelType.swift in Sources */,
 				4A31CD272903D86200E5E422 /* GroupCategoryView.swift in Sources */,
 				A26198782909567100ECCC4F /* LabelWithImageStackView.swift in Sources */,
@@ -1116,7 +1116,6 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = S45U2Z8NHP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Vegeting/Global/Supports/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
@@ -1158,7 +1157,6 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = S45U2Z8NHP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Vegeting/Global/Supports/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
