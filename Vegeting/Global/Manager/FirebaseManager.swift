@@ -296,16 +296,12 @@ extension FirebaseManager {
     
     func isPossibleNickname(newName: String) async -> Bool {
         do {
-            let querySnapshot = try await db.collection(Path.user.rawValue).getDocuments()
-            let data = querySnapshot.documents.compactMap { snapshot in
-                try? snapshot.data(as: VFUser.self)
+            let querySnapshot = try await db.collection(Path.user.rawValue).whereField("userName", isEqualTo: newName).getDocuments()
+            if querySnapshot.documents.isEmpty {
+                return true
+            } else {
+                return false
             }
-            for user in data {
-                if user.userName == newName {
-                    return false
-                }
-            }
-            return true
         } catch {
             print(error.localizedDescription)
             return false
