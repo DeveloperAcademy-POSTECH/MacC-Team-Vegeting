@@ -189,7 +189,7 @@ final class PostDetailViewController: UIViewController {
     }
     
     private func configureAddSubviews() {
-        view.addSubviews(scrollView, enterButton)
+        view.addSubview(scrollView)
         scrollView.addSubview(contentView)
         contentView.addSubviews(coverImageView, categoryLabel, titleLabel, datePlaceLabel,
                                 contentTextLabel, participantsCapacityLabel, profileCollectionView)
@@ -198,7 +198,7 @@ final class PostDetailViewController: UIViewController {
     private func setupLayout() {
         scrollView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
                               leading: view.safeAreaLayoutGuide.leadingAnchor,
-                              bottom: enterButton.topAnchor,
+                              bottom: entryPoint == .mine ? view.bottomAnchor : enterButton.topAnchor,
                               trailing: view.safeAreaLayoutGuide.trailingAnchor,
                               padding: UIEdgeInsets(top: 0, left: 0, bottom: 21, right: 0))
         
@@ -254,6 +254,13 @@ final class PostDetailViewController: UIViewController {
             profileCollectionView.heightAnchor.constraint(equalToConstant: 115)
         ])
         
+        if entryPoint == .other {
+            setupBottomButtonLayout()
+        }
+    }
+    
+    private func setupBottomButtonLayout() {
+        view.addSubview(enterButton)
         NSLayoutConstraint.activate([
             enterButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55),
             enterButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
