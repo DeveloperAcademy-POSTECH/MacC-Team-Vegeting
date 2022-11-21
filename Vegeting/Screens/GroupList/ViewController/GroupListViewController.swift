@@ -94,6 +94,10 @@ class GroupListViewController: UIViewController {
         self.tabBarController?.tabBar.isHidden = false
     }
     
+    private func hideTabBar() {
+        tabBarController?.tabBar.isHidden = true
+    }
+    
     private func configureUI() {
         view.backgroundColor = .systemBackground
     }
@@ -133,6 +137,7 @@ class GroupListViewController: UIViewController {
 
 extension GroupListViewController: ClubListCollectionViewDelegate {
     func clubListCellTapped(viewController: PostDetailViewController) {
+        hideTabBar()
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
