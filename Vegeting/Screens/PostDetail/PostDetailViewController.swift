@@ -55,11 +55,19 @@ final class PostDetailViewController: UIViewController {
     
     private var club: Club
     
-    private let coverImageView: UIImageView = {
+    private lazy var coverImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.image = UIImage(named: "coverImage")
+        guard let url = self.club.coverImageURL else {
+            imageView.image = UIImage(named: "coverImage")
+            return imageView
+        }
+        Task { [weak self] in
+            FirebaseStorageManager.downloadImage(url: url) { image in
+                imageView.image = image
+            }
+        }
         return imageView
     }()
     
