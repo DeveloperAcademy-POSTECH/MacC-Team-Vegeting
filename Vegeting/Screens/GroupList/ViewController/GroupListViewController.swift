@@ -66,6 +66,7 @@ class GroupListViewController: UIViewController {
     
     private lazy var collectionView: ClubListCollectionView = {
         let collectionView = ClubListCollectionView()
+        collectionView.tapDelegate = self
         return collectionView
     }()
     
@@ -127,5 +128,11 @@ class GroupListViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+}
+
+extension GroupListViewController: ClubListCollectionViewDelegate {
+    func clubListCellTapped(viewController: PostDetailViewController) {
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }

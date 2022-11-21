@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol ClubListCollectionViewDelegate: AnyObject {
+    func clubListCellTapped(viewController: PostDetailViewController)
+}
+
 class ClubListCollectionView: UICollectionView {
     private var clubList: [Club] = [] {
         didSet {
@@ -15,6 +19,8 @@ class ClubListCollectionView: UICollectionView {
             }
         }
     }
+    
+    weak var tapDelegate: ClubListCollectionViewDelegate?
     
     // MARK: - init
     
@@ -42,11 +48,21 @@ class ClubListCollectionView: UICollectionView {
     }
     
     private func configureCollectionView() {
+        self.delegate = self
         self.dataSource = self
     }
     
     func setClubList(clubList: [Club]) {
         self.clubList = clubList
+    }
+}
+
+extension ClubListCollectionView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        print(clubList[indexPath.item])
+        print("click")
+//        let detailViewController = PostDetailViewController(club: clubList[indexPath.item])
+//        tapDelegate?.clubListCellTapped(viewController: detailViewController)
     }
 }
 
