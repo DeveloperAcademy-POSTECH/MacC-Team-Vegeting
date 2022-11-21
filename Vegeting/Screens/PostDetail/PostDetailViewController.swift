@@ -71,9 +71,9 @@ final class PostDetailViewController: UIViewController {
         return imageView
     }()
     
-    private let categoryLabel: UIButton = {
+    private lazy var categoryLabel: UIButton = {
         let button = UIButton()
-        button.setTitle("맛집", for: .normal)
+        button.setTitle(club.clubCategory, for: .normal)
         button.setTitleColor(.label, for: .normal)
         button.titleLabel?.font = .preferredFont(forTextStyle: .subheadline)
         button.backgroundColor = .lightGray
@@ -81,41 +81,42 @@ final class PostDetailViewController: UIViewController {
         return button
     }()
     
-    private let titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "남미플랜트랩하고 거북이 먹으러 가요"
+        label.text = club.clubTitle
         label.font = .preferredFont(forTextStyle: .title3)
         return label
     }()
     
-    private let locationLabel: UILabel = {
+    private lazy var locationLabel: UILabel = {
         let label = UILabel()
-        label.text = "서울시 동대문구"
+        label.text = club.placeToMeet
         label.font = .preferredFont(forTextStyle: .subheadline)
         label.textColor = .gray
         return label
     }()
     
-    private let dateLabel: UILabel = {
+    private lazy var dateLabel: UILabel = {
         let label = UILabel()
-        label.text = "· 12월 19일"
+        label.text = club.dateToMeet.toString(format: "M월 d일")
         label.font = .preferredFont(forTextStyle: .subheadline)
         label.textColor = .gray
         return label
     }()
     
-    private let contentTextLabel: VerticalAlignLabel = {
+    private lazy var contentTextLabel: VerticalAlignLabel = {
         let label = VerticalAlignLabel()
         label.numberOfLines = 0
-        label.text = "저번에 너무 가고싶엇는데~~ 긴급휴무로 못 가서 너무 아쉬웠어여. 유명 맛집이라던데 갔다가 옆에 있는 거북이까지 갔다 오면 좋을 것 같아요!! 날짜는 10월 내에 토요일 중에 가능한 날짜 맞춰서 다녀오려고 해요~ㅎㅎ 같이 맛난 점심먹어용! 나머지는 긴내용을 채우귀 위함위하다다다다 로렌아킬리나 짱~!!!! 너무너무 좋아요. 한국에서도 콘서트 열어주세요,,,,"
+        label.text = club.clubContent
         label.font = .preferredFont(forTextStyle: .callout)
         return label
     }()
     
-    private let participantsCapacityLabel: UILabel = {
+    private lazy var participantsCapacityLabel: UILabel = {
         let label = UILabel()
-        label.text = "참여하는 회원 5/6"
-        label.font = .preferredFont(forTextStyle: .title3)
+        let participatedNum = club.participants?.count
+        label.text = "참여하는 회원 \(participatedNum?.description ?? "1")/\(club.maxNumberOfPeople)"
+        label.font = .preferredFont(forTextStyle: .headline)
         return label
     }()
     
