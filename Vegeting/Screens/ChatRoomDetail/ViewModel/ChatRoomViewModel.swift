@@ -6,7 +6,7 @@
 //
 
 import Combine
-import Foundation
+import UIKit
 
 struct TemporaryMessage {
     let status: MessageType
