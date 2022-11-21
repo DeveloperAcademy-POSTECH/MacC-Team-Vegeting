@@ -17,6 +17,7 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 8
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
@@ -70,7 +71,14 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with item: Club) {
-        coverImageView.image = UIImage(named: "groupCoverImage1")
+        if item.coverImageURL == nil {
+            coverImageView.image = UIImage(named: "groupCoverImage1")
+        } else {
+            guard let url = item.coverImageURL else { return }
+            FirebaseStorageManager.downloadImage(url: url) { [weak self] image in
+                self?.coverImageView.image = image
+            }
+        }
         categoryView.configure(text: item.clubCategory, backgroundColor: .vfGray4 )
         titleLabel.text = item.clubTitle
         let participantsCount = item.participants?.count ?? 0
