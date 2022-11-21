@@ -53,7 +53,13 @@ final class PostDetailViewController: UIViewController {
     
     // MARK: - properties
     
+    enum EntryPoint {
+        case mine
+        case other
+    }
+    
     private var club: Club
+    private let entryPoint: EntryPoint
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -142,8 +148,9 @@ final class PostDetailViewController: UIViewController {
     
     // MARK: - init
     
-    init(club: Club) {
+    init(club: Club, entryPoint: EntryPoint) {
         self.club = club
+        self.entryPoint = entryPoint
         super.init(nibName: nil, bundle: nil)
     }
     

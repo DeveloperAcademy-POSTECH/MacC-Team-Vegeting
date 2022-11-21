@@ -59,8 +59,13 @@ class ClubListCollectionView: UICollectionView {
 
 extension ClubListCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let detailViewController = PostDetailViewController(club: clubList[indexPath.item])
-        tapDelegate?.clubListCellTapped(viewController: detailViewController)
+        Task {
+            let currentUser = await FirebaseManager.shared.requestUser()
+            let selectedClub = clubList[indexPath.item]
+            let isMine = currentUser?.userID == selectedClub.hostID
+            let detailViewController = PostDetailViewController(club: clubList[indexPath.item], entryPoint: isMine ? .mine : .other)
+            tapDelegate?.clubListCellTapped(viewController: detailViewController)
+        }
     }
 }
 
