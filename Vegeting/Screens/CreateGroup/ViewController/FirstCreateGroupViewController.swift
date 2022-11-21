@@ -149,8 +149,9 @@ final class FirstCreateGroupViewController: UIViewController {
         numberOfGroupPeopleTitleLabel.isHidden = false
         numberOfGroupCollectionView.isHidden = false
         let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height + scrollView.contentInset.bottom)
-        print(scrollView.contentSize.height, scrollView.bounds.size.height, scrollView.contentInset.bottom)
-        scrollView.setContentOffset(bottomOffset, animated: true)
+        if bottomOffset.y > 0 {
+            scrollView.setContentOffset(bottomOffset, animated: true)
+        }
     }
     
     @objc
