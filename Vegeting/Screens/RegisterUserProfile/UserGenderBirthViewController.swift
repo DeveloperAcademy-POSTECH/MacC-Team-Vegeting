@@ -9,6 +9,8 @@ import UIKit
 
 final class UserGenderBirthViewController: UIViewController {
     
+    private var userLocation: UserLocation
+    
     private let progressBarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "progress3")
@@ -85,6 +87,15 @@ final class UserGenderBirthViewController: UIViewController {
         yearPicker.backgroundColor = .systemBackground
         yearPicker.selectRow(50, inComponent: 0, animated: true)
         birthDisplayTextField.inputView = yearPicker
+    }
+    
+    init(userLocation: UserLocation) {
+        self.userLocation = userLocation
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {

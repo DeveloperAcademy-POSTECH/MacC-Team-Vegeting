@@ -212,7 +212,9 @@ final class UserProfileViewController: UIViewController {
     
     @objc
     private func nextButtonTapped() {
-        navigationController?.pushViewController(LocationAuthViewController(), animated: true)
+        guard let nickname = nicknameTextField.text else { return }
+        let userImageNickname = UserImageNickname(userNickname: nickname)
+        navigationController?.pushViewController(LocationAuthViewController(userImageNickname: userImageNickname), animated: true)
     }
 }
 
