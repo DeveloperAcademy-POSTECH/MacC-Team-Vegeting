@@ -264,19 +264,30 @@ final class PostDetailViewController: UIViewController {
     private func showActionSheet() {
         let actionSheet = UIAlertController(title: .none, message: .none, preferredStyle: .actionSheet)
         
-        let deletePostAlertAction = UIAlertAction(title: "게시글 삭제", style: .default) { action in
-            //TODO: 게시글 삭제 action 연결
-        }
+        let firstAlertAction: UIAlertAction
         
-        let modifyPostAlertAction = UIAlertAction(title: "게시글 수정", style: .default) { action in
-            //TODO: 게시글 수정 action 연결
-        }
+        let secondAlertAction: UIAlertAction
         
-        let cancelAlertAction = UIAlertAction(title: "취소", style: .cancel) { action in
-            //TODO: 액션시트 취소 action 연결
+        switch entryPoint {
+            
+        case .mine:
+            firstAlertAction = UIAlertAction(title: "게시글 삭제", style: .destructive, handler: { action in
+                // TODO: - 게시글 삭제 코드
+            })
+            secondAlertAction = UIAlertAction(title: "게시글 수정", style: .default, handler: { action in
+                // TODO: - 게시글 수정
+            })
+        case .other:
+            firstAlertAction = UIAlertAction(title: "게시글 신고", style: .default, handler: { action in
+                // TODO: - 게시글 신고 코드
+            })
+            secondAlertAction = UIAlertAction(title: "작성자 차단", style: .default, handler: { action in
+                // TODO: - 작성자 차단
+            })
         }
+        let cancelAlertAction = UIAlertAction(title: "취소", style: .cancel)
         
-        [deletePostAlertAction, modifyPostAlertAction, cancelAlertAction].forEach { action in
+        [firstAlertAction, secondAlertAction, cancelAlertAction].forEach { action in
             actionSheet.addAction(action)
         }
         
