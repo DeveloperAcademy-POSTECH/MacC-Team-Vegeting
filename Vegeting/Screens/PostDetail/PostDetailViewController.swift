@@ -129,13 +129,9 @@ final class PostDetailViewController: UIViewController {
         return collectionView
     }()
     
-    private let enterButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .black
+    private let enterButton: BottomButton = {
+        let button = BottomButton()
         button.setTitle("참여하기", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = .preferredFont(forTextStyle: .body)
-        button.layer.cornerRadius = 8
         return button
     }()
     
