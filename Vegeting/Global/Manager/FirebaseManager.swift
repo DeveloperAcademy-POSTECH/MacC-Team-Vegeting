@@ -62,13 +62,13 @@ final class FirebaseManager {
             var participatedClubIDs = participatedClubs.map { $0.clubID ?? nil }
             
             while true {
-                var cnt = 0
-                var arr: [String?] = []
-                while !participatedClubIDs.isEmpty && cnt < 10 {
-                    cnt += 1
-                    arr.append(participatedClubIDs.removeFirst())
+                var count = 0
+                var idsUnder10: [String?] = []
+                while !participatedClubIDs.isEmpty && count < 10 {
+                    count += 1
+                    idsUnder10.append(participatedClubIDs.removeFirst())
                 }
-                let querySnapshot = try await db.collection(Path.club.rawValue).whereField("clubID", in: arr as [Any]).getDocuments()
+                let querySnapshot = try await db.collection(Path.club.rawValue).whereField("clubID", in: idsUnder10 as [Any]).getDocuments()
                 for snapshot in querySnapshot.documents {
                     guard let club = try? snapshot.data(as: Club.self) else { return nil }
                     myClubs.append(club)
