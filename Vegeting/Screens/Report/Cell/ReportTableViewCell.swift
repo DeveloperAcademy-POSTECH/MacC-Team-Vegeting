@@ -126,6 +126,19 @@ final class ReportTableViewCell: UITableViewCell {
         contentWordsCountLabel.text = "\(characterCount)/300"
     }
     
+    private func applyEditingTextViewForm() {
+        contentTextView.backgroundColor = .systemBackground
+        contentTextView.layer.borderColor = UIColor.vfYellow1.cgColor
+        contentTextView.layer.borderWidth = 1.5
+    }
+    
+    private func applyEndEditingTextViewForm() {
+        contentTextView.backgroundColor = .vfGray4
+        contentTextView.layer.borderColor = UIColor.vfYellow1.cgColor
+        contentTextView.layer.borderWidth = 0
+    }
+    
+    
 }
 
 extension ReportTableViewCell: UITextViewDelegate {
@@ -135,10 +148,7 @@ extension ReportTableViewCell: UITextViewDelegate {
             textView.text = nil
             textView.textColor = .black
         }
-        
-        textView.backgroundColor = .systemBackground
-        textView.layer.borderColor = UIColor.vfYellow1.cgColor
-        textView.layer.borderWidth = 1.5
+        applyEditingTextViewForm()
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -151,10 +161,7 @@ extension ReportTableViewCell: UITextViewDelegate {
                 updateContentCountLabel(characterCount: 300)
             }
         }
-        
-        textView.backgroundColor = .vfGray4
-        textView.layer.borderColor = UIColor.vfYellow1.cgColor
-        textView.layer.borderWidth = 0
+        applyEndEditingTextViewForm()
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
