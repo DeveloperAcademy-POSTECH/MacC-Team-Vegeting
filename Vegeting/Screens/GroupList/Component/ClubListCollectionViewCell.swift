@@ -29,7 +29,7 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     
     private lazy var clubInfoLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .labelGray1
+        label.textColor = .vfGray3
         label.font = .preferredFont(forTextStyle: .footnote)
         return label
     }()
@@ -71,7 +71,7 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     
     func configure(with item: Club) {
         coverImageView.image = UIImage(named: item.coverImageURL ?? "groupCoverImage1")
-        categoryView.configure(text: item.clubCategory, backgroundColor: .textFieldGray )
+        categoryView.configure(text: item.clubCategory, backgroundColor: .vfGray4 )
         titleLabel.text = item.clubTitle
         let participantsCount = item.participants?.count ?? 0
         clubInfoLabel.text = "서울시 동작구ㆍ\(participantsCount)/\(item.maxNumberOfPeople) 모집"

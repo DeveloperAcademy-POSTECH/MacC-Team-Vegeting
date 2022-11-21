@@ -34,7 +34,7 @@ class MyProfileEditViewController: UIViewController {
                                trailing: view.trailingAnchor,
                                padding: UIEdgeInsets(top: 32, left: 0, bottom: 0, right: 0))
         bottomButton.constraint(leading: view.leadingAnchor,
-                                bottom:view.bottomAnchor,
+                                bottom: view.safeAreaLayoutGuide.bottomAnchor,
                                 trailing: view.trailingAnchor,
                                 padding: UIEdgeInsets(top: 0, left: 20, bottom: 55, right: 20))
     }

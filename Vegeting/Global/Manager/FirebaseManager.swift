@@ -192,6 +192,17 @@ extension FirebaseManager {
             print(error.localizedDescription)
         }
     }
+
+    func requestChat(participatedChat: ParticipatedChatRoom) -> AnyPublisher<Chat, Error> {
+        guard let chatID = participatedChat.chatID else { return Fail(error: ErrorLiteral.emptyChatID).eraseToAnyPublisher() }
+        return db.collection(Path.chat.rawValue).document(chatID).snapshotPublisher(includeMetadataChanges: true)
+            .catch { error in
+                return Fail(error: error)
+                    .eraseToAnyPublisher()
+            }
+            .tryMap { try $0.data(as: Chat.self) }
+            .eraseToAnyPublisher()
+    }
     
     func registerRecentMessageOnChat(chat: Chat, message: Message) {
         guard let chatID = chat.chatRoomID else { return }
