@@ -88,17 +88,11 @@ final class PostDetailViewController: UIViewController {
         return label
     }()
     
-    private lazy var locationLabel: UILabel = {
+    private lazy var datePlaceLabel: UILabel = {
         let label = UILabel()
-        label.text = club.placeToMeet
-        label.font = .preferredFont(forTextStyle: .subheadline)
-        label.textColor = .gray
-        return label
-    }()
-    
-    private lazy var dateLabel: UILabel = {
-        let label = UILabel()
-        label.text = club.dateToMeet.toString(format: "M월 d일")
+        let place = club.placeToMeet
+        let date = club.dateToMeet.toString(format: "M월 d일")
+        label.text = "\(place)ㆍ\(date)"
         label.font = .preferredFont(forTextStyle: .subheadline)
         label.textColor = .gray
         return label
@@ -187,7 +181,7 @@ final class PostDetailViewController: UIViewController {
          }
     
     private func configureAddSubviews() {
-        view.addSubviews(coverImageView, categoryLabel, titleLabel, locationLabel, dateLabel,
+        view.addSubviews(coverImageView, categoryLabel, titleLabel, datePlaceLabel,
                          contentTextLabel, participantsCapacityLabel, profileCollectionView, enterButton)
     }
     
@@ -212,17 +206,12 @@ final class PostDetailViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            locationLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
-            locationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
+            datePlaceLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
+            datePlaceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
         ])
         
         NSLayoutConstraint.activate([
-            dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
-            dateLabel.leadingAnchor.constraint(equalTo: locationLabel.trailingAnchor, constant: 5)
-        ])
-        
-        NSLayoutConstraint.activate([
-            contentTextLabel.topAnchor.constraint(equalTo: locationLabel.bottomAnchor, constant: 12),
+            contentTextLabel.topAnchor.constraint(equalTo: datePlaceLabel.bottomAnchor, constant: 12),
             contentTextLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             contentTextLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             contentTextLabel.heightAnchor.constraint(equalToConstant: 180)
