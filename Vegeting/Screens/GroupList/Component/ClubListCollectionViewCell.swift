@@ -15,36 +15,28 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     
     private lazy var coverImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "star")
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 8
         return imageView
     }()
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 2
-        label.tintColor = .black
-        label.font = .preferredFont(forTextStyle: .callout)
+        label.numberOfLines = 1
+        label.font = .preferredFont(forTextStyle: .callout, compatibleWith: .init(legibilityWeight: .bold))
         return label
     }()
     
-    private lazy var placeLabelWithImage: LabelWithImageStackView = {
-        let placeLabel = LabelWithImageStackView()
-        let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 14, weight: .light)
-        placeLabel.setCoverImage(image: UIImage(systemName: "mappin", withConfiguration: imageConfig))
-        return placeLabel
-    }()
-    
-    private lazy var countLabelWithImage: LabelWithImageStackView = {
-        let countLabel = LabelWithImageStackView()
-        let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 17, weight: .light)
-        countLabel.setCoverImage(image: UIImage(systemName: "person", withConfiguration: imageConfig))
-        return countLabel
+    private lazy var clubInfoLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .vfGray3
+        label.font = .preferredFont(forTextStyle: .footnote)
+        return label
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLayout()
-        configureUI()
     }
     
     required init?(coder: NSCoder) {
@@ -52,7 +44,7 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupLayout() {
-        addSubviews(coverImageView, categoryView, titleLabel, placeLabelWithImage, countLabelWithImage)
+        addSubviews(coverImageView, categoryView, titleLabel, clubInfoLabel)
         
         NSLayoutConstraint.activate([
             coverImageView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -62,41 +54,26 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
         ])
         
         NSLayoutConstraint.activate([
-            categoryView.topAnchor.constraint(equalTo: coverImageView.topAnchor, constant: 8),
-            categoryView.leadingAnchor.constraint(equalTo: coverImageView.leadingAnchor, constant: 8),
+            categoryView.topAnchor.constraint(equalTo: coverImageView.bottomAnchor, constant: 8),
+            categoryView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
         ])
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: coverImageView.bottomAnchor, constant: 8),
-            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10)
+            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: clubInfoLabel.topAnchor, constant: -5)
         ])
         
         NSLayoutConstraint.activate([
-            placeLabelWithImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            placeLabelWithImage.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            placeLabelWithImage.bottomAnchor.constraint(equalTo: countLabelWithImage.topAnchor, constant: -7)
+            clubInfoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            clubInfoLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
-        
-        NSLayoutConstraint.activate([
-            countLabelWithImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-            countLabelWithImage.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            countLabelWithImage.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -9)
-        ])
-    }
-    
-    private func configureUI() {
-        clipsToBounds = true
-        self.layer.cornerRadius = 12
-        backgroundColor = .vfGray4
     }
     
     func configure(with item: Club) {
         coverImageView.image = UIImage(named: item.coverImageURL ?? "groupCoverImage1")
-        categoryView.configure(text: item.clubCategory ?? "", backgroundColor: .vfGray4 )
+        categoryView.configure(text: item.clubCategory, backgroundColor: .vfGray4 )
         titleLabel.text = item.clubTitle
-        placeLabelWithImage.setLabelText(text: "서울시 동작구")
         let participantsCount = item.participants?.count ?? 0
-        countLabelWithImage.setLabelText(text: "\(participantsCount)/\(item.maxNumberOfPeople)")
+        clubInfoLabel.text = "서울시 동작구ㆍ\(participantsCount)/\(item.maxNumberOfPeople) 모집"
     }
 }
