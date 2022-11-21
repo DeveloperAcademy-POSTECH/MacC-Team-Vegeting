@@ -55,6 +55,9 @@ final class PostDetailViewController: UIViewController {
     
     private var club: Club
     
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
+    
     private lazy var coverImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -71,20 +74,22 @@ final class PostDetailViewController: UIViewController {
         return imageView
     }()
     
-    private lazy var categoryLabel: UIButton = {
-        let button = UIButton()
-        button.setTitle(club.clubCategory, for: .normal)
-        button.setTitleColor(.label, for: .normal)
-        button.titleLabel?.font = .preferredFont(forTextStyle: .subheadline)
-        button.backgroundColor = .lightGray
-        button.layer.cornerRadius = 15
-        return button
+    private lazy var categoryLabel: UILabel = {
+        let label = UILabel()
+        label.text = club.clubCategory
+        label.backgroundColor = .vfYellow2
+        label.layer.cornerRadius = 15.5
+        label.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .bold))
+        label.textColor = .vfGray1
+        label.textAlignment = .center
+        label.layer.masksToBounds = true
+        return label
     }()
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = club.clubTitle
-        label.font = .preferredFont(forTextStyle: .title3)
+        label.font = .preferredFont(forTextStyle: .title3, compatibleWith: .init(legibilityWeight: .bold))
         return label
     }()
     
@@ -172,64 +177,79 @@ final class PostDetailViewController: UIViewController {
     }
     
     private func configureCollectionView() {
-             profileCollectionView.delegate = self
-             profileCollectionView.dataSource = self
-         }
+        profileCollectionView.delegate = self
+        profileCollectionView.dataSource = self
+    }
     
     private func configureAddSubviews() {
-        view.addSubviews(coverImageView, categoryLabel, titleLabel, datePlaceLabel,
-                         contentTextLabel, participantsCapacityLabel, profileCollectionView, enterButton)
+        view.addSubviews(scrollView, enterButton)
+        scrollView.addSubview(contentView)
+        contentView.addSubviews(coverImageView, categoryLabel, titleLabel, datePlaceLabel,
+                                contentTextLabel, participantsCapacityLabel, profileCollectionView)
     }
     
     private func setupLayout() {
+        scrollView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
+                              leading: view.safeAreaLayoutGuide.leadingAnchor,
+                              bottom: enterButton.topAnchor,
+                              trailing: view.safeAreaLayoutGuide.trailingAnchor,
+                              padding: UIEdgeInsets(top: 0, left: 0, bottom: 21, right: 0))
+        
+        contentView.constraint(top: scrollView.contentLayoutGuide.topAnchor,
+                               leading: scrollView.contentLayoutGuide.leadingAnchor,
+                               bottom: scrollView.contentLayoutGuide.bottomAnchor,
+                               trailing: scrollView.contentLayoutGuide.trailingAnchor)
+        
+        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        
         NSLayoutConstraint.activate([
-            coverImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            coverImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            coverImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            coverImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            coverImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            coverImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             coverImageView.heightAnchor.constraint(equalToConstant: 200)
         ])
         
+        let width = club.clubCategory.size(withAttributes: [.font : UIFont.preferredFont(forTextStyle: .subheadline)]).width + 40
+        
         NSLayoutConstraint.activate([
             categoryLabel.topAnchor.constraint(equalTo: coverImageView.bottomAnchor, constant: 15),
-            categoryLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            categoryLabel.widthAnchor.constraint(equalToConstant: 66),
+            categoryLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            categoryLabel.widthAnchor.constraint(equalToConstant: width),
             categoryLabel.heightAnchor.constraint(equalToConstant: 31)
         ])
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 12),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
         ])
         
         NSLayoutConstraint.activate([
-            datePlaceLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
-            datePlaceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
+            datePlaceLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 7),
+            datePlaceLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20)
         ])
         
         NSLayoutConstraint.activate([
-            contentTextLabel.topAnchor.constraint(equalTo: datePlaceLabel.bottomAnchor, constant: 12),
-            contentTextLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            contentTextLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            contentTextLabel.heightAnchor.constraint(equalToConstant: 180)
+            contentTextLabel.topAnchor.constraint(equalTo: datePlaceLabel.bottomAnchor, constant: 19),
+            contentTextLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            contentTextLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
         ])
         
         NSLayoutConstraint.activate([
-            participantsCapacityLabel.topAnchor.constraint(equalTo: contentTextLabel.bottomAnchor, constant: 15),
-            participantsCapacityLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20)
+            participantsCapacityLabel.topAnchor.constraint(equalTo: contentTextLabel.bottomAnchor, constant: 60),
+            participantsCapacityLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20)
         ])
         
         NSLayoutConstraint.activate([
             profileCollectionView.topAnchor.constraint(equalTo: participantsCapacityLabel.bottomAnchor),
-            profileCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            profileCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            profileCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            profileCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            profileCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             profileCollectionView.heightAnchor.constraint(equalToConstant: 115)
         ])
         
         NSLayoutConstraint.activate([
-            enterButton.topAnchor.constraint(equalTo: profileCollectionView.bottomAnchor, constant: 15),
-            enterButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            enterButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            enterButton.heightAnchor.constraint(equalToConstant: 48)
+            enterButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55),
+            enterButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
         ])
     }
     
