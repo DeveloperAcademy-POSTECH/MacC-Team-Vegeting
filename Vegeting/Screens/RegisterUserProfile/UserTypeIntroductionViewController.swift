@@ -7,11 +7,6 @@
 
 import UIKit
 
-protocol SelectVegetarianTypeViewDelegate: AnyObject {
-    func didSelectVegetarianType(type: String)
-    func didSelectVegetarianTypeForNextButton()
-}
-
 final class UserTypeIntroductionViewController: UIViewController {
     
     let vegetarianTypeSelectButtonTitle = "채식 단계"
@@ -32,9 +27,9 @@ final class UserTypeIntroductionViewController: UIViewController {
     
     private lazy var vegetarianTypeSelectButton: UIButton = {
         let button = UIButton()
-        button.setTitle("\(vegetarianTypeSelectButtonTitle)", for: .normal)
-        button.backgroundColor = UIColor(hex: "#F2F2F2")
-        button.setTitleColor(UIColor(hex: "#8E8E93"), for: .normal)
+        button.setTitle(vegetarianTypeSelectButtonTitle, for: .normal)
+        button.backgroundColor = UIColor.vfGray4
+        button.setTitleColor(UIColor.vfGray3, for: .normal)
         button.titleLabel?.font = .preferredFont(forTextStyle: .callout)
         button.contentHorizontalAlignment = .leading
         button.layer.cornerRadius = 8
@@ -52,7 +47,7 @@ final class UserTypeIntroductionViewController: UIViewController {
     
     private let introductionTextView: UITextView = {
         let textView = UITextView()
-        textView.backgroundColor = UIColor(hex: "#F2F2F2")
+        textView.backgroundColor = UIColor.vfGray4
         textView.layer.cornerRadius = 8
         textView.font = .preferredFont(forTextStyle: .body)
         textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
@@ -61,7 +56,7 @@ final class UserTypeIntroductionViewController: UIViewController {
     
     private let introductionCountLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor(hex: "#8E8E93")
+        label.textColor = UIColor.vfGray3
         label.font = .preferredFont(forTextStyle: .subheadline)
         label.text = "0/60"
         return label
@@ -76,6 +71,8 @@ final class UserTypeIntroductionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print(VegetarianType(rawValue: 0)?.description)
         
         configureTextView()
         configureUI()
@@ -150,14 +147,14 @@ final class UserTypeIntroductionViewController: UIViewController {
         introductionCountLabel.text = "\(textLength)/\(introductionMaxLength)"
     }
     
-    private func editingTextViewForm() {
+    private func activateTextViewHighlight() {
         introductionTextView.backgroundColor = .systemBackground
         introductionTextView.layer.borderWidth = 2
         introductionTextView.layer.borderColor = UIColor.vfYellow1.cgColor
     }
     
-    private func notEditingTextViewForm() {
-        introductionTextView.backgroundColor = UIColor(hex: "#F2F2F2")
+    private func deactivateTextViewHighlight() {
+        introductionTextView.backgroundColor = UIColor.vfGray4
         introductionTextView.layer.borderWidth = 0
     }
     
@@ -201,15 +198,15 @@ extension UserTypeIntroductionViewController: UITextViewDelegate {
             textLength = newString.count
         }
         
-        editingTextViewForm()
+        activateTextViewHighlight()
         updateIntroductionCountLabel(textLength: textLength)
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        editingTextViewForm()
+        activateTextViewHighlight()
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        notEditingTextViewForm()
+        deactivateTextViewHighlight()
     }
 }

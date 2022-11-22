@@ -93,6 +93,7 @@
 		A760964B2909530600636A99 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A760964A2909530600636A99 /* MainTabBarViewController.swift */; };
 		A764CCED291748FB005C9E0F /* UserGenderBirthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A764CCEC291748FB005C9E0F /* UserGenderBirthViewController.swift */; };
 		A794B11529264C1F000FE69A /* VegetarianTypeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A794B11429264C1F000FE69A /* VegetarianTypeTableViewCell.swift */; };
+		A7970136292CA1A0007BF519 /* VegetarianTypeDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7970135292CA1A0007BF519 /* VegetarianTypeDescription.swift */; };
 		A7B5B4F029263EE500421EF1 /* SelectVegetarianTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B5B4EF29263EE500421EF1 /* SelectVegetarianTypeViewController.swift */; };
 		A7C8DF242901274500F38AD7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C8DF232901274500F38AD7 /* AppDelegate.swift */; };
 		A7C8DF262901274500F38AD7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C8DF252901274500F38AD7 /* SceneDelegate.swift */; };
@@ -192,6 +193,7 @@
 		A760964A2909530600636A99 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		A764CCEC291748FB005C9E0F /* UserGenderBirthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGenderBirthViewController.swift; sourceTree = "<group>"; };
 		A794B11429264C1F000FE69A /* VegetarianTypeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VegetarianTypeTableViewCell.swift; sourceTree = "<group>"; };
+		A7970135292CA1A0007BF519 /* VegetarianTypeDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VegetarianTypeDescription.swift; sourceTree = "<group>"; };
 		A7B5B4EF29263EE500421EF1 /* SelectVegetarianTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectVegetarianTypeViewController.swift; sourceTree = "<group>"; };
 		A7C8DF202901274500F38AD7 /* Vegeting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vegeting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7C8DF232901274500F38AD7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -586,6 +588,7 @@
 				76B0283C29052937002C9DF7 /* Participant.swift */,
 				76548E2D291AB11700418994 /* RecentChat.swift */,
 				4AFF0F56291AA5CE00F7496C /* MyPageSettingElement.swift */,
+				A7970135292CA1A0007BF519 /* VegetarianTypeDescription.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -627,6 +630,7 @@
 		A7164B2F29123DFD00FFB668 /* RegisterUserProfile */ = {
 			isa = PBXGroup;
 			children = (
+				A7B5B4EF29263EE500421EF1 /* SelectVegetarianTypeViewController.swift */,
 				A71C543E291A793C00FBD231 /* Component */,
 				A7164B3029123E7100FFB668 /* UserProfileViewController.swift */,
 				A764CCEC291748FB005C9E0F /* UserGenderBirthViewController.swift */,
@@ -640,7 +644,6 @@
 			isa = PBXGroup;
 			children = (
 				A71C543F291A797300FBD231 /* MapView.swift */,
-				A7B5B4EF29263EE500421EF1 /* SelectVegetarianTypeViewController.swift */,
 				A794B11429264C1F000FE69A /* VegetarianTypeTableViewCell.swift */,
 			);
 			path = Component;
@@ -857,6 +860,7 @@
 				4ACF36D62910A87700B95115 /* UINavigationController+Back.swift in Sources */,
 				A7C8DF242901274500F38AD7 /* AppDelegate.swift in Sources */,
 				4AFA58AA2903EA6400679142 /* UIView+Extension.swift in Sources */,
+				A7970136292CA1A0007BF519 /* VegetarianTypeDescription.swift in Sources */,
 				765C9E8729231A730090B14A /* ChatRoomViewModel.swift in Sources */,
 				4A50D5A52908E03600D1ADE4 /* EmptyResultView.swift in Sources */,
 				4ADC12E92901819800C0FFB6 /* UIScreen+Extension.swift in Sources */,

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class VegetarianTypeTableViewCell: UITableViewCell {
+final class VegetarianTypeTableViewCell: UITableViewCell {
 
     private let typeLabel: UILabel = {
         let label = UILabel()
@@ -19,7 +19,7 @@ class VegetarianTypeTableViewCell: UITableViewCell {
         let label = UILabel()
         label.numberOfLines = 0
         label.font = .preferredFont(forTextStyle: .subheadline)
-        label.textColor = UIColor(hex: "#616161")
+        label.textColor = UIColor.vfGray1
         return label
     }()
     
@@ -53,8 +53,8 @@ class VegetarianTypeTableViewCell: UITableViewCell {
         ])
     }
     
-    public func configure(with model: TypeDescription) {
-        typeLabel.text = model.type
+    func configure(with model: TypeDescription) {
+        typeLabel.text = model.typeName
         descriptionLabel.text = model.description
     }
 }
