@@ -11,7 +11,15 @@ import Combine
 final class FirstCreateGroupViewController: UIViewController {
     
     //MARK: - properties
+    
+    enum EntryPoint {
+        case create
+        case revise
+    }
+    
+    private var entryPoint: EntryPoint
     var cancellables = Set<AnyCancellable>()
+    private var club: Club?
     
     private let categoryTitleLabel: UILabel = {
         let label = UILabel()
@@ -21,7 +29,13 @@ final class FirstCreateGroupViewController: UIViewController {
     }()
     
     private lazy var categoryCollectionView: GroupCategoryView = {
-        let view = GroupCategoryView()
+        let view: GroupCategoryView
+        switch entryPoint {
+        case .create:
+            view = GroupCategoryView()
+        case .revise:
+            view = GroupCategoryView(selectedCategory: club?.clubCategory)
+        }
         view.delegate = self
         return view
     }()
@@ -30,7 +44,6 @@ final class FirstCreateGroupViewController: UIViewController {
         let label = UILabel()
         label.text = "모임 지역은 어디인가요?"
         label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
-        label.isHidden = true
         return label
     }()
     
@@ -40,7 +53,6 @@ final class FirstCreateGroupViewController: UIViewController {
         label.numberOfLines = 0
         label.textColor = .gray
         label.font = .preferredFont(forTextStyle: .subheadline)
-        label.isHidden = true
         label.lineBreakMode = .byCharWrapping
         return label
     }()
@@ -53,7 +65,6 @@ final class FirstCreateGroupViewController: UIViewController {
         })
         button.backgroundColor = .systemGray6
         button.layer.cornerRadius = 7
-        button.isHidden = true
         return button
     }()
     
@@ -67,7 +78,6 @@ final class FirstCreateGroupViewController: UIViewController {
         let label = UILabel()
         label.text = "날짜를 선택해주세요."
         label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
-        label.isHidden = true
         return label
     }()
     
@@ -80,7 +90,6 @@ final class FirstCreateGroupViewController: UIViewController {
         let now = Date()
         datePicker.minimumDate = now
         datePicker.maximumDate = Calendar.current.date(byAdding: .month, value: 1, to: now)
-        datePicker.isHidden = true
         datePicker.addTarget(self, action: #selector(showNumberOfGroupPeopleView), for: .valueChanged)
         return datePicker
     }()
@@ -90,7 +99,6 @@ final class FirstCreateGroupViewController: UIViewController {
         label.text = "오늘부터 한달 이내로만 모임을 만들 수 있어요."
         label.font = .preferredFont(forTextStyle: .subheadline)
         label.textColor = .gray
-        label.isHidden = true
         return label
     }()
     
@@ -98,14 +106,12 @@ final class FirstCreateGroupViewController: UIViewController {
         let label = UILabel()
         label.text = "모임 인원을 선택해주세요."
         label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
-        label.isHidden = true
         return label
     }()
     
     private lazy var numberOfGroupCollectionView: NumberOfGroupPeopleView = {
         let view = NumberOfGroupPeopleView()
         view.delegate = self
-        view.isHidden = true
         return view
     }()
     
@@ -119,20 +125,44 @@ final class FirstCreateGroupViewController: UIViewController {
         return button
     }()
     
-    //MARK: - lifeCycle
+    // MARK: - lifeCycle
+    
+    init(entryPoint: EntryPoint, club: Club? = nil) {
+        self.entryPoint = entryPoint
+        self.club = club
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
         configureUI()
         setupNavigationBar()
+        if entryPoint == .create {
+            hideAll()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         hideTabBar()
     }
     
-    //MARK: - func
+    // MARK: - func
+    
+    private func hideAll() {
+        locationTitleLabel.isHidden = true
+        locationSearchingButton.isHidden = true
+        locationFooterLabel.isHidden = true
+        dateTitleLabel.isHidden = true
+        datePicker.isHidden = true
+        datePickerFooterLabel.isHidden = true
+        numberOfGroupPeopleTitleLabel.isHidden = true
+        numberOfGroupCollectionView.isHidden = true
+    }
     
     private func hideTabBar() {
         self.tabBarController?.tabBar.isHidden = true
@@ -156,8 +186,10 @@ final class FirstCreateGroupViewController: UIViewController {
     
     @objc
     private func showNumberOfGroupPeopleView() {
-        numberOfGroupPeopleTitleLabel.isHidden = false
-        numberOfGroupCollectionView.isHidden = false
+        if entryPoint == .create {
+            numberOfGroupPeopleTitleLabel.isHidden = false
+            numberOfGroupCollectionView.isHidden = false
+        }
     }
     
     @objc
@@ -245,18 +277,27 @@ final class FirstCreateGroupViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .white
     }
+    
+    func configure(with data: Club) {
+        locationLabel.text = data.placeToMeet
+        datePicker.date = data.dateToMeet
+    }
 }
 
 extension FirstCreateGroupViewController: LocationSearchingViewControllerDelegate {
     func configureLocationText(with text: String) {
         locationLabel.text = text
-        self.showDateView()
+        if entryPoint == .create {
+            self.showDateView()
+        }
     }
 }
 
 extension FirstCreateGroupViewController: GroupCategoryViewDelegate {
     func didSelectCategory(didSelectItemAt indexPath: IndexPath) {
-        self.showLocationView()
+        if entryPoint == .create {
+            self.showLocationView()
+        }
     }
 }
 
