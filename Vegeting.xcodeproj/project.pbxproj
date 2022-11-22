@@ -630,12 +630,8 @@
 		A7164B2F29123DFD00FFB668 /* RegisterUserProfile */ = {
 			isa = PBXGroup;
 			children = (
-				A7B5B4EF29263EE500421EF1 /* SelectVegetarianTypeViewController.swift */,
+				A7970137292CA884007BF519 /* ViewController */,
 				A71C543E291A793C00FBD231 /* Component */,
-				A7164B3029123E7100FFB668 /* UserProfileViewController.swift */,
-				A764CCEC291748FB005C9E0F /* UserGenderBirthViewController.swift */,
-				A71C543C291A655200FBD231 /* LocationAuthViewController.swift */,
-				A7414C4D2924EF2F00EE7623 /* UserTypeIntroductionViewController.swift */,
 			);
 			path = RegisterUserProfile;
 			sourceTree = "<group>";
@@ -656,6 +652,18 @@
 				A76096412908ACA900636A99 /* ProfileCollectionViewCell.swift */,
 			);
 			path = PostDetail;
+			sourceTree = "<group>";
+		};
+		A7970137292CA884007BF519 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				A7B5B4EF29263EE500421EF1 /* SelectVegetarianTypeViewController.swift */,
+				A7164B3029123E7100FFB668 /* UserProfileViewController.swift */,
+				A764CCEC291748FB005C9E0F /* UserGenderBirthViewController.swift */,
+				A71C543C291A655200FBD231 /* LocationAuthViewController.swift */,
+				A7414C4D2924EF2F00EE7623 /* UserTypeIntroductionViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		A7C8DF172901274500F38AD7 = {
