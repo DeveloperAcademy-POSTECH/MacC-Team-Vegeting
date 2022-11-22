@@ -54,9 +54,8 @@ class CategoryView: UIView {
     }
     
     private func configureUI() {
-        frame = CGRect(x: 0, y: 0, width: 43, height: 23)
-        let cellCornerRadius = (self.frame.size.width * (self.bounds.size.height / self.bounds.size.width)) / 2
-        backgroundView.layer.cornerRadius = cellCornerRadius
+        frame = CGRect(x: 0, y: 0, width: 43, height: 22)
+        backgroundView.layer.cornerRadius = 5
     }
     
     func configure(text: String, backgroundColor: UIColor) {
