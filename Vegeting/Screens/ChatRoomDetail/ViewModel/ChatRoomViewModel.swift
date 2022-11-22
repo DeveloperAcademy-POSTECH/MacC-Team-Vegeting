@@ -92,7 +92,7 @@ final class ChatRoomViewModel: ViewModelType {
         var previousSenderID = user.userID
         var messageDateLog: [String: Bool] = [:]
         
-        return messages.flatMap { message in
+        return messages.flatMap { message -> [MessageBubble] in
 //            해당 셀이 날짜가 필요한지 아닌지를 알려주는 로직
             var pairDateAndMessage = checkThisMessageNeedDate(messageDateLog: &messageDateLog, message: message)
             
@@ -133,6 +133,14 @@ final class ChatRoomViewModel: ViewModelType {
         self.participatedChatRoom = participatedChatRoom
         self.user = user
         requestMessagesFromServer()
+    }
+    
+    init() {
+        Task {
+            guard let user = await FirebaseManager.shared.requestUser() else { return }
+            guard let part = user.participatedChats?.first else { return }
+            configure(participatedChatRoom: part, user: user)
+        }
     }
 }
 
