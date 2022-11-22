@@ -29,12 +29,19 @@ final class NumberOfGroupPeopleView: UIView {
     
     private let numberList: [String] = ["2명", "3명", "4명", "5명", "6명", "7명", "8명"]
     weak var delegate: NumberOfGroupPeopleViewDelegate?
+    private var selectedNumber: Int?
+    
     // MARK: - init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureCollectionView()
         setupLayout()
+    }
+    
+    convenience init(selectedNumber: Int? = nil) {
+        self.init()
+        self.selectedNumber = selectedNumber
     }
     
     required init?(coder: NSCoder) {
@@ -68,6 +75,12 @@ extension NumberOfGroupPeopleView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NumberOfPeopleCollectionViewCell.className, for: indexPath) as? NumberOfPeopleCollectionViewCell else { return UICollectionViewCell()}
         
+        if let selectedNumber = self.selectedNumber {
+            let index = numberList.firstIndex(of: "\(selectedNumber)명")
+            if index == indexPath.item {
+                numberCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .bottom)
+            }
+        }
         cell.setItemLabel(with: numberList[indexPath.item])
         return cell
     }
@@ -83,11 +96,5 @@ extension NumberOfGroupPeopleView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? NumberOfPeopleCollectionViewCell else { return }
         delegate?.didSelectedItem()
-        cell.applySelectedState()
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? NumberOfPeopleCollectionViewCell else { return }
-        cell.applySelectedState()
     }
 }
