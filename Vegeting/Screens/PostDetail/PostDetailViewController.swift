@@ -234,7 +234,7 @@ final class PostDetailViewController: UIViewController {
         case .mine:
             firstAlertAction = UIAlertAction(title: "게시글 삭제", style: .destructive, handler: { [weak self] _ in
                 self?.makeRequestAlert(title: "게시글을 삭제하시겠습니까?",
-                                      message: "",
+                                      message: "게시글이 삭제되어도,\n채팅방은 사라지지 않습니다.",
                                       okTitle: "삭제",
                                       cancelTitle: "취소") { okAction in
                     // TODO: - 삭제 코드
