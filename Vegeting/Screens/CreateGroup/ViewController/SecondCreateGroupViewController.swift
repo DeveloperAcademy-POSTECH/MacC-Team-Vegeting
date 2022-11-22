@@ -85,19 +85,21 @@ final class SecondCreateGroupViewController: BaseViewController {
     private lazy var registerButton: BottomButton = {
         let button = BottomButton()
         button.isEnabled = false
-        button.setTitle(StringLiteral.secondCreateGroupViewControllerRegisterButton, for: .normal)
+        button.setTitle(entryPoint == .create ? StringLiteral.secondCreateGroupViewControllerRegisterButton : "수정 완료", for: .normal)
 //        button.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
         return button
     }()
     
     private var club: Club?
     private var incompleteClub: IncompleteClub?
+    private var entryPoint: CreateGroupEntryPoint
     
     //MARK: - lifeCycle
     
-    init(club: Club? = nil, incompleteClub: IncompleteClub? = nil) {
+    init(club: Club? = nil, incompleteClub: IncompleteClub? = nil, entryPoint: CreateGroupEntryPoint) {
         self.club = club
         self.incompleteClub = incompleteClub
+        self.entryPoint = entryPoint
         super.init()
     }
     
@@ -247,6 +249,15 @@ final class SecondCreateGroupViewController: BaseViewController {
 //        groupInfoStackView.configure(with: data)
     }
     
+    func configure(with data: Club?) {
+        guard let data = data else { return }
+        groupInfomationLabel.text = data.placeToMeet + "ㆍ" + data.dateToMeet.toString(format: "M월 d일")
+        titleTextField.text = data.clubTitle
+        contentTextView.text = data.clubContent
+        
+        
+        registerButton.isEnabled = true
+    }
 }
 
 extension SecondCreateGroupViewController: PhotoPickerViewDelegate {

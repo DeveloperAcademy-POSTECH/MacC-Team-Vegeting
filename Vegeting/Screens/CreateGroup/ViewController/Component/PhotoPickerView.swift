@@ -35,11 +35,12 @@ final class PhotoPickerView: UIView {
         return label
     }()
     
-    private let cameraButton: UIButton = {
+    private lazy var cameraButton: UIButton = {
        let button = UIButton()
         let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 40, weight: .regular)
         button.setImage(UIImage(systemName: "camera.circle.fill", withConfiguration: imageConfig), for: .normal)
         button.tintColor = .black
+        button.addTarget(self, action: #selector(tapPhotoPicker(sender:)), for: .touchUpInside)
         return button
     }()
     
@@ -109,6 +110,7 @@ final class PhotoPickerView: UIView {
         let defaultImageAction = UIAlertAction(title: "기본 이미지로 변경", style: .default) { action in
             self.setImageView(image: UIImage(named: "coverImage")) // 추후 기본이미지로 변경
             self.isDefaultImage = true
+            self.setLabelText(title: "", sub: "")
         }
         
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
