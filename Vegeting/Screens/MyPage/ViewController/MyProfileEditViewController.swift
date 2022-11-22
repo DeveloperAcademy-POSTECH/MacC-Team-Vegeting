@@ -34,7 +34,7 @@ class MyProfileEditViewController: UIViewController {
                                trailing: view.trailingAnchor,
                                padding: UIEdgeInsets(top: 32, left: 0, bottom: 0, right: 0))
         bottomButton.constraint(leading: view.leadingAnchor,
-                                bottom:view.bottomAnchor,
+                                bottom: view.safeAreaLayoutGuide.bottomAnchor,
                                 trailing: view.trailingAnchor,
                                 padding: UIEdgeInsets(top: 0, left: 20, bottom: 55, right: 20))
     }
@@ -49,18 +49,7 @@ class MyProfileEditViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        let backButton = UIBarButtonItem(image: ImageLiteral.backwardChevronSymbol,
-                                         style: .plain,
-                                         target: self,
-                                         action: #selector(touchUpToPop))
-        navigationItem.leftBarButtonItem = backButton
         self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.title = "내 프로필"
     }
-    
-    @objc
-    private func touchUpToPop() {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
 }
