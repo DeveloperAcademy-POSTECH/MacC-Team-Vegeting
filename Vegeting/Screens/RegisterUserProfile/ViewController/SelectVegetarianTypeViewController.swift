@@ -176,8 +176,7 @@ extension SelectVegetarianTypeViewController: UITableViewDelegate {
             if let vegetarianType = VegetarianType(rawValue: indexPath.row)?.typeName {
                 selectedVegetarianType = vegetarianType
             }
-            
-//            selectedVegetarianType = vegetarianTypes[indexPath.row].typeName
+
             completeButtonActive()
         }
     }
