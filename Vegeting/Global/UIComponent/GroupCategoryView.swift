@@ -43,7 +43,6 @@ final class GroupCategoryView: UIView {
     
     convenience init(selectedCategory: String? = nil) {
         self.init()
-        print(selectedCategory)
         self.selectedCategory = selectedCategory
     }
     
@@ -65,6 +64,7 @@ final class GroupCategoryView: UIView {
     
     func getSelectedCategory() -> String? {
         guard let index = categoryCollectionView.indexPathsForSelectedItems?.first?.item else { return nil }
+        print(index)
         return categoryList[index]
     }
  
@@ -81,8 +81,7 @@ extension GroupCategoryView: UICollectionViewDataSource {
         if let selectedCategory = self.selectedCategory {
             let index = categoryList.firstIndex(of: selectedCategory)
             if index == indexPath.item {
-                cell.isSelected = true
-                cell.applySelectedState()
+                categoryCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .bottom)
             }
         }
         cell.configure(with: categoryList[indexPath.item])
@@ -103,11 +102,6 @@ extension GroupCategoryView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? GroupCategoryCollectionViewCell else { return }
         delegate?.didSelectCategory(didSelectItemAt: indexPath)
-        cell.applySelectedState()
     }
-    
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? GroupCategoryCollectionViewCell else { return }
-        cell.applySelectedState()
-    }
+
 }

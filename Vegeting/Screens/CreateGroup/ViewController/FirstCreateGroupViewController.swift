@@ -120,7 +120,7 @@ final class FirstCreateGroupViewController: UIViewController {
         button.setTitle("다음으로", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = .preferredFont(forTextStyle: .body, compatibleWith: .init(legibilityWeight: .bold))
-        button.isEnabled = false
+        button.isEnabled = entryPoint == .create ?  false : true
         button.addTarget(self, action: #selector(bottomButtonTapped), for: .touchUpInside)
         return button
     }()
