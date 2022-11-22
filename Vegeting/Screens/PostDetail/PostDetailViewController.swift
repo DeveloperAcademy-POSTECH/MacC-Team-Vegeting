@@ -278,20 +278,39 @@ final class PostDetailViewController: UIViewController {
         switch entryPoint {
             
         case .mine:
-            firstAlertAction = UIAlertAction(title: "게시글 삭제", style: .destructive, handler: { action in
-                // TODO: - 게시글 삭제 코드
+            firstAlertAction = UIAlertAction(title: "게시글 삭제", style: .destructive, handler: { [weak self] _ in
+                self?.makeRequestAlert(title: "게시글을 삭제하시겠습니까?",
+                                      message: "",
+                                      okTitle: "삭제",
+                                      cancelTitle: "취소") { okAction in
+                    // TODO: - 삭제 코드
+                }
             })
+            
             secondAlertAction = UIAlertAction(title: "게시글 수정", style: .default, handler: { action in
                 // TODO: - 게시글 수정
             })
+            
         case .other:
-            firstAlertAction = UIAlertAction(title: "게시글 신고", style: .default, handler: { action in
-                // TODO: - 게시글 신고 코드
+            firstAlertAction = UIAlertAction(title: "게시글 신고", style: .default, handler: { [weak self] _ in
+                self?.makeRequestAlert(title: "게시글을 신고하시겠습니까?",
+                                      message: "",
+                                      okTitle: "신고",
+                                      cancelTitle: "취소") { okAction in
+                    // TODO: - 신고 코드
+                }
             })
-            secondAlertAction = UIAlertAction(title: "작성자 차단", style: .default, handler: { action in
-                // TODO: - 작성자 차단
+            
+            secondAlertAction = UIAlertAction(title: "작성자 차단", style: .default, handler: { [weak self] _ in
+                self?.makeRequestAlert(title: "사용자 차단",
+                                      message: "해당 사용자가 작성한\n모임 모집글을 볼 수 없게 됩니다.",
+                                      okTitle: "차단",
+                                      cancelTitle: "취소") { okAction in
+                    // TODO: - 차단 코드
+                }
             })
         }
+        
         let cancelAlertAction = UIAlertAction(title: "취소", style: .cancel)
         
         [firstAlertAction, secondAlertAction, cancelAlertAction].forEach { action in
