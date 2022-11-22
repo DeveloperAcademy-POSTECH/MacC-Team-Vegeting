@@ -22,6 +22,7 @@ final class SecondCreateGroupViewController: BaseViewController {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .subheadline)
         label.text = "랄랄라"
+        label.textColor = .vfGray3
         return label
     }()
     
@@ -254,8 +255,8 @@ final class SecondCreateGroupViewController: BaseViewController {
         groupInfomationLabel.text = data.placeToMeet + "ㆍ" + data.dateToMeet.toString(format: "M월 d일")
         titleTextField.text = data.clubTitle
         contentTextView.text = data.clubContent
-        
-        
+        contentWordsCountLabel.text = "\(data.clubContent.count)/500"
+        titleWordsCountLabel.text = "\(data.clubTitle.count)/500"
         registerButton.isEnabled = true
     }
 }
@@ -299,6 +300,7 @@ extension SecondCreateGroupViewController: UITextViewDelegate {
         let textWithoutWhiteSpace = text.trimmingCharacters(in: .whitespaces)
         let newLength = textView.text.count - range.length + textWithoutWhiteSpace.count
         let contentMaxCount = 500
+        print(textView.text?.count ?? 0, range.length, textWithoutWhiteSpace.count, newLength)
         if newLength > contentMaxCount + 1 {
             let overflow = newLength - (contentMaxCount + 1)
             let index = textWithoutWhiteSpace.index(textWithoutWhiteSpace.endIndex, offsetBy: -overflow)
