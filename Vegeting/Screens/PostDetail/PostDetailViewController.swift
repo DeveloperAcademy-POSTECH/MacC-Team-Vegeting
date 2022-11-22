@@ -167,6 +167,7 @@ final class PostDetailViewController: UIViewController {
         configureAddSubviews()
         configureUI()
         configureNavBar()
+        setupEnterButtonUI()
         setupLayout()
     }
     
@@ -189,8 +190,8 @@ final class PostDetailViewController: UIViewController {
     }
     
     private func configureAddSubviews() {
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
+        view.addSubviews(scrollView, enterButton)
+        scrollView.addSubviews(contentView)
         contentView.addSubviews(coverImageView, categoryLabel, titleLabel, datePlaceLabel,
                                 contentTextLabel, participantsCapacityLabel, profileCollectionView)
     }
@@ -198,9 +199,9 @@ final class PostDetailViewController: UIViewController {
     private func setupLayout() {
         scrollView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
                               leading: view.safeAreaLayoutGuide.leadingAnchor,
-                              bottom: entryPoint == .mine ? view.bottomAnchor : enterButton.topAnchor,
+                              bottom: enterButton.topAnchor,
                               trailing: view.safeAreaLayoutGuide.trailingAnchor,
-                              padding: UIEdgeInsets(top: 0, left: 0, bottom: 21, right: 0))
+                              padding: UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0))
         
         contentView.constraint(top: scrollView.contentLayoutGuide.topAnchor,
                                leading: scrollView.contentLayoutGuide.leadingAnchor,
@@ -254,17 +255,16 @@ final class PostDetailViewController: UIViewController {
             profileCollectionView.heightAnchor.constraint(equalToConstant: 115)
         ])
         
-        if entryPoint == .other {
-            setupBottomButtonLayout()
-        }
-    }
-    
-    private func setupBottomButtonLayout() {
-        view.addSubview(enterButton)
         NSLayoutConstraint.activate([
             enterButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55),
-            enterButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            enterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         ])
+    }
+    
+    private func setupEnterButtonUI() {
+        if entryPoint == .mine {
+            enterButton.isEnabled = false
+        }
     }
     
     @objc

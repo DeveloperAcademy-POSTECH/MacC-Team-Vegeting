@@ -15,8 +15,14 @@ final class AuthManager {
     
     static let shared = AuthManager()
     private let auth = Auth.auth()
-
-    private init() { }
+    private var currentUser: VFUser?
+    
+    private init() {
+        Task { [weak self] in
+            guard let currentUser = await FirebaseManager.shared.requestUser() else { return }
+            self?.currentUser = currentUser
+        }
+    }
     
     func signInUser(email: String, password: String) -> AnyPublisher<User, Error> {
         return auth.signIn(withEmail: email, password: password)
@@ -43,6 +49,10 @@ final class AuthManager {
                     .eraseToAnyPublisher()
             }.map(\.user)
             .eraseToAnyPublisher()
+    }
+    
+    func getCurrentUser() -> VFUser? {
+        return self.currentUser
     }
     
 }
