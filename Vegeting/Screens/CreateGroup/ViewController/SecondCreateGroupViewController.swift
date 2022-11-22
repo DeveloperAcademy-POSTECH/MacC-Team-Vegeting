@@ -246,6 +246,29 @@ final class SecondCreateGroupViewController: BaseViewController {
         }
     }
     
+    private func applyEditingTextViewForm() {
+         contentTextView.backgroundColor = .systemBackground
+         contentTextView.layer.borderColor = UIColor.vfYellow1.cgColor
+         contentTextView.layer.borderWidth = 1.5
+     }
+
+     private func applyEndEditingTextViewForm() {
+         contentTextView.backgroundColor = .vfGray4
+         contentTextView.layer.borderColor = UIColor.vfYellow1.cgColor
+         contentTextView.layer.borderWidth = 0
+     }
+    
+    private func applyEditingTextFieldForm() {
+        titleTextField.backgroundColor = .systemBackground
+        titleTextField.layer.borderColor = UIColor.vfYellow1.cgColor
+        titleTextField.layer.borderWidth = 1.5
+    }
+
+     private func applyEndEditingTextFieldForm() {
+         titleTextField.backgroundColor = .vfGray4
+         titleTextField.layer.borderColor = UIColor.vfYellow1.cgColor
+         titleTextField.layer.borderWidth = 0
+     }
     func configure(with data: IncompleteClub) {
 //        groupInfoStackView.configure(with: data)
     }
@@ -259,6 +282,7 @@ final class SecondCreateGroupViewController: BaseViewController {
         titleWordsCountLabel.text = "\(data.clubTitle.count)/500"
         registerButton.isEnabled = true
     }
+    
 }
 
 extension SecondCreateGroupViewController: PhotoPickerViewDelegate {
@@ -282,6 +306,7 @@ extension SecondCreateGroupViewController: UITextViewDelegate {
             textView.text = nil
             textView.textColor = .black
         }
+        applyEditingTextViewForm()
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -294,13 +319,13 @@ extension SecondCreateGroupViewController: UITextViewDelegate {
                 updateContentCountLabel(characterCount: 500)
             }
         }
+        applyEndEditingTextViewForm()
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let textWithoutWhiteSpace = text.trimmingCharacters(in: .whitespaces)
         let newLength = textView.text.count - range.length + textWithoutWhiteSpace.count
         let contentMaxCount = 500
-        print(textView.text?.count ?? 0, range.length, textWithoutWhiteSpace.count, newLength)
         if newLength > contentMaxCount + 1 {
             let overflow = newLength - (contentMaxCount + 1)
             let index = textWithoutWhiteSpace.index(textWithoutWhiteSpace.endIndex, offsetBy: -overflow)
@@ -323,12 +348,17 @@ extension SecondCreateGroupViewController: UITextViewDelegate {
 
 extension SecondCreateGroupViewController: UITextFieldDelegate {
     
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        applyEditingTextFieldForm()
+    }
+    
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let count = textField.text?.count  else { return }
         if count > 20 {
             textField.text?.removeLast()
             updateTitleCountLabel(characterCount: 20)
         }
+        applyEndEditingTextFieldForm()
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
