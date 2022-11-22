@@ -8,11 +8,6 @@
 import UIKit
 
 class GroupInfoView: UIStackView {
-    var categoryLabel: UILabel = {
-        let label = UILabel()
-        label.text = "맛집"
-        return label
-    }()
     
     var locationLabel: UILabel = {
         let label = UILabel()
@@ -25,13 +20,7 @@ class GroupInfoView: UIStackView {
         label.text = "12월 19일"
         return label
     }()
-    
-    var capacityLabel: UILabel = {
-        let label = UILabel()
-        label.text = "2/4"
-        return label
-    }()
-    
+
     private var data: IncompleteClub? = nil
     
     override init(frame: CGRect) {
@@ -49,17 +38,15 @@ class GroupInfoView: UIStackView {
     }
     
     private func setupLayout() {
-        [categoryLabel, locationLabel, dateLabel, capacityLabel].forEach {
+        [locationLabel, dateLabel].forEach {
            addArrangedSubviews($0)
         }
     }
     
     func configure(with data: IncompleteClub) {
         self.data = data
-        categoryLabel.text = data.clubCategory
         locationLabel.text = data.placeToMeet
         dateLabel.text = data.dateToMeet.toString(format: "M월 d일")
-        capacityLabel.text = "1/" + String(data.maxNumberOfPeople)
     }
     
     func getData() -> IncompleteClub? {

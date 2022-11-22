@@ -16,7 +16,33 @@ protocol PhotoPickerViewDelegate: AnyObject {
 final class PhotoPickerView: UIView {
     var isDefaultImage = true
     private let selectedImage = UIImageView()
-    private let label = UILabel()
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .headline)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .vfGray1
+        label.lineBreakMode = .byCharWrapping
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    private let subLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .footnote)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .vfGray1
+        return label
+    }()
+    
+    private let cameraButton: UIButton = {
+       let button = UIButton()
+        let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 40, weight: .regular)
+        button.setImage(UIImage(systemName: "camera.circle.fill", withConfiguration: imageConfig), for: .normal)
+        button.tintColor = .black
+        return button
+    }()
+    
     weak var delegate: PhotoPickerViewDelegate?
     
     override init(frame: CGRect) {
@@ -30,17 +56,16 @@ final class PhotoPickerView: UIView {
     }
     
     private func configureUI() {
-        backgroundColor = .systemGray4
+        backgroundColor = .vfGray4
         clipsToBounds = true
         selectedImage.contentMode = .scaleAspectFill
-        label.textColor = .white
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapPhotoPicker(sender:)))
         self.addGestureRecognizer(tapGesture)
     }
     
     private func setupLayout() {
-        addSubview(selectedImage)
+        addSubviews(selectedImage, titleLabel, subLabel, cameraButton)
         selectedImage.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             selectedImage.topAnchor.constraint(equalTo: self.topAnchor),
@@ -49,11 +74,22 @@ final class PhotoPickerView: UIView {
             selectedImage.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         ])
         
-        addSubview(label)
-        label.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            titleLabel.bottomAnchor.constraint(equalTo: subLabel.topAnchor, constant: -3),
+            titleLabel.trailingAnchor.constraint(equalTo: cameraButton.leadingAnchor, constant: -20)
+        ])
+        
+        NSLayoutConstraint.activate([
+            subLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            subLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -19)
+        ])
+        
+        NSLayoutConstraint.activate([
+            cameraButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
+            cameraButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -19),
+            cameraButton.widthAnchor.constraint(equalToConstant: 40),
+            cameraButton.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
     
@@ -83,7 +119,7 @@ final class PhotoPickerView: UIView {
         
         self.delegate?.showActionSheet(actionSheet: actionSheet)
     }
-
+    
     func setImageView(image: UIImage?) {
         selectedImage.image = image
     }
@@ -92,8 +128,9 @@ final class PhotoPickerView: UIView {
         return selectedImage.image
     }
     
-    func setLabelText(text: String) {
-        label.text = text
+    func setLabelText(title: String, sub: String) {
+        titleLabel.text = title
+        subLabel.text = sub
     }
 }
 
@@ -105,7 +142,7 @@ extension PhotoPickerView: PHPickerViewControllerDelegate {
                 DispatchQueue.main.async {
                     guard let image = image as? UIImage else { return }
                     self.setImageView(image: image)
-                    self.setLabelText(text: "")
+                    self.setLabelText(title: "", sub: "")
                     self.isDefaultImage = false
                 }
             }

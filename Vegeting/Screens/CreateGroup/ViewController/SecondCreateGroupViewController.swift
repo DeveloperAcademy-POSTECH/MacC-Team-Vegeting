@@ -9,16 +9,20 @@ import UIKit
 import PhotosUI
 
 final class SecondCreateGroupViewController: BaseViewController {
+    
     private lazy var coverPickerView: PhotoPickerView = {
         var pickerView = PhotoPickerView()
-        pickerView.setLabelText(text: StringLiteral.secondCreateGroupViewControllerPhoto)
+        pickerView.setLabelText(title: "모임과 관련된 사진을 첨부해주세요.",
+                                sub: "사진은 1장만 첨부할 수 있어요.")
         pickerView.delegate = self
         return pickerView
     }()
     
-    private lazy var groupInfoStackView: GroupInfoView = {
-        var stackView = GroupInfoView()
-        return stackView
+    private lazy var groupInfomationLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .subheadline)
+        label.text = "랄랄라"
+        return label
     }()
     
     private lazy var titleTextField: UITextField = {
@@ -26,11 +30,24 @@ final class SecondCreateGroupViewController: BaseViewController {
         textField.placeholder = StringLiteral.secondCreateGroupViewControllerTitle
         textField.font = .preferredFont(forTextStyle: .body)
         textField.layer.cornerRadius = 5
-        textField.layer.backgroundColor = UIColor.systemGray4.cgColor
+        textField.layer.backgroundColor = UIColor.vfGray4.cgColor
         textField.addLeftPadding()
+        textField.placeholder = "제목을 입력해주세요. (최대 20자)"
         textField.addTarget(self, action: #selector(didTextFieldChanged), for: .editingChanged)
         textField.delegate = self
         return textField
+    }()
+    
+    private lazy var categoryLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .vfYellow2
+        label.layer.cornerRadius = 15.5
+        label.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .bold))
+        label.textColor = .vfGray1
+        label.textAlignment = .center
+        label.text = "파티"
+        label.layer.masksToBounds = true
+        return label
     }()
     
     private lazy var titleWordsCountLabel: UILabel = {
@@ -49,7 +66,7 @@ final class SecondCreateGroupViewController: BaseViewController {
         textView.textColor = .lightGray
         textView.font = .preferredFont(forTextStyle: .body)
         textView.layer.cornerRadius = 5
-        textView.layer.backgroundColor = UIColor.systemGray4.cgColor
+        textView.layer.backgroundColor = UIColor.vfGray4.cgColor
         textView.textContainerInset = UIEdgeInsets(top: 16.0, left: 10.0, bottom: 16.0, right: 10.0)
         textView.delegate = self
         return textView
@@ -69,11 +86,24 @@ final class SecondCreateGroupViewController: BaseViewController {
         let button = BottomButton()
         button.isEnabled = false
         button.setTitle(StringLiteral.secondCreateGroupViewControllerRegisterButton, for: .normal)
-        button.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
+//        button.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
         return button
     }()
     
+    private var club: Club?
+    private var incompleteClub: IncompleteClub?
+    
     //MARK: - lifeCycle
+    
+    init(club: Club? = nil, incompleteClub: IncompleteClub? = nil) {
+        self.club = club
+        self.incompleteClub = incompleteClub
+        super.init()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,53 +112,58 @@ final class SecondCreateGroupViewController: BaseViewController {
     //MARK: - func
     
     override func setupLayout() {
-        view.addSubviews(coverPickerView, groupInfoStackView, titleTextField, titleWordsCountLabel,
+        view.addSubviews(coverPickerView, categoryLabel, groupInfomationLabel, titleTextField, titleWordsCountLabel,
                          contentTextView, contentWordsCountLabel, registerButton)
         
         NSLayoutConstraint.activate([
-            coverPickerView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 30),
+            coverPickerView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 15),
             coverPickerView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
             coverPickerView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            coverPickerView.heightAnchor.constraint(equalToConstant: 150)
+            coverPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height * 0.25)
+        ])
+        
+        let width = (club?.clubCategory.size(withAttributes: [.font : UIFont.preferredFont(forTextStyle: .subheadline)]).width ?? 0) + 40
+        
+        NSLayoutConstraint.activate([
+            categoryLabel.topAnchor.constraint(equalTo: coverPickerView.bottomAnchor, constant: 15),
+            categoryLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
+            categoryLabel.heightAnchor.constraint(equalToConstant: 31),
+            categoryLabel.widthAnchor.constraint(equalToConstant: width)
         ])
         
         NSLayoutConstraint.activate([
-            groupInfoStackView.topAnchor.constraint(equalTo: coverPickerView.bottomAnchor, constant: 30),
-            groupInfoStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 32),
-            groupInfoStackView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            groupInfoStackView.heightAnchor.constraint(equalToConstant: 30)
+            titleTextField.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 15),
+            titleTextField.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
+            titleTextField.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
+            titleTextField.heightAnchor.constraint(equalToConstant: 50)
         ])
         
         NSLayoutConstraint.activate([
-            titleTextField.topAnchor.constraint(equalTo: groupInfoStackView.bottomAnchor, constant: 30),
-            titleTextField.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 24),
-            titleTextField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            titleTextField.heightAnchor.constraint(equalToConstant: 40)
+            groupInfomationLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 13),
+            groupInfomationLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20)
+        ])
+        
+//        NSLayoutConstraint.activate([
+//            titleWordsCountLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 8),
+//            titleWordsCountLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 24),
+//            titleWordsCountLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+//        ])
+        
+        NSLayoutConstraint.activate([
+            contentTextView.topAnchor.constraint(equalTo: groupInfomationLabel.bottomAnchor, constant: 13),
+            contentTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
+            contentTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
+            contentTextView.bottomAnchor.constraint(equalTo: registerButton.topAnchor, constant: -16)
         ])
         
         NSLayoutConstraint.activate([
-            titleWordsCountLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 8),
-            titleWordsCountLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 24),
-            titleWordsCountLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+            contentWordsCountLabel.bottomAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: -9),
+            contentWordsCountLabel.trailingAnchor.constraint(equalTo: contentTextView.trailingAnchor, constant: -8),
         ])
         
         NSLayoutConstraint.activate([
-            contentTextView.topAnchor.constraint(equalTo: titleWordsCountLabel.bottomAnchor, constant: 30),
-            contentTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 24),
-            contentTextView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            contentTextView.heightAnchor.constraint(equalToConstant: 150)
-        ])
-        
-        NSLayoutConstraint.activate([
-            contentWordsCountLabel.topAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 8),
-            contentWordsCountLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 24),
-            contentWordsCountLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            registerButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             registerButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            registerButton.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -10)
+            registerButton.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -55)
         ])
     }
     
@@ -137,39 +172,39 @@ final class SecondCreateGroupViewController: BaseViewController {
     }
     
     @objc
-    private func registerButtonTapped() {
-        guard let incompleteClub = groupInfoStackView.getData(),
-        let clubTitle = titleTextField.text else { return }
-        let firebaseManager = FirebaseManager.shared
-        
-        var club = Club(id: nil, clubID: nil, chatID: nil,
-                        clubTitle: clubTitle,
-                        clubCategory: incompleteClub.clubCategory,
-                        clubContent: contentTextView.text,
-                        hostID: nil, participants: nil,
-                        dateToMeet: incompleteClub.dateToMeet,
-                        createdAt: Date(),
-                        placeToMeet: incompleteClub.placeToMeet,
-                        maxNumberOfPeople: incompleteClub.maxNumberOfPeople)
-        
-        let chat = Chat(chatRoomID: nil,
-                        clubID: nil,
-                        chatRoomName: clubTitle,
-                        participants: nil,
-                        messages: nil,
-                        coverImageURL: nil)
-        
-        getImageURL() { url in
-            club.coverImageURL = url
-            Task {
-                guard let vfUser = await firebaseManager.requestUser() else { return }
-                FirebaseManager.shared.requestPost(user: vfUser, club: club, chat: chat)
-            }
-        }
-        
-        navigationController?.popToRootViewController(animated: true)
-    }
-
+//    private func registerButtonTapped() {
+//        guard let incompleteClub = groupInfoStackView.getData(),
+//              let clubTitle = titleTextField.text else { return }
+//        let firebaseManager = FirebaseManager.shared
+//
+//        var club = Club(id: nil, clubID: nil, chatID: nil,
+//                        clubTitle: clubTitle,
+//                        clubCategory: incompleteClub.clubCategory,
+//                        clubContent: contentTextView.text,
+//                        hostID: nil, participants: nil,
+//                        dateToMeet: incompleteClub.dateToMeet,
+//                        createdAt: Date(),
+//                        placeToMeet: incompleteClub.placeToMeet,
+//                        maxNumberOfPeople: incompleteClub.maxNumberOfPeople)
+//
+//        let chat = Chat(chatRoomID: nil,
+//                        clubID: nil,
+//                        chatRoomName: clubTitle,
+//                        participants: nil,
+//                        messages: nil,
+//                        coverImageURL: nil)
+//
+//        getImageURL() { url in
+//            club.coverImageURL = url
+//            Task {
+//                guard let vfUser = await firebaseManager.requestUser() else { return }
+//                FirebaseManager.shared.requestPost(user: vfUser, club: club, chat: chat)
+//            }
+//        }
+//
+//        navigationController?.popToRootViewController(animated: true)
+//    }
+    
     private func getImageURL(completion: @escaping (URL?) -> Void) {
         if !coverPickerView.isDefaultImage {
             guard let image = coverPickerView.getImageView() else { return completion(nil) }
@@ -209,8 +244,9 @@ final class SecondCreateGroupViewController: BaseViewController {
     }
     
     func configure(with data: IncompleteClub) {
-        groupInfoStackView.configure(with: data)
+//        groupInfoStackView.configure(with: data)
     }
+    
 }
 
 extension SecondCreateGroupViewController: PhotoPickerViewDelegate {
