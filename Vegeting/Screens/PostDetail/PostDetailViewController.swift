@@ -270,13 +270,10 @@ final class PostDetailViewController: UIViewController {
     @objc
     private func showActionSheet() {
         let actionSheet = UIAlertController(title: .none, message: .none, preferredStyle: .actionSheet)
-        
         let firstAlertAction: UIAlertAction
-        
         let secondAlertAction: UIAlertAction
         
         switch entryPoint {
-            
         case .mine:
             firstAlertAction = UIAlertAction(title: "게시글 삭제", style: .destructive, handler: { [weak self] _ in
                 self?.makeRequestAlert(title: "게시글을 삭제하시겠습니까?",
@@ -316,7 +313,6 @@ final class PostDetailViewController: UIViewController {
         [firstAlertAction, secondAlertAction, cancelAlertAction].forEach { action in
             actionSheet.addAction(action)
         }
-        
         present(actionSheet, animated: true, completion: nil)
     }
 }
