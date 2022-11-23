@@ -8,7 +8,7 @@
 import UIKit
 
 class GroupListViewController: UIViewController {
-    private var clubList = MockData.club {
+    private var clubList: [Club] = [] {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 self?.collectionView.reloadData()
@@ -67,7 +67,8 @@ class GroupListViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumInteritemSpacing = 20
-        layout.minimumLineSpacing = 20
+        layout.minimumLineSpacing = 30
+        layout.sectionInset = UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.register(ClubListCollectionViewCell.self, forCellWithReuseIdentifier: ClubListCollectionViewCell.className)
@@ -81,6 +82,13 @@ class GroupListViewController: UIViewController {
         configureCollectionView()
         configureUI()
         setupLayout()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Task {
+            clubList = await FirebaseManager.shared.requestClubInformation() ?? []
+        }
     }
     
     private func configureCollectionView() {
@@ -115,7 +123,7 @@ class GroupListViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: customSegmentedControl.bottomAnchor, constant: 10),
+            collectionView.topAnchor.constraint(equalTo: customSegmentedControl.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
@@ -146,6 +154,6 @@ extension GroupListViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.frame.width - 20) / 2, height: 210)
+        return CGSize(width: (collectionView.frame.width - 20) / 2, height: 165)
     }
 }
