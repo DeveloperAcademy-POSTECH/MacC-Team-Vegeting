@@ -17,7 +17,7 @@ enum MessageType: CaseIterable {
 final class OtherChatContentCollectionViewCell: UICollectionViewCell {
     
     private enum SizeLiteral: CGFloat {
-        case profileImageSize = 37.0
+        case profileImageSize = 40.0
     }
     
     private var contentLabelTopAnchor: NSLayoutConstraint?
