@@ -206,7 +206,8 @@ final class FirstCreateGroupViewController: UIViewController {
                                         placeToMeet: locationLabel.text ?? "",
                                         dateToMeet: datePicker.date,
                                         maxNumberOfPeople: selectedNumberOfPeople)
-        let viewController = SecondCreateGroupViewController(club: club, entryPoint: entryPoint)
+  
+        let viewController = SecondCreateGroupViewController(club: club, incompleteClub: passedData, entryPoint: entryPoint)
         viewController.configure(with: passedData)
         viewController.configure(with: club)
         self.navigationController?.pushViewController(viewController, animated: true)

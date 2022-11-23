@@ -190,44 +190,71 @@ final class SecondCreateGroupViewController: BaseViewController {
             registerButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55)
         ])
     }
-    
-    override func configureUI() {
-        super.configureUI()
+
+    @objc
+    private func registerButtonTapped() {
+        switch entryPoint {
+        case .create:
+            self.registerClub()
+        case .revise:
+            self.updateClub()
+        }
+
+        navigationController?.popToRootViewController(animated: true)
     }
     
-    @objc
-//    private func registerButtonTapped() {
-//        guard let incompleteClub = groupInfoStackView.getData(),
-//              let clubTitle = titleTextField.text else { return }
-//        let firebaseManager = FirebaseManager.shared
-//
-//        var club = Club(id: nil, clubID: nil, chatID: nil,
-//                        clubTitle: clubTitle,
-//                        clubCategory: incompleteClub.clubCategory,
-//                        clubContent: contentTextView.text,
-//                        hostID: nil, participants: nil,
-//                        dateToMeet: incompleteClub.dateToMeet,
-//                        createdAt: Date(),
-//                        placeToMeet: incompleteClub.placeToMeet,
-//                        maxNumberOfPeople: incompleteClub.maxNumberOfPeople)
-//
-//        let chat = Chat(chatRoomID: nil,
-//                        clubID: nil,
-//                        chatRoomName: clubTitle,
-//                        participants: nil,
-//                        messages: nil,
-//                        coverImageURL: nil)
-//
-//        getImageURL() { url in
-//            club.coverImageURL = url
-//            Task {
-//                guard let vfUser = await firebaseManager.requestUser() else { return }
-//                FirebaseManager.shared.requestPost(user: vfUser, club: club, chat: chat)
-//            }
-//        }
-//
-//        navigationController?.popToRootViewController(animated: true)
-//    }
+    private func registerClub() {
+        guard let incompleteClub = incompleteClub,
+              let clubTitle = titleTextField.text else { return }
+        let firebaseManager = FirebaseManager.shared
+
+        var club = Club(id: nil, clubID: nil, chatID: nil,
+                        clubTitle: clubTitle,
+                        clubCategory: incompleteClub.clubCategory,
+                        clubContent: contentTextView.text,
+                        hostID: nil, participants: nil,
+                        dateToMeet: incompleteClub.dateToMeet,
+                        createdAt: Date(),
+                        placeToMeet: incompleteClub.placeToMeet,
+                        maxNumberOfPeople: incompleteClub.maxNumberOfPeople)
+
+        let chat = Chat(chatRoomID: nil,
+                        clubID: nil,
+                        chatRoomName: clubTitle,
+                        participants: nil,
+                        messages: nil,
+                        coverImageURL: nil)
+
+        getImageURL() { url in
+            club.coverImageURL = url
+            Task {
+                guard let vfUser = await firebaseManager.requestUser() else { return }
+                firebaseManager.requestPost(user: vfUser, club: club, chat: chat)
+            }
+        }
+    }
+    
+    private func updateClub() {
+        guard let incompleteClub = incompleteClub,
+              let club = club,
+              let clubTitle = titleTextField.text else { return }
+        let firebaseManager = FirebaseManager.shared
+        
+//        var updatedClub = Club(id: club.id,
+//                               clubID: club.clubID,
+//                               chatID: club.chatID,
+//                               clubTitle: clubTitle,
+//                               clubCategory: incompleteClub.clubCategory,
+//                               clubContent: contentTextView.text,
+//                               hostID: club.hostID,
+//                               participants: club.participants,
+//                               dateToMeet: incompleteClub.dateToMeet,
+//                               createdAt: club.createdAt,
+//                               placeToMeet: club.placeToMeet,
+//                               maxNumberOfPeople: incompleteClub.maxNumberOfPeople,
+//                               coverImageURL: <#T##URL?#>)
+        // TODO: url로 넘기지 말고, UIimage로 넘겨서 image 변화여부를 체크하여 getImageURL을 호출해야할 것 같아요.
+    }
     
     private func getImageURL(completion: @escaping (URL?) -> Void) {
         if !coverPickerView.isDefaultImage {
