@@ -120,7 +120,7 @@ final class SecondCreateGroupViewController: BaseViewController {
         
         NSLayoutConstraint.activate([
             coverPickerView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 15),
-            coverPickerView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
+            coverPickerView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             coverPickerView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
             coverPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height * 0.25)
         ])
@@ -280,7 +280,9 @@ final class SecondCreateGroupViewController: BaseViewController {
         contentTextView.text = data.clubContent
         contentWordsCountLabel.text = "\(data.clubContent.count)/500"
         titleWordsCountLabel.text = "\(data.clubTitle.count)/500"
+        
         registerButton.isEnabled = true
+        contentTextView.textColor = .black
     }
     
 }
