@@ -12,17 +12,25 @@ import UIKit
 class FirebaseStorageManager {
     static let shared = FirebaseStorageManager()
     
-    func uploadImage(image: UIImage, folderName: String, completion: @escaping (URL?) -> Void) {
+    func uploadImage(image: UIImage, folderName: String,
+                     completion: @escaping (Result<URL, Error>) -> Void) {
+        
         guard let scaledImage = image.scaledToSafeUploadSize,
-              let data = scaledImage.jpegData(compressionQuality: 0.4) else { return completion(nil) }
+              let data = scaledImage.jpegData(compressionQuality: 0.4)
+            else { return completion(.failure(StorageError.uploadFail)) }
+        
         let metaData = StorageMetadata()
         metaData.contentType = "image/jpeg"
         
         let imageName = UUID().uuidString + String(Date().timeIntervalSince1970)
+        
         let imageReference = Storage.storage().reference().child("\(folderName)/\(imageName)")
+        
         imageReference.putData(data, metadata: metaData) { _, _ in
             imageReference.downloadURL { url, _ in
-                completion(url)
+                guard let url = url
+                    else { return completion(.failure(StorageError.uploadFail)) }
+                completion(.success(url))
             }
         }
     }
