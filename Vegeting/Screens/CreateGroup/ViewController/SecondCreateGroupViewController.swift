@@ -35,7 +35,8 @@ final class SecondCreateGroupViewController: BaseViewController {
         textField.font = .preferredFont(forTextStyle: .body)
         textField.layer.cornerRadius = 5
         textField.layer.backgroundColor = UIColor.vfGray4.cgColor
-        textField.addLeftPadding()
+        textField.addLeftPadding(width: 10)
+        textField.addRightPadding(width: 40)
         textField.placeholder = "제목을 입력해주세요. (최대 20자)"
         textField.addTarget(self, action: #selector(didTextFieldChanged), for: .editingChanged)
         textField.delegate = self
