@@ -24,7 +24,6 @@ final class SecondCreateGroupViewController: BaseViewController {
     private lazy var groupInfomationLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .subheadline)
-        label.text = "랄랄라"
         label.textColor = .vfGray3
         return label
     }()
@@ -50,7 +49,6 @@ final class SecondCreateGroupViewController: BaseViewController {
         label.font = .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .bold))
         label.textColor = .vfGray1
         label.textAlignment = .center
-        label.text = "파티"
         label.layer.masksToBounds = true
         return label
     }()
@@ -312,12 +310,12 @@ final class SecondCreateGroupViewController: BaseViewController {
     }
     
     func configure(with data: IncompleteClub) {
-//        groupInfoStackView.configure(with: data)
+        categoryLabel.text = data.clubCategory
+        groupInfomationLabel.text = "\(data.placeToMeet)･\(data.dateToMeet.toString(format: "M월 d일"))"
     }
     
     func configure(with data: Club?) {
         guard let data = data else { return }
-        groupInfomationLabel.text = data.placeToMeet + "ㆍ" + data.dateToMeet.toString(format: "M월 d일")
         titleTextField.text = data.clubTitle
         contentTextView.text = data.clubContent
         contentWordsCountLabel.text = "\(data.clubContent.count)/500"
