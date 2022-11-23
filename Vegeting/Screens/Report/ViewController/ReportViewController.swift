@@ -20,7 +20,6 @@ final class ReportViewController: UIViewController {
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.showsVerticalScrollIndicator = false
-        tableView.rowHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
