@@ -103,13 +103,13 @@ final class ReportViewController: UIViewController {
         return label
     }()
     
-    var entryPoint: ReportType
+    private var reportType: ReportType
     private lazy var selectedElementList: [String] = []
     
     // MARK: - lifeCycle
     
     init(entryPoint: ReportType) {
-        self.entryPoint = entryPoint
+        self.reportType = entryPoint
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -132,7 +132,7 @@ final class ReportViewController: UIViewController {
     // MARK: - func
     
     private func setupButtonTitle() {
-        let buttonTitle = entryPoint.reportButtonTitle
+        let buttonTitle = reportType.reportButtonTitle
         
         reportButton.setTitle(buttonTitle, for: .normal)
     }
@@ -164,8 +164,8 @@ final class ReportViewController: UIViewController {
     @objc
     private func reportButtonTapped() {
         
-        let reportTitle = entryPoint.alertTitle
-        let reportMessage = entryPoint.alertMessage
+        let reportTitle = reportType.alertTitle
+        let reportMessage = reportType.alertMessage
         
         makeRequestAlert(title: reportTitle,
                          message: reportMessage,
@@ -180,7 +180,7 @@ final class ReportViewController: UIViewController {
         if selectedElementList.contains(StringLiteral.reportTableViewCellTextViewOtherOption) {
             // TODO: reportButton 확인 시 firebase에 데이터 추가 & 차단, 탈퇴, 신고에 따라 분기처리
             
-            let index = entryPoint.reportElementList.count - 1
+            let index = reportType.reportElementList.count - 1
             tableView.cellForRow(at: IndexPath(row: index, section: 0))
         }
         
@@ -191,7 +191,7 @@ final class ReportViewController: UIViewController {
 extension ReportViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return entryPoint.reportElementList.count
+        return reportType.reportElementList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -200,7 +200,7 @@ extension ReportViewController: UITableViewDataSource {
         cell.selectionStyle = .none
         cell.delegate = self
         
-        setupTableViewCell(cell: cell, elementList: entryPoint.reportElementList, indexPath: indexPath)
+        setupTableViewCell(cell: cell, elementList: reportType.reportElementList, indexPath: indexPath)
         
         return cell
     }
@@ -216,7 +216,7 @@ extension ReportViewController: UITableViewDataSource {
             }
         }
         
-        cell.configure(with: entryPoint.reportElementList[indexPath.row])
+        cell.configure(with: reportType.reportElementList[indexPath.row])
     }
     
 }
@@ -227,7 +227,7 @@ extension ReportViewController: UITableViewDelegate {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: ReportTableViewHeaderView.className) as?  ReportTableViewHeaderView else { return UIView() }
         
         headerView.contentView.backgroundColor = .systemBackground
-        headerView.configure(with: entryPoint.headerTitle)
+        headerView.configure(with: reportType.headerTitle)
         return headerView
     }
     
@@ -253,7 +253,7 @@ extension ReportViewController: ReportTableViewCellDelegate {
     func updateTableView() {
         tableView.beginUpdates()
         tableView.endUpdates()
-        let index = entryPoint.reportElementList.count - 1
+        let index = reportType.reportElementList.count - 1
         tableView.scrollToRow(at: IndexPath(row: index, section: 0), at: .bottom, animated: true)
     }
     
