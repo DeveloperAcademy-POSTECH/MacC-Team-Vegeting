@@ -98,6 +98,7 @@ final class SecondCreateGroupViewController: BaseViewController {
     private var club: Club?
     private var incompleteClub: IncompleteClub?
     private var entryPoint: CreateGroupEntryPoint
+    private lazy var keyboardHeight: CGFloat = self.view.frame.height * 0.4
     
     //MARK: - lifeCycle
     
@@ -114,6 +115,7 @@ final class SecondCreateGroupViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        observeKeyboardWillShow()
     }
     
     //MARK: - func
@@ -123,7 +125,8 @@ final class SecondCreateGroupViewController: BaseViewController {
         view.addSubviews(scrollView, registerButton)
         scrollView.addSubview(contentView)
         
-        contentView.addSubviews(coverPickerView, categoryLabel, groupInfomationLabel, titleTextField, titleWordsCountLabel, contentTextView, contentWordsCountLabel)
+        contentView.addSubviews(coverPickerView, categoryLabel, groupInfomationLabel,
+                                titleTextField, titleWordsCountLabel, contentTextView, contentWordsCountLabel)
         
         scrollView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
                               leading: view.safeAreaLayoutGuide.leadingAnchor,
@@ -167,10 +170,8 @@ final class SecondCreateGroupViewController: BaseViewController {
         ])
         
         NSLayoutConstraint.activate([
-//            titleWordsCountLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 8),
             titleWordsCountLabel.trailingAnchor.constraint(equalTo: titleTextField.trailingAnchor, constant: -8),
             titleWordsCountLabel.centerYAnchor.constraint(equalTo: titleTextField.centerYAnchor)
-//            titleWordsCountLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         ])
         
         NSLayoutConstraint.activate([
@@ -291,6 +292,25 @@ final class SecondCreateGroupViewController: BaseViewController {
          titleTextField.layer.borderColor = UIColor.vfYellow1.cgColor
          titleTextField.layer.borderWidth = 0
      }
+    
+    private func observeKeyboardWillShow() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(calculateKeyboardHeight),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+    }
+    
+    @objc
+    private func calculateKeyboardHeight(notification: NSNotification) {
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+            else { return }
+        keyboardHeight = keyboardSize.height
+    }
+    
+    private func scrollVertical(to yOffset: CGFloat) {
+        scrollView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: true)
+    }
+    
     func configure(with data: IncompleteClub) {
 //        groupInfoStackView.configure(with: data)
     }
@@ -331,6 +351,7 @@ extension SecondCreateGroupViewController: UITextViewDelegate {
             textView.textColor = .black
         }
         applyEditingTextViewForm()
+        scrollVertical(to: keyboardHeight)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -344,6 +365,7 @@ extension SecondCreateGroupViewController: UITextViewDelegate {
             }
         }
         applyEndEditingTextViewForm()
+        scrollVertical(to: .zero)
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
