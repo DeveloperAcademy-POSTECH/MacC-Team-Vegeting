@@ -138,15 +138,13 @@ final class SecondCreateGroupViewController: BaseViewController {
     
     @objc
     private func registerButtonTapped() {
-        let firebaseManager = FirebaseManager.shared
-        
         guard var club = makeClub(),
               let chat = makeChat() else { return }
         
         getImageURL() { url in
             club.coverImageURL = url
             Task {
-                guard let vfUser = await firebaseManager.requestUser() else { return }
+                guard let vfUser = await FirebaseManager.shared.requestUser() else { return }
                 FirebaseManager.shared.requestPost(user: vfUser, club: club, chat: chat)
             }
         }
@@ -169,7 +167,7 @@ final class SecondCreateGroupViewController: BaseViewController {
     private func makeClub() -> Club? {
         guard let incompleteClub = groupInfoStackView.getData(),
               let clubTitle = titleTextField.text else { return nil }
-        var club = Club(id: nil, clubID: nil, chatID: nil,
+        let club = Club(id: nil, clubID: nil, chatID: nil,
                         clubTitle: clubTitle,
                         clubCategory: incompleteClub.clubCategory,
                         clubContent: contentTextView.text,
