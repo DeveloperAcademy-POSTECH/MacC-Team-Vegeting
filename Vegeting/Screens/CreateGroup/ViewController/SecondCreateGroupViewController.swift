@@ -10,6 +10,9 @@ import PhotosUI
 
 final class SecondCreateGroupViewController: BaseViewController {
     
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
+    
     private lazy var coverPickerView: PhotoPickerView = {
         var pickerView = PhotoPickerView()
         pickerView.setLabelText(title: "모임과 관련된 사진을 첨부해주세요.",
@@ -115,13 +118,29 @@ final class SecondCreateGroupViewController: BaseViewController {
     //MARK: - func
     
     override func setupLayout() {
-        view.addSubviews(coverPickerView, categoryLabel, groupInfomationLabel, titleTextField, titleWordsCountLabel,
-                         contentTextView, contentWordsCountLabel, registerButton)
+        
+        view.addSubviews(scrollView, registerButton)
+        scrollView.addSubview(contentView)
+        
+        contentView.addSubviews(coverPickerView, categoryLabel, groupInfomationLabel, titleTextField, titleWordsCountLabel, contentTextView, contentWordsCountLabel)
+        
+        scrollView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
+                              leading: view.safeAreaLayoutGuide.leadingAnchor,
+                              bottom: registerButton.topAnchor,
+                              trailing: view.safeAreaLayoutGuide.trailingAnchor,
+                              padding: UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0))
+        
+        contentView.constraint(top: scrollView.contentLayoutGuide.topAnchor,
+                               leading: scrollView.contentLayoutGuide.leadingAnchor,
+                               bottom: scrollView.contentLayoutGuide.bottomAnchor,
+                               trailing: scrollView.contentLayoutGuide.trailingAnchor)
+        
+        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         
         NSLayoutConstraint.activate([
-            coverPickerView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 15),
-            coverPickerView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            coverPickerView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            coverPickerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 15),
+            coverPickerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            coverPickerView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             coverPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height * 0.25)
         ])
         
@@ -129,34 +148,36 @@ final class SecondCreateGroupViewController: BaseViewController {
         
         NSLayoutConstraint.activate([
             categoryLabel.topAnchor.constraint(equalTo: coverPickerView.bottomAnchor, constant: 15),
-            categoryLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
+            categoryLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             categoryLabel.heightAnchor.constraint(equalToConstant: 31),
             categoryLabel.widthAnchor.constraint(equalToConstant: width)
         ])
         
         NSLayoutConstraint.activate([
             titleTextField.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: 15),
-            titleTextField.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
-            titleTextField.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
+            titleTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            titleTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             titleTextField.heightAnchor.constraint(equalToConstant: 50)
         ])
         
         NSLayoutConstraint.activate([
             groupInfomationLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 13),
-            groupInfomationLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20)
+            groupInfomationLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20)
         ])
         
-//        NSLayoutConstraint.activate([
+        NSLayoutConstraint.activate([
 //            titleWordsCountLabel.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 8),
-//            titleWordsCountLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 24),
+            titleWordsCountLabel.trailingAnchor.constraint(equalTo: titleTextField.trailingAnchor, constant: -8),
+            titleWordsCountLabel.centerYAnchor.constraint(equalTo: titleTextField.centerYAnchor)
 //            titleWordsCountLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
-//        ])
+        ])
         
         NSLayoutConstraint.activate([
             contentTextView.topAnchor.constraint(equalTo: groupInfomationLabel.bottomAnchor, constant: 13),
-            contentTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
-            contentTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
-            contentTextView.bottomAnchor.constraint(equalTo: registerButton.topAnchor, constant: -16)
+            contentTextView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            contentTextView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            contentTextView.heightAnchor.constraint(equalToConstant: 263),
+            contentTextView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0)
         ])
         
         NSLayoutConstraint.activate([
@@ -165,8 +186,8 @@ final class SecondCreateGroupViewController: BaseViewController {
         ])
         
         NSLayoutConstraint.activate([
-            registerButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            registerButton.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -55)
+            registerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            registerButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55)
         ])
     }
     
@@ -279,7 +300,7 @@ final class SecondCreateGroupViewController: BaseViewController {
         titleTextField.text = data.clubTitle
         contentTextView.text = data.clubContent
         contentWordsCountLabel.text = "\(data.clubContent.count)/500"
-        titleWordsCountLabel.text = "\(data.clubTitle.count)/500"
+        titleWordsCountLabel.text = "\(data.clubTitle.count)/20"
         
         registerButton.isEnabled = true
         contentTextView.textColor = .black
