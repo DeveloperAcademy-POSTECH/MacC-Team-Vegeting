@@ -14,7 +14,7 @@ protocol PhotoPickerViewDelegate: AnyObject {
 }
 
 final class PhotoPickerView: UIView {
-    var isDefaultImage = true
+    private var isDefaultImage = true
     private let selectedImage = UIImageView()
     private let label = UILabel()
     weak var delegate: PhotoPickerViewDelegate?
@@ -94,6 +94,10 @@ final class PhotoPickerView: UIView {
     
     func setLabelText(text: String) {
         label.text = text
+    }
+    
+    func getIsDefaultImage() -> Bool {
+        return self.isDefaultImage
     }
 }
 
