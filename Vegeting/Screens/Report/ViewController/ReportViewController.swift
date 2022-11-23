@@ -250,7 +250,7 @@ extension ReportViewController: ReportTableViewCellDelegate {
     }
     
     
-    func requestUpdateTableView() {
+    func updateTableView() {
         tableView.beginUpdates()
         tableView.endUpdates()
         let index = entryPoint.reportElementList.count - 1

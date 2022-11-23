@@ -116,7 +116,7 @@ final class ReportTableViewCell: UITableViewCell {
         if reportLabel.text == StringLiteral.reportTableViewCellTextViewOtherOption {
             contentTextView.isHidden.toggle()
             contentWordsCountLabel.isHidden.toggle()
-            delegate?.requestUpdateTableView()
+            delegate?.updateTableView()
         }
         
         delegate?.updateSelectedElement(with: reportLabel.text ?? "")
