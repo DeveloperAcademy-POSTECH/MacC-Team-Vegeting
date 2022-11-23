@@ -7,14 +7,15 @@
 
 import UIKit
 
-class MyChatContentCollectionViewCell: UICollectionViewCell {
+final class MyChatContentCollectionViewCell: UICollectionViewCell {
     
     private let backgroundPaddingView: UIView = {
         let view = UIView()
-        //        임시 컬러 삽입
-        view.backgroundColor = UIColor.gray.withAlphaComponent(0.2)
+        
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 21
+        view.layer.borderColor = UIColor.vfGray3.cgColor
+        view.layer.borderWidth = 1.5
         return view
     }()
     
@@ -29,7 +30,6 @@ class MyChatContentCollectionViewCell: UICollectionViewCell {
     private let dateTimeLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.text = "12:24"
         label.font = .preferredFont(forTextStyle: .caption1)
         return label
     }()
@@ -45,8 +45,13 @@ class MyChatContentCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with model: TemporaryMessage) {
-        contentLabel.text = model.messageContent
+    func configure(with model: MessageBubble) {
+        contentLabel.text = model.message.content
+        dateTimeLabel.text = model.message.createdAt.toMessageTimeText()
+        
+        if let text = model.message.content {
+            contentLabel.textAlignment = text.count > 1 ? .left : .center
+        }
     }
     
 }
@@ -61,12 +66,13 @@ extension MyChatContentCollectionViewCell {
     private func setupLayout() {
         
         let contentLabelConstraints = [
-            contentLabel.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 160),
-            contentLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -37),
-            contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            contentLabel.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 111),
+            contentLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -36),
+            contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
+            contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
+            contentLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 18),
+            contentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 18)
         ]
-        
         
         let backgroundPaddingViewConstraints = [
             backgroundPaddingView.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor, constant: -16),
@@ -87,5 +93,3 @@ extension MyChatContentCollectionViewCell {
     }
 
 }
-
-
