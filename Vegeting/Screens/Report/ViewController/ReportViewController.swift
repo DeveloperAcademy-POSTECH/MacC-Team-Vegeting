@@ -21,7 +21,7 @@ extension UIViewController {
         case block
         case unregister
         
-        var reportStringLiteral: ReportStringLiteral {
+        var stringLiteral: ReportStringLiteral {
             switch self {
                 
             case .report:
@@ -117,7 +117,7 @@ final class ReportViewController: UIViewController {
     // MARK: - func
     
     private func setupButtonTitle() {
-        let buttonTitle = reportType.reportStringLiteral.buttonTitle
+        let buttonTitle = reportType.stringLiteral.buttonTitle
         
         reportButton.setTitle(buttonTitle, for: .normal)
     }
@@ -149,8 +149,8 @@ final class ReportViewController: UIViewController {
     @objc
     private func reportButtonTapped() {
         
-        let reportTitle = reportType.reportStringLiteral.alertTitle
-        let reportMessage = reportType.reportStringLiteral.alertMessage
+        let reportTitle = reportType.stringLiteral.alertTitle
+        let reportMessage = reportType.stringLiteral.alertMessage
         
         makeRequestAlert(title: reportTitle,
                          message: reportMessage,
@@ -212,7 +212,7 @@ extension ReportViewController: UITableViewDelegate {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: ReportTableViewHeaderView.className) as?  ReportTableViewHeaderView else { return UIView() }
         
         headerView.contentView.backgroundColor = .systemBackground
-        headerView.configure(with: reportType.reportStringLiteral.headerTitle)
+        headerView.configure(with: reportType.stringLiteral.headerTitle)
         return headerView
     }
     
