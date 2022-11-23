@@ -294,7 +294,7 @@ extension FirebaseManager {
         
     }
     
-    func isPossibleNickname(newName: String) async -> Bool {
+    func isPossibleNickname(newName: String) async throws -> Bool {
         do {
             let querySnapshot = try await db.collection(Path.user.rawValue).whereField("userName", isEqualTo: newName).getDocuments()
             if querySnapshot.documents.isEmpty {
@@ -303,8 +303,7 @@ extension FirebaseManager {
                 return false
             }
         } catch {
-            print(error.localizedDescription)
-            return false
+            throw error
         }
     }
 }
