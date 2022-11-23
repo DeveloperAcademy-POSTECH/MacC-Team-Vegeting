@@ -10,19 +10,19 @@ import PhotosUI
 
 final class SecondCreateGroupViewController: BaseViewController {
     private lazy var coverPickerView: PhotoPickerView = {
-        var pickerView = PhotoPickerView()
+        let pickerView = PhotoPickerView()
         pickerView.setLabelText(text: StringLiteral.secondCreateGroupViewControllerPhoto)
         pickerView.delegate = self
         return pickerView
     }()
     
     private lazy var groupInfoStackView: GroupInfoView = {
-        var stackView = GroupInfoView()
+        let stackView = GroupInfoView()
         return stackView
     }()
     
     private lazy var titleTextField: UITextField = {
-        var textField = UITextField()
+        let textField = UITextField()
         textField.placeholder = StringLiteral.secondCreateGroupViewControllerTitle
         textField.font = .preferredFont(forTextStyle: .body)
         textField.layer.cornerRadius = 5
@@ -44,7 +44,7 @@ final class SecondCreateGroupViewController: BaseViewController {
     }()
     
     private lazy var contentTextView: UITextView = {
-        var textView = UITextView()
+        let textView = UITextView()
         textView.text = StringLiteral.secondCreateGroupViewControllerContent
         textView.textColor = .lightGray
         textView.font = .preferredFont(forTextStyle: .body)
