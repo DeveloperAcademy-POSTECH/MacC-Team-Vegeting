@@ -7,47 +7,38 @@
 
 import UIKit
 
-
-
-final class ReportViewController: UIViewController {
+extension UIViewController {
     
-    // MARK: - properties
+    struct ReportStringLiteral {
+        let buttonTitle: String
+        let alertTitle: String
+        let alertMessage: String
+        let headerTitle: String
+    }
     
     enum ReportType {
         case report
         case block
         case unregister
         
-        var reportButtonTitle: String {
+        var reportStringLiteral: ReportStringLiteral {
             switch self {
+                
             case .report:
-                return "신고합니다"
+                return ReportStringLiteral(buttonTitle: "신고합니다",
+                                  alertTitle: "신고하시겠습니까?",
+                                  alertMessage: "신고해주신 내용이 운영팀에 전달됩니다.",
+                                  headerTitle: "신고 사유 (최대 3개 선택)")
             case .block:
-                return "차단합니다"
+                return ReportStringLiteral(buttonTitle: "차단합니다",
+                                  alertTitle: "차단하시겠습니까?",
+                                  alertMessage: "차단한 사용자의 게시글이 노출되지 않습니다.",
+                                  headerTitle: "‘초보채식인'\n사용자를 차단하는 이유가 무언인가요?")
             case .unregister:
-                return "회원 탈퇴"
-            }
-        }
-        
-        var alertTitle: String {
-            switch self {
-            case .report:
-                return "신고하시겠습니까?"
-            case .block:
-                return "차단하시겠습니까?"
-            case .unregister:
-                return "탈퇴하시겠습니까?"
-            }
-        }
-        
-        var alertMessage: String {
-            switch self {
-            case .report:
-                return "신고해주신 내용이 운영팀에 전달됩니다."
-            case .block:
-                return "차단한 사용자의 게시글이 노출되지 않습니다."
-            case .unregister:
-                return "더 이상 해당 계정으로 로그인할 수 없습니다."
+                return ReportStringLiteral(buttonTitle: "회원 탈퇴",
+                                  alertTitle: "탈퇴하시겠습니까?",
+                                  alertMessage: "더 이상 해당 계정으로 로그인할 수 없습니다.",
+                                  headerTitle: "탈퇴 사유 (최대 3개 선택)")
             }
         }
         
@@ -61,19 +52,13 @@ final class ReportViewController: UIViewController {
                 return ["디자인이 마음에 안 들어요", "다른 더 좋은 서비스를 찾았어요.", "더 이상 채식을 하지 않아요.", "안 좋은 일을 겪었어요.", "자주 사용하지 않아요.", "원하는 모임이 없어요.", "개인정보 유출이 걱정돼요", "다른 계정이 있어요", "앱 오류가 자주 발생해요.", "기타 (직접 입력)"]
             }
         }
-        
-        var headerTitle: String {
-            switch self {
-            case .report:
-                return "신고 사유 (최대 3개 선택)"
-            case .block:
-                return "‘초보채식인'\n사용자를 차단하는 이유가 무언인가요?"
-            case .unregister:
-                return "탈퇴 사유 (최대 3개 선택)"
-            }
-        }
-        
     }
+}
+
+final class ReportViewController: UIViewController {
+    
+    // MARK: - properties
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.showsVerticalScrollIndicator = false
@@ -132,7 +117,7 @@ final class ReportViewController: UIViewController {
     // MARK: - func
     
     private func setupButtonTitle() {
-        let buttonTitle = reportType.reportButtonTitle
+        let buttonTitle = reportType.reportStringLiteral.buttonTitle
         
         reportButton.setTitle(buttonTitle, for: .normal)
     }
@@ -164,8 +149,8 @@ final class ReportViewController: UIViewController {
     @objc
     private func reportButtonTapped() {
         
-        let reportTitle = reportType.alertTitle
-        let reportMessage = reportType.alertMessage
+        let reportTitle = reportType.reportStringLiteral.alertTitle
+        let reportMessage = reportType.reportStringLiteral.alertMessage
         
         makeRequestAlert(title: reportTitle,
                          message: reportMessage,
@@ -227,7 +212,7 @@ extension ReportViewController: UITableViewDelegate {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: ReportTableViewHeaderView.className) as?  ReportTableViewHeaderView else { return UIView() }
         
         headerView.contentView.backgroundColor = .systemBackground
-        headerView.configure(with: reportType.headerTitle)
+        headerView.configure(with: reportType.reportStringLiteral.headerTitle)
         return headerView
     }
     
