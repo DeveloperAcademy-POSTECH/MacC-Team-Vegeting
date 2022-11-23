@@ -24,7 +24,6 @@ final class ReportViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(ReportObjectTableViewCell.self, forCellReuseIdentifier: ReportObjectTableViewCell.className)
         tableView.register(ReportTableViewCell.self, forCellReuseIdentifier: ReportTableViewCell.className)
         tableView.register(ReportTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: ReportTableViewHeaderView.className)
         return tableView
