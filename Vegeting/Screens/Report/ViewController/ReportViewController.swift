@@ -7,16 +7,73 @@
 
 import UIKit
 
-enum ReportType {
-    case report
-    case block
-    case unregister
-}
+
 
 final class ReportViewController: UIViewController {
     
     // MARK: - properties
     
+    enum ReportType {
+        case report
+        case block
+        case unregister
+        
+        var reportButtonTitle: String {
+            switch self {
+            case .report:
+                return "신고합니다"
+            case .block:
+                return "차단합니다"
+            case .unregister:
+                return "회원 탈퇴"
+            }
+        }
+        
+        var alertTitle: String {
+            switch self {
+            case .report:
+                return "신고하시겠습니까?"
+            case .block:
+                return "차단하시겠습니까?"
+            case .unregister:
+                return "탈퇴하시겠습니까?"
+            }
+        }
+        
+        var alertMessage: String {
+            switch self {
+            case .report:
+                return "신고해주신 내용이 운영팀에 전달됩니다."
+            case .block:
+                return "차단한 사용자의 게시글이 노출되지 않습니다."
+            case .unregister:
+                return "더 이상 해당 계정으로 로그인할 수 없습니다."
+            }
+        }
+        
+        var reportElementList: [String] {
+            switch self {
+            case .report:
+                return ["모집글 성격과 맞지 않아요.", "불쾌감을 줍니다.", "개인정보 노출 문제가 있어요", "연애/19+ 만남을 유도합니다.", "법적인 문제가 있어요", "욕설/혐오/차별적 표현이 있습니다.", "음란물입니다.", "불쾌한 표현이 있습니다.", "홍보/도배글입니다.", "기타 (직접 입력)"]
+            case .block:
+                return ["불쾌감을 줍니다.", "개인정보를 유출합니다.", "욕설/혐오/차별적 표현을사용해요", "다른 목적을 가지고 접근하는 것 같아요", "불쾌한 표현을 사용해요", "홍보/도배글을 작성합니다.", "기타 (직접 입력)" ]
+            case .unregister:
+                return ["디자인이 마음에 안 들어요", "다른 더 좋은 서비스를 찾았어요.", "더 이상 채식을 하지 않아요.", "안 좋은 일을 겪었어요.", "자주 사용하지 않아요.", "원하는 모임이 없어요.", "개인정보 유출이 걱정돼요", "다른 계정이 있어요", "앱 오류가 자주 발생해요.", "기타 (직접 입력)"]
+            }
+        }
+        
+        var headerTitle: String {
+            switch self {
+            case .report:
+                return "신고 사유 (최대 3개 선택)"
+            case .block:
+                return "‘초보채식인'\n사용자를 차단하는 이유가 무언인가요?"
+            case .unregister:
+                return "탈퇴 사유 (최대 3개 선택)"
+            }
+        }
+        
+    }
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.showsVerticalScrollIndicator = false
@@ -27,7 +84,7 @@ final class ReportViewController: UIViewController {
         tableView.register(ReportTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: ReportTableViewHeaderView.className)
         return tableView
     }()
-   
+    
     private lazy var reportButton: BottomButton = {
         let button = BottomButton()
         button.isEnabled = false
@@ -46,12 +103,8 @@ final class ReportViewController: UIViewController {
         return label
     }()
     
-    var entryPoint: ReportType = .unregister
+    var entryPoint: ReportType = .block
     private lazy var selectedElementList: [String] = []
-    
-    private let reportElementList: [String] = ["모집글 성격과 맞지 않아요.", "불쾌감을 줍니다.", "개인정보 노출 문제가 있어요", "연애/19+ 만남을 유도합니다.", "법적인 문제가 있어요", "욕설/혐오/차별적 표현이 있습니다.", "음란물입니다.", "불쾌한 표현이 있습니다.", "홍보/도배글입니다.", "기타 (직접 입력)"]
-    private let blockElementList: [String] = ["불쾌감을 줍니다.", "개인정보를 유출합니다.", "욕설/혐오/차별적 표현을사용해요", "다른 목적을 가지고 접근하는 것 같아요", "불쾌한 표현을 사용해요", "홍보/도배글을 작성합니다.", "기타 (직접 입력)" ]
-    private let unregisterElementList: [String] = ["디자인이 마음에 안 들어요", "다른 더 좋은 서비스를 찾았어요.", "더 이상 채식을 하지 않아요.", "안 좋은 일을 겪었어요.", "자주 사용하지 않아요.", "원하는 모임이 없어요.", "개인정보 유출이 걱정돼요", "다른 계정이 있어요", "앱 오류가 자주 발생해요.", "기타 (직접 입력)"]
     
     // MARK: - lifeCycle
     
@@ -70,15 +123,8 @@ final class ReportViewController: UIViewController {
     // MARK: - func
     
     private func setupButtonTitle() {
-        let buttonTitle: String
-        switch entryPoint {
-        case .report:
-            buttonTitle = "신고합니다"
-        case .block:
-            buttonTitle = "차단합니다"
-        case .unregister:
-            buttonTitle = "회원 탈퇴"
-        }
+        let buttonTitle = entryPoint.reportButtonTitle
+        
         reportButton.setTitle(buttonTitle, for: .normal)
     }
     
@@ -109,20 +155,8 @@ final class ReportViewController: UIViewController {
     @objc
     private func reportButtonTapped() {
         
-        let reportTitle: String
-        let reportMessage: String
-        
-        switch entryPoint {
-        case .report:
-            reportTitle = "신고하시겠습니까?"
-            reportMessage = "신고해주신 내용이 운영팀에 전달됩니다."
-        case .block:
-            reportTitle = "차단하시겠습니까?"
-            reportMessage = "차단한 사용자의 게시글이 노출되지 않습니다."
-        case .unregister:
-            reportTitle = "탈퇴하시겠습니까?"
-            reportMessage = "더 이상 해당 계정으로 로그인할 수 없습니다."
-        }
+        let reportTitle = entryPoint.alertTitle
+        let reportMessage = entryPoint.alertMessage
         
         makeRequestAlert(title: reportTitle,
                          message: reportMessage,
@@ -137,17 +171,7 @@ final class ReportViewController: UIViewController {
         if selectedElementList.contains(StringLiteral.reportTableViewCellTextViewOtherOption) {
             // TODO: reportButton 확인 시 firebase에 데이터 추가 & 차단, 탈퇴, 신고에 따라 분기처리
             
-            var index: Int {
-                switch entryPoint {
-                case .report:
-                    return reportElementList.count - 1
-                case .block:
-                    return blockElementList.count - 1
-                case .unregister:
-                    return unregisterElementList.count - 1
-                }
-            }
-          
+            let index = entryPoint.reportElementList.count - 1
             tableView.cellForRow(at: IndexPath(row: index, section: 0))
         }
         
@@ -157,19 +181,8 @@ final class ReportViewController: UIViewController {
 
 extension ReportViewController: UITableViewDataSource {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch entryPoint {
-        case .report:
-            return reportElementList.count
-        case .block:
-            return blockElementList.count
-        case .unregister:
-            return unregisterElementList.count
-        }
+        return entryPoint.reportElementList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -178,14 +191,7 @@ extension ReportViewController: UITableViewDataSource {
         cell.selectionStyle = .none
         cell.delegate = self
         
-        switch entryPoint {
-        case .report:
-            setupTableViewCell(cell: cell, elementList: reportElementList, indexPath: indexPath)
-        case .block:
-            setupTableViewCell(cell: cell, elementList: blockElementList, indexPath: indexPath)
-        case .unregister:
-            setupTableViewCell(cell: cell, elementList: unregisterElementList, indexPath: indexPath)
-        }
+        setupTableViewCell(cell: cell, elementList: entryPoint.reportElementList, indexPath: indexPath)
         
         return cell
     }
@@ -200,8 +206,8 @@ extension ReportViewController: UITableViewDataSource {
                 cell.setupLayout(isOtherOption: false)
             }
         }
-      
-        cell.configure(with: unregisterElementList[indexPath.row])
+        
+        cell.configure(with: entryPoint.reportElementList[indexPath.row])
     }
     
 }
@@ -210,16 +216,9 @@ extension ReportViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: ReportTableViewHeaderView.className) as?  ReportTableViewHeaderView else { return UIView() }
-        headerView.contentView.backgroundColor = .systemBackground
         
-        switch entryPoint {
-        case .report:
-            headerView.configure(with: "신고 사유 (최대 3개 선택)")
-        case .block:
-            headerView.configure(with: "‘초보채식인'\n사용자를 차단하는 이유가 무언인가요?")
-        case .unregister:
-            headerView.configure(with: "탈퇴 사유 (최대 3개 선택)")
-        }
+        headerView.contentView.backgroundColor = .systemBackground
+        headerView.configure(with: entryPoint.headerTitle)
         return headerView
     }
     
@@ -245,18 +244,8 @@ extension ReportViewController: ReportTableViewCellDelegate {
     func requestUpdateTableView() {
         tableView.beginUpdates()
         tableView.endUpdates()
-        var index: Int {
-            switch entryPoint {
-            case .report:
-                return reportElementList.count - 1
-            case .block:
-                return blockElementList.count - 1
-            case .unregister:
-                return unregisterElementList.count - 1
-            }
-        }
-        
+        let index = entryPoint.reportElementList.count - 1
         tableView.scrollToRow(at: IndexPath(row: index, section: 0), at: .bottom, animated: true)
     }
-
+    
 }
