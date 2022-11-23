@@ -12,6 +12,12 @@ final class UserTypeIntroductionViewController: UIViewController {
     let vegetarianTypeSelectButtonTitle = "채식 단계"
     let introductionMaxLength = 60
     
+    private let scrollView: UIScrollView = {
+        let view = UIScrollView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private let progressBarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "progress4")
@@ -86,13 +92,21 @@ final class UserTypeIntroductionViewController: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .systemBackground
-        view.addSubviews(progressBarImageView, vegetarianTypeLabel, vegetarianTypeSelectButton,
-                         introductionLabel, introductionTextView, introductionCountLabel, nextButton)
+        view.addSubview(scrollView)
+        scrollView.addSubviews(progressBarImageView, vegetarianTypeLabel, vegetarianTypeSelectButton,
+                               introductionLabel, introductionTextView, introductionCountLabel, nextButton)
     }
     
     private func setupLayout() {
         NSLayoutConstraint.activate([
-            progressBarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height * 1/10),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.bottomAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            progressBarImageView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: view.frame.height * 1/10),
             progressBarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             progressBarImageView.widthAnchor.constraint(equalToConstant: 186),
             progressBarImageView.heightAnchor.constraint(equalToConstant: 26)
@@ -103,35 +117,36 @@ final class UserTypeIntroductionViewController: UIViewController {
             vegetarianTypeLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             vegetarianTypeLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
-        
+
         NSLayoutConstraint.activate([
             vegetarianTypeSelectButton.topAnchor.constraint(equalTo: vegetarianTypeLabel.bottomAnchor, constant: 14),
             vegetarianTypeSelectButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             vegetarianTypeSelectButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             vegetarianTypeSelectButton.heightAnchor.constraint(equalToConstant: 50)
         ])
-        
+
         NSLayoutConstraint.activate([
             introductionLabel.topAnchor.constraint(equalTo: vegetarianTypeSelectButton.bottomAnchor, constant: view.frame.height * 1/8),
             introductionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             introductionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
-        
+
         NSLayoutConstraint.activate([
             introductionTextView.topAnchor.constraint(equalTo: introductionLabel.bottomAnchor, constant: 14),
             introductionTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             introductionTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             introductionTextView.heightAnchor.constraint(equalToConstant: view.frame.height * 1/7)
         ])
-        
+
         NSLayoutConstraint.activate([
             introductionCountLabel.topAnchor.constraint(equalTo: introductionTextView.bottomAnchor, constant: 8),
-            introductionCountLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            introductionCountLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            introductionCountLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -(view.frame.height * 1/2))
         ])
-        
+
         NSLayoutConstraint.activate([
             nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -(view.frame.height * 1/25))
+            nextButton.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor, constant: -(view.frame.height * 1/30))
         ])
     }
     
