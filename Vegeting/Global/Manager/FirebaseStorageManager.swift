@@ -20,6 +20,7 @@ class FirebaseStorageManager {
         let imageReference = Storage.storage().reference().child("\(folderName)/\(imageName)")
         imageReference.putData(data, metadata: metaData) { _, _ in
             imageReference.downloadURL { url, _ in
+                guard let url = url else { return completion(nil) }
                 completion(url)
             }
         }
@@ -29,7 +30,7 @@ class FirebaseStorageManager {
         let reference = Storage.storage().reference(forURL: url.absoluteString)
         let megaByte = Int64(1 * 1024 * 1024)
         
-        reference.getData(maxSize: megaByte) { data, error in
+        reference.getData(maxSize: megaByte) { data, _ in
             guard let imageData = data else {
                 completion(nil)
                 return
