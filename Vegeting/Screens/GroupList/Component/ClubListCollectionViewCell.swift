@@ -92,8 +92,13 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
             coverImageView.image = UIImage(named: "groupCoverImage1")
         } else {
             guard let url = item.coverImageURL else { return }
-            FirebaseStorageManager.downloadImage(url: url) { [weak self] image in
-                self?.coverImageView.image = image
+            FirebaseStorageManager.downloadImage(url: url) { [weak self] result in
+                switch result {
+                case .success(let image):
+                    self?.coverImageView.image = image
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
             }
         }
         categoryView.configure(text: item.clubCategory, backgroundColor: .vfGray4 )
