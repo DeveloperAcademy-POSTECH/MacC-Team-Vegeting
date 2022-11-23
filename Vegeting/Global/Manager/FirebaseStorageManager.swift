@@ -10,7 +10,9 @@ import FirebaseStorage
 import UIKit
 
 class FirebaseStorageManager {
-    static func uploadImage(image: UIImage, folderName: String, completion: @escaping (URL?) -> Void) {
+    static let shared = FirebaseStorageManager()
+    
+    func uploadImage(image: UIImage, folderName: String, completion: @escaping (URL?) -> Void) {
         guard let scaledImage = image.scaledToSafeUploadSize,
               let data = scaledImage.jpegData(compressionQuality: 0.4) else { return completion(nil) }
         let metaData = StorageMetadata()
@@ -25,7 +27,7 @@ class FirebaseStorageManager {
         }
     }
     
-    static func downloadImage(url: URL, completion: @escaping (UIImage?) -> Void) {
+    func downloadImage(url: URL, completion: @escaping (UIImage?) -> Void) {
         let reference = Storage.storage().reference(forURL: url.absoluteString)
         let megaByte = Int64(1 * 1024 * 1024)
         
