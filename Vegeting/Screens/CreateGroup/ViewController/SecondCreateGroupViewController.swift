@@ -138,26 +138,10 @@ final class SecondCreateGroupViewController: BaseViewController {
     
     @objc
     private func registerButtonTapped() {
-        guard let incompleteClub = groupInfoStackView.getData(),
-        let clubTitle = titleTextField.text else { return }
         let firebaseManager = FirebaseManager.shared
         
-        var club = Club(id: nil, clubID: nil, chatID: nil,
-                        clubTitle: clubTitle,
-                        clubCategory: incompleteClub.clubCategory,
-                        clubContent: contentTextView.text,
-                        hostID: nil, participants: nil,
-                        dateToMeet: incompleteClub.dateToMeet,
-                        createdAt: Date(),
-                        placeToMeet: incompleteClub.placeToMeet,
-                        maxNumberOfPeople: incompleteClub.maxNumberOfPeople)
-        
-        let chat = Chat(chatRoomID: nil,
-                        clubID: nil,
-                        chatRoomName: clubTitle,
-                        participants: nil,
-                        messages: nil,
-                        coverImageURL: nil)
+        guard var club = makeClub(),
+              let chat = makeChat() else { return }
         
         getImageURL() { url in
             club.coverImageURL = url
@@ -180,6 +164,32 @@ final class SecondCreateGroupViewController: BaseViewController {
         } else {
             completion(nil)
         }
+    }
+    
+    private func makeClub() -> Club? {
+        guard let incompleteClub = groupInfoStackView.getData(),
+              let clubTitle = titleTextField.text else { return nil }
+        var club = Club(id: nil, clubID: nil, chatID: nil,
+                        clubTitle: clubTitle,
+                        clubCategory: incompleteClub.clubCategory,
+                        clubContent: contentTextView.text,
+                        hostID: nil, participants: nil,
+                        dateToMeet: incompleteClub.dateToMeet,
+                        createdAt: Date(),
+                        placeToMeet: incompleteClub.placeToMeet,
+                        maxNumberOfPeople: incompleteClub.maxNumberOfPeople)
+        return club
+    }
+    
+    private func makeChat() -> Chat? {
+        guard let clubTitle = titleTextField.text else { return nil }
+        let chat = Chat(chatRoomID: nil,
+                        clubID: nil,
+                        chatRoomName: clubTitle,
+                        participants: nil,
+                        messages: nil,
+                        coverImageURL: nil)
+        return chat
     }
     
     @objc
