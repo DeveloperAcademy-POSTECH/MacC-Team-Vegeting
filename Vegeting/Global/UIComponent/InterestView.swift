@@ -99,21 +99,32 @@ extension InterestView: UICollectionViewDataSource {
 extension InterestView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        judgeBottomButtonEnabled(to: true, with: 0)
+        judgeSelectCellEnabled(with: 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
-        judgeBottomButtonEnabled(to: false, with: 1)
+        judgeSelectCellEnabled(with: 1)
     }
     
-    private func judgeBottomButtonEnabled(to result: Bool, with comparisonValue: Int) -> Bool {
-        
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        judgeBottomButtonEnabled(to: true, with: 1)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        judgeBottomButtonEnabled(to: false, with: 0)
+    }
+    
+    private func judgeBottomButtonEnabled(to isEnabled: Bool, with comparisonValue: Int) {
+        guard let selectedCellCount = interestCollectionView.indexPathsForSelectedItems?.count else { return }
+        if selectedCellCount == comparisonValue {
+            delegate?.setBottomButtonEnabled(to: isEnabled)
+        }
+    }
+    
+    private func judgeSelectCellEnabled(with comparisonValue: Int) -> Bool {
         guard let selectedCellCount = interestCollectionView.indexPathsForSelectedItems?.count else { return true }
         
-        if selectedCellCount == comparisonValue {
-            delegate?.setBottomButtonEnabled(to: result)
-            return true
-        } else if selectedCellCount == comparisonValue + 1 || selectedCellCount == comparisonValue + 2 {
+        if comparisonValue <= selectedCellCount  && selectedCellCount <= comparisonValue + 2 {
             return true
         } else {
             return false
