@@ -8,7 +8,7 @@
 import UIKit
 
 protocol ReportTableViewCellDelegate: AnyObject {
-    func requestUpdateTableView()
+    func updateTableView()
     func updateSelectedElement(with element: String)
 }
 
