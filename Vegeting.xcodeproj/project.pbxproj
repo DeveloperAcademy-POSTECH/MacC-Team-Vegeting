@@ -87,7 +87,6 @@
 		A2B077432923801D00DFEC08 /* UIImage_Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B077422923801D00DFEC08 /* UIImage_Extension.swift */; };
 		A2B07746292381BE00DFEC08 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = A2B07745292381BE00DFEC08 /* FirebaseStorage */; };
 		A2C7DE582923720300269339 /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C7DE572923720300269339 /* FirebaseStorageManager.swift */; };
-		A2F369D12908258B007F3732 /* GroupInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F369D02908258B007F3732 /* GroupInfoView.swift */; };
 		A2F369D929090E72007F3732 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F369D829090E72007F3732 /* UIButton+Extension.swift */; };
 		A2F369DD290948BB007F3732 /* GroupListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F369DC290948BB007F3732 /* GroupListViewController.swift */; };
 		A7164B3129123E7100FFB668 /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7164B3029123E7100FFB668 /* UserProfileViewController.swift */; };
@@ -188,7 +187,6 @@
 		A2957960292B63B5008D513F /* ClubListCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubListCollectionView.swift; sourceTree = "<group>"; };
 		A2B077422923801D00DFEC08 /* UIImage_Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage_Extension.swift; sourceTree = "<group>"; };
 		A2C7DE572923720300269339 /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
-		A2F369D02908258B007F3732 /* GroupInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupInfoView.swift; sourceTree = "<group>"; };
 		A2F369D829090E72007F3732 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		A2F369DC290948BB007F3732 /* GroupListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListViewController.swift; sourceTree = "<group>"; };
 		A7164B3029123E7100FFB668 /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
@@ -260,7 +258,6 @@
 				4A31CD282903D86E00E5E422 /* Cell */,
 				4A31CD262903D86200E5E422 /* GroupCategoryView.swift */,
 				A26198772909567100ECCC4F /* LabelWithImageStackView.swift */,
-				A2F369D02908258B007F3732 /* GroupInfoView.swift */,
 				A261987C290A350300ECCC4F /* BottomButton.swift */,
 				4AFF0F58291AAF0900F7496C /* ProfileView.swift */,
 				A2007F4B2914BF5D0003DABB /* CategoryView.swift */,
@@ -861,7 +858,6 @@
 				4A759EEE291D18EF00E7DF9B /* SecondCreateGroupViewController.swift in Sources */,
 				768E7B612924FC0E00375235 /* ErrorLiteral.swift in Sources */,
 				4A060C01291398A600D75699 /* ProfileHalfModalViewController.swift in Sources */,
-				A2F369D12908258B007F3732 /* GroupInfoView.swift in Sources */,
 				A73AAAF32904E26D0050CA81 /* PostDetailViewController.swift in Sources */,
 				A2B077432923801D00DFEC08 /* UIImage_Extension.swift in Sources */,
 				7615B6542921096800A34DA4 /* ViewModelType.swift in Sources */,
