@@ -173,30 +173,15 @@ extension ReportViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ReportTableViewCell.className, for: indexPath) as? ReportTableViewCell else { return UITableViewCell() }
         cell.selectionStyle = .none
         cell.delegate = self
         
-        setupTableViewCell(cell: cell, elementList: reportType.stringLiteral.reportElementList, indexPath: indexPath)
-        
+        let isOtherOption = indexPath.row == reportType.stringLiteral.reportElementList.count - 1
+        cell.isOtherOption = isOtherOption
+        cell.configure(with: reportType.stringLiteral.reportElementList[indexPath.row])
         return cell
     }
-    
-    private func setupTableViewCell(cell: ReportTableViewCell, elementList: [String], indexPath: IndexPath) {
-        let isOtherOption = indexPath.row == elementList.count - 1
-        
-        DispatchQueue.main.async {
-            if isOtherOption {
-                cell.setupLayout(isOtherOption: true)
-            } else {
-                cell.setupLayout(isOtherOption: false)
-            }
-        }
-        
-        cell.configure(with: reportType.stringLiteral.reportElementList[indexPath.row])
-    }
-    
 }
 
 extension ReportViewController: UITableViewDelegate {

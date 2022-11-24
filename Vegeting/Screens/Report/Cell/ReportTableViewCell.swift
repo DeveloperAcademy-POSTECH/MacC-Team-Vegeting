@@ -62,13 +62,16 @@ final class ReportTableViewCell: UITableViewCell {
         return label
     }()
     
+    var isOtherOption = false
     weak var delegate: ReportTableViewCellDelegate?
     
     // MARK: - lifeCycle
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        //        setupLayout()
+        DispatchQueue.main.async {
+            self.setupLayout()
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -77,8 +80,7 @@ final class ReportTableViewCell: UITableViewCell {
     
     // MARK: - func
     
-    func setupLayout(isOtherOption: Bool) {
-        
+    func setupLayout() {
         contentView.addSubviews(checkButton, stackView)
         checkButton.constraint(top: contentView.topAnchor,
                                leading: contentView.leadingAnchor,
