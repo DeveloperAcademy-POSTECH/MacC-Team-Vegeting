@@ -66,7 +66,7 @@ final class PhotoPickerView: UIView {
     }
     
     private func setupLayout() {
-        addSubviews(selectedImage, titleLabel, subLabel, cameraButton)
+        addSubviews(selectedImage, titleLabel, subTitleLabel, cameraButton)
         selectedImage.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             selectedImage.topAnchor.constraint(equalTo: self.topAnchor),
@@ -77,13 +77,13 @@ final class PhotoPickerView: UIView {
         
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            titleLabel.bottomAnchor.constraint(equalTo: subLabel.topAnchor, constant: -3),
+            titleLabel.bottomAnchor.constraint(equalTo: subTitleLabel.topAnchor, constant: -3),
             titleLabel.trailingAnchor.constraint(equalTo: cameraButton.leadingAnchor, constant: -20)
         ])
         
         NSLayoutConstraint.activate([
-            subLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            subLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -19)
+            subTitleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            subTitleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -19)
         ])
         
         NSLayoutConstraint.activate([
@@ -132,7 +132,7 @@ final class PhotoPickerView: UIView {
     
     func setLabelText(title: String, sub: String) {
         titleLabel.text = title
-        subLabel.text = sub
+        subTitleLabel.text = sub
     }
 }
 
