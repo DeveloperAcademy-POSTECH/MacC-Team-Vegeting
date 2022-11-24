@@ -154,7 +154,11 @@ final class SecondCreateGroupViewController: BaseViewController {
 
     private func getImageURL(completion: @escaping (URL?) -> Void) {
         if !coverPickerView.getIsDefaultImage() {
-            guard let image = coverPickerView.getImageView() else { return completion(nil) }
+            guard let image = coverPickerView.getImageView()
+            else {
+                completion(nil)
+                return
+            }
             FirebaseStorageManager.shared.uploadImage(image: image, folderName: "club") { result in
                 switch result {
                 case .success(let url):

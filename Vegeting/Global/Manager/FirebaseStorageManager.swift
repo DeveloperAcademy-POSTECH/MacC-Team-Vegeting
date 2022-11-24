@@ -17,7 +17,10 @@ class FirebaseStorageManager {
         
         guard let scaledImage = image.scaledToSafeUploadSize,
               let data = scaledImage.jpegData(compressionQuality: 0.4)
-            else { return completion(.failure(StorageError.uploadFail)) }
+        else {
+            completion(.failure(StorageError.uploadFail))
+            return
+        }
         
         let metaData = StorageMetadata()
         metaData.contentType = "image/jpeg"
@@ -29,7 +32,10 @@ class FirebaseStorageManager {
         imageReference.putData(data, metadata: metaData) { _, _ in
             imageReference.downloadURL { url, _ in
                 guard let url = url
-                    else { return completion(.failure(StorageError.uploadFail)) }
+                else {
+                    completion(.failure(StorageError.uploadFail))
+                    return
+                }
                 completion(.success(url))
             }
         }
