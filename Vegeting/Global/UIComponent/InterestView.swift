@@ -99,13 +99,15 @@ extension InterestView: UICollectionViewDataSource {
 extension InterestView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        judgeSelectCellEnabled(with: 0)
+        guard let selectedCellCount = interestCollectionView.indexPathsForSelectedItems?.count else { return true }
+        
+        if 0 <= selectedCellCount  && selectedCellCount <= 2 {
+            return true
+        } else {
+            return false
+        }
     }
-    
-    func collectionView(_ collectionView: UICollectionView, shouldDeselectItemAt indexPath: IndexPath) -> Bool {
-        judgeSelectCellEnabled(with: 1)
-    }
-    
+  
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         judgeBottomButtonEnabled(to: true, with: 1)
     }
@@ -118,16 +120,6 @@ extension InterestView: UICollectionViewDelegate {
         guard let selectedCellCount = interestCollectionView.indexPathsForSelectedItems?.count else { return }
         if selectedCellCount == comparisonValue {
             delegate?.setBottomButtonEnabled(to: isEnabled)
-        }
-    }
-    
-    private func judgeSelectCellEnabled(with comparisonValue: Int) -> Bool {
-        guard let selectedCellCount = interestCollectionView.indexPathsForSelectedItems?.count else { return true }
-        
-        if comparisonValue <= selectedCellCount  && selectedCellCount <= comparisonValue + 2 {
-            return true
-        } else {
-            return false
         }
     }
     
