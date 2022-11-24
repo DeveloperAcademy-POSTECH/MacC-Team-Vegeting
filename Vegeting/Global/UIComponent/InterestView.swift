@@ -11,7 +11,7 @@ protocol InterestViewDelegate: AnyObject {
     func setBottomButtonEnabled(to isEnabled: Bool)
 }
 
-class InterestView: UIView {
+final class InterestView: UIView {
     
     // MARK: - properties
     
@@ -19,7 +19,7 @@ class InterestView: UIView {
         case profile
         case register
     }
-    
+  
     private let interestCollectionView: UICollectionView = {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(76),
                                               heightDimension: .absolute(37))
@@ -109,14 +109,14 @@ extension InterestView: UICollectionViewDelegate {
     }
   
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        judgeBottomButtonEnabled(to: true, with: 1)
+        judgeBottomButtonEnabled(to: true, comparisonValue: 1)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        judgeBottomButtonEnabled(to: false, with: 0)
+        judgeBottomButtonEnabled(to: false, comparisonValue: 0)
     }
     
-    private func judgeBottomButtonEnabled(to isEnabled: Bool, with comparisonValue: Int) {
+    private func judgeBottomButtonEnabled(to isEnabled: Bool, comparisonValue: Int) {
         guard let selectedCellCount = interestCollectionView.indexPathsForSelectedItems?.count else { return }
         if selectedCellCount == comparisonValue {
             delegate?.setBottomButtonEnabled(to: isEnabled)
