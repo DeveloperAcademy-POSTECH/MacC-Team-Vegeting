@@ -96,7 +96,7 @@ final class PhotoPickerView: UIView {
         label.text = text
     }
     
-    func getIsDefaultImage() -> Bool {
+    func isDefaultCoverImage() -> Bool {
         return self.isDefaultImage
     }
 }

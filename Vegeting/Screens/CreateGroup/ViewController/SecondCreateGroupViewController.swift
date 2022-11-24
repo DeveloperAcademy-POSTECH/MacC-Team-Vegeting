@@ -153,7 +153,7 @@ final class SecondCreateGroupViewController: BaseViewController {
     }
 
     private func getImageURL(completion: @escaping (URL?) -> Void) {
-        if !coverPickerView.getIsDefaultImage() {
+        if !coverPickerView.isDefaultCoverImage() {
             guard let image = coverPickerView.getImageView()
             else {
                 completion(nil)
