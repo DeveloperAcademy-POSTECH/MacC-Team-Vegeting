@@ -27,7 +27,7 @@ final class PhotoPickerView: UIView {
         return label
     }()
     
-    private let subLabel: UILabel = {
+    private let subTitleLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .footnote)
         label.translatesAutoresizingMaskIntoConstraints = false
