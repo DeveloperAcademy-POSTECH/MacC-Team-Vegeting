@@ -10,7 +10,6 @@
 		4A060C01291398A600D75699 /* ProfileHalfModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A060C00291398A600D75699 /* ProfileHalfModalViewController.swift */; };
 		4A060C062913AA4300D75699 /* InterestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A060C052913AA4300D75699 /* InterestView.swift */; };
 		4A060C082913AA5E00D75699 /* InterestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A060C072913AA5E00D75699 /* InterestCollectionViewCell.swift */; };
-		4A060C0A2913D77200D75699 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A060C092913D77200D75699 /* TestViewController.swift */; };
 		4A31CD242903D73D00E5E422 /* FirstCreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD232903D73D00E5E422 /* FirstCreateGroupViewController.swift */; };
 		4A31CD272903D86200E5E422 /* GroupCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD262903D86200E5E422 /* GroupCategoryView.swift */; };
 		4A31CD2A2903D89600E5E422 /* GroupCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD292903D89600E5E422 /* GroupCategoryCollectionViewCell.swift */; };
@@ -117,7 +116,6 @@
 		4A060C00291398A600D75699 /* ProfileHalfModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHalfModalViewController.swift; sourceTree = "<group>"; };
 		4A060C052913AA4300D75699 /* InterestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestView.swift; sourceTree = "<group>"; };
 		4A060C072913AA5E00D75699 /* InterestCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestCollectionViewCell.swift; sourceTree = "<group>"; };
-		4A060C092913D77200D75699 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		4A31CD232903D73D00E5E422 /* FirstCreateGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstCreateGroupViewController.swift; sourceTree = "<group>"; };
 		4A31CD262903D86200E5E422 /* GroupCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCategoryView.swift; sourceTree = "<group>"; };
 		4A31CD292903D89600E5E422 /* GroupCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -427,7 +425,6 @@
 			children = (
 				4AF67E922912050B00D4A2C4 /* ChatRoomListViewController.swift */,
 				4A060C00291398A600D75699 /* ProfileHalfModalViewController.swift */,
-				4A060C092913D77200D75699 /* TestViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -834,7 +831,6 @@
 				4AF67E95291206C000D4A2C4 /* ChatRoomTableViewCell.swift in Sources */,
 				A2F369D929090E72007F3732 /* UIButton+Extension.swift in Sources */,
 				A7C8DF282901274500F38AD7 /* ViewController.swift in Sources */,
-				4A060C0A2913D77200D75699 /* TestViewController.swift in Sources */,
 				4A060C062913AA4300D75699 /* InterestView.swift in Sources */,
 				A2C7DE582923720300269339 /* FirebaseStorageManager.swift in Sources */,
 				76B0282629051FC9002C9DF7 /* VFUser.swift in Sources */,
