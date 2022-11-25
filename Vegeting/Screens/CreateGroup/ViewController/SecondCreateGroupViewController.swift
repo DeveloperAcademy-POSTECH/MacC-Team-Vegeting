@@ -187,7 +187,7 @@ final class SecondCreateGroupViewController: BaseViewController {
         
         NSLayoutConstraint.activate([
             registerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            registerButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55)
+            registerButton.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor, constant: -55)
         ])
     }
 
@@ -294,6 +294,10 @@ final class SecondCreateGroupViewController: BaseViewController {
         }
     }
     
+    override func configureUI() {
+        scrollView.showsVerticalScrollIndicator = false
+    }
+    
     private func applyEditingTextViewForm() {
          contentTextView.backgroundColor = .systemBackground
          contentTextView.layer.borderColor = UIColor.vfYellow1.cgColor
@@ -320,16 +324,17 @@ final class SecondCreateGroupViewController: BaseViewController {
     
     private func observeKeyboardWillShow() {
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(calculateKeyboardHeight),
+                                               selector: #selector(scrollVerticalWhenKeybaordWillShow),
                                                name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
     }
     
     @objc
-    private func calculateKeyboardHeight(notification: NSNotification) {
-        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
-            else { return }
-        keyboardHeight = keyboardSize.height
+    private func scrollVerticalWhenKeybaordWillShow(notification: NSNotification) {
+        let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height + scrollView.contentInset.bottom)
+        if bottomOffset.y > 0 {
+            scrollView.setContentOffset(bottomOffset, animated: true)
+        }
     }
     
     private func scrollVertical(to yOffset: CGFloat) {
@@ -376,7 +381,7 @@ extension SecondCreateGroupViewController: UITextViewDelegate {
             textView.textColor = .black
         }
         applyEditingTextViewForm()
-        scrollVertical(to: keyboardHeight)
+//        scrollVertical(to: keyboardHeight)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -390,7 +395,7 @@ extension SecondCreateGroupViewController: UITextViewDelegate {
             }
         }
         applyEndEditingTextViewForm()
-        scrollVertical(to: .zero)
+//        scrollVertical(to: .zero)
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

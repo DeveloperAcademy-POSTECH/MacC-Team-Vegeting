@@ -59,6 +59,7 @@ class ClubListCollectionView: UICollectionView {
 
 extension ClubListCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(AuthManager.shared.getCurrentUser())
         Task {
             guard let currentUser = AuthManager.shared.getCurrentUser() else { return }
             let selectedClub = clubList[indexPath.item]
