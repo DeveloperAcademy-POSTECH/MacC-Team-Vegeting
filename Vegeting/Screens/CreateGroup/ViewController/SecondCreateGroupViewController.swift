@@ -89,7 +89,7 @@ final class SecondCreateGroupViewController: BaseViewController {
         let button = BottomButton()
         button.isEnabled = false
         button.setTitle(entryPoint == .create ? StringLiteral.secondCreateGroupViewControllerRegisterButton : "수정 완료", for: .normal)
-//        button.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
         return button
     }()
     
