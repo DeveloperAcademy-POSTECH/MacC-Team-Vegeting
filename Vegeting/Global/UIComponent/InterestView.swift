@@ -109,17 +109,17 @@ extension InterestView: UICollectionViewDelegate {
     }
   
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        judgeBottomButtonEnabled(to: true, comparisonValue: 1)
+        judgeBottomButtonEnabled(status: true, targetValue: 1)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        judgeBottomButtonEnabled(to: false, comparisonValue: 0)
+        judgeBottomButtonEnabled(status: false, targetValue: 0)
     }
     
-    private func judgeBottomButtonEnabled(to isEnabled: Bool, comparisonValue: Int) {
+    private func judgeBottomButtonEnabled(status: Bool, targetValue: Int) {
         guard let selectedCellCount = interestCollectionView.indexPathsForSelectedItems?.count else { return }
-        if selectedCellCount == comparisonValue {
-            delegate?.setBottomButtonEnabled(to: isEnabled)
+        if selectedCellCount == targetValue {
+            delegate?.setBottomButtonEnabled(to: status)
         }
     }
     
