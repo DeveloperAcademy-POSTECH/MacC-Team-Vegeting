@@ -12,6 +12,8 @@ import UIKit
 class FirebaseStorageManager {
     static let shared = FirebaseStorageManager()
     
+    private init() { }
+    
     func uploadImage(image: UIImage, folderName: String,
                      completion: @escaping (Result<URL, Error>) -> Void) {
         
