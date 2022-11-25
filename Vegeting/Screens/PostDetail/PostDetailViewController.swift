@@ -288,12 +288,12 @@ extension PostDetailViewController: UICollectionViewDataSource {
                 as? ProfileCollectionViewCell else { return UICollectionViewCell() }
         
         let isHost = self.club.hostID == club.participants?[indexPath.item].userID
-        let tempParticipantsInfo = ParticipantsInfo(profileImage: UIImage(named: profileImages[indexPath.item]),
+        let participant = ParticipantMinimum(profileImage: UIImage(named: profileImages[indexPath.item]) ?? UIImage(),
                                                     participantsName: club.participants?[indexPath.item].name ?? "",
                                                     isHost: isHost)
         
         
-        cell.configure(with: tempParticipantsInfo)
+        cell.configure(with: participant)
         return cell
     }
 }

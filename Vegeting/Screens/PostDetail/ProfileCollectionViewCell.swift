@@ -13,8 +13,8 @@ private enum Constants {
     static let spacing = 4.0
 }
 
-struct ParticipantsInfo {
-    let profileImage: UIImage!
+struct ParticipantMinimum {
+    let profileImage: UIImage
     let participantsName: String
     let isHost: Bool
 }
@@ -83,7 +83,7 @@ final class ProfileCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func configure(with data: ParticipantsInfo) {
+    func configure(with data: ParticipantMinimum) {
         profileImage.image = data.profileImage
         participantsName.text = data.participantsName
         if data.isHost {
