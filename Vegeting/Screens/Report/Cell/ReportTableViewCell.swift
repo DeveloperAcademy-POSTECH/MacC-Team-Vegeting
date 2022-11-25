@@ -10,6 +10,8 @@ import UIKit
 protocol ReportTableViewCellDelegate: AnyObject {
     func updateTableView()
     func updateSelectedElement(with element: String)
+    func scrollVerticalWhenDidBeginEditing()
+    func scrollVerticalWhenEndEditing()
 }
 
 final class ReportTableViewCell: UITableViewCell {
@@ -150,6 +152,7 @@ extension ReportTableViewCell: UITextViewDelegate {
             textView.text = nil
             textView.textColor = .black
         }
+        delegate?.scrollVerticalWhenDidBeginEditing()
         applyEditingTextViewForm()
     }
     
@@ -163,6 +166,7 @@ extension ReportTableViewCell: UITextViewDelegate {
                 updateContentCountLabel(characterCount: 300)
             }
         }
+        delegate?.scrollVerticalWhenEndEditing()
         applyEndEditingTextViewForm()
     }
     

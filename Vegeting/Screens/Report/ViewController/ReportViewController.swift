@@ -82,6 +82,7 @@ final class ReportViewController: UIViewController {
     }()
     
     private var reportType: ReportType
+    private lazy var keyboardHeight: CGFloat = self.view.frame.height * 0.3
     private lazy var selectedElementList: [String] = []
     
     // MARK: - lifeCycle
@@ -97,6 +98,7 @@ final class ReportViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        observeKeyboardWillShow()
         setupButtonTitle()
         setupLayout()
         configureUI()
@@ -164,6 +166,23 @@ final class ReportViewController: UIViewController {
         
     }
     
+    private func observeKeyboardWillShow() {
+         NotificationCenter.default.addObserver(self,
+                                                selector: #selector(calculateKeyboardHeight),
+                                                name: UIResponder.keyboardWillShowNotification,
+                                                object: nil)
+     }
+
+     @objc
+     private func calculateKeyboardHeight(notification: NSNotification) {
+         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+             else { return }
+         keyboardHeight = keyboardSize.height
+     }
+
+     private func scrollVertical(to yOffset: CGFloat) {
+         tableView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: true)
+     }
 }
 
 extension ReportViewController: UITableViewDataSource {
@@ -197,6 +216,16 @@ extension ReportViewController: UITableViewDelegate {
 }
 
 extension ReportViewController: ReportTableViewCellDelegate {
+    func scrollVerticalWhenDidBeginEditing() {
+        tableView.setContentOffset(CGPoint(x: 0, y: keyboardHeight), animated: true)
+    }
+    
+    func scrollVerticalWhenEndEditing() {
+        print("scrollVerticalWhenEndEditing")
+        let index = reportType.stringLiteral.reportElementList.count - 1
+        tableView.scrollToRow(at: IndexPath(row: index, section: 0), at: .bottom, animated: true)
+    }
+    
     func updateSelectedElement(with element: String) {
         
         let isInList = selectedElementList.contains(element)
