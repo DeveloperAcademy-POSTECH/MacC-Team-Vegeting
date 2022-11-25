@@ -87,8 +87,9 @@ final class PostDetailViewController: UIViewController {
     
     private let profileCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 80, height: 80)
+        layout.itemSize = CGSize(width: 80, height: 125)
         layout.scrollDirection = .horizontal
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(ProfileCollectionViewCell.self, forCellWithReuseIdentifier: ProfileCollectionViewCell.className)
@@ -205,11 +206,11 @@ final class PostDetailViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            profileCollectionView.topAnchor.constraint(equalTo: participantsCapacityLabel.bottomAnchor),
-            profileCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            profileCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            profileCollectionView.topAnchor.constraint(equalTo: participantsCapacityLabel.bottomAnchor, constant: 15),
+            profileCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            profileCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             profileCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            profileCollectionView.heightAnchor.constraint(equalToConstant: 115)
+            profileCollectionView.heightAnchor.constraint(equalToConstant: 150)
         ])
         
         NSLayoutConstraint.activate([
@@ -277,15 +278,52 @@ final class PostDetailViewController: UIViewController {
     }
 }
 
-extension PostDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension PostDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return profileImages.count
+        return club.participants?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCollectionViewCell.className, for: indexPath)
                 as? ProfileCollectionViewCell else { return UICollectionViewCell() }
-        cell.configure(with: ParticipantsInfo(profileImage: UIImage(named: profileImages[indexPath.item]), participantsName: participantsNames[indexPath.item]))
+        
+        let isHost = self.club.hostID == club.participants?[indexPath.item].userID
+        let tempParticipantsInfo = ParticipantsInfo(profileImage: UIImage(named: profileImages[indexPath.item]),
+                                                    participantsName: club.participants?[indexPath.item].name ?? "",
+                                                    isHost: isHost)
+        
+        
+        cell.configure(with: tempParticipantsInfo)
         return cell
+    }
+}
+
+extension PostDetailViewController:  UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let participant = club.participants?[indexPath.item] else { return }
+        
+        showProfileHalfModal(of: participant)
+    }
+    
+    private func showProfileHalfModal(of user: Participant) {
+        
+        let viewController = ProfileHalfModalViewController()
+        viewController.modalPresentationStyle = .pageSheet
+        if let sheet = viewController.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = false
+        }
+        
+        let modalModel = ModalModel(nickname: user.name,
+                                    vegetarianStep: "플렉시테리언",
+                                    ageGroup: "20대",
+                                    location: "포항시 남구",
+                                    gender: "여성",
+                                    introduction: "사람을 좋아하고, 자연을 사랑하는 플렉시테리언입니다. 이곳에서 소중한 인연 많이 만들어갔으면 좋겠어요.")
+        
+        
+        viewController.configure(with: modalModel)
+        
+        present(viewController, animated: true, completion: nil)
     }
 }
