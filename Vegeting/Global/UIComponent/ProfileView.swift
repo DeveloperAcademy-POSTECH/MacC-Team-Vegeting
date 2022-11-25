@@ -155,5 +155,6 @@ final class ProfileView: UIView {
         locationLabel.text = data.location
         genderLabel.text = data.gender
         selfIntroductionLabel.text = data.introduction
+        interestCollectionView.changeCategoryList(with: data.interests)
     }
 }

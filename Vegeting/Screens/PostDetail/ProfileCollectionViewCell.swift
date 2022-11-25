@@ -79,8 +79,7 @@ final class ProfileCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             nameStackView.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 15),
             nameStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            nameStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            nameStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            nameStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
     

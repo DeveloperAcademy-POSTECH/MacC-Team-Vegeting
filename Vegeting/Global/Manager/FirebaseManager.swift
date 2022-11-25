@@ -93,7 +93,7 @@ extension FirebaseManager {
             let docClub = db.collection(Path.club.rawValue).document()
             let docRecentChat = db.collection(Path.recentChat.rawValue).document(docChat.documentID)
         
-            let participant = Participant(userID: user.userID, name: user.userName, birth: user.birth, location: user.location, gender: user.gender, vegetarianType: user.vegetarianType, introduction: user.introduction, profileImageURL: user.imageURL)
+            let participant = Participant(userID: user.userID, name: user.userName, birth: user.birth, location: user.location, gender: user.gender, vegetarianType: user.vegetarianType, introduction: user.introduction, interests: user.interests, profileImageURL: user.imageURL)
             
             let addedClub = Club(clubID: docClub.documentID, chatID: docChat.documentID,
                                  clubTitle: club.clubTitle, clubCategory: club.clubCategory,

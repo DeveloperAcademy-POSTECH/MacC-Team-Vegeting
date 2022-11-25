@@ -7,7 +7,7 @@
 
 import UIKit
 
-class InterestView: UIView {
+final class InterestView: UIView {
     
     // MARK: - properties
     
@@ -23,7 +23,7 @@ class InterestView: UIView {
         return collectionView
     }()
     
-    private var interestList: [String] = ["동물권 공부", "맛집 투어"]
+    private var interestList: [String] = []
     
     // MARK: - init
     

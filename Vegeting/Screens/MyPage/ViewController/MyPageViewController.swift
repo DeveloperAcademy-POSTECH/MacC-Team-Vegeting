@@ -153,7 +153,8 @@ extension MyPageViewController: MyPageProfileTableViewCellDelegate {
                                        location: vfUser.location,
                                        gender: vfUser.gender,
                                        vegetarianType: vfUser.vegetarianType,
-                                       introduction: vfUser.introduction)
+                                       introduction: vfUser.introduction,
+                                       interests: vfUser.interests)
         viewController.configure(with: profileModel)
         self.navigationController?.pushViewController(viewController, animated: true)
     }
