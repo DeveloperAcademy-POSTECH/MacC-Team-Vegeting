@@ -16,7 +16,7 @@ class FirebaseStorageManager {
                      completion: @escaping (Result<URL, Error>) -> Void) {
         
         guard let scaledImage = image.scaledToSafeUploadSize,
-              let data = scaledImage.jpegData(compressionQuality: 0.4)
+              let data = scaledImage.jpegData(compressionQuality: 0.2)
         else {
             completion(.failure(StorageError.uploadFail))
             return
