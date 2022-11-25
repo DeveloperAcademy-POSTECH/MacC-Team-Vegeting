@@ -19,53 +19,28 @@ enum VegetarianType: Int, CaseIterable {
     case avoidMeatLoaf
     case intermittent
     
-    var typeName: String {
+    var type: TypeDescription {
         switch self {
         case .fruitarian:
-            return "프루테리언"
+            return TypeDescription(typeName: "프루테리언", description: "열매만 섭취해요.")
         case .vegan:
-            return "비건"
+            return TypeDescription(typeName: "비건", description: "완전한 식물성만 섭취해요.")
         case .lacto:
-            return "락토"
+            return TypeDescription(typeName: "락토", description: "식물성을 섭취하고, 추가로 우유와 유제품은 소비해요.")
         case .ovo:
-            return "오보"
+            return TypeDescription(typeName: "오보", description: "식물성을 섭취하고, 추가로 달걀 등 알은 소비해요.")
         case .lactoOvo:
-            return "락토 오보"
+            return TypeDescription(typeName: "락토오보", description: "식물성을 섭취하고, 추가로 우유 및 유제품과 달걀 등 알은 소비해요.")
         case .pesco:
-            return "페스코"
+            return TypeDescription(typeName: "페스코", description: "식물성을 섭취하고, 추가로 생선 등 어류는 소비해요.")
         case .pollo:
-            return "폴로"
+            return TypeDescription(typeName: "폴로", description: "식물성을 섭취하고, 추가로 닭고기나 오리고기 등 가금류는 소비해요.")
         case .flexitarian:
-            return "플렉시테리언"
+            return TypeDescription(typeName: "플렉시테리언", description: "채식을 지향하지만, 상황에 따라서 동물성도 소비해요.")
         case .avoidMeatLoaf:
-            return "비덩주의"
+            return TypeDescription(typeName: "비덩주의", description: "덩어리로 된 육류는 피하고, 육수 등은 소비해요.")
         case .intermittent:
-            return "간헐적 채식"
-        }
-    }
-    
-    var description: String {
-        switch self {
-        case .fruitarian:
-            return "열매만 섭취해요."
-        case .vegan:
-            return "완전한 식물성만 섭취해요."
-        case .lacto:
-            return "식물성을 섭취하고, 추가로 우유와 유제품은 소비해요."
-        case .ovo:
-            return "식물성을 섭취하고, 추가로 달걀 등 알은 소비해요."
-        case .lactoOvo:
-            return "식물성을 섭취하고, 추가로 우유 및 유제품과 달걀 등 알은 소비해요."
-        case .pesco:
-            return "식물성을 섭취하고, 추가로 생선 등 어류는 소비해요."
-        case .pollo:
-            return "식물성을 섭취하고, 추가로 닭고기나 오리고기 등 가금류는 소비해요."
-        case .flexitarian:
-            return "채식을 지향하지만, 상황에 따라서 동물성도 소비해요."
-        case .avoidMeatLoaf:
-            return "덩어리로 된 육류는 피하고, 육수 등은 소비해요."
-        case .intermittent:
-            return "매일 채식을 하지는 못해도, 일상에서 조금씩 실천하려고 노력해요."
+            return TypeDescription(typeName: "간헐적 채식", description: "매일 채식을 하지는 못해도, 일상에서 조금씩 실천하려고 노력해요.")
         }
     }
 }
@@ -173,7 +148,7 @@ extension SelectVegetarianTypeViewController: UITableViewDelegate {
             cell.accessoryType = .checkmark
             cell.selectionStyle = .none
             
-            if let vegetarianType = VegetarianType(rawValue: indexPath.row)?.typeName {
+            if let vegetarianType = VegetarianType(rawValue: indexPath.row)?.type.typeName {
                 selectedVegetarianType = vegetarianType
             }
 
@@ -198,8 +173,8 @@ extension SelectVegetarianTypeViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let type = VegetarianType(rawValue: indexPath.row)
-        if let typeName = type?.typeName, let description = type?.description {
+        let vegetarianType = VegetarianType(rawValue: indexPath.row)
+        if let typeName = vegetarianType?.type.typeName, let description = vegetarianType?.type.description {
             let model = TypeDescription(typeName: typeName, description: description)
             cell.configure(with: model)
         }

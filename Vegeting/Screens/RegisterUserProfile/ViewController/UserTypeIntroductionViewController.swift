@@ -15,6 +15,7 @@ final class UserTypeIntroductionViewController: UIViewController {
     private let scrollView: UIScrollView = {
         let view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.showsVerticalScrollIndicator = false
         return view
     }()
     
@@ -77,8 +78,6 @@ final class UserTypeIntroductionViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print(VegetarianType(rawValue: 0)?.description)
         
         configureTextView()
         configureUI()
