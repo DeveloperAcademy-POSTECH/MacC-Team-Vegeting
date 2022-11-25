@@ -141,7 +141,7 @@ final class SecondCreateGroupViewController: BaseViewController {
         guard var club = makeClub(),
               let chat = makeChat() else { return }
         
-        getImageURL() { url in
+        requestImageURL() { url in
             club.coverImageURL = url
             Task {
                 guard let vfUser = await FirebaseManager.shared.requestUser() else { return }
@@ -152,7 +152,7 @@ final class SecondCreateGroupViewController: BaseViewController {
         navigationController?.popToRootViewController(animated: true)
     }
 
-    private func getImageURL(completion: @escaping (URL?) -> Void) {
+    private func requestImageURL(completion: @escaping (URL?) -> Void) {
         if !coverPickerView.isDefaultCoverImage() {
             guard let image = coverPickerView.getImageView()
             else {
