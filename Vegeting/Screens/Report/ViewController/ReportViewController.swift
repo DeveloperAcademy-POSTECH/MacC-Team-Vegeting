@@ -130,7 +130,7 @@ final class ReportViewController: UIViewController {
                                           trailing: view.trailingAnchor,
                                           padding: UIEdgeInsets(top: 0, left: 20, bottom: 16, right: 20))
         
-        reportButton.constraint(bottom: view.safeAreaLayoutGuide.bottomAnchor,
+        reportButton.constraint(bottom: view.keyboardLayoutGuide.topAnchor,
                                 centerX: view.centerXAnchor,
                                 padding: UIEdgeInsets(top: 0, left: 0, bottom: 55, right: 0))
         
@@ -175,9 +175,10 @@ final class ReportViewController: UIViewController {
 
      @objc
      private func calculateKeyboardHeight(notification: NSNotification) {
-         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
-             else { return }
-         keyboardHeight = keyboardSize.height
+         DispatchQueue.main.async { [weak self] in
+             let index = (self?.reportType.stringLiteral.reportElementList.count ?? 1) - 1
+             self?.tableView.scrollToRow(at: IndexPath(row: index, section: 0), at: .bottom, animated: true)
+         }
      }
 
      private func scrollVertical(to yOffset: CGFloat) {
@@ -216,15 +217,6 @@ extension ReportViewController: UITableViewDelegate {
 }
 
 extension ReportViewController: ReportTableViewCellDelegate {
-    func scrollVerticalWhenDidBeginEditing() {
-        tableView.setContentOffset(CGPoint(x: 0, y: keyboardHeight), animated: true)
-    }
-    
-    func scrollVerticalWhenEndEditing() {
-        print("scrollVerticalWhenEndEditing")
-        let index = reportType.stringLiteral.reportElementList.count - 1
-        tableView.scrollToRow(at: IndexPath(row: index, section: 0), at: .bottom, animated: true)
-    }
     
     func updateSelectedElement(with element: String) {
         
@@ -240,7 +232,6 @@ extension ReportViewController: ReportTableViewCellDelegate {
         reportButton.isEnabled = selectedElementList.isEmpty ? false : true
         
     }
-    
     
     func updateTableView() {
         tableView.beginUpdates()
