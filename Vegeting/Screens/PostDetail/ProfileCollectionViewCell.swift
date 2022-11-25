@@ -19,17 +19,7 @@ struct ParticipantsInfo {
     let isHost: Bool
 }
 
-class ProfileCollectionViewCell: UICollectionViewCell {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        configureAddSubViews()
-        setupLayout()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+final class ProfileCollectionViewCell: UICollectionViewCell {
     
     private let profileImage: UIImageView = {
         let image = UIImageView()
@@ -60,7 +50,18 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         stackView.spacing = 2
         return stackView
     }()
-
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        configureAddSubViews()
+        setupLayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func configureAddSubViews() {
         contentView.addSubviews(profileImage, nameStackView)
         nameStackView.addArrangedSubview(participantsName)
@@ -71,13 +72,15 @@ class ProfileCollectionViewCell: UICollectionViewCell {
             profileImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.spacing),
             profileImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.spacing),
             profileImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.spacing),
-            profileImage.heightAnchor.constraint(equalToConstant: 70),
+            profileImage.heightAnchor.constraint(equalToConstant: 72),
+            profileImage.widthAnchor.constraint(equalToConstant: 72)
         ])
         
         NSLayoutConstraint.activate([
             nameStackView.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 15),
             nameStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            nameStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            nameStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            nameStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
         ])
     }
     

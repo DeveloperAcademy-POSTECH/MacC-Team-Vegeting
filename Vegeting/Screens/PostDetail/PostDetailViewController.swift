@@ -83,12 +83,12 @@ final class PostDetailViewController: UIViewController {
     }()
     
     let profileImages = ["profile1.jpg", "profile2.jpg", "profile3.jpg", "profile4.jpg", "profile5.jpg"]
-    let participantsNames = ["거북짱", "내가 올해 수영왕", "양송이좋아", "베프", "고수러버"]
     
     private let profileCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 80, height: 125)
         layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 16
         layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -313,15 +313,7 @@ extension PostDetailViewController:  UICollectionViewDelegate {
             sheet.detents = [.medium()]
             sheet.prefersGrabberVisible = false
         }
-//
-//        let modalModel = ModalModel(nickname: user.name,
-//                                    vegetarianStep: user.vegetarianType,
-//                                    ageGroup: user.birth.toAgeGroup(),
-//                                    location: user.location,
-//                                    gender: user.gender,
-//                                    introduction: user.introduction)
-//
-        
+   
         viewController.configure(with: user)
         
         present(viewController, animated: true, completion: nil)
