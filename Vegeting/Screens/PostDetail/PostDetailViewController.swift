@@ -291,8 +291,6 @@ extension PostDetailViewController: UICollectionViewDataSource {
         let participant = ParticipantMinimum(profileImage: UIImage(named: profileImages[indexPath.item]) ?? UIImage(),
                                                     participantsName: club.participants?[indexPath.item].name ?? "",
                                                     isHost: isHost)
-        
-        
         cell.configure(with: participant)
         return cell
     }
