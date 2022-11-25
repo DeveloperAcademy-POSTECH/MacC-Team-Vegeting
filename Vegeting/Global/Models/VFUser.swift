@@ -17,6 +17,7 @@ struct VFUser: Identifiable, Codable, Equatable {
     let location: String
     let gender: String
     let vegetarianType: String
+    let introduction: String
     let participatedChats: [ParticipatedChatRoom]?
     let participatedClubs: [ParticipatedClub]?
 }

@@ -44,7 +44,7 @@ class MyProfileEditViewController: UIViewController {
         
     }
     
-    func configure(with data: ModalModel) {
+    func configure(with data: Participant) {
         profileView.configure(with: data)
     }
     

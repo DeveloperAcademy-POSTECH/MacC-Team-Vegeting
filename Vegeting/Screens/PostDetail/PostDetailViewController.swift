@@ -313,16 +313,16 @@ extension PostDetailViewController:  UICollectionViewDelegate {
             sheet.detents = [.medium()]
             sheet.prefersGrabberVisible = false
         }
+//
+//        let modalModel = ModalModel(nickname: user.name,
+//                                    vegetarianStep: user.vegetarianType,
+//                                    ageGroup: user.birth.toAgeGroup(),
+//                                    location: user.location,
+//                                    gender: user.gender,
+//                                    introduction: user.introduction)
+//
         
-        let modalModel = ModalModel(nickname: user.name,
-                                    vegetarianStep: "플렉시테리언",
-                                    ageGroup: "20대",
-                                    location: "포항시 남구",
-                                    gender: "여성",
-                                    introduction: "사람을 좋아하고, 자연을 사랑하는 플렉시테리언입니다. 이곳에서 소중한 인연 많이 만들어갔으면 좋겠어요.")
-        
-        
-        viewController.configure(with: modalModel)
+        viewController.configure(with: user)
         
         present(viewController, animated: true, completion: nil)
     }
