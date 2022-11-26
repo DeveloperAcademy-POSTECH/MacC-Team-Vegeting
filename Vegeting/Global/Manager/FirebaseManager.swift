@@ -41,11 +41,18 @@ final class FirebaseManager {
     /// - Returns: 모든 클럽 정보가 나타난다.
     func requestClubInformation() async -> [Club]? {
         do {
+            var validClubs = [Club]()
+            var invalidClubs = [Club]()
             let querySnapshot = try await db.collection(Path.club.rawValue).getDocuments()
-            let data = querySnapshot.documents.compactMap { snapshot in
-                try? snapshot.data(as: Club.self)
+            querySnapshot.documents.forEach { snapshot in
+                guard let club = try? snapshot.data(as: Club.self) else { return }
+                if club.participants?.count ?? 0 < club.maxNumberOfPeople {
+                    validClubs.append(club)
+                } else {
+                    invalidClubs.append(club)
+                }
             }
-            return data
+            return validClubs + invalidClubs
         } catch {
             print(error.localizedDescription)
             return nil
