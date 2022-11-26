@@ -18,7 +18,7 @@ final class GroupCategoryView: UIView {
     private let categoryCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 8
+        layout.minimumLineSpacing = 12
         layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -46,9 +46,14 @@ final class GroupCategoryView: UIView {
     // MARK: - func
     
     private func setupLayout() {
-        addSubview(categoryCollectionView)
-        categoryCollectionView.constraint(to: self)
-        categoryCollectionView.constraint(.heightAnchor, constant: 60)
+        addSubviews(categoryCollectionView)
+        
+        NSLayoutConstraint.activate([
+            categoryCollectionView.heightAnchor.constraint(equalToConstant: 40),
+            categoryCollectionView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            categoryCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            categoryCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+        ])
     }
     
     private func configureCollectionView() {
@@ -81,9 +86,7 @@ extension GroupCategoryView: UICollectionViewDataSource {
 
 extension GroupCategoryView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = categoryList[indexPath.item].size(withAttributes: [.font : UIFont.preferredFont(forTextStyle: .subheadline)]).width + 40
-        
-        return CGSize(width: width, height: 34)
+        return CGSize(width: 70, height: 33)
     }
 }
 

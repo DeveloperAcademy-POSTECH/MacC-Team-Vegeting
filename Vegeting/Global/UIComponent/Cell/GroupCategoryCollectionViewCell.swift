@@ -43,16 +43,12 @@ final class GroupCategoryCollectionViewCell: UICollectionViewCell {
         addSubview(backgroundContentView)
         backgroundContentView.constraint(to: self)
         backgroundContentView.addSubview(itemLabel)
-        itemLabel.constraint(leading: backgroundContentView.leadingAnchor,
-                                                   trailing: backgroundContentView.trailingAnchor,
-                                                   centerY: self.centerYAnchor,
-                                                   padding: UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14))
+        itemLabel.constraint(centerX: self.centerXAnchor,
+                             centerY: self.centerYAnchor)
     }
     
     private func configureUI() {
-        layer.masksToBounds = false
-        let cellCornerRadius = (self.bounds.size.width * (self.bounds.size.height / self.bounds.size.width)) / 2
-        backgroundContentView.layer.cornerRadius = cellCornerRadius
+        backgroundContentView.layer.cornerRadius = 17
     }
     
     func applySelectedState() {

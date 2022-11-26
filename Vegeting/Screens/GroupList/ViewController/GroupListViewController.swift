@@ -100,10 +100,10 @@ class GroupListViewController: UIViewController {
         view.addSubviews(groupCategoryView, collectionView)
         
         NSLayoutConstraint.activate([
-            groupCategoryView.topAnchor.constraint(equalTo: view.topAnchor, constant: 25),
+            groupCategoryView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
             groupCategoryView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             groupCategoryView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            groupCategoryView.heightAnchor.constraint(equalToConstant: 100)
+            groupCategoryView.heightAnchor.constraint(equalToConstant: 60)
         ])
         
         NSLayoutConstraint.activate([
