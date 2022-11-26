@@ -44,6 +44,13 @@ class GroupListViewController: UIViewController {
         print("tapAddClubButton")
     }
     
+    private lazy var groupCategoryView: GroupCategoryView = {
+        let groupCategoryView = GroupCategoryView()
+        groupCategoryView.changeCategoryList(with: ["전체", "맛집", "행사", "기타"])
+        groupCategoryView.delegate = self
+        return groupCategoryView
+    }()
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -90,14 +97,27 @@ class GroupListViewController: UIViewController {
     }
     
     private func setupLayout() {
-        view.addSubviews(collectionView)
+        view.addSubviews(groupCategoryView, collectionView)
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            groupCategoryView.topAnchor.constraint(equalTo: view.topAnchor, constant: 25),
+            groupCategoryView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            groupCategoryView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            groupCategoryView.heightAnchor.constraint(equalToConstant: 100)
+        ])
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: groupCategoryView.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+}
+
+extension GroupListViewController: GroupCategoryViewDelegate {
+    func didSelectCategory(didSelectItemAt indexPath: IndexPath) {
+        print("select")
     }
 }
 
