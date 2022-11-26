@@ -83,6 +83,22 @@ class GroupListViewController: UIViewController {
             groupCategoryView.selectAllCategory()
             allClubList = await FirebaseManager.shared.requestClubInformation() ?? []
             showClubList = allClubList
+            fetchClubLists()
+        }
+    }
+    
+    private func fetchClubLists() {
+        for club in allClubList {
+            switch club.clubCategory {
+            case "맛집" :
+                restaurantClubList.append(club)
+            case "행사" :
+                eventClubList.append(club)
+            case "기타" :
+                elseClubList.append(club)
+            default :
+                break
+            }
         }
     }
     
