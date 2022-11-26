@@ -132,9 +132,7 @@ final class ReportViewController: UIViewController {
         
         reportButton.constraint(bottom: view.keyboardLayoutGuide.topAnchor,
                                 centerX: view.centerXAnchor,
-                                padding: UIEdgeInsets(top: 0, left: 0, bottom: 55, right: 0))
-        
-        
+                                padding: UIEdgeInsets(top: 0, left: 0, bottom: 55, right: 0))   
     }
     
     private func configureUI() {
