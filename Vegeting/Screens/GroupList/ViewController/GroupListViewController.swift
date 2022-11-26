@@ -30,15 +30,6 @@ class GroupListViewController: UIViewController {
         return label
     }()
     
-    private lazy var searchButton: UIButton = {
-        let button = UIButton(type: .system)
-        let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 18, weight: .regular)
-        button.setImage(UIImage(systemName: "magnifyingglass", withConfiguration: imageConfig), for: .normal)
-        button.tintColor = .black
-        button.addTarget(self, action: #selector(searchButtontapped), for: .touchUpInside)
-        return button
-    }()
-    
     private lazy var addClubButton: UIButton = {
         let button = UIButton(type: .system)
         let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 18, weight: .regular)
@@ -47,11 +38,6 @@ class GroupListViewController: UIViewController {
         button.addTarget(self, action: #selector(addClubButtontapped), for: .touchUpInside)
         return button
     }()
-    
-    @objc
-    private func searchButtontapped() {
-        print("tapSearchButton")
-    }
     
     @objc
     private func addClubButtontapped() {
@@ -96,14 +82,9 @@ class GroupListViewController: UIViewController {
     }
     
     private func setCustomNavigationBar() {
-        let rightButtonStackView = UIStackView()
-        rightButtonStackView.setHorizontalStack()
-        rightButtonStackView.spacing = 15
-        rightButtonStackView.addArrangedSubviews(searchButton, addClubButton)
-        
-        navigationBarView.addArrangedSubviews(navigationTitleLabel, rightButtonStackView)
+        navigationBarView.addArrangedSubviews(navigationTitleLabel, addClubButton)
         let space = view.frame.width - navigationTitleLabel.frame.width
-        navigationBarView.spacing = space - 115
+        navigationBarView.spacing = space - 70
 
         navigationItem.titleView = navigationBarView
     }
