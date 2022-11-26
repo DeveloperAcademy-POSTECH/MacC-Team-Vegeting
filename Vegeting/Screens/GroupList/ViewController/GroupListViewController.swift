@@ -58,11 +58,6 @@ class GroupListViewController: UIViewController {
         print("tapAddClubButton")
     }
     
-    private lazy var customSegmentedControl: SegmentedControlCustomView = {
-        let segmentedControl = SegmentedControlCustomView()
-        return segmentedControl
-    }()
-    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -114,16 +109,10 @@ class GroupListViewController: UIViewController {
     }
     
     private func setupLayout() {
-        view.addSubviews(customSegmentedControl, collectionView)
+        view.addSubviews(collectionView)
         
         NSLayoutConstraint.activate([
-            customSegmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 18),
-            customSegmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            customSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-        ])
-        
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: customSegmentedControl.bottomAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
