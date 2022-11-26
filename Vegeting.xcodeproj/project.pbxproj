@@ -15,6 +15,7 @@
 		4A31CD272903D86200E5E422 /* GroupCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD262903D86200E5E422 /* GroupCategoryView.swift */; };
 		4A31CD2A2903D89600E5E422 /* GroupCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD292903D89600E5E422 /* GroupCategoryCollectionViewCell.swift */; };
 		4A50D5A52908E03600D1ADE4 /* EmptyResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A50D5A42908E03600D1ADE4 /* EmptyResultView.swift */; };
+		4A6642412917A7820027B2A3 /* UserInterestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6642402917A7820027B2A3 /* UserInterestViewController.swift */; };
 		4A705EF42921CA75002CE1B1 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A705EF32921CA74002CE1B1 /* MockData.swift */; };
 		4A759EEE291D18EF00E7DF9B /* SecondCreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A215B29829069D9600DD60B2 /* SecondCreateGroupViewController.swift */; };
 		4A91B7DA29252DE60053AD32 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A91B7D929252DE60053AD32 /* Int+Extension.swift */; };
@@ -85,6 +86,9 @@
 		A26198762909539B00ECCC4F /* ClubListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26198752909539B00ECCC4F /* ClubListCollectionViewCell.swift */; };
 		A26198782909567100ECCC4F /* LabelWithImageStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26198772909567100ECCC4F /* LabelWithImageStackView.swift */; };
 		A261987D290A350300ECCC4F /* BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A261987C290A350300ECCC4F /* BottomButton.swift */; };
+		A2B077432923801D00DFEC08 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B077422923801D00DFEC08 /* UIImage+Extension.swift */; };
+		A2B07746292381BE00DFEC08 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = A2B07745292381BE00DFEC08 /* FirebaseStorage */; };
+		A2C7DE582923720300269339 /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C7DE572923720300269339 /* FirebaseStorageManager.swift */; };
 		A2F369D12908258B007F3732 /* GroupInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F369D02908258B007F3732 /* GroupInfoView.swift */; };
 		A2F369D929090E72007F3732 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F369D829090E72007F3732 /* UIButton+Extension.swift */; };
 		A2F369DD290948BB007F3732 /* GroupListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F369DC290948BB007F3732 /* GroupListViewController.swift */; };
@@ -122,6 +126,7 @@
 		4A31CD292903D89600E5E422 /* GroupCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A50D5A42908E03600D1ADE4 /* EmptyResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResultView.swift; sourceTree = "<group>"; };
 		4A50D5A929094D8900D1ADE4 /* Secret.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secret.xcconfig; sourceTree = "<group>"; };
+		4A6642402917A7820027B2A3 /* UserInterestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInterestViewController.swift; sourceTree = "<group>"; };
 		4A705EF32921CA74002CE1B1 /* MockData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		4A91B7D929252DE60053AD32 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		4AB5C27629078AE90064C41E /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
@@ -185,6 +190,8 @@
 		A26198752909539B00ECCC4F /* ClubListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubListCollectionViewCell.swift; sourceTree = "<group>"; };
 		A26198772909567100ECCC4F /* LabelWithImageStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelWithImageStackView.swift; sourceTree = "<group>"; };
 		A261987C290A350300ECCC4F /* BottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButton.swift; sourceTree = "<group>"; };
+		A2B077422923801D00DFEC08 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		A2C7DE572923720300269339 /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
 		A2F369D02908258B007F3732 /* GroupInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupInfoView.swift; sourceTree = "<group>"; };
 		A2F369D829090E72007F3732 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		A2F369DC290948BB007F3732 /* GroupListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListViewController.swift; sourceTree = "<group>"; };
@@ -224,6 +231,7 @@
 				76B0283129052209002C9DF7 /* FirebaseFirestore in Frameworks */,
 				4AB5C27A29078DB20064C41E /* SwiftyJSON in Frameworks */,
 				4AB5C27429078A910064C41E /* Alamofire in Frameworks */,
+				A2B07746292381BE00DFEC08 /* FirebaseStorage in Frameworks */,
 				76FF7CFA2917BDF70020BB2C /* KakaoSDKUser in Frameworks */,
 				76FF7CF62917BDF70020BB2C /* KakaoSDKAuth in Frameworks */,
 			);
@@ -232,14 +240,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4A060C022913A1A800D75699 /* UIComponent */ = {
-			isa = PBXGroup;
-			children = (
-				4A060C052913AA4300D75699 /* InterestView.swift */,
-			);
-			path = UIComponent;
-			sourceTree = "<group>";
-		};
 		4A31CD222903D61900E5E422 /* CreateGroup */ = {
 			isa = PBXGroup;
 			children = (
@@ -260,6 +260,7 @@
 				A261987C290A350300ECCC4F /* BottomButton.swift */,
 				4AFF0F58291AAF0900F7496C /* ProfileView.swift */,
 				A2007F4B2914BF5D0003DABB /* CategoryView.swift */,
+				4A060C052913AA4300D75699 /* InterestView.swift */,
 			);
 			path = UIComponent;
 			sourceTree = "<group>";
@@ -267,6 +268,7 @@
 		4A31CD282903D86E00E5E422 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				4A060C072913AA5E00D75699 /* InterestCollectionViewCell.swift */,
 				4A31CD292903D89600E5E422 /* GroupCategoryCollectionViewCell.swift */,
 			);
 			path = Cell;
@@ -344,6 +346,7 @@
 				4AFA58AC29050B3800679142 /* Date+Extension.swift */,
 				4AFA58AE29050B5C00679142 /* String+Extension.swift */,
 				A215B29D2906FA3E00DD60B2 /* UITextField+Extension.swift */,
+				A2B077422923801D00DFEC08 /* UIImage+Extension.swift */,
 				4A91B7D929252DE60053AD32 /* Int+Extension.swift */,
 			);
 			path = Extensions;
@@ -413,7 +416,6 @@
 		4AF67E8F291204B600D4A2C4 /* ChatRoom */ = {
 			isa = PBXGroup;
 			children = (
-				4A060C022913A1A800D75699 /* UIComponent */,
 				4AF67E91291204CF00D4A2C4 /* Cell */,
 				4AF67E90291204C100D4A2C4 /* ViewController */,
 			);
@@ -434,7 +436,6 @@
 			isa = PBXGroup;
 			children = (
 				4AF67E94291206C000D4A2C4 /* ChatRoomTableViewCell.swift */,
-				4A060C072913AA5E00D75699 /* InterestCollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -559,6 +560,7 @@
 			children = (
 				7645E75629070FC6009E2E3B /* FirebaseManager.swift */,
 				7628CC782913DEAE00CDA679 /* AuthManager.swift */,
+				A2C7DE572923720300269339 /* FirebaseStorageManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -628,6 +630,13 @@
 			path = Component;
 			sourceTree = "<group>";
 		};
+		A2B07744292381BE00DFEC08 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A2F369DA29094877007F3732 /* GroupList */ = {
 			isa = PBXGroup;
 			children = (
@@ -652,6 +661,7 @@
 				A7164B3029123E7100FFB668 /* UserProfileViewController.swift */,
 				A764CCEC291748FB005C9E0F /* UserGenderBirthViewController.swift */,
 				A71C543C291A655200FBD231 /* LocationAuthViewController.swift */,
+				4A6642402917A7820027B2A3 /* UserInterestViewController.swift */,
 			);
 			path = RegisterUserProfile;
 			sourceTree = "<group>";
@@ -680,6 +690,7 @@
 				76B027EF2901726E002C9DF7 /* VegetingTests */,
 				A7C8DF212901274500F38AD7 /* Products */,
 				4A66F514291FC996005DF3D7 /* Recovered References */,
+				A2B07744292381BE00DFEC08 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -747,6 +758,7 @@
 				76FF7CF52917BDF70020BB2C /* KakaoSDKAuth */,
 				76FF7CF72917BDF70020BB2C /* KakaoSDKCommon */,
 				76FF7CF92917BDF70020BB2C /* KakaoSDKUser */,
+				A2B07745292381BE00DFEC08 /* FirebaseStorage */,
 			);
 			productName = Vegeting;
 			productReference = A7C8DF202901274500F38AD7 /* Vegeting.app */;
@@ -840,6 +852,7 @@
 				A7C8DF282901274500F38AD7 /* ViewController.swift in Sources */,
 				4A060C0A2913D77200D75699 /* TestViewController.swift in Sources */,
 				4A060C062913AA4300D75699 /* InterestView.swift in Sources */,
+				A2C7DE582923720300269339 /* FirebaseStorageManager.swift in Sources */,
 				76B0282629051FC9002C9DF7 /* VFUser.swift in Sources */,
 				76B0283D29052937002C9DF7 /* Participant.swift in Sources */,
 				4ADC12ED2901838200C0FFB6 /* ImageLiteral.swift in Sources */,
@@ -863,6 +876,7 @@
 				4A060C01291398A600D75699 /* ProfileHalfModalViewController.swift in Sources */,
 				A2F369D12908258B007F3732 /* GroupInfoView.swift in Sources */,
 				A73AAAF32904E26D0050CA81 /* PostDetailViewController.swift in Sources */,
+				A2B077432923801D00DFEC08 /* UIImage+Extension.swift in Sources */,
 				7615B6542921096800A34DA4 /* ViewModelType.swift in Sources */,
 				4A31CD272903D86200E5E422 /* GroupCategoryView.swift in Sources */,
 				A26198782909567100ECCC4F /* LabelWithImageStackView.swift in Sources */,
@@ -877,6 +891,7 @@
 				4A50D5A52908E03600D1ADE4 /* EmptyResultView.swift in Sources */,
 				A20A2F9F29217EC2002F0672 /* MyClubsViewController.swift in Sources */,
 				4ADC12E92901819800C0FFB6 /* UIScreen+Extension.swift in Sources */,
+				4A6642412917A7820027B2A3 /* UserInterestViewController.swift in Sources */,
 				A7C8DF262901274500F38AD7 /* SceneDelegate.swift in Sources */,
 				A2007F4C2914BF5D0003DABB /* CategoryView.swift in Sources */,
 				A215B29929069D9600DD60B2 /* SecondCreateGroupViewController.swift in Sources */,
@@ -1286,6 +1301,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 76FF7CF42917BDF70020BB2C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDKUser;
+		};
+		A2B07745292381BE00DFEC08 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 76B0282B29052209002C9DF7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
