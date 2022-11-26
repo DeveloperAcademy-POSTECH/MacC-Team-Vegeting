@@ -52,6 +52,7 @@ final class GroupCategoryCollectionViewCell: UICollectionViewCell {
     }
     
     func applySelectedState() {
+        print("??",isSelected)
         backgroundContentView.backgroundColor = isSelected ? .black : .systemGray6
         itemLabel.textColor = isSelected ? .white : .black
         itemLabel.font = isSelected ? .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .bold)) : .preferredFont(forTextStyle:.subheadline)

@@ -8,13 +8,18 @@
 import UIKit
 
 class GroupListViewController: UIViewController {
-    private var clubList: [Club] = [] {
+    private var showClubList: [Club] = [] {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 self?.collectionView.reloadData()
             }
         }
     }
+    
+    private var allClubList = [Club]()
+    private var restaurantClubList = [Club]()
+    private var eventClubList = [Club]()
+    private var elseClubList = [Club]()
     
     private lazy var navigationBarView: UIStackView = {
         let hStackView = UIStackView()
@@ -75,7 +80,9 @@ class GroupListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Task {
-            clubList = await FirebaseManager.shared.requestClubInformation() ?? []
+            groupCategoryView.selectAllCategory()
+            allClubList = await FirebaseManager.shared.requestClubInformation() ?? []
+            showClubList = allClubList
         }
     }
     
@@ -117,25 +124,36 @@ class GroupListViewController: UIViewController {
 
 extension GroupListViewController: GroupCategoryViewDelegate {
     func didSelectCategory(didSelectItemAt indexPath: IndexPath) {
-        print("select")
+        switch indexPath.row {
+        case 0:
+            showClubList = allClubList
+        case 1:
+            showClubList = restaurantClubList
+        case 2:
+            showClubList = eventClubList
+        case 3:
+            showClubList = elseClubList
+        default:
+            break
+        }
     }
 }
 
 extension GroupListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(clubList[indexPath.item])
+        print(showClubList[indexPath.item])
     }
 }
 
 extension GroupListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return clubList.count
+        return showClubList.count
     }
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClubListCollectionViewCell.className, for: indexPath) as? ClubListCollectionViewCell else { return UICollectionViewCell() }
-        cell.configure(with: clubList[indexPath.item])
+        cell.configure(with: showClubList[indexPath.item])
         return cell
     }
 }

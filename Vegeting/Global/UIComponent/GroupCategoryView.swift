@@ -61,6 +61,20 @@ final class GroupCategoryView: UIView {
         categoryCollectionView.delegate = self
     }
     
+    func selectAllCategory() {
+        guard let selectedIndex = categoryCollectionView.indexPathsForSelectedItems else { return }
+        if !selectedIndex.isEmpty {
+            categoryCollectionView.deselectItem(at: selectedIndex[0], animated: false)
+            guard let cellToDeselect = categoryCollectionView.cellForItem(at: selectedIndex[0]) as? GroupCategoryCollectionViewCell else { return }
+            cellToDeselect.applySelectedState()
+        }
+        
+        let fisrtIndexPath = IndexPath(item: 0, section: 0)
+        guard let cellToSelect = categoryCollectionView.cellForItem(at: fisrtIndexPath) as? GroupCategoryCollectionViewCell else { return }
+        categoryCollectionView.selectItem(at: fisrtIndexPath, animated: false , scrollPosition: .init())
+        cellToSelect.applySelectedState()
+    }
+    
     func changeCategoryList(with list: [String]) {
         categoryList = list
     }
@@ -80,6 +94,12 @@ extension GroupCategoryView: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GroupCategoryCollectionViewCell.className, for: indexPath) as? GroupCategoryCollectionViewCell else { return UICollectionViewCell() }
         
         cell.configure(with: categoryList[indexPath.item])
+        
+//        if indexPath.row == 0 {
+//            print(categoryList[indexPath.item])
+//            cell.isSelected = true
+//            cell.applySelectedState()
+//        }
         return cell
     }
 }
