@@ -27,7 +27,7 @@ class ChatRoomListViewController: UIViewController {
         return tableView
     }()
     
-    private var chatList: [TempChatModel] = [] {
+    private var chatList: [RecentChat] = [] {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 self?.tableView.reloadData()
@@ -89,13 +89,7 @@ class ChatRoomListViewController: UIViewController {
         FirebaseManager.shared.requestRecentChat(user: user) { result in
             switch result {
             case .success(let recentChats):
-                self.chatList = recentChats.map { recentChat in
-                    let title = recentChat.chatRoomName ?? ""
-                    let lastestChat = recentChat.lastSentMessage ?? ""
-                    let lastestChatDate = recentChat.lastSentTime ?? Date()
-                    let result = TempChatModel(title: title, latestChat: lastestChat, latestChatDate: lastestChatDate)
-                    return result
-                }
+                self.chatList = recentChats
             case .failure(let error):
                 print(error.localizedDescription)
             }

@@ -14,6 +14,17 @@ struct RecentChat: Codable, Identifiable {
     let chatRoomID: String?
     let chatRoomName: String?
     let lastSentMessage: String?
-    let lastSentTime: Date?
+    let lastSentTime: Date
+    let numberOfParticipants: Int
     let coverImageURL: String?
 }
+//
+//
+//struct RecentChat {
+//    let chatRoomID: String?
+//    let chatRoomName: String?
+//    let lastSentMessage: String?
+//    let lastSentTime: Date
+//    let numberOfParticipants: Int
+//    let coverImageURL: String?
+//}

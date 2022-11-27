@@ -133,15 +133,23 @@ class ChatRoomTableViewCell: UITableViewCell {
         latestChatDateLabel.setContentCompressionResistancePriority(.init(rawValue: 751), for: .horizontal)
     }
     
-    func configure(with data: TempChatModel) {
-        roomImageView.image = UIImage(named: data.imageName)
-        titleLabel.text = data.title
-        currentUserCountLabel.text = data.currentNumer.description
-        latestChatLabel.text = data.latestChat
-        latestChatDateLabel.text = convertDate(lastChatDate: data.latestChatDate)
-        unreadChatCountLabel.text = data.unreadChatCount.description
+    func configure(with data: RecentChat) {
+        roomImageView.image = UIImage(named: "coverImage")
+        titleLabel.text = data.chatRoomName
+        currentUserCountLabel.text = data.numberOfParticipants.description
+        latestChatLabel.text = data.lastSentMessage
+        latestChatDateLabel.text = convertDate(lastChatDate: data.lastSentTime)
+        unreadChatCountLabel.text = "5" // 임시 값
     }
-
+//    struct RecentChat: Codable, Identifiable {
+//        @DocumentID var id: String?
+//        let chatRoomID: String?
+//        let chatRoomName: String?
+//        let lastSentMessage: String?
+//        let lastSentTime: Date?
+//        let numberOfParticipants: Int
+//        let coverImageURL: String?
+//    }
     private func convertDate(lastChatDate: Date) -> String {
         let calendar = Calendar.current
 
