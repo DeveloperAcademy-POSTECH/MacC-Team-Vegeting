@@ -134,22 +134,17 @@ class ChatRoomTableViewCell: UITableViewCell {
     }
     
     func configure(with data: RecentChat) {
-        roomImageView.image = UIImage(named: "coverImage")
+        guard let url = URL(string: data.coverImageURL ?? "") else { return }
+        FirebaseStorageManager.downloadImage(url: url) { [weak self] image in
+            self?.roomImageView.image = image
+        }
         titleLabel.text = data.chatRoomName
         currentUserCountLabel.text = data.numberOfParticipants.description
         latestChatLabel.text = data.lastSentMessage
         latestChatDateLabel.text = convertDate(lastChatDate: data.lastSentTime)
         unreadChatCountLabel.text = "5" // 임시 값
     }
-//    struct RecentChat: Codable, Identifiable {
-//        @DocumentID var id: String?
-//        let chatRoomID: String?
-//        let chatRoomName: String?
-//        let lastSentMessage: String?
-//        let lastSentTime: Date?
-//        let numberOfParticipants: Int
-//        let coverImageURL: String?
-//    }
+
     private func convertDate(lastChatDate: Date) -> String {
         let calendar = Calendar.current
 
