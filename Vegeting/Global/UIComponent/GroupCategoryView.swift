@@ -92,14 +92,7 @@ extension GroupCategoryView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GroupCategoryCollectionViewCell.className, for: indexPath) as? GroupCategoryCollectionViewCell else { return UICollectionViewCell() }
-        
         cell.configure(with: categoryList[indexPath.item])
-        
-//        if indexPath.row == 0 {
-//            print(categoryList[indexPath.item])
-//            cell.isSelected = true
-//            cell.applySelectedState()
-//        }
         return cell
     }
 }
