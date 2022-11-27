@@ -52,6 +52,36 @@ final class FirebaseManager {
         }
     }
     
+    /// 내가 참여한 클럽 정보 받아오기
+    /// - Returns: 내가 참여한 클럽 정보가 나타난다.
+    func requestMyClubInformation() async -> [Club]? {
+        do {
+            var myClubs: [Club] = []
+            guard let currentUser = await requestUser() else { return nil }
+            guard let participatedClubs = currentUser.participatedClubs else { return nil }
+            var participatedClubIDs = participatedClubs.map { $0.clubID ?? nil }
+            
+            while true {
+                var count = 0
+                var idsUnder10: [String?] = []
+                while !participatedClubIDs.isEmpty && count < 10 {
+                    count += 1
+                    idsUnder10.append(participatedClubIDs.removeFirst())
+                }
+                let querySnapshot = try await db.collection(Path.club.rawValue).whereField("clubID", in: idsUnder10 as [Any]).getDocuments()
+                for snapshot in querySnapshot.documents {
+                    guard let club = try? snapshot.data(as: Club.self) else { return nil }
+                    myClubs.append(club)
+                }
+                if participatedClubIDs.isEmpty { break }
+            }
+            
+            return myClubs
+        } catch {
+            print(error.localizedDescription)
+            return nil
+        }
+    }
 }
 
 // MARK: Firebase 첫 모임생성
@@ -262,5 +292,18 @@ extension FirebaseManager {
             } .map(\.exists)
             .eraseToAnyPublisher()
         
+    }
+    
+    func isPossibleNickname(newName: String) async throws -> Bool {
+        do {
+            let querySnapshot = try await db.collection(Path.user.rawValue).whereField("userName", isEqualTo: newName).getDocuments()
+            if querySnapshot.documents.isEmpty {
+                return true
+            } else {
+                return false
+            }
+        } catch {
+            throw error
+        }
     }
 }

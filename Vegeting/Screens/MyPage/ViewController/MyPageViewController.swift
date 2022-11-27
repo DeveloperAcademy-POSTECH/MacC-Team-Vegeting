@@ -21,6 +21,7 @@ class MyPageViewController: UIViewController {
         tableView.register(MyPageTableViewCell.self, forCellReuseIdentifier: MyPageTableViewCell.className)
         tableView.register(MyPageProfileTableViewCell.self, forCellReuseIdentifier: MyPageProfileTableViewCell.className)
         tableView.dataSource = self
+        tableView.delegate = self
         return tableView
     }()
     
@@ -46,6 +47,8 @@ class MyPageViewController: UIViewController {
         }
     }
     
+    //MARK: - lifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
@@ -55,11 +58,14 @@ class MyPageViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        showTabBar()
         Task { [weak self] in
             guard let vfUser = await FirebaseManager.shared.requestUser() else { return }
             self?.vfUser = vfUser
         }
     }
+
+    //MARK: - func
     
     private func setupLayout() {
         view.addSubview(tableView)
@@ -73,7 +79,13 @@ class MyPageViewController: UIViewController {
         view.backgroundColor = .white
     }
     
+    private func showTabBar() {
+        tabBarController?.tabBar.isHidden = false
+    }
+    
     private func setupNavigationBar() {
+        self.navigationItem.backButtonDisplayMode = .minimal
+        self.navigationController?.navigationBar.tintColor = .black
         self.navigationItem.title = "마이페이지"
     }
 }
@@ -100,6 +112,7 @@ extension MyPageViewController: UITableViewDataSource {
         case TableSection.profile.rawValue:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageProfileTableViewCell.className, for: indexPath) as? MyPageProfileTableViewCell else { return UITableViewCell() }
             cell.delegate = self
+            cell.selectionStyle = .none
             Task {
                 guard let vfUser = await FirebaseManager.shared.requestUser() else { return }
                 cell.configure(image: "coverImage", nickName: vfUser.userName, step: vfUser.vegetarianType)
@@ -108,14 +121,25 @@ extension MyPageViewController: UITableViewDataSource {
             return cell
         case TableSection.setting.rawValue:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageTableViewCell.className, for: indexPath) as? MyPageTableViewCell else { return UITableViewCell() }
-            
             cell.configure(with: tableCellList[indexPath.row])
+            cell.selectionStyle = .none
             return cell
-        default: return UITableViewCell()
+        default:
+            return UITableViewCell()
         }
-        
     }
-    
+}
+
+extension MyPageViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.row {
+        case 1 :
+            let viewController = MyClubsViewController()
+            self.navigationController?.pushViewController(viewController, animated: true)
+        default:
+            return
+        }
+    }
 }
 
 extension MyPageViewController: MyPageProfileTableViewCellDelegate {
