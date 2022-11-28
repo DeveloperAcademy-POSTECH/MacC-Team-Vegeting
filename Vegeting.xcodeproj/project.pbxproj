@@ -54,6 +54,7 @@
 		7615B645291EA03900A34DA4 /* ChatRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7615B644291EA03900A34DA4 /* ChatRoomViewController.swift */; };
 		7615B648291EA06D00A34DA4 /* ChatRoomContentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7615B647291EA06D00A34DA4 /* ChatRoomContentCollectionViewCell.swift */; };
 		7628CC792913DEAE00CDA679 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7628CC782913DEAE00CDA679 /* AuthManager.swift */; };
+		762C4D18292648940097F931 /* MessageDateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 762C4D17292648940097F931 /* MessageDateCollectionViewCell.swift */; };
 		7645E74A290700E5009E2E3B /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E749290700E5009E2E3B /* SignInViewController.swift */; };
 		7645E7512907031D009E2E3B /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E7502907031D009E2E3B /* SignInViewModel.swift */; };
 		7645E75729070FC6009E2E3B /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7645E75629070FC6009E2E3B /* FirebaseManager.swift */; };
@@ -165,6 +166,7 @@
 		7628CC772913DB5F00CDA679 /* Vegeting.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Vegeting.entitlements; sourceTree = "<group>"; };
 		7628CC782913DEAE00CDA679 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		7628CC7A2914AF7B00CDA679 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		762C4D17292648940097F931 /* MessageDateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageDateCollectionViewCell.swift; sourceTree = "<group>"; };
 		7645E749290700E5009E2E3B /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		7645E7502907031D009E2E3B /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		7645E75629070FC6009E2E3B /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
@@ -495,15 +497,6 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
-		4AFF0F512919F8AD00F7496C /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				4AFF0F522919F8C400F7496C /* MyPageTableViewCell.swift */,
-				4AFF0F542919F8E100F7496C /* MyPageProfileTableViewCell.swift */,
-			);
-			path = Cell;
-			sourceTree = "<group>";
-		};
 		7615B6522921095000A34DA4 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -570,6 +563,7 @@
 			children = (
 				765C9E7A29230BB00090B14A /* OtherChatContentCollectionViewCell.swift */,
 				765C9E7B29230BB00090B14A /* MyChatContentCollectionViewCell.swift */,
+				762C4D17292648940097F931 /* MessageDateCollectionViewCell.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -630,13 +624,6 @@
 			path = Component;
 			sourceTree = "<group>";
 		};
-		A2B07744292381BE00DFEC08 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		A2F369DA29094877007F3732 /* GroupList */ = {
 			isa = PBXGroup;
 			children = (
@@ -690,7 +677,6 @@
 				76B027EF2901726E002C9DF7 /* VegetingTests */,
 				A7C8DF212901274500F38AD7 /* Products */,
 				4A66F514291FC996005DF3D7 /* Recovered References */,
-				A2B07744292381BE00DFEC08 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -862,6 +848,7 @@
 				4AFA58B52905280F00679142 /* NumberOfPeopleCollectionViewCell.swift in Sources */,
 				A261987D290A350300ECCC4F /* BottomButton.swift in Sources */,
 				4ADC12E52901817800C0FFB6 /* UILabel+Extension.swift in Sources */,
+				762C4D18292648940097F931 /* MessageDateCollectionViewCell.swift in Sources */,
 				4A31CD2A2903D89600E5E422 /* GroupCategoryCollectionViewCell.swift in Sources */,
 				7645E7512907031D009E2E3B /* SignInViewModel.swift in Sources */,
 				A71C5440291A797300FBD231 /* MapView.swift in Sources */,
