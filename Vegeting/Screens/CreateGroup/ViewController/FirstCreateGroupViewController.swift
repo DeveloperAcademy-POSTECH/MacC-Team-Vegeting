@@ -151,13 +151,10 @@ final class FirstCreateGroupViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("viewDidLoad")
         setupLayout()
         configureUI()
         setupNavigationBar()
-        if entryPoint == .create {
-            hideAll()
-        }
+        hideElementWhenCreateClub()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -166,15 +163,17 @@ final class FirstCreateGroupViewController: UIViewController {
     
     // MARK: - func
     
-    private func hideAll() {
-        locationTitleLabel.isHidden = true
-        locationSearchingButton.isHidden = true
-        locationFooterLabel.isHidden = true
-        dateTitleLabel.isHidden = true
-        datePicker.isHidden = true
-        datePickerFooterLabel.isHidden = true
-        numberOfGroupPeopleTitleLabel.isHidden = true
-        numberOfGroupCollectionView.isHidden = true
+    private func hideElementWhenCreateClub() {
+        if entryPoint == .create {
+            locationTitleLabel.isHidden = true
+            locationSearchingButton.isHidden = true
+            locationFooterLabel.isHidden = true
+            dateTitleLabel.isHidden = true
+            datePicker.isHidden = true
+            datePickerFooterLabel.isHidden = true
+            numberOfGroupPeopleTitleLabel.isHidden = true
+            numberOfGroupCollectionView.isHidden = true
+        }
     }
     
     private func hideTabBar() {
