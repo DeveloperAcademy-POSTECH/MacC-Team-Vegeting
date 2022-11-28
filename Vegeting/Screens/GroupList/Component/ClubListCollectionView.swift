@@ -43,13 +43,13 @@ final class ClubListCollectionView: UICollectionView {
     
     private func configureUI() {
         self.backgroundColor = .clear
-        self.register(ClubListCollectionViewCell.self, forCellWithReuseIdentifier: ClubListCollectionViewCell.className)
         self.showsVerticalScrollIndicator = false
     }
     
     private func configureCollectionView() {
         self.delegate = self
         self.dataSource = self
+        self.register(ClubListCollectionViewCell.self, forCellWithReuseIdentifier: ClubListCollectionViewCell.className)
     }
     
     func setClubList(clubList: [Club]) {
