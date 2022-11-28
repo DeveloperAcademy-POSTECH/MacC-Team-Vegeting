@@ -10,6 +10,7 @@ import UIKit
 final class UserGenderBirthViewController: UIViewController {
     
     private var userLocation: UserLocation
+    private var selectedGender: String = "여성"
     
     private let progressBarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -95,7 +96,7 @@ final class UserGenderBirthViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError()
     }
     
     override func viewDidLoad() {
@@ -180,9 +181,11 @@ final class UserGenderBirthViewController: UIViewController {
         if femaleButton == sender {
             selectedButtonUI(femaleButton)
             unSelectedButtonUI(maleButton)
+            selectedGender = "여성"
         } else {
             selectedButtonUI(maleButton)
             unSelectedButtonUI(femaleButton)
+            selectedGender = "남성"
         }
         nextButtonActive()
     }
@@ -209,6 +212,9 @@ final class UserGenderBirthViewController: UIViewController {
     
     private func nextButtonTapped() {
         //TODO: 프로필 설정 4번째 뷰(채식 단계 설정, 한줄 소개)로 연결
+        guard let birthYear = birthDisplayTextField.text else { return }
+        let userGenderBirthYear = UserGenderBirthYear(userLocation: userLocation, userGender: selectedGender, userBirthYear: birthYear)
+        navigationController?.pushViewController(UserTypeIntroductionViewController(userGenderBirthYear: userGenderBirthYear), animated: true)
     }
 }
 

@@ -42,11 +42,21 @@ class UserGenderBirthYear {
 class UserTypeIntroduction {
     var userGenderBirthYear: UserGenderBirthYear
     var userVegetarianType: String
-    var userIntroduction: String
+    var userIntroduction: String?
     
     init(userGenderBirthYear: UserGenderBirthYear, userVegetarianType: String, userIntroduction: String) {
         self.userGenderBirthYear = userGenderBirthYear
         self.userVegetarianType = userVegetarianType
         self.userIntroduction = userIntroduction
+    }
+}
+
+class UserInterests {
+    var userTypeIntroduction: UserTypeIntroduction
+    var userInterest: [String]
+    
+    init(userTypeIntroduction: UserTypeIntroduction, userInterest: [String]) {
+        self.userTypeIntroduction = userTypeIntroduction
+        self.userInterest = userInterest
     }
 }
