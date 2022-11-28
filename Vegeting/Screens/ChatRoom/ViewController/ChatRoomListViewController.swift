@@ -48,6 +48,13 @@ class ChatRoomListViewController: UIViewController {
         requestUserInfo()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
+        guard let selectedIndexPath = tableView.indexPathForSelectedRow else { return }
+        tableView.deselectRow(at: selectedIndexPath, animated: true)
+    }
+    
     // MARK: - func
     
     private func setupLayout() {
@@ -60,6 +67,7 @@ class ChatRoomListViewController: UIViewController {
     
     private func configureTableView() {
         tableView.dataSource = self
+        tableView.delegate = self
     }
     
     private func setupNavigationBar() {
@@ -111,4 +119,18 @@ extension ChatRoomListViewController: UITableViewDataSource {
         return cell
     }
     
+}
+
+extension ChatRoomListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let viewController = ChatRoomViewController()
+        let selectedChatRoom = chatList[indexPath.row]
+        let participatedChatRoom = ParticipatedChatRoom(chatID: selectedChatRoom.chatRoomID,
+                                                        chatName: selectedChatRoom.chatRoomName ?? "",
+                                                        imageURL: selectedChatRoom.coverImageURL)
+        guard let user = self.user else { return }
+        viewController.configureVM(participatedChatRoom: participatedChatRoom, user: user)
+        navigationController?.pushViewController(viewController, animated: true)
+        
+    }
 }
