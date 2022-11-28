@@ -18,7 +18,7 @@ class FirebaseStorageManager {
                      completion: @escaping (Result<URL, Error>) -> Void) {
         
         guard let scaledImage = image.scaledToSafeUploadSize,
-              let data = scaledImage.jpegData(compressionQuality: 0.2)
+              let data = scaledImage.jpegData(compressionQuality: 0.5)
         else {
             completion(.failure(StorageError.uploadFail))
             return
@@ -28,9 +28,7 @@ class FirebaseStorageManager {
         metaData.contentType = "image/jpeg"
         
         let imageName = UUID().uuidString + String(Date().timeIntervalSince1970)
-        
         let imageReference = Storage.storage().reference().child("\(folderName)/\(imageName)")
-        
         imageReference.putData(data, metadata: metaData) { _, _ in
             imageReference.downloadURL { url, _ in
                 guard let url = url
