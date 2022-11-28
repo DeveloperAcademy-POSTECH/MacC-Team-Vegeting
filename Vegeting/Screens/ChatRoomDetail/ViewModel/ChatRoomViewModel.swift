@@ -132,13 +132,5 @@ final class ChatRoomViewModel: ViewModelType {
         self.user = user
         requestMessagesFromServer()
     }
-    
-    init() {
-        Task {
-            guard let user = await FirebaseManager.shared.requestUser() else { return }
-            guard let part = user.participatedChats?.first else { return }
-            configure(participatedChatRoom: part, user: user)
-        }
-    }
 }
 
