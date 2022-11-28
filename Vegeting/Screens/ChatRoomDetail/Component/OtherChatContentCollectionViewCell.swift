@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum MessageType: CaseIterable {
+enum MessageType {
     case mine
     case other
     case otherWithProfile
@@ -83,11 +83,10 @@ final class OtherChatContentCollectionViewCell: UICollectionViewCell {
         dateTimeLabel.text = model.message.createdAt.toMessageTimeText()
         profileUserNameLabel.text = model.message.senderName
         
-        
         if let text = model.message.content {
             contentLabel.textAlignment = text.count > 1 ? .left : .center
         }
-        updateLayout(senderType: model.messageType)
+        updateLayout(messageType: model.messageType)
     }
     
 }
@@ -95,23 +94,23 @@ final class OtherChatContentCollectionViewCell: UICollectionViewCell {
 // MARK: Layout 관련 함수
 extension OtherChatContentCollectionViewCell {
 
-    private func updateLayout(senderType: MessageType) {
+    private func updateLayout(messageType: MessageType) {
         contentLabelTopAnchor?.isActive = false
-        let hiddenStatus: Bool
+        let profileHidden: Bool
         
-        switch senderType {
+        switch messageType {
         case .otherWithProfile:
-            hiddenStatus = false
+            profileHidden = false
             contentLabelTopAnchor = contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 36)
         case .other:
-            hiddenStatus = true
+            profileHidden = true
             contentLabelTopAnchor = contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12)
         case .mine, .date:
             return
         }
         
-        profileImageView.isHidden = hiddenStatus
-        profileUserNameLabel.isHidden = hiddenStatus
+        profileImageView.isHidden = profileHidden
+        profileUserNameLabel.isHidden = profileHidden
         contentLabelTopAnchor?.isActive = true
     }
     

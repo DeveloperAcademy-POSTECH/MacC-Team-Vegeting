@@ -14,7 +14,6 @@ final class ChatRoomViewController: UIViewController {
     private var input: PassthroughSubject<ChatRoomViewModel.Input, Never> = .init()
     private var messageBubbles: [MessageBubble] = []
     private var cancellables =  Set<AnyCancellable>()
-    lazy private var messageTextViewHeightAnchor = messageTextView.heightAnchor.constraint(equalToConstant: 46)
     
     private let chatListCollectionView: UICollectionView = {
         
@@ -23,7 +22,6 @@ final class ChatRoomViewController: UIViewController {
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(900))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
-        group.interItemSpacing = .fixed(20)
         
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 10
@@ -71,6 +69,9 @@ final class ChatRoomViewController: UIViewController {
         return textView
     }()
     
+    lazy private var messageTextViewHeightAnchor = messageTextView.heightAnchor.constraint(equalToConstant: 46)
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -102,7 +103,7 @@ final class ChatRoomViewController: UIViewController {
         textChangePublihser.sink { [weak self] _ in
             guard let height = self?.messageTextView.contentSize.height, let text = self?.messageTextView.text else { return }
             
-            self?.input.send(.textChanged(height: height, text: text))
+            self?.input.send(.textChanged(height: height))
         }.store(in: &cancellables)
     }
     
@@ -117,7 +118,7 @@ extension ChatRoomViewController {
     private func sendButtonTapped(_ sender: Any) {
         input.send(.sendButtonTapped(text: messageTextView.text))
         messageTextView.text = ""
-        input.send(.textChanged(height: messageTextView.contentSize.height, text: messageTextView.text))
+        input.send(.textChanged(height: messageTextView.contentSize.height))
     }
 }
 

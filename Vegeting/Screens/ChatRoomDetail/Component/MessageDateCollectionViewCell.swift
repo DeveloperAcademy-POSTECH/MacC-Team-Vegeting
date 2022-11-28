@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MessageDateCollectionViewCell: UICollectionViewCell {
+final class MessageDateCollectionViewCell: UICollectionViewCell {
     
     private let dateLabel: UILabel = {
         let label = UILabel()

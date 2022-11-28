@@ -24,7 +24,7 @@ final class ChatRoomViewModel: ViewModelType {
     enum Input {
         case viewWillAppear
         case sendButtonTapped(text: String)
-        case textChanged(height: CGFloat, text: String)
+        case textChanged(height: CGFloat)
     }
     
     enum Output {
@@ -46,12 +46,10 @@ final class ChatRoomViewModel: ViewModelType {
             switch event {
             case .viewWillAppear:
                 break
-            case .textChanged(let height, let text):
-                self?.calculateTextViewHeight(height: height, text: text)
-                break
+            case .textChanged(let height):
+                self?.calculateTextViewHeight(height: height)
             case .sendButtonTapped(let text):
                 self?.sendMessageFromLocal(text: text)
-                break
             }
         }.store(in: &cancellables)
         return output.eraseToAnyPublisher()
@@ -123,7 +121,7 @@ final class ChatRoomViewModel: ViewModelType {
         }
     }
     
-    private func calculateTextViewHeight(height: CGFloat, text: String) {
+    private func calculateTextViewHeight(height: CGFloat) {
         let lineCount = ((height - 45) / 21 + 1)
         let lineHeightMultiplier = min(lineCount - 1, 2)
         self.output.send(.textViewHeight(height: CGFloat(45 + lineHeightMultiplier * 21)))
