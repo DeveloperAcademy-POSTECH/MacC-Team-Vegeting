@@ -32,7 +32,7 @@ final class GroupCategoryView: UIView {
     
     private var categoryList: [String] = ["맛집", "행사", "파티", "기타"]
     weak var delegate: GroupCategoryViewDelegate?
-    private var selectedCategory: String?
+    private var selectedCategory: String = "slek"
     
     // MARK: - init
     

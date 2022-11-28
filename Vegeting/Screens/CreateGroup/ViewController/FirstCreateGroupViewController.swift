@@ -32,15 +32,15 @@ final class FirstCreateGroupViewController: UIViewController {
     }()
     
     private lazy var categoryCollectionView: GroupCategoryView = {
-        let view: GroupCategoryView
+        let groupCategoryView: GroupCategoryView
         switch entryPoint {
         case .create:
-            view = GroupCategoryView()
+            groupCategoryView = GroupCategoryView()
         case .revise:
-            view = GroupCategoryView(selectedCategory: club?.clubCategory)
+            groupCategoryView = GroupCategoryView(selectedCategory: club?.clubCategory)
         }
-        view.delegate = self
-        return view
+        groupCategoryView.delegate = self
+        return groupCategoryView
     }()
     
     private let locationTitleLabel: UILabel = {
