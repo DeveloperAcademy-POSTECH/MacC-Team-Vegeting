@@ -71,7 +71,6 @@ final class ChatRoomViewController: UIViewController {
     
     lazy private var messageTextViewHeightAnchor = messageTextView.heightAnchor.constraint(equalToConstant: 46)
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
