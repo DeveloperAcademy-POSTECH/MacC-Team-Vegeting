@@ -10,19 +10,19 @@ import PhotosUI
 
 final class SecondCreateGroupViewController: BaseViewController {
     private lazy var coverPickerView: PhotoPickerView = {
-        var pickerView = PhotoPickerView()
+        let pickerView = PhotoPickerView()
         pickerView.setLabelText(text: StringLiteral.secondCreateGroupViewControllerPhoto)
         pickerView.delegate = self
         return pickerView
     }()
     
     private lazy var groupInfoStackView: GroupInfoView = {
-        var stackView = GroupInfoView()
+        let stackView = GroupInfoView()
         return stackView
     }()
     
     private lazy var titleTextField: UITextField = {
-        var textField = UITextField()
+        let textField = UITextField()
         textField.placeholder = StringLiteral.secondCreateGroupViewControllerTitle
         textField.font = .preferredFont(forTextStyle: .body)
         textField.layer.cornerRadius = 5
@@ -44,7 +44,7 @@ final class SecondCreateGroupViewController: BaseViewController {
     }()
     
     private lazy var contentTextView: UITextView = {
-        var textView = UITextView()
+        let textView = UITextView()
         textView.text = StringLiteral.secondCreateGroupViewControllerContent
         textView.textColor = .lightGray
         textView.font = .preferredFont(forTextStyle: .body)
@@ -138,11 +138,44 @@ final class SecondCreateGroupViewController: BaseViewController {
     
     @objc
     private func registerButtonTapped() {
-        guard let incompleteClub = groupInfoStackView.getData(),
-        let clubTitle = titleTextField.text else { return }
-        let firebaseManager = FirebaseManager.shared
+        guard var club = makeClub(),
+              let chat = makeChat() else { return }
         
-        var club = Club(id: nil, clubID: nil, chatID: nil,
+        requestImageURL() { url in
+            club.coverImageURL = url
+            Task {
+                guard let vfUser = await FirebaseManager.shared.requestUser() else { return }
+                FirebaseManager.shared.requestPost(user: vfUser, club: club, chat: chat)
+            }
+        }
+        
+        navigationController?.popToRootViewController(animated: true)
+    }
+
+    private func requestImageURL(completion: @escaping (URL?) -> Void) {
+        if !coverPickerView.isDefaultCoverImage() {
+            guard let image = coverPickerView.getImageView()
+            else {
+                completion(nil)
+                return
+            }
+            FirebaseStorageManager.shared.uploadImage(image: image, folderName: "club") { result in
+                switch result {
+                case .success(let url):
+                    completion(url)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        } else {
+            completion(nil)
+        }
+    }
+    
+    private func makeClub() -> Club? {
+        guard let incompleteClub = groupInfoStackView.getData(),
+              let clubTitle = titleTextField.text else { return nil }
+        let club = Club(id: nil, clubID: nil, chatID: nil,
                         clubTitle: clubTitle,
                         clubCategory: incompleteClub.clubCategory,
                         clubContent: contentTextView.text,
@@ -151,35 +184,18 @@ final class SecondCreateGroupViewController: BaseViewController {
                         createdAt: Date(),
                         placeToMeet: incompleteClub.placeToMeet,
                         maxNumberOfPeople: incompleteClub.maxNumberOfPeople)
-        
+        return club
+    }
+    
+    private func makeChat() -> Chat? {
+        guard let clubTitle = titleTextField.text else { return nil }
         let chat = Chat(chatRoomID: nil,
                         clubID: nil,
                         chatRoomName: clubTitle,
                         participants: nil,
                         messages: nil,
                         coverImageURL: nil)
-        
-        getImageURL() { url in
-            club.coverImageURL = url
-            Task {
-                guard let vfUser = await firebaseManager.requestUser() else { return }
-                FirebaseManager.shared.requestPost(user: vfUser, club: club, chat: chat)
-            }
-        }
-        
-        navigationController?.popToRootViewController(animated: true)
-    }
-
-    private func getImageURL(completion: @escaping (URL?) -> Void) {
-        if !coverPickerView.isDefaultImage {
-            guard let image = coverPickerView.getImageView() else { return completion(nil) }
-            FirebaseStorageManager.uploadImage(image: image, folderName: "club") { url in
-                guard let url = url else {return}
-                completion(url)
-            }
-        } else {
-            completion(nil)
-        }
+        return chat
     }
     
     @objc

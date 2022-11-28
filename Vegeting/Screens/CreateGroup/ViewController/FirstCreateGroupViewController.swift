@@ -11,7 +11,9 @@ import Combine
 final class FirstCreateGroupViewController: UIViewController {
     
     //MARK: - properties
-    var cancellables = Set<AnyCancellable>()
+    
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
     
     private let categoryTitleLabel: UILabel = {
         let label = UILabel()
@@ -76,6 +78,7 @@ final class FirstCreateGroupViewController: UIViewController {
         datePicker.datePickerMode = .dateAndTime
         datePicker.preferredDatePickerStyle = .compact
         datePicker.locale = Locale(identifier: "ko-KR")
+        datePicker.tintColor = .vfYellow1
         
         let now = Date()
         datePicker.minimumDate = now
@@ -158,6 +161,10 @@ final class FirstCreateGroupViewController: UIViewController {
     private func showNumberOfGroupPeopleView() {
         numberOfGroupPeopleTitleLabel.isHidden = false
         numberOfGroupCollectionView.isHidden = false
+        let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height + scrollView.contentInset.bottom)
+        if bottomOffset.y > 0 {
+            scrollView.setContentOffset(bottomOffset, animated: true)
+        }
     }
     
     @objc
@@ -174,8 +181,10 @@ final class FirstCreateGroupViewController: UIViewController {
     }
     
     private func setupLayout() {
+        view.addSubviews(scrollView, bottomButton)
+        scrollView.addSubview(contentView)
         
-        view.addSubviews(categoryTitleLabel,
+        contentView.addSubviews(categoryTitleLabel,
                          categoryCollectionView,
                          locationTitleLabel,
                          locationSearchingButton,
@@ -184,26 +193,42 @@ final class FirstCreateGroupViewController: UIViewController {
                          datePicker,
                          datePickerFooterLabel,
                          numberOfGroupPeopleTitleLabel,
-                         numberOfGroupCollectionView,
-                         bottomButton)
+                         numberOfGroupCollectionView)
         
-        categoryTitleLabel.constraint(top: view.safeAreaLayoutGuide.topAnchor,
-                                      leading: view.leadingAnchor,
-                                      trailing: view.trailingAnchor,
+        // MARK: - scrollView
+        
+        scrollView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
+                              leading: view.safeAreaLayoutGuide.leadingAnchor,
+                              bottom: bottomButton.topAnchor,
+                              trailing: view.safeAreaLayoutGuide.trailingAnchor,
+                              padding: UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0))
+        
+        contentView.constraint(top: scrollView.contentLayoutGuide.topAnchor,
+                               leading: scrollView.contentLayoutGuide.leadingAnchor,
+                               bottom: scrollView.contentLayoutGuide.bottomAnchor,
+                               trailing: scrollView.contentLayoutGuide.trailingAnchor)
+        
+        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        
+        // MARK: - createGroupView
+        
+        categoryTitleLabel.constraint(top: contentView.topAnchor,
+                                      leading: contentView.leadingAnchor,
+                                      trailing: contentView.trailingAnchor,
                                       padding: UIEdgeInsets(top: 23, left: 20, bottom: 0, right: 24))
         
         categoryCollectionView.constraint(top: categoryTitleLabel.bottomAnchor,
-                                          leading: view.leadingAnchor,
-                                          trailing: view.trailingAnchor,
+                                          leading: contentView.leadingAnchor,
+                                          trailing: contentView.trailingAnchor,
                                           padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         
         locationTitleLabel.constraint(top: categoryCollectionView.bottomAnchor,
-                                      leading: view.leadingAnchor,
+                                      leading: contentView.leadingAnchor,
                                       padding: UIEdgeInsets(top: 45, left: 20, bottom: 0, right: 0))
         
         locationSearchingButton.constraint(top: locationTitleLabel.bottomAnchor,
-                                           leading: view.leadingAnchor,
-                                           trailing: view.trailingAnchor,
+                                           leading: contentView.leadingAnchor,
+                                           trailing: contentView.trailingAnchor,
                                            padding: UIEdgeInsets(top: 11, left: 20, bottom: 0, right: 20))
         locationSearchingButton.constraint(.heightAnchor, constant: 44)
         
@@ -213,37 +238,39 @@ final class FirstCreateGroupViewController: UIViewController {
                                  padding: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0))
         
         locationFooterLabel.constraint(top: locationSearchingButton.bottomAnchor,
-                                       leading: view.leadingAnchor,
-                                       trailing: view.trailingAnchor,
+                                       leading: contentView.leadingAnchor,
+                                       trailing: contentView.trailingAnchor,
                                        padding: UIEdgeInsets(top: 10, left: 20, bottom: 0, right: 20))
         
         dateTitleLabel.constraint(top: locationFooterLabel.bottomAnchor,
-                                  leading: view.leadingAnchor,
+                                  leading: contentView.leadingAnchor,
                                   padding: UIEdgeInsets(top: 28, left: 20, bottom: 0, right: 0))
         
         datePicker.constraint(top: dateTitleLabel.bottomAnchor,
-                              leading: view.leadingAnchor,
+                              leading: contentView.leadingAnchor,
                               padding: UIEdgeInsets(top: 10, left: 20, bottom: 0, right: 0))
         
         datePickerFooterLabel.constraint(top: datePicker.bottomAnchor,
-                                         leading: view.leadingAnchor,
+                                         leading: contentView.leadingAnchor,
                                          padding: UIEdgeInsets(top: 10, left: 20, bottom: 0, right: 0))
         
         numberOfGroupPeopleTitleLabel.constraint(top: datePickerFooterLabel.bottomAnchor,
-                                                 leading: view.leadingAnchor,
+                                                 leading: contentView.leadingAnchor,
                                                  padding: UIEdgeInsets(top: 49, left: 20, bottom: 0, right: 0))
         
         numberOfGroupCollectionView.constraint(top: numberOfGroupPeopleTitleLabel.bottomAnchor,
-                                               leading: view.leadingAnchor,
+                                               leading: contentView.leadingAnchor,
+                                               bottom: contentView.bottomAnchor,
                                                padding: UIEdgeInsets(top: 24, left: 20, bottom: 0, right: 0))
         
         bottomButton.constraint(bottom: view.bottomAnchor,
-                                centerX: view.safeAreaLayoutGuide.centerXAnchor,
+                                centerX: view.centerXAnchor,
                                 padding: UIEdgeInsets(top: 0, left: 0, bottom: 55, right: 0))
     }
     
     private func configureUI() {
         view.backgroundColor = .white
+        scrollView.showsVerticalScrollIndicator = false
     }
 }
 
