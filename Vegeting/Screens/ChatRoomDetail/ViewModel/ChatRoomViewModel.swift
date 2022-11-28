@@ -22,7 +22,6 @@ struct MessageBubble {
 final class ChatRoomViewModel: ViewModelType {
     
     enum Input {
-        case viewWillAppear
         case sendButtonTapped(text: String)
         case textChanged(height: CGFloat)
     }
@@ -44,8 +43,6 @@ final class ChatRoomViewModel: ViewModelType {
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
             switch event {
-            case .viewWillAppear:
-                break
             case .textChanged(let height):
                 self?.calculateTextViewHeight(height: height)
             case .sendButtonTapped(let text):
