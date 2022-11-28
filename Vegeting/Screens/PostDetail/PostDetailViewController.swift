@@ -183,24 +183,26 @@ final class PostDetailViewController: UIViewController {
     
     private func configureAddSubviews() {
         view.addSubviews(scrollView, enterButton)
-        scrollView.addSubview(contentView)
+        scrollView.addSubviews(contentView)
         contentView.addSubviews(coverImageView, categoryLabel, titleLabel, datePlaceLabel,
                                 contentTextLabel, participantsCapacityLabel, profileCollectionView)
     }
     
     private func setupLayout() {
-        scrollView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
-                              leading: view.safeAreaLayoutGuide.leadingAnchor,
-                              bottom: enterButton.topAnchor,
-                              trailing: view.safeAreaLayoutGuide.trailingAnchor,
-                              padding: UIEdgeInsets(top: 0, left: 0, bottom: 21, right: 0))
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: enterButton.topAnchor, constant: -20),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
         
-        contentView.constraint(top: scrollView.contentLayoutGuide.topAnchor,
-                               leading: scrollView.contentLayoutGuide.leadingAnchor,
-                               bottom: scrollView.contentLayoutGuide.bottomAnchor,
-                               trailing: scrollView.contentLayoutGuide.trailingAnchor)
-        
-        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+        ])
         
         NSLayoutConstraint.activate([
             coverImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
