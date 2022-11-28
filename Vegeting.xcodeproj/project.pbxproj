@@ -86,6 +86,9 @@
 		A26198762909539B00ECCC4F /* ClubListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26198752909539B00ECCC4F /* ClubListCollectionViewCell.swift */; };
 		A26198782909567100ECCC4F /* LabelWithImageStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26198772909567100ECCC4F /* LabelWithImageStackView.swift */; };
 		A261987D290A350300ECCC4F /* BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A261987C290A350300ECCC4F /* BottomButton.swift */; };
+		A2B077432923801D00DFEC08 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2B077422923801D00DFEC08 /* UIImage+Extension.swift */; };
+		A2B07746292381BE00DFEC08 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = A2B07745292381BE00DFEC08 /* FirebaseStorage */; };
+		A2C7DE582923720300269339 /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2C7DE572923720300269339 /* FirebaseStorageManager.swift */; };
 		A2F369D12908258B007F3732 /* GroupInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F369D02908258B007F3732 /* GroupInfoView.swift */; };
 		A2F369D929090E72007F3732 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F369D829090E72007F3732 /* UIButton+Extension.swift */; };
 		A2F369DD290948BB007F3732 /* GroupListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F369DC290948BB007F3732 /* GroupListViewController.swift */; };
@@ -187,6 +190,8 @@
 		A26198752909539B00ECCC4F /* ClubListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubListCollectionViewCell.swift; sourceTree = "<group>"; };
 		A26198772909567100ECCC4F /* LabelWithImageStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelWithImageStackView.swift; sourceTree = "<group>"; };
 		A261987C290A350300ECCC4F /* BottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButton.swift; sourceTree = "<group>"; };
+		A2B077422923801D00DFEC08 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		A2C7DE572923720300269339 /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
 		A2F369D02908258B007F3732 /* GroupInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupInfoView.swift; sourceTree = "<group>"; };
 		A2F369D829090E72007F3732 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		A2F369DC290948BB007F3732 /* GroupListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupListViewController.swift; sourceTree = "<group>"; };
@@ -226,6 +231,7 @@
 				76B0283129052209002C9DF7 /* FirebaseFirestore in Frameworks */,
 				4AB5C27A29078DB20064C41E /* SwiftyJSON in Frameworks */,
 				4AB5C27429078A910064C41E /* Alamofire in Frameworks */,
+				A2B07746292381BE00DFEC08 /* FirebaseStorage in Frameworks */,
 				76FF7CFA2917BDF70020BB2C /* KakaoSDKUser in Frameworks */,
 				76FF7CF62917BDF70020BB2C /* KakaoSDKAuth in Frameworks */,
 			);
@@ -346,6 +352,7 @@
 				4AFA58AC29050B3800679142 /* Date+Extension.swift */,
 				4AFA58AE29050B5C00679142 /* String+Extension.swift */,
 				A215B29D2906FA3E00DD60B2 /* UITextField+Extension.swift */,
+				A2B077422923801D00DFEC08 /* UIImage+Extension.swift */,
 				4A91B7D929252DE60053AD32 /* Int+Extension.swift */,
 			);
 			path = Extensions;
@@ -561,6 +568,7 @@
 			children = (
 				7645E75629070FC6009E2E3B /* FirebaseManager.swift */,
 				7628CC782913DEAE00CDA679 /* AuthManager.swift */,
+				A2C7DE572923720300269339 /* FirebaseStorageManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -631,6 +639,13 @@
 			path = Component;
 			sourceTree = "<group>";
 		};
+		A2B07744292381BE00DFEC08 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		A2F369DA29094877007F3732 /* GroupList */ = {
 			isa = PBXGroup;
 			children = (
@@ -683,6 +698,7 @@
 				76B027EF2901726E002C9DF7 /* VegetingTests */,
 				A7C8DF212901274500F38AD7 /* Products */,
 				4A66F514291FC996005DF3D7 /* Recovered References */,
+				A2B07744292381BE00DFEC08 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -750,6 +766,7 @@
 				76FF7CF52917BDF70020BB2C /* KakaoSDKAuth */,
 				76FF7CF72917BDF70020BB2C /* KakaoSDKCommon */,
 				76FF7CF92917BDF70020BB2C /* KakaoSDKUser */,
+				A2B07745292381BE00DFEC08 /* FirebaseStorage */,
 			);
 			productName = Vegeting;
 			productReference = A7C8DF202901274500F38AD7 /* Vegeting.app */;
@@ -843,6 +860,7 @@
 				A7C8DF282901274500F38AD7 /* ViewController.swift in Sources */,
 				4A060C0A2913D77200D75699 /* TestViewController.swift in Sources */,
 				4A060C062913AA4300D75699 /* InterestView.swift in Sources */,
+				A2C7DE582923720300269339 /* FirebaseStorageManager.swift in Sources */,
 				76B0282629051FC9002C9DF7 /* VFUser.swift in Sources */,
 				76B0283D29052937002C9DF7 /* Participant.swift in Sources */,
 				4ADC12ED2901838200C0FFB6 /* ImageLiteral.swift in Sources */,
@@ -867,6 +885,7 @@
 				4A060C01291398A600D75699 /* ProfileHalfModalViewController.swift in Sources */,
 				A2F369D12908258B007F3732 /* GroupInfoView.swift in Sources */,
 				A73AAAF32904E26D0050CA81 /* PostDetailViewController.swift in Sources */,
+				A2B077432923801D00DFEC08 /* UIImage+Extension.swift in Sources */,
 				7615B6542921096800A34DA4 /* ViewModelType.swift in Sources */,
 				4A31CD272903D86200E5E422 /* GroupCategoryView.swift in Sources */,
 				A26198782909567100ECCC4F /* LabelWithImageStackView.swift in Sources */,
@@ -1290,6 +1309,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 76FF7CF42917BDF70020BB2C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDKUser;
+		};
+		A2B07745292381BE00DFEC08 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 76B0282B29052209002C9DF7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
