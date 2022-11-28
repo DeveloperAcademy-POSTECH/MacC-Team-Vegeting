@@ -299,4 +299,17 @@ extension FirebaseManager {
             .eraseToAnyPublisher()
         
     }
+    
+    func isPossibleNickname(newName: String) async throws -> Bool {
+        do {
+            let querySnapshot = try await db.collection(Path.user.rawValue).whereField("userName", isEqualTo: newName).getDocuments()
+            if querySnapshot.documents.isEmpty {
+                return true
+            } else {
+                return false
+            }
+        } catch {
+            throw error
+        }
+    }
 }

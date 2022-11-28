@@ -8,12 +8,12 @@
 import Combine
 import UIKit
 
-class ChatRoomViewController: UIViewController {
+final class ChatRoomViewController: UIViewController {
     
-    private let vm = ChatRoomViewModel()
+    private let viewModel = ChatRoomViewModel()
     
     private var input: PassthroughSubject<ChatRoomViewModel.Input, Never> = .init()
-    private var messages: [Message] = []
+    private var messageBubbles: [MessageBubble] = []
     private var cancellables =  Set<AnyCancellable>()
     
     private let chatListCollectionView: UICollectionView = {
@@ -62,8 +62,8 @@ class ChatRoomViewController: UIViewController {
     
     private let messageTextView: UITextView = {
         let textView = UITextView()
-        textView.backgroundColor = .gray.withAlphaComponent(0.1)
-        textView.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        textView.backgroundColor = .vfGray4
+        textView.font = .preferredFont(forTextStyle: .callout)
         textView.layer.masksToBounds = true
         textView.layer.cornerRadius = 13
         textView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 16)
@@ -72,18 +72,19 @@ class ChatRoomViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureUI()
         setupLayout()
         bind()
     }
     
     private func bind() {
-        let output = vm.transform(input: input.eraseToAnyPublisher())
+        let output = viewModel.transform(input: input.eraseToAnyPublisher())
         
         output.sink { [weak self] event in
             switch event {
-            case .localChatDataChanged(let messages), .serverChatDataChanged(let messages):
-                self?.messages = messages
+            case .localChatDataChanged(let messageBubbles), .serverChatDataChanged(let messageBubbles):
+                self?.messageBubbles = messageBubbles
                 DispatchQueue.main.async {
                     self?.chatListCollectionView.reloadData()
                 }
@@ -93,8 +94,8 @@ class ChatRoomViewController: UIViewController {
         }.store(in: &cancellables)
     }
     
-    func configureVM(participatedChatRoom: ParticipatedChatRoom, user: VFUser) {
-        vm.configure(participatedChatRoom: participatedChatRoom, user: user)
+    func configureViewModel(participatedChatRoom: ParticipatedChatRoom, user: VFUser) {
+        viewModel.configure(participatedChatRoom: participatedChatRoom, user: user)
     }
 }
 
@@ -110,16 +111,24 @@ extension ChatRoomViewController {
 extension ChatRoomViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return messages.count
+        return messageBubbles.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OtherChatContentCollectionViewCell.className, for: indexPath) as? OtherChatContentCollectionViewCell else { return UICollectionViewCell() }
-        
-        let data = messages[indexPath.row]
-        cell.configure(with: data)
-        return cell
+        let data = messageBubbles[indexPath.item]
+        switch data.senderType {
+        case .mine:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyChatContentCollectionViewCell.className, for: indexPath) as? MyChatContentCollectionViewCell else { return UICollectionViewCell() }
+            cell.configure(with: data)
+            return cell
+            
+        case .otherWithProfile, .other:
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OtherChatContentCollectionViewCell.className, for: indexPath) as? OtherChatContentCollectionViewCell else { return UICollectionViewCell() }
+            cell.configure(with: data)
+            return cell
+            
+        }
     }
 }
 
