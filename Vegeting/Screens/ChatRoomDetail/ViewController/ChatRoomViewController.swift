@@ -144,7 +144,8 @@ extension ChatRoomViewController: UICollectionViewDataSource {
             
         case .date:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MessageDateCollectionViewCell.className, for: indexPath) as? MessageDateCollectionViewCell else { return UICollectionViewCell() }
-            cell.configure(message: data)
+            let date = data.message.createdAt
+            cell.configure(date: date)
             return cell
         }
     }

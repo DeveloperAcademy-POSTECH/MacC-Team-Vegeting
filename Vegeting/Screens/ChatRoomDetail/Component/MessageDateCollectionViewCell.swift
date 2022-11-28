@@ -25,8 +25,8 @@ final class MessageDateCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(message: MessageBubble) {
-        dateLabel.text = message.message.createdAt.yearMonthDay()
+    func configure(date: Date) {
+        dateLabel.text = date.yearMonthDay()
     }
 }
 
