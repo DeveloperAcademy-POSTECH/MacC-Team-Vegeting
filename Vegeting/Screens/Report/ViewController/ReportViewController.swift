@@ -195,7 +195,7 @@ extension ReportViewController: UITableViewDataSource {
         cell.selectionStyle = .none
         cell.delegate = self
         
-        let isOtherOption = indexPath.row == reportType.stringLiteral.reportElementList.count - 1
+        let isOtherOption = (indexPath.row == reportType.stringLiteral.reportElementList.count - 1)
         cell.isOtherOption = isOtherOption
         cell.configure(with: reportType.stringLiteral.reportElementList[indexPath.row])
         return cell
