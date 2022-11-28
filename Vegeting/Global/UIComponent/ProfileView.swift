@@ -151,10 +151,10 @@ final class ProfileView: UIView {
         profileImageView.image = UIImage(named: "coverImage")
         nicknameLabel.text = data.name
         vegetarianStepLabel.text = data.vegetarianType
-        ageGroupLabel.text = data.birth.toAgeGroup()
+        ageGroupLabel.text = data.birth?.toAgeGroup()
         locationLabel.text = data.location
         genderLabel.text = data.gender
         selfIntroductionLabel.text = data.introduction
-        interestCollectionView.changeCategoryList(with: data.interests)
+        interestCollectionView.changeCategoryList(with: data.interests ?? [])
     }
 }
