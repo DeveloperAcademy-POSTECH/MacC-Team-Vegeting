@@ -32,18 +32,12 @@ final class GroupCategoryView: UIView {
     
     private var categoryList: [String] = ["맛집", "행사", "파티", "기타"]
     weak var delegate: GroupCategoryViewDelegate?
-    private var selectedCategory: String = "slek"
     
     // MARK: - init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLayout()
-    }
-    
-    convenience init(selectedCategory: String? = nil) {
-        self.init()
-        self.selectedCategory = selectedCategory
     }
     
     required init?(coder: NSCoder) {
@@ -66,7 +60,12 @@ final class GroupCategoryView: UIView {
         guard let index = categoryCollectionView.indexPathsForSelectedItems?.first?.item else { return nil }
         return categoryList[index]
     }
- 
+    
+    func setupPostCategory(selectedCategory: String) {
+        guard let index = categoryList.firstIndex(of: selectedCategory) else { return }
+        let indexPath = IndexPath(item: index, section: 0)
+        categoryCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .bottom)
+    }
 }
 
 extension GroupCategoryView: UICollectionViewDataSource {
@@ -76,13 +75,6 @@ extension GroupCategoryView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: GroupCategoryCollectionViewCell.className, for: indexPath) as? GroupCategoryCollectionViewCell else { return UICollectionViewCell() }
-    
-        if let selectedCategory = self.selectedCategory {
-            let index = categoryList.firstIndex(of: selectedCategory)
-            if index == indexPath.item {
-                categoryCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .bottom)
-            }
-        }
         cell.configure(with: categoryList[indexPath.item])
         return cell
     }
@@ -99,7 +91,6 @@ extension GroupCategoryView: UICollectionViewDelegateFlowLayout {
 extension GroupCategoryView: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? GroupCategoryCollectionViewCell else { return }
         delegate?.didSelectCategory(didSelectItemAt: indexPath)
     }
 

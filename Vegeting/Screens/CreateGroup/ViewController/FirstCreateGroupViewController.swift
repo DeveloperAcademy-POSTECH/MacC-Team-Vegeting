@@ -32,12 +32,9 @@ final class FirstCreateGroupViewController: UIViewController {
     }()
     
     private lazy var categoryCollectionView: GroupCategoryView = {
-        let groupCategoryView: GroupCategoryView
-        switch entryPoint {
-        case .create:
-            groupCategoryView = GroupCategoryView()
-        case .revise:
-            groupCategoryView = GroupCategoryView(selectedCategory: club?.clubCategory)
+        let groupCategoryView = GroupCategoryView()
+        if entryPoint == .revise {
+            groupCategoryView.setupPostCategory(selectedCategory: club?.clubCategory ?? "")
         }
         groupCategoryView.delegate = self
         return groupCategoryView
@@ -140,6 +137,7 @@ final class FirstCreateGroupViewController: UIViewController {
     init(entryPoint: EntryPoint, club: Club? = nil) {
         self.entryPoint = entryPoint
         self.club = club
+        print("init, here")
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -147,8 +145,13 @@ final class FirstCreateGroupViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func changeCategory() {
+        print("changeCategory in here")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("viewDidLoad")
         setupLayout()
         configureUI()
         setupNavigationBar()

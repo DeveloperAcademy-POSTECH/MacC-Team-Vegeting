@@ -94,7 +94,6 @@ extension NumberOfGroupPeopleView: UICollectionViewDelegateFlowLayout {
 
 extension NumberOfGroupPeopleView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? NumberOfPeopleCollectionViewCell else { return }
         delegate?.didSelectedItem()
     }
 }
