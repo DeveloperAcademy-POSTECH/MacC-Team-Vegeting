@@ -45,7 +45,7 @@ class FirebaseStorageManager {
         let reference = Storage.storage().reference(forURL: url.absoluteString)
         let megaByte = Int64(1 * 1024 * 1024)
         
-        reference.getData(maxSize: megaByte) { data, error in
+        reference.getData(maxSize: megaByte) { data, _ in
             guard let imageData = data else {
                 completion(nil)
                 return
