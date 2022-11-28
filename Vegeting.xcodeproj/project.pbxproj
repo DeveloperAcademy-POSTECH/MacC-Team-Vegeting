@@ -495,15 +495,6 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
-		4AFF0F512919F8AD00F7496C /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				4AFF0F522919F8C400F7496C /* MyPageTableViewCell.swift */,
-				4AFF0F542919F8E100F7496C /* MyPageProfileTableViewCell.swift */,
-			);
-			path = Cell;
-			sourceTree = "<group>";
-		};
 		7615B6522921095000A34DA4 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -630,13 +621,6 @@
 			path = Component;
 			sourceTree = "<group>";
 		};
-		A2B07744292381BE00DFEC08 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		A2F369DA29094877007F3732 /* GroupList */ = {
 			isa = PBXGroup;
 			children = (
@@ -690,7 +674,6 @@
 				76B027EF2901726E002C9DF7 /* VegetingTests */,
 				A7C8DF212901274500F38AD7 /* Products */,
 				4A66F514291FC996005DF3D7 /* Recovered References */,
-				A2B07744292381BE00DFEC08 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
