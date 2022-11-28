@@ -75,15 +75,15 @@ class GroupListViewController: UIViewController {
         configureCollectionView()
         configureUI()
         setupLayout()
+        groupCategoryView.setupDefaultStatus()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Task {
-            groupCategoryView.selectAllCategory()
             allClubList = await FirebaseManager.shared.requestClubInformation() ?? []
-            showClubList = allClubList
             fetchClubLists()
+            updateShowClubList()
         }
     }
     
@@ -99,6 +99,23 @@ class GroupListViewController: UIViewController {
             default :
                 break
             }
+        }
+    }
+    
+    private func updateShowClubList() {
+        print(groupCategoryView.getSelectedCategory())
+        switch groupCategoryView.getSelectedCategory() {
+        case "전체" :
+            showClubList = allClubList
+        case "맛집" :
+            showClubList = restaurantClubList
+        case "행사" :
+            showClubList = eventClubList
+        case "기타" :
+            showClubList = elseClubList
+        default :
+            groupCategoryView.setupDefaultStatus()
+            showClubList = allClubList
         }
     }
     

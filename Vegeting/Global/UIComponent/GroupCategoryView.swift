@@ -61,11 +61,11 @@ final class GroupCategoryView: UIView {
         categoryCollectionView.delegate = self
     }
     
-    func selectAllCategory() {
+    func setupDefaultStatus() {
         guard let selectedIndex = categoryCollectionView.indexPathsForSelectedItems else { return }
-        if !selectedIndex.isEmpty {
-            categoryCollectionView.deselectItem(at: selectedIndex[0], animated: false)
-            guard let cellToDeselect = categoryCollectionView.cellForItem(at: selectedIndex[0]) as? GroupCategoryCollectionViewCell else { return }
+        selectedIndex.forEach { idx in
+            categoryCollectionView.deselectItem(at: idx, animated: false)
+            guard let cellToDeselect = categoryCollectionView.cellForItem(at: idx) as? GroupCategoryCollectionViewCell else { return }
             cellToDeselect.applySelectedState()
         }
         
