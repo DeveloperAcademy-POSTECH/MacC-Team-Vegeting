@@ -11,7 +11,7 @@ protocol ClubListCollectionViewDelegate: AnyObject {
     func clubListCellTapped(viewController: PostDetailViewController)
 }
 
-class ClubListCollectionView: UICollectionView {
+final class ClubListCollectionView: UICollectionView {
     private var clubList: [Club] = [] {
         didSet {
             DispatchQueue.main.async { [weak self] in
