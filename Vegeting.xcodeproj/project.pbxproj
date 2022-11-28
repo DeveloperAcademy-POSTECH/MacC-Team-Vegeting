@@ -80,6 +80,8 @@
 		A215B29929069D9600DD60B2 /* SecondCreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A215B29829069D9600DD60B2 /* SecondCreateGroupViewController.swift */; };
 		A215B29C2906DB6400DD60B2 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A215B29B2906DB6400DD60B2 /* PhotoPickerView.swift */; };
 		A215B29E2906FA3E00DD60B2 /* UITextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A215B29D2906FA3E00DD60B2 /* UITextField+Extension.swift */; };
+		A23990DC29346FE600664C5C /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = A23990DB29346FE600664C5C /* Kingfisher */; };
+		A23990DE2934708000664C5C /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A23990DD2934708000664C5C /* UIImageView+Extension.swift */; };
 		A26198762909539B00ECCC4F /* ClubListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26198752909539B00ECCC4F /* ClubListCollectionViewCell.swift */; };
 		A26198782909567100ECCC4F /* LabelWithImageStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A26198772909567100ECCC4F /* LabelWithImageStackView.swift */; };
 		A261987D290A350300ECCC4F /* BottomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A261987C290A350300ECCC4F /* BottomButton.swift */; };
@@ -182,6 +184,7 @@
 		A215B29829069D9600DD60B2 /* SecondCreateGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondCreateGroupViewController.swift; sourceTree = "<group>"; };
 		A215B29B2906DB6400DD60B2 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
 		A215B29D2906FA3E00DD60B2 /* UITextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Extension.swift"; sourceTree = "<group>"; };
+		A23990DD2934708000664C5C /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		A26198752909539B00ECCC4F /* ClubListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubListCollectionViewCell.swift; sourceTree = "<group>"; };
 		A26198772909567100ECCC4F /* LabelWithImageStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelWithImageStackView.swift; sourceTree = "<group>"; };
 		A261987C290A350300ECCC4F /* BottomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomButton.swift; sourceTree = "<group>"; };
@@ -219,6 +222,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A23990DC29346FE600664C5C /* Kingfisher in Frameworks */,
 				76B0283529052209002C9DF7 /* FirebaseFirestoreSwift in Frameworks */,
 				76B0282D29052209002C9DF7 /* FirebaseAuth in Frameworks */,
 				76B0283329052209002C9DF7 /* FirebaseFirestoreCombine-Community in Frameworks */,
@@ -350,6 +354,7 @@
 				A215B29D2906FA3E00DD60B2 /* UITextField+Extension.swift */,
 				A2B077422923801D00DFEC08 /* UIImage_Extension.swift */,
 				4A91B7D929252DE60053AD32 /* Int+Extension.swift */,
+				A23990DD2934708000664C5C /* UIImageView+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -746,6 +751,7 @@
 				76FF7CF72917BDF70020BB2C /* KakaoSDKCommon */,
 				76FF7CF92917BDF70020BB2C /* KakaoSDKUser */,
 				A2B07745292381BE00DFEC08 /* FirebaseStorage */,
+				A23990DB29346FE600664C5C /* Kingfisher */,
 			);
 			productName = Vegeting;
 			productReference = A7C8DF202901274500F38AD7 /* Vegeting.app */;
@@ -784,6 +790,7 @@
 				4AB5C27229078A910064C41E /* XCRemoteSwiftPackageReference "Alamofire" */,
 				4AB5C27829078DB20064C41E /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				76FF7CF42917BDF70020BB2C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+				A23990DA29346FE500664C5C /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = A7C8DF212901274500F38AD7 /* Products */;
 			projectDirPath = "";
@@ -895,6 +902,7 @@
 				7645E75729070FC6009E2E3B /* FirebaseManager.swift in Sources */,
 				7628CC792913DEAE00CDA679 /* AuthManager.swift in Sources */,
 				4A91B7DA29252DE60053AD32 /* Int+Extension.swift in Sources */,
+				A23990DE2934708000664C5C /* UIImageView+Extension.swift in Sources */,
 				4A060C082913AA5E00D75699 /* InterestCollectionViewCell.swift in Sources */,
 				A7164B3129123E7100FFB668 /* UserProfileViewController.swift in Sources */,
 				4ADC12DD2901800D00C0FFB6 /* UIColor+Extension.swift in Sources */,
@@ -1236,6 +1244,14 @@
 				kind = branch;
 			};
 		};
+		A23990DA29346FE500664C5C /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1288,6 +1304,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 76FF7CF42917BDF70020BB2C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */;
 			productName = KakaoSDKUser;
+		};
+		A23990DB29346FE600664C5C /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A23990DA29346FE500664C5C /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
 		A2B07745292381BE00DFEC08 /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -24,20 +24,4 @@ class FirebaseStorageManager {
             }
         }
     }
-    
-    static func downloadImage(url: URL,
-                              completion: @escaping (Result<UIImage, Error>) -> Void) {
-        let reference = Storage.storage().reference(forURL: url.absoluteString)
-        let megaByte = Int64(1 * 1024 * 1024)
-        
-        reference.getData(maxSize: megaByte) { data, error in
-            guard let imageData = data,
-                  let image = UIImage(data: imageData)
-            else {
-                completion(.failure(StorageError.downloadFail))
-                return
-            }
-            completion(.success(image))
-        }
-    }
 }
