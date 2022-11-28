@@ -14,3 +14,8 @@ enum ErrorLiteral: Error {
 enum FBError: Error {
     case didFailToLoadChat
 }
+
+enum StorageError: Error {
+    case uploadFail
+    case downloadFail
+}

@@ -70,7 +70,7 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with item: Club) {
-        coverImageView.image = UIImage(named: item.coverImageURL ?? "groupCoverImage1")
+        coverImageView.image = UIImage(named: "groupCoverImage1")
         categoryView.configure(text: item.clubCategory, backgroundColor: .vfGray4 )
         titleLabel.text = item.clubTitle
         let participantsCount = item.participants?.count ?? 0

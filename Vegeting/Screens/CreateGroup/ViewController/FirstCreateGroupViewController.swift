@@ -128,9 +128,22 @@ final class FirstCreateGroupViewController: UIViewController {
         super.viewDidLoad()
         setupLayout()
         configureUI()
+        setupNavigationBar()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        hideTabBar()
     }
     
     //MARK: - func
+    
+    private func hideTabBar() {
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    
+    private func setupNavigationBar() {
+        self.navigationItem.backButtonDisplayMode = .minimal
+    }
     
     private func showLocationView() {
         locationTitleLabel.isHidden = false
@@ -159,8 +172,8 @@ final class FirstCreateGroupViewController: UIViewController {
         guard let selectedCategory = categoryCollectionView.getSelectedCategory(),
               let selectedNumberOfPeople = numberOfGroupCollectionView.getSelectedNumber() else { return }
         let passedData = IncompleteClub(clubCategory: selectedCategory,
-                                        clubLocation: locationLabel.text ?? "",
-                                        createdAt: datePicker.date,
+                                        placeToMeet: locationLabel.text ?? "",
+                                        dateToMeet: datePicker.date,
                                         maxNumberOfPeople: selectedNumberOfPeople)
         let viewController = SecondCreateGroupViewController()
         viewController.configure(with: passedData)
@@ -259,7 +272,6 @@ final class FirstCreateGroupViewController: UIViewController {
         view.backgroundColor = .white
         scrollView.showsVerticalScrollIndicator = false
     }
-    
 }
 
 extension FirstCreateGroupViewController: LocationSearchingViewControllerDelegate {
@@ -267,7 +279,6 @@ extension FirstCreateGroupViewController: LocationSearchingViewControllerDelegat
         locationLabel.text = text
         self.showDateView()
     }
-    
 }
 
 extension FirstCreateGroupViewController: GroupCategoryViewDelegate {
@@ -280,5 +291,4 @@ extension FirstCreateGroupViewController: NumberOfGroupPeopleViewDelegate {
     func didSelectedItem() {
         bottomButton.isEnabled = true
     }
-    
 }

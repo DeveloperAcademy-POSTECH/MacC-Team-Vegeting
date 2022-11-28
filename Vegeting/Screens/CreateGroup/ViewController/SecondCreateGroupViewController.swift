@@ -10,24 +10,26 @@ import PhotosUI
 
 final class SecondCreateGroupViewController: BaseViewController {
     private lazy var coverPickerView: PhotoPickerView = {
-        var pickerView = PhotoPickerView()
+        let pickerView = PhotoPickerView()
         pickerView.setLabelText(text: StringLiteral.secondCreateGroupViewControllerPhoto)
+        pickerView.delegate = self
         return pickerView
     }()
     
     private lazy var groupInfoStackView: GroupInfoView = {
-        var stackView = GroupInfoView()
+        let stackView = GroupInfoView()
         return stackView
     }()
     
     private lazy var titleTextField: UITextField = {
-        var textField = UITextField()
+        let textField = UITextField()
         textField.placeholder = StringLiteral.secondCreateGroupViewControllerTitle
         textField.font = .preferredFont(forTextStyle: .body)
         textField.layer.cornerRadius = 5
         textField.layer.backgroundColor = UIColor.systemGray4.cgColor
         textField.addLeftPadding()
         textField.addTarget(self, action: #selector(didTextFieldChanged), for: .editingChanged)
+        textField.delegate = self
         return textField
     }()
     
@@ -42,7 +44,7 @@ final class SecondCreateGroupViewController: BaseViewController {
     }()
     
     private lazy var contentTextView: UITextView = {
-        var textView = UITextView()
+        let textView = UITextView()
         textView.text = StringLiteral.secondCreateGroupViewControllerContent
         textView.textColor = .lightGray
         textView.font = .preferredFont(forTextStyle: .body)
@@ -71,9 +73,13 @@ final class SecondCreateGroupViewController: BaseViewController {
         return button
     }()
     
+    //MARK: - lifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    //MARK: - func
     
     override func setupLayout() {
         view.addSubviews(coverPickerView, groupInfoStackView, titleTextField, titleWordsCountLabel,
@@ -128,46 +134,68 @@ final class SecondCreateGroupViewController: BaseViewController {
     
     override func configureUI() {
         super.configureUI()
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapPhotoPicker(sender:)))
-        coverPickerView.addGestureRecognizer(tapGesture)
-        titleTextField.delegate = self
     }
     
     @objc
     private func registerButtonTapped() {
-        guard let incompleteClub = groupInfoStackView.getData(),
-        let clubTitle = titleTextField.text else { return }
-        let firebaseManager = FirebaseManager.shared
+        guard var club = makeClub(),
+              let chat = makeChat() else { return }
         
+        requestImageURL() { url in
+            club.coverImageURL = url
+            Task {
+                guard let vfUser = await FirebaseManager.shared.requestUser() else { return }
+                FirebaseManager.shared.requestPost(user: vfUser, club: club, chat: chat)
+            }
+        }
+        
+        navigationController?.popToRootViewController(animated: true)
+    }
+
+    private func requestImageURL(completion: @escaping (URL?) -> Void) {
+        if !coverPickerView.isDefaultCoverImage() {
+            guard let image = coverPickerView.getImageView()
+            else {
+                completion(nil)
+                return
+            }
+            FirebaseStorageManager.shared.uploadImage(image: image, folderName: "club") { result in
+                switch result {
+                case .success(let url):
+                    completion(url)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        } else {
+            completion(nil)
+        }
+    }
+    
+    private func makeClub() -> Club? {
+        guard let incompleteClub = groupInfoStackView.getData(),
+              let clubTitle = titleTextField.text else { return nil }
         let club = Club(id: nil, clubID: nil, chatID: nil,
                         clubTitle: clubTitle,
                         clubCategory: incompleteClub.clubCategory,
                         clubContent: contentTextView.text,
                         hostID: nil, participants: nil,
-                        createdAt: incompleteClub.createdAt,
-                        maxNumberOfPeople: incompleteClub.maxNumberOfPeople,
-                        coverImageURL: nil)
-        
+                        dateToMeet: incompleteClub.dateToMeet,
+                        createdAt: Date(),
+                        placeToMeet: incompleteClub.placeToMeet,
+                        maxNumberOfPeople: incompleteClub.maxNumberOfPeople)
+        return club
+    }
+    
+    private func makeChat() -> Chat? {
+        guard let clubTitle = titleTextField.text else { return nil }
         let chat = Chat(chatRoomID: nil,
                         clubID: nil,
-                        chatRoomName: titleTextField.text ?? "",
+                        chatRoomName: clubTitle,
                         participants: nil,
                         messages: nil,
                         coverImageURL: nil)
-        Task {
-            guard let vfUser = await firebaseManager.requestUser() else { return }
-            firebaseManager.requestPost(user: vfUser , club: club, chat: chat)
-        }
-    }
-    
-    @objc
-    private func tapPhotoPicker(sender: UITapGestureRecognizer) {
-        var configuration = PHPickerConfiguration()
-        configuration.selectionLimit = 1
-        configuration.filter = .images
-        let PHPicker = PHPickerViewController(configuration: configuration)
-        PHPicker.delegate = self
-        present(PHPicker, animated: true, completion: nil)
+        return chat
     }
     
     @objc
@@ -201,18 +229,13 @@ final class SecondCreateGroupViewController: BaseViewController {
     }
 }
 
-extension SecondCreateGroupViewController: PHPickerViewControllerDelegate {
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true)
-        if let itemProvider = results.first?.itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
-            itemProvider.loadObject(ofClass: UIImage.self) { image, error in
-                DispatchQueue.main.async {
-                    guard let image = image as? UIImage else { return }
-                    self.coverPickerView.setImageView(image: image)
-                    self.coverPickerView.setLabelText(text: "")
-                }
-            }
-        }
+extension SecondCreateGroupViewController: PhotoPickerViewDelegate {
+    func showPHPicker(PHPicker: PHPickerViewController) {
+        present(PHPicker, animated: true, completion: nil)
+    }
+    
+    func showActionSheet(actionSheet: UIAlertController) {
+        present(actionSheet, animated: true, completion: nil)
     }
 }
 
