@@ -228,13 +228,16 @@ extension LocationSearchingViewController: UITableViewDataSource {
 
 extension LocationSearchingViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let text: String
+        let totalAddress = addressResultList.count
+        let totalCount = addressResultList.count + placeResultList.count
         
-        var text = ""
-        let addressResultNumer = addressResultList.count
-        if indexPath.row < addressResultNumer {
+        if totalCount == 0 {
+            text = autoSearchResults[indexPath.row].title
+        } else if indexPath.row < totalAddress {
             text = addressResultList[indexPath.row].addressName
         } else {
-            text = placeResultList[indexPath.row - addressResultNumer].placeName
+            text = placeResultList[indexPath.row - totalAddress].placeName
         }
         
         delegate?.configureLocationText(with: text)

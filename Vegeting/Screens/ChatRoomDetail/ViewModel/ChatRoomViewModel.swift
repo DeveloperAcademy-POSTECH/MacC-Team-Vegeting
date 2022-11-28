@@ -14,15 +14,21 @@ struct TemporaryMessage {
     let messageContent: String
 }
 
+struct MessageBubble {
+    let message: Message
+    let senderType: SenderType
+}
+
 final class ChatRoomViewModel: ViewModelType {
     
     enum Input {
+        case viewWillAppear
         case sendButtonTapped(text: String)
     }
     
     enum Output {
-        case localChatDataChanged(messages: [Message])
-        case serverChatDataChanged(messages: [Message])
+        case localChatDataChanged(messageBubbles: [MessageBubble])
+        case serverChatDataChanged(messageBubbles: [MessageBubble])
         case failToGetDataFromServer(error: Error)
     }
     
@@ -33,10 +39,11 @@ final class ChatRoomViewModel: ViewModelType {
     private var chat: Chat?
     private var user: VFUser?
     
-    
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
             switch event {
+            case .viewWillAppear:
+                break
             case .sendButtonTapped(let text):
                 self?.sendMessageFromLocal(text: text)
                 break
@@ -54,7 +61,8 @@ final class ChatRoomViewModel: ViewModelType {
             }
         } receiveValue: { [weak self] chat in
             self?.chat = chat
-            self?.output.send(.serverChatDataChanged(messages: self?.chat?.messages ?? []))
+            let messageBubbles = self?.messagesToMessageBubbles(messages: chat.messages ?? []) ?? []
+            self?.output.send(.serverChatDataChanged(messageBubbles: messageBubbles))
         }.store(in: &cancellables)
     }
 
@@ -64,10 +72,31 @@ final class ChatRoomViewModel: ViewModelType {
         chat?.messages?.append(message)
         
         guard let chat = chat, let messages = chat.messages else { return }
-        output.send(.localChatDataChanged(messages: messages))
+        let messageBubbles = messagesToMessageBubbles(messages: messages)
+        output.send(.localChatDataChanged(messageBubbles: messageBubbles))
         
         Task {
-            await FirebaseManager.shared.registerMessage(chat: chat, message: message)
+            await FirebaseManager.shared.sendMessage(chat: chat, message: message)
+        }
+    }
+    
+    private func messagesToMessageBubbles(messages: [Message]) -> [MessageBubble] {
+        guard let user = user else { return [] }
+        
+//        만약 이전 기록이 없더라도, 현재 유저ID로 하게 된다면 Sender 판단 로직에 오류가 발생할 수 없음.
+        var previousSenderID = user.userID
+        
+        return messages.map { message in
+            if message.senderID == user.userID {
+                previousSenderID = message.senderID
+                return MessageBubble(message: message, senderType: .mine)
+            } else if message.senderID == previousSenderID {
+                previousSenderID = message.senderID
+                return MessageBubble(message: message, senderType: .other)
+            } else {
+                previousSenderID = message.senderID
+                return MessageBubble(message: message, senderType: .otherWithProfile)
+            }
         }
     }
     
@@ -76,5 +105,6 @@ final class ChatRoomViewModel: ViewModelType {
         self.user = user
         requestMessagesFromServer()
     }
+    
 }
 
