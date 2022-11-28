@@ -55,7 +55,8 @@ class GroupListViewController: UIViewController {
     
     @objc
     private func addClubButtontapped() {
-        print("tapAddClubButton")
+        let creatrViewController = FirstCreateGroupViewController()
+        navigationController?.pushViewController(creatrViewController, animated: true)
     }
     
     private lazy var customSegmentedControl: SegmentedControlCustomView = {
@@ -76,6 +77,8 @@ class GroupListViewController: UIViewController {
         return collectionView
     }()
     
+    //MARK: - lifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setCustomNavigationBar()
@@ -86,9 +89,16 @@ class GroupListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        Task {
-            clubList = await FirebaseManager.shared.requestClubInformation() ?? []
+        showTabBar()
+        Task { [weak self] in
+            self?.clubList = await FirebaseManager.shared.requestClubInformation() ?? []
         }
+    }
+    
+    //MARK: - func
+    
+    private func showTabBar() {
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     private func configureCollectionView() {
@@ -111,6 +121,8 @@ class GroupListViewController: UIViewController {
         navigationBarView.spacing = space - 115
 
         navigationItem.titleView = navigationBarView
+        navigationItem.backButtonDisplayMode = .minimal
+        navigationController?.navigationBar.tintColor = .black
     }
     
     private func setupLayout() {
