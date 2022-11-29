@@ -15,13 +15,13 @@ final class AuthManager {
     
     static let shared = AuthManager()
     private let auth = Auth.auth()
-    private var currentUser: VFUser?
+    private var user: VFUser?
     
     private init() {
         FirebaseManager.shared.requestUser { result in
             switch result {
             case .success(let user):
-                self.currentUser = user
+                self.user = user
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -55,8 +55,8 @@ final class AuthManager {
             .eraseToAnyPublisher()
     }
     
-    func fetchCurrentUser() -> VFUser? {
-        return self.currentUser
+    func currentUser() -> VFUser? {
+        return self.user
     }
     
 }
