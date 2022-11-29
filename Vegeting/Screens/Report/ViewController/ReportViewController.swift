@@ -173,6 +173,11 @@ final class ReportViewController: UIViewController {
             break
         case .unregister:
             FirebaseManager.shared.unregisterUser(reason: selectedElementList)
+            makeAlert(title: "탈퇴되었습니다", message: "", completion: {
+                let signInViewController = SignInViewController()
+                signInViewController.modalPresentationStyle = .fullScreen
+                self.present(signInViewController, animated: false, completion: nil)
+            })
         }
         
     }
