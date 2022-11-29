@@ -111,12 +111,9 @@ final class FirstCreateGroupViewController: UIViewController {
     }()
     
     private lazy var numberOfGroupCollectionView: NumberOfGroupPeopleView = {
-        let view: NumberOfGroupPeopleView
-        switch entryPoint {
-        case .create:
-            view = NumberOfGroupPeopleView()
-        case .revise:
-            view = NumberOfGroupPeopleView(selectedNumber: club?.maxNumberOfPeople)
+        let view = NumberOfGroupPeopleView()
+        if entryPoint == .revise {
+            view.setupPostNumberOfPeople(selectedNumber: club?.maxNumberOfPeople ?? 2)
         }
         view.delegate = self
         return view

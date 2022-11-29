@@ -38,12 +38,7 @@ final class NumberOfGroupPeopleView: UIView {
         configureCollectionView()
         setupLayout()
     }
-    
-    convenience init(selectedNumber: Int? = nil) {
-        self.init()
-        self.selectedNumber = selectedNumber
-    }
-    
+  
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -64,6 +59,13 @@ final class NumberOfGroupPeopleView: UIView {
     func getSelectedNumber() -> Int? {
         guard let index = numberCollectionView.indexPathsForSelectedItems?.first?.item else { return nil }
         return index + 2
+    }
+    
+    func setupPostNumberOfPeople(selectedNumber: Int) {
+        let numberInString = "\(selectedNumber)명"
+        guard let index = numberList.firstIndex(of: numberInString) else { return }
+        let indexPath = IndexPath(item: index, section: 0)
+        numberCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .bottom)
     }
 }
 
