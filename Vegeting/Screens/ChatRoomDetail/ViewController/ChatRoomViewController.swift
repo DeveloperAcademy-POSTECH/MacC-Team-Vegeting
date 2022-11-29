@@ -80,7 +80,6 @@ final class ChatRoomViewController: UIViewController {
     
     private func bind() {
         let output = viewModel.transform(input: input.eraseToAnyPublisher())
-        
         output.sink { [weak self] event in
             switch event {
             case .localChatDataChanged(let messageBubbles), .serverChatDataChanged(let messageBubbles):

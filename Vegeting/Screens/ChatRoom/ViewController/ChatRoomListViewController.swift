@@ -131,6 +131,5 @@ extension ChatRoomListViewController: UITableViewDelegate {
         guard let user = self.user else { return }
         viewController.configureViewModel(participatedChatRoom: participatedChatRoom, user: user)
         navigationController?.pushViewController(viewController, animated: true)
-        
     }
 }

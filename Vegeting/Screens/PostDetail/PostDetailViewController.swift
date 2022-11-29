@@ -233,7 +233,8 @@ final class PostDetailViewController: UIViewController {
     }
     
     private func showParticipateHalfModal() {
-        let viewController = ParticipateHalfViewController()
+        let viewController = ParticipateHalfViewController(club: self.club)
+        viewController.delegate = self
         viewController.modalPresentationStyle = .pageSheet
         if let sheet = viewController.sheetPresentationController {
             sheet.detents = [.medium()]
@@ -328,9 +329,20 @@ extension PostDetailViewController:  UICollectionViewDelegate {
             sheet.detents = [.medium()]
             sheet.prefersGrabberVisible = false
         }
-   
         viewController.configure(with: user)
-        
         present(viewController, animated: true, completion: nil)
     }
 }
+
+extension PostDetailViewController: ParticipateHalfViewControllerDelegate {
+    func navigateChatRoom() {
+        let viewController = ChatRoomViewController()
+        let participatedChatRoom = ParticipatedChatRoom(chatID: club.chatID,
+                                                        chatName: club.clubTitle,
+                                                        imageURL: club.coverImageURL?.description)
+        guard let user = AuthManager.shared.getCurrentUser() else { return }
+        viewController.configureViewModel(participatedChatRoom: participatedChatRoom, user: user)
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+}
+

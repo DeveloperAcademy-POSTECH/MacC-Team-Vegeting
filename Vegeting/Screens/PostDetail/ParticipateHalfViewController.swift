@@ -7,8 +7,12 @@
 
 import UIKit
 
-final class ParticipateHalfViewController: UIViewController {
+protocol ParticipateHalfViewControllerDelegate: AnyObject {
+    func navigateChatRoom()
+}
 
+final class ParticipateHalfViewController: UIViewController {
+    
     // MARK: - properties
     
     private let contentView = UIView()
@@ -20,14 +24,14 @@ final class ParticipateHalfViewController: UIViewController {
     }()
     
     private let titleLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3, compatibleWith: .init(legibilityWeight: .bold))
         label.text = "채팅방에 입장하시겠습니까?"
         return label
     }()
     
     private let subTitleLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.font = .preferredFont(forTextStyle: .subheadline)
         label.numberOfLines = 0
         label.text = "채팅방에 입장하면 모임 참석이 확정되고 모임에 대한 자세한 이야기를 나눌 수 있어요."
@@ -35,13 +39,26 @@ final class ParticipateHalfViewController: UIViewController {
         return label
     }()
     
-    private let participateButton: BottomButton = {
-       let button = BottomButton()
+    private lazy var participateButton: BottomButton = {
+        let button = BottomButton()
         button.setTitle("참여하기", for: .normal)
+        button.addTarget(self, action: #selector(participateButtonTapped), for: .touchUpInside)
         return button
     }()
     
+    private var club: Club
+    weak var delegate: ParticipateHalfViewControllerDelegate?
+    
     // MARK: - lifeCycle
+    
+    init(club: Club) {
+        self.club = club
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +66,9 @@ final class ParticipateHalfViewController: UIViewController {
         configureUI()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+    }
     // MARK: - func
     
     private func setupLayout() {
@@ -87,5 +107,13 @@ final class ParticipateHalfViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .systemBackground
         view.layer.cornerRadius = 24
+    }
+    
+    @objc
+    private func participateButtonTapped() {
+        DispatchQueue.main.async {
+            self.dismiss(animated: true)
+        }
+        delegate?.navigateChatRoom()
     }
 }
