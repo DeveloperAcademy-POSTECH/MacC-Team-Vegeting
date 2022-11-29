@@ -64,6 +64,12 @@ final class UserProfileViewController: UIViewController {
         return textField
     }()
     
+    private let validNicknameLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .footnote)
+        return label
+    }()
+    
     private let nicknameTextCountLabel: UILabel = {
         let label = UILabel()
         label.textColor = .vfGray3
@@ -100,7 +106,7 @@ final class UserProfileViewController: UIViewController {
         view.backgroundColor = .systemBackground
         view.addSubviews(progressBarImageView, profileMessageLabel, profileImageView,
                          nicknameMessageLabel, cameraButton, nicknameTextField,
-                         nicknameTextCountLabel, nextButton)
+                         validNicknameLabel, nicknameTextCountLabel, nextButton)
     }
     
     private func setupLayout() {
@@ -139,11 +145,16 @@ final class UserProfileViewController: UIViewController {
             nicknameTextField.topAnchor.constraint(equalTo: nicknameMessageLabel.bottomAnchor, constant: 17),
             nicknameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             nicknameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            nicknameTextField.heightAnchor.constraint(equalToConstant: 50)
+            nicknameTextField.heightAnchor.constraint(equalToConstant: 35)
         ])
         
         NSLayoutConstraint.activate([
-            nicknameTextCountLabel.topAnchor.constraint(equalTo: nicknameTextField.bottomAnchor, constant: 13),
+            validNicknameLabel.topAnchor.constraint(equalTo: nicknameTextField.bottomAnchor, constant: 10),
+            validNicknameLabel.leadingAnchor.constraint(equalTo: nicknameTextField.leadingAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            nicknameTextCountLabel.topAnchor.constraint(equalTo: nicknameTextField.bottomAnchor, constant: 10),
             nicknameTextCountLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
         
