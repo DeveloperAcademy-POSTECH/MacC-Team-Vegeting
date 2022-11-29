@@ -98,9 +98,10 @@ final class PostDetailViewController: UIViewController {
         return collectionView
     }()
     
-    private let enterButton: BottomButton = {
+    private lazy var enterButton: BottomButton = {
         let button = BottomButton()
         button.setTitle("참여하기", for: .normal)
+        button.addTarget(self, action: #selector(enterButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -223,6 +224,22 @@ final class PostDetailViewController: UIViewController {
         if entryPoint == .mine {
             enterButton.isEnabled = false
         }
+    }
+    
+    @objc
+    private func enterButtonTapped() {
+        showParticipateHalfModal()
+        
+    }
+    
+    private func showParticipateHalfModal() {
+        let viewController = ParticipateHalfViewController()
+        viewController.modalPresentationStyle = .pageSheet
+        if let sheet = viewController.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = false
+        }
+        present(viewController, animated: true, completion: nil)
     }
     
     @objc

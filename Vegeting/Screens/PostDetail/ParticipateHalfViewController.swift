@@ -66,8 +66,7 @@ final class ParticipateHalfViewController: UIViewController {
                            constant: 0).isActive = true
         
         imageView.constraint(top: contentView.topAnchor,
-                             centerX: contentView.centerXAnchor,
-                             padding: UIEdgeInsets(top: 55, left: 0, bottom: 0, right: 0))
+                             centerX: contentView.centerXAnchor)
         imageView.constraint(.widthAnchor, constant: 138)
         imageView.constraint(.heightAnchor, constant: 134)
         
@@ -82,11 +81,11 @@ final class ParticipateHalfViewController: UIViewController {
         
         participateButton.constraint(top: subTitleLabel.bottomAnchor,
                                      bottom: contentView.bottomAnchor, centerX: contentView.centerXAnchor,
-                                     padding: UIEdgeInsets(top: 7, left: 20, bottom: 0, right: 0))
-        
+                                     padding: UIEdgeInsets(top: 25, left: 20, bottom: 0, right: 0))
     }
     
     private func configureUI() {
         view.backgroundColor = .systemBackground
+        view.layer.cornerRadius = 24
     }
 }
