@@ -89,6 +89,11 @@ final class UserProfileViewController: UIViewController {
         
         configureUI()
         setupLayout()
+        hideKeyboardWhenTappedAround()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     private func configureUI() {
