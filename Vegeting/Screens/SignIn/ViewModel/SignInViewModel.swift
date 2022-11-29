@@ -65,7 +65,6 @@ final class SignInViewModel {
         }
     }
     
-    
     /// 카카오 앱을 통한 로그인
     private func signInWithKakaoTalkApp() {
         UserApi.shared.loginWithKakaoTalk { [weak self] _, error in
@@ -75,7 +74,6 @@ final class SignInViewModel {
             self?.validateKakaoUserData()
         }
     }
-    
     
     /// 카카오 웹을 통한 로그인
     private func signInWithKakaoWeb() {
@@ -99,7 +97,6 @@ final class SignInViewModel {
         }
     }
     
-    
     /// 카카오 로그인이 성공할 때, 해당 유저가 Firebase Auth에 등록 or 등록된지 별도 확인
     private func registerKakaoUserToAuth(user kakaoUser: KakaoUser?) {
         guard let email = kakaoUser?.kakaoAccount?.email, let password = kakaoUser?.id else { return }
@@ -115,7 +112,6 @@ final class SignInViewModel {
         }.store(in: &cancellables)
 
     }
-    
     
     /// 카카오 Auth에 로그인(카카오 유저가 정상적으로 Auth에 로그인 가능한 상태인지 확인)
     private func validateKakaoUserInAuth(user: KakaoUser?) {
