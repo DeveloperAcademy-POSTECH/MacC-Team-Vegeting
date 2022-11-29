@@ -155,11 +155,24 @@ final class ReportViewController: UIViewController {
     }
     
     private func registerReport() {
+        // 기타 옵션이 체크되어 있으면 selectedElementList의 해당 내용을 작성한 내용으로 바꿔주기
         if selectedElementList.contains(StringLiteral.reportTableViewCellTextViewOtherOption) {
-            // TODO: reportButton 확인 시 firebase에 데이터 추가 & 차단, 탈퇴, 신고에 따라 분기처리
-            
-            let index = reportType.stringLiteral.reportElementList.count - 1
-            tableView.cellForRow(at: IndexPath(row: index, section: 0))
+            let cellIndex = reportType.stringLiteral.reportElementList.count - 1
+            guard let otherOptionCell = tableView.cellForRow(at: IndexPath(row: cellIndex, section: 0)) as? ReportTableViewCell else { return }
+            let otherContent = otherOptionCell.readOtherContent()
+            guard let contentIndex = selectedElementList.firstIndex(of: StringLiteral.reportTableViewCellTextViewOtherOption) else { return }
+            selectedElementList[contentIndex] = otherContent
+        }
+        
+        switch reportType {
+        case .report:
+            // TODO: 신고하기 눌렀을때
+            break
+        case .block:
+            // TODO: 차단하기 눌렀을때
+            break
+        case .unregister:
+            FirebaseManager.shared.unregisterUser(reason: selectedElementList)
         }
         
     }
