@@ -134,16 +134,11 @@ final class FirstCreateGroupViewController: UIViewController {
     init(entryPoint: EntryPoint, club: Club? = nil) {
         self.entryPoint = entryPoint
         self.club = club
-        print("init, here")
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func changeCategory() {
-        print("changeCategory in here")
     }
     
     override func viewDidLoad() {
