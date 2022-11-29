@@ -19,7 +19,7 @@ extension UIColor {
     static let vfGray4 = UIColor(hex: "#F2F2F2")
     
     static let vfBlack = UIColor(hex: "#333333")
-    static let vfGreend = UIColor(hex: "#24A869")
+    static let vfGreen = UIColor(hex: "#24A869")
     static let vfRed = UIColor(hex: "#ED4E4E")
     
 }
