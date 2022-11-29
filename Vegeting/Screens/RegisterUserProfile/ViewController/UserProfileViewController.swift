@@ -90,7 +90,7 @@ final class UserProfileViewController: UIViewController {
         setupLayout()
     }
     
-    func configureTextField() {
+    private func configureTextField() {
         let border = CALayer()
         border.frame = CGRect(x: 0, y: nicknameTextField.frame.size.height-1,
                               width: nicknameTextField.frame.width, height: 1)
@@ -101,14 +101,14 @@ final class UserProfileViewController: UIViewController {
         nicknameTextField.addTarget(self, action: #selector(textDidChangeForLabel), for: .editingChanged)
     }
     
-    func configureUI() {
+    private func configureUI() {
         view.backgroundColor = .systemBackground
         view.addSubviews(progressBarImageView, profileMessageLabel, profileImageView,
                          nicknameMessageLabel, cameraButton, nicknameTextField,
                          nicknameTextCountLabel, nextButton)
     }
     
-    func setupLayout() {
+    private func setupLayout() {
         NSLayoutConstraint.activate([
             progressBarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height * 1/10),
             progressBarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
