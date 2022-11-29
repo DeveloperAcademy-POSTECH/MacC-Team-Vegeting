@@ -285,14 +285,13 @@ extension FirebaseManager {
     }
     
     func unregisterUser(reason: [String]) {
-        
         let reportDocument = db.collection(Path.unregister.rawValue).document()
         let reason = Report(reason: reason)
         reportDocument.setData(from: reason)
         
         guard let uid = auth.currentUser?.uid else { return }
         
-        db.collection(Path.user.rawValue).document("aaaa").delete() { err in
+        db.collection(Path.user.rawValue).document(uid).delete() { err in
             if let err = err {
                 print("Error removing document: \(err)")
             } else {
@@ -300,6 +299,7 @@ extension FirebaseManager {
             }
         }
         
+        auth.currentUser?.delete()
     }
     
     func requestUser() async -> VFUser? {
