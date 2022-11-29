@@ -7,25 +7,24 @@
 
 import UIKit
 
-enum SenderType: CaseIterable {
+enum MessageType {
     case mine
     case other
-    case otherNeedProfile
+    case otherWithProfile
+    case date
 }
 
-
-class OtherChatContentCollectionViewCell: UICollectionViewCell {
+final class OtherChatContentCollectionViewCell: UICollectionViewCell {
     
     private enum SizeLiteral: CGFloat {
-        case profileImageSize = 37.0
+        case profileImageSize = 40.0
     }
     
     private var contentLabelTopAnchor: NSLayoutConstraint?
     
     private let backgroundPaddingView: UIView = {
         let view = UIView()
-        //        임시 컬러 삽입
-        view.backgroundColor = UIColor.gray.withAlphaComponent(0.2)
+        view.backgroundColor = .vfGray4
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 21
         return view
@@ -42,15 +41,13 @@ class OtherChatContentCollectionViewCell: UICollectionViewCell {
     private let dateTimeLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.text = "12:24"
         label.font = .preferredFont(forTextStyle: .caption1)
         return label
     }()
     
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
-        //        임시 컬러
-        imageView.backgroundColor = .gray.withAlphaComponent(0.5)
+        imageView.backgroundColor = .vfGray3
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = SizeLiteral.profileImageSize.rawValue / 2
         imageView.clipsToBounds = true
@@ -60,14 +57,13 @@ class OtherChatContentCollectionViewCell: UICollectionViewCell {
     
     private let profileUserNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "초보 채식인"
         label.font = .preferredFont(forTextStyle: .subheadline)
         return label
     }()
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
+        configureUI()
         setupLayout()
     }
     
@@ -82,11 +78,15 @@ class OtherChatContentCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func configure(with model: Message) {
-        contentLabel.text = model.content
-        profileUserNameLabel.text = model.senderName
-        let senderType = SenderType.other
-        updateLayout(senderType: senderType)
+    func configure(with model: MessageBubble) {
+        contentLabel.text = model.message.content
+        dateTimeLabel.text = model.message.createdAt.toMessageTimeText()
+        profileUserNameLabel.text = model.message.senderName
+        
+        if let text = model.message.content {
+            contentLabel.textAlignment = text.count > 1 ? .left : .center
+        }
+        updateLayout(messageType: model.messageType)
     }
     
 }
@@ -94,21 +94,29 @@ class OtherChatContentCollectionViewCell: UICollectionViewCell {
 // MARK: Layout 관련 함수
 extension OtherChatContentCollectionViewCell {
 
-    private func updateLayout(senderType: SenderType) {
-        let hiddenStatus: Bool
+    private func updateLayout(messageType: MessageType) {
+        contentLabelTopAnchor?.isActive = false
+        let profileHidden: Bool
         
-        switch senderType {
-        case .otherNeedProfile:
-            hiddenStatus = false
+        switch messageType {
+        case .otherWithProfile:
+            profileHidden = false
             contentLabelTopAnchor = contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 36)
-        default:
-            hiddenStatus = true
-            contentLabelTopAnchor = contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8)
+        case .other:
+            profileHidden = true
+            contentLabelTopAnchor = contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12)
+        case .mine, .date:
+            return
         }
         
-        profileImageView.isHidden = hiddenStatus
-        profileUserNameLabel.isHidden = hiddenStatus
+        profileImageView.isHidden = profileHidden
+        profileUserNameLabel.isHidden = profileHidden
         contentLabelTopAnchor?.isActive = true
+    }
+    
+    private func configureUI() {
+        contentView.addSubviews(backgroundPaddingView, contentLabel, dateTimeLabel)
+        contentView.addSubviews(profileImageView, profileUserNameLabel)
     }
     
     private func setupLayout() {
@@ -117,7 +125,6 @@ extension OtherChatContentCollectionViewCell {
     }
     
     private func setupProfileLayout() {
-        contentView.addSubviews(profileImageView, profileUserNameLabel)
         let profileImageViewConstraints = [
             profileImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             profileImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -133,23 +140,23 @@ extension OtherChatContentCollectionViewCell {
         [profileImageViewConstraints, profileUserNameLabelConstraints].forEach { constraints in
             NSLayoutConstraint.activate(constraints)
         }
-        
     }
     
     private func setupMessageLayout() {
-        contentView.addSubviews(backgroundPaddingView, contentLabel, dateTimeLabel)
         let contentLabelConstraints = [
             contentLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 78),
-            contentLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -66),
-            contentLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 36),
-            contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            contentLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -94),
+            contentLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
+            contentLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 18),
+            contentLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 18)
         ]
         
         let backgroundPaddingViewConstraints = [
             backgroundPaddingView.leadingAnchor.constraint(equalTo: contentLabel.leadingAnchor, constant: -16),
             backgroundPaddingView.trailingAnchor.constraint(equalTo: contentLabel.trailingAnchor, constant: 16),
-            backgroundPaddingView.topAnchor.constraint(equalTo: contentLabel.topAnchor, constant: -8),
-            backgroundPaddingView.bottomAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 8)
+            backgroundPaddingView.topAnchor.constraint(equalTo: contentLabel.topAnchor, constant: -12),
+            backgroundPaddingView.bottomAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 12)
+            
         ]
         
         let dateTimeLabelConstraints = [

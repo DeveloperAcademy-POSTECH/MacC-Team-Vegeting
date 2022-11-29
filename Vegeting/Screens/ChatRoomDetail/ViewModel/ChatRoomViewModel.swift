@@ -6,24 +6,31 @@
 //
 
 import Combine
-import Foundation
+import UIKit
 
 struct TemporaryMessage {
-    let status: SenderType
+    let status: MessageType
     let profileUserName: String
     let messageContent: String
+}
+
+struct MessageBubble {
+    let message: Message
+    let messageType: MessageType
 }
 
 final class ChatRoomViewModel: ViewModelType {
     
     enum Input {
         case sendButtonTapped(text: String)
+        case textChanged(height: CGFloat)
     }
     
     enum Output {
-        case localChatDataChanged(messages: [Message])
-        case serverChatDataChanged(messages: [Message])
+        case localChatDataChanged(messageBubbles: [MessageBubble])
+        case serverChatDataChanged(messageBubbles: [MessageBubble])
         case failToGetDataFromServer(error: Error)
+        case textViewHeight(height: CGFloat)
     }
     
     private var output: PassthroughSubject<Output, Never> = .init()
@@ -33,13 +40,13 @@ final class ChatRoomViewModel: ViewModelType {
     private var chat: Chat?
     private var user: VFUser?
     
-    
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
             switch event {
+            case .textChanged(let height):
+                self?.calculateTextViewHeight(height: height)
             case .sendButtonTapped(let text):
                 self?.sendMessageFromLocal(text: text)
-                break
             }
         }.store(in: &cancellables)
         return output.eraseToAnyPublisher()
@@ -54,7 +61,8 @@ final class ChatRoomViewModel: ViewModelType {
             }
         } receiveValue: { [weak self] chat in
             self?.chat = chat
-            self?.output.send(.serverChatDataChanged(messages: self?.chat?.messages ?? []))
+            let messageBubbles = self?.messagesToMessageBubbles(messages: chat.messages ?? []) ?? []
+            self?.output.send(.serverChatDataChanged(messageBubbles: messageBubbles))
         }.store(in: &cancellables)
     }
 
@@ -64,11 +72,56 @@ final class ChatRoomViewModel: ViewModelType {
         chat?.messages?.append(message)
         
         guard let chat = chat, let messages = chat.messages else { return }
-        output.send(.localChatDataChanged(messages: messages))
+        let messageBubbles = messagesToMessageBubbles(messages: messages)
+        output.send(.localChatDataChanged(messageBubbles: messageBubbles))
         
         Task {
-            await FirebaseManager.shared.registerMessage(chat: chat, message: message)
+            await FirebaseManager.shared.sendMessage(chat: chat, message: message)
         }
+    }
+    
+    private func messagesToMessageBubbles(messages: [Message]) -> [MessageBubble] {
+        guard let user = user else { return [] }
+        
+//        만약 이전 기록이 없더라도, 현재 유저ID로 하게 된다면 Sender 판단 로직에 오류가 발생할 수 없음.
+        var previousSenderID = user.userID
+        var messageDateLog: [String: Bool] = [:]
+        
+        return messages.flatMap { message -> [MessageBubble] in
+//            해당 셀이 날짜가 필요한지 아닌지를 알려주는 로직
+            var pairDateAndMessage = checkThisMessageNeedDate(messageDateLog: &messageDateLog, message: message)
+            
+//            해당 셀이 내가 보낸 메세지, 남이 보낸 메세지, 남이 보낸 메세지 + 프로필
+            if message.senderID == user.userID {
+                previousSenderID = message.senderID
+                pairDateAndMessage.append(MessageBubble(message: message, messageType: .mine))
+            } else if message.senderID == previousSenderID {
+                previousSenderID = message.senderID
+                pairDateAndMessage.append(MessageBubble(message: message, messageType: .other))
+            } else {
+                previousSenderID = message.senderID
+                pairDateAndMessage.append(MessageBubble(message: message, messageType: .otherWithProfile))
+            }
+            
+//            [날짜, 나 or남이 보낸 메세지] or [나 or 남이 보낸 메세지]가 리턴된다.
+            return pairDateAndMessage
+        }
+    }
+    
+    private func checkThisMessageNeedDate(messageDateLog: inout [String: Bool], message: Message) -> [MessageBubble] {
+        let date = message.createdAt.yearMonthDay()
+        if messageDateLog[date] == nil {
+            messageDateLog.updateValue(true, forKey: date)
+            return [MessageBubble(message: message, messageType: .date)]
+        } else {
+            return []
+        }
+    }
+    
+    private func calculateTextViewHeight(height: CGFloat) {
+        let lineCount = ((height - 45) / 21 + 1)
+        let lineHeightMultiplier = min(lineCount - 1, 2)
+        self.output.send(.textViewHeight(height: CGFloat(45 + lineHeightMultiplier * 21)))
     }
     
     func configure(participatedChatRoom: ParticipatedChatRoom, user: VFUser) {
