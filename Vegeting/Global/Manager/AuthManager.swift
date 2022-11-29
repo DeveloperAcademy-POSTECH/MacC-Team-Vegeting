@@ -45,4 +45,7 @@ final class AuthManager {
             .eraseToAnyPublisher()
     }
     
+    func isSignInValid() -> Bool {
+        return (auth.currentUser != nil) ? true : false
+    }
 }
