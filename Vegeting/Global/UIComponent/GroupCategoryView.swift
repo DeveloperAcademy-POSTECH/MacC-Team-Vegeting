@@ -89,9 +89,7 @@ extension GroupCategoryView: UICollectionViewDelegateFlowLayout {
 }
 
 extension GroupCategoryView: UICollectionViewDelegate {
-
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         delegate?.didSelectCategory(didSelectItemAt: indexPath)
     }
-
 }
