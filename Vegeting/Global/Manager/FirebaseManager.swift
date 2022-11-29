@@ -134,7 +134,19 @@ extension FirebaseManager {
             let encodedParticipatedClub = try Firestore.Encoder().encode(participatedClub)
             let encodedParticipatedChat = try Firestore.Encoder().encode(participatedChatRoom)
             document.updateData(["participatedClubs": FieldValue.arrayUnion([encodedParticipatedClub]), "participatedChats": FieldValue.arrayUnion([encodedParticipatedChat])])
-            
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+    }
+    
+    private func requestUpdateUser(user: VFUser, participatedChatRoom: ParticipatedChatRoom, participatedClub: ParticipatedClub) async throws {
+        
+        do {
+            let document = db.collection(Path.user.rawValue).document(user.userID)
+            let encodedParticipatedClub = try Firestore.Encoder().encode(participatedClub)
+            let encodedParticipatedChat = try Firestore.Encoder().encode(participatedChatRoom)
+            try await document.updateData(["participatedClubs": FieldValue.arrayUnion([encodedParticipatedClub]), "participatedChats": FieldValue.arrayUnion([encodedParticipatedChat])])
         } catch {
             print(error.localizedDescription)
         }
