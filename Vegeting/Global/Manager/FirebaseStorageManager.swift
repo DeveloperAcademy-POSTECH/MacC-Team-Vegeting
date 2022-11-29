@@ -12,7 +12,7 @@ import UIKit
 class FirebaseStorageManager {
     static func uploadImage(image: UIImage, folderName: String, completion: @escaping (URL?) -> Void) {
         guard let scaledImage = image.scaledToSafeUploadSize,
-              let data = scaledImage.jpegData(compressionQuality: 0.4) else { return completion(nil)}
+              let data = scaledImage.jpegData(compressionQuality: 0.4) else { return completion(nil) }
         let metaData = StorageMetadata()
         metaData.contentType = "image/jpeg"
         
@@ -20,6 +20,7 @@ class FirebaseStorageManager {
         let imageReference = Storage.storage().reference().child("\(folderName)/\(imageName)")
         imageReference.putData(data, metadata: metaData) { _, _ in
             imageReference.downloadURL { url, _ in
+                guard let url = url else { return completion(nil) }
                 completion(url)
             }
         }
@@ -29,7 +30,7 @@ class FirebaseStorageManager {
         let reference = Storage.storage().reference(forURL: url.absoluteString)
         let megaByte = Int64(1 * 1024 * 1024)
         
-        reference.getData(maxSize: megaByte) { data, error in
+        reference.getData(maxSize: megaByte) { data, _ in
             guard let imageData = data else {
                 completion(nil)
                 return
