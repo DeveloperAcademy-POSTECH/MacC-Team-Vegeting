@@ -13,4 +13,12 @@ extension UITextField {
         self.leftView = paddingView
         self.leftViewMode = ViewMode.always
     }
+    
+    func underlined(color: UIColor) {
+        let border = CALayer()
+        border.frame = CGRect(x: 0, y: self.frame.size.height-1,
+                              width: self.frame.width, height: 2)
+        border.backgroundColor = color.cgColor
+        self.layer.addSublayer(border)
+    }
 }
