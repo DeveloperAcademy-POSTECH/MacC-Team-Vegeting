@@ -204,12 +204,28 @@ final class UserProfileViewController: UIViewController {
             textLength = newString.count
         }
         
-        changeButtonStatus(textLength: textLength)
+        validateNickname()
         configureTextCountLabel(textLength: textLength)
     }
     
-    private func changeButtonStatus(textLength: Int) {
-        textLength < nicknameMinLength ? nextButtonInactive() : nextButtonActive()
+    private func validateNickname() {
+        guard let nickname = nicknameTextField.text else { return }
+
+        if nickname.count < 2 {
+            validNicknameLabel.text = "닉네임은 두 글자 이상이어야 합니다."
+            changeButtonStatusAndValidLabel(false)
+        } else {
+            Task { [weak self] in
+                let isPossible = try await FirebaseManager.shared.isPossibleNickname(newName: nickname)
+                self?.validNicknameLabel.text = isPossible ? "사용 가능한 닉네임입니다." : "다른 사용자가 사용 중인 닉네임입니다."
+                self?.changeButtonStatusAndValidLabel(isPossible)
+            }
+        }
+    }
+    
+    private func changeButtonStatusAndValidLabel(_ isPossible: Bool) {
+        validNicknameLabel.textColor = isPossible ? .vfGreen : .vfRed
+        nextButton.isEnabled = isPossible
     }
     
     private func configureTextCountLabel(textLength: Int) {
