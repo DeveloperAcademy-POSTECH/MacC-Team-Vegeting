@@ -131,7 +131,6 @@ final class SignInViewModel {
         }.store(in: &cancellables)
     }
     
-    
     /// 애플 로그인을 통해 들어온 정보를 가지고 Firebase에 로그인
     private func appleSignIn() {
         guard let tokenID = tokenID else { return }
