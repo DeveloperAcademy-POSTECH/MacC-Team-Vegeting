@@ -18,12 +18,16 @@ final class AuthManager {
     private var currentUser: VFUser?
     
     private init() {
-        Task { [weak self] in
-            guard let currentUser = await FirebaseManager.shared.requestUser() else { return }
-            self?.currentUser = currentUser
+        FirebaseManager.shared.requestUser { result in
+            switch result {
+            case .success(let user):
+                self.currentUser = user
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
         }
     }
-    
+
     func signInUser(email: String, password: String) -> AnyPublisher<User, Error> {
         return auth.signIn(withEmail: email, password: password)
             .catch { error in

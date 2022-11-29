@@ -285,6 +285,22 @@ extension FirebaseManager {
         return nil
     }
     
+    func requestUser(completion: @escaping (Result<VFUser, Error>) -> Void) {
+        guard let uid = auth.currentUser?.uid else { return }
+        db.collection(Path.user.rawValue).document(uid).addSnapshotListener { querySnapshot, error in
+            do {
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    guard let userData = try querySnapshot?.data(as: VFUser.self) else { return }
+                    completion(.success(userData))
+                }
+            } catch {
+            
+            }
+        }
+    }
+
     func isUserAlreadyExisted(user: User) -> AnyPublisher<Bool, Error> {
         return db.collection(Path.user.rawValue).document(user.uid).getDocument()
             .catch { error in
