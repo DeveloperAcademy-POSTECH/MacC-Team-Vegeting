@@ -48,7 +48,7 @@ final class FirebaseManager {
                 try? snapshot.data(as: Club.self)
             }
             data.forEach { club in
-                if club.participants?.count ?? 0 < club.maxNumberOfPeople || Date() >= club.dateToMeet {
+                if club.participants?.count ?? 0 < club.maxNumberOfPeople || Date() < club.dateToMeet {
                     validClubs.append(club)
                 } else {
                     invalidClubs.append(club)
