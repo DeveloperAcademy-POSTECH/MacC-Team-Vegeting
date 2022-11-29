@@ -57,8 +57,12 @@ class GroupListViewController: UIViewController {
         return groupCategoryView
     }()
     
+    private let refreshControl = UIRefreshControl()
+    
     private lazy var collectionView: ClubListCollectionView = {
         let collectionView = ClubListCollectionView()
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
         collectionView.tapDelegate = self
         return collectionView
     }()
@@ -71,54 +75,7 @@ class GroupListViewController: UIViewController {
         configureUI()
         setupLayout()
         groupCategoryView.setupDefaultStatus()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        Task {
-            resetClubArray()
-            allClubList = await FirebaseManager.shared.requestClubInformation() ?? []
-            fetchClubLists()
-            updateShowClubList()
-        }
-    }
-    
-    private func fetchClubLists() {
-        for club in allClubList {
-            switch club.clubCategory {
-            case "맛집" :
-                restaurantClubList.append(club)
-            case "행사" :
-                eventClubList.append(club)
-            case "기타" :
-                elseClubList.append(club)
-            default :
-                break
-            }
-        }
-    }
-    
-    private func updateShowClubList() {
-        switch groupCategoryView.getSelectedCategory() {
-        case "전체" :
-            showClubList = allClubList
-        case "맛집" :
-            showClubList = restaurantClubList
-        case "행사" :
-            showClubList = eventClubList
-        case "기타" :
-            showClubList = elseClubList
-        default :
-            groupCategoryView.setupDefaultStatus()
-            showClubList = allClubList
-        }
-    }
-    
-    private func resetClubArray() {
-        allClubList = []
-        restaurantClubList = []
-        eventClubList = []
-        elseClubList = []
+        refresh()
     }
     
     //MARK: - func
@@ -163,8 +120,57 @@ class GroupListViewController: UIViewController {
         ])
     }
     
+    @objc
+    func refresh(){
+        Task {
+            resetClubArray()
+            let allClubs = await FirebaseManager.shared.requestClubInformation() ?? []
+            allClubList = allClubs
+            fetchClubLists()
+            updateShowClubList()
+            refreshControl.endRefreshing()
+        }
+    }
+    
+    private func fetchClubLists() {
+        for club in allClubList {
+            switch club.clubCategory {
+            case "맛집" :
+                restaurantClubList.append(club)
+            case "행사" :
+                eventClubList.append(club)
+            case "기타" :
+                elseClubList.append(club)
+            default :
+                break
+            }
+        }
+    }
+    
+    private func updateShowClubList() {
+        switch groupCategoryView.getSelectedCategory() {
+        case "전체" :
+            showClubList = allClubList
+        case "맛집" :
+            showClubList = restaurantClubList
+        case "행사" :
+            showClubList = eventClubList
+        case "기타" :
+            showClubList = elseClubList
+        default :
+            groupCategoryView.setupDefaultStatus()
+            showClubList = allClubList
+        }
+    }
+    
     private func updateCollectionViewList() {
         self.collectionView.setClubList(clubList: showClubList)
+    }
+    
+    private func resetClubArray() {
+        restaurantClubList = []
+        eventClubList = []
+        elseClubList = []
     }
 }
 
