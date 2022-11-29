@@ -52,12 +52,13 @@ class SignInViewController: UIViewController {
         output.sink { [weak self] event in
             switch event {
             case .didFirstSignInWithApple, .didFirstSignInWithKakao:
-//                TODO: Profile 생성 ViewController로 이동하도록 구현
-                break
+                let userProfileViewController = UserProfileViewController()
+                self?.navigationController?.setViewControllers([userProfileViewController], animated: true)
             case .didFailToSignInWithApple(let error), .didFailToSignInWithKakao(let error):
                 print(error.localizedDescription)
             case .didAlreadySignInWithApple, .didAlreadySignInWithKakao:
-                self?.navigationController?.dismiss(animated: true)
+                let mainTabbarViewController = MainTabBarViewController()
+                self?.navigationController?.setViewControllers([mainTabbarViewController], animated: true)
             }
         }.store(in: &cancellables)
     }

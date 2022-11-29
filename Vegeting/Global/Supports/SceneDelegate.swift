@@ -21,8 +21,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if AuthManager.shared.isSignInValid() {
             window.rootViewController = MainTabBarViewController()
         } else {
-            let signinViewController = UINavigationController(rootViewController: SignInViewController())
-            window.rootViewController = signinViewController
+            let signInViewController = UINavigationController(rootViewController: SignInViewController())
+            window.rootViewController = signInViewController
         }
         window.makeKeyAndVisible()
         self.window = window
