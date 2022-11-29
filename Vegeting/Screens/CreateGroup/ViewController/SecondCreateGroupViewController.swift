@@ -49,7 +49,7 @@ final class SecondCreateGroupViewController: BaseViewController {
         textView.textColor = .lightGray
         textView.font = .preferredFont(forTextStyle: .body)
         textView.layer.cornerRadius = 5
-        textView.layer.backgroundColor = UIColor.systemGray4.cgColor
+        textView.layer.backgroundColor = UIColor.vfGray4.cgColor
         textView.textContainerInset = UIEdgeInsets(top: 16.0, left: 10.0, bottom: 16.0, right: 10.0)
         textView.delegate = self
         return textView
