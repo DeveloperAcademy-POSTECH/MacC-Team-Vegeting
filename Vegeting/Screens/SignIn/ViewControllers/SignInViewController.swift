@@ -66,8 +66,8 @@ class SignInViewController: UIViewController {
 
 // MARK: 로그인 버튼 관련 함수
 extension SignInViewController {
-    
-    @objc private func appleSignInButtonTapped(_ sender: Any) {
+    @objc
+    private func appleSignInButtonTapped(_ sender: Any) {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
         request.requestedScopes = [.fullName, .email]
@@ -78,7 +78,8 @@ extension SignInViewController {
         authrizationController.performRequests()
     }
     
-    @objc private func kakaoSignInButtonTapped(_ sender: Any) {
+    @objc
+    private func kakaoSignInButtonTapped(_ sender: Any) {
         input.send(.kakaoSignInButtonTapped)
     }
 }

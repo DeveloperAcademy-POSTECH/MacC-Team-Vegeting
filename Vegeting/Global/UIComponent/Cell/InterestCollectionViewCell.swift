@@ -26,6 +26,12 @@ class InterestCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    override var isSelected: Bool {
+        didSet {
+            applySelectedState()
+        }
+    }
+    
     // MARK: - init
     
     override init(frame: CGRect) {
@@ -44,17 +50,24 @@ class InterestCollectionViewCell: UICollectionViewCell {
         addSubview(backgroundContentView)
         backgroundContentView.constraint(to: self)
         backgroundContentView.addSubview(interestLabel)
-        interestLabel.constraint(leading: backgroundContentView.leadingAnchor,
-                                                   trailing: backgroundContentView.trailingAnchor,
-                                                   centerY: self.centerYAnchor,
-                                                   padding: UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14))
+        interestLabel.constraint(top: backgroundContentView.topAnchor,
+                                 leading: backgroundContentView.leadingAnchor,
+                                 bottom: backgroundContentView.bottomAnchor,
+                                 trailing: backgroundContentView.trailingAnchor,
+                                 padding: UIEdgeInsets(top: 9, left: 24, bottom: 8, right: 24))
     }
     
     private func configureUI() {
         layer.masksToBounds = true
     }
-
+    
     func configure(with itemText: String) {
         interestLabel.text = itemText
+    }
+    
+    func applySelectedState() {
+        backgroundContentView.backgroundColor = isSelected ? .black : .systemGray6
+        interestLabel.textColor = isSelected ? .white : .black
+        interestLabel.font = isSelected ? .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .bold)) : .preferredFont(forTextStyle:.subheadline)
     }
 }
