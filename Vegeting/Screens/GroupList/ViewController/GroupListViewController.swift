@@ -55,7 +55,8 @@ class GroupListViewController: UIViewController {
     
     @objc
     private func addClubButtontapped() {
-        print("tapAddClubButton")
+        let creatrViewController = FirstCreateGroupViewController()
+        navigationController?.pushViewController(creatrViewController, animated: true)
     }
     
     private lazy var customSegmentedControl: SegmentedControlCustomView = {
@@ -63,37 +64,38 @@ class GroupListViewController: UIViewController {
         return segmentedControl
     }()
     
-    private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumInteritemSpacing = 20
-        layout.minimumLineSpacing = 30
-        layout.sectionInset = UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .clear
-        collectionView.register(ClubListCollectionViewCell.self, forCellWithReuseIdentifier: ClubListCollectionViewCell.className)
-        collectionView.showsVerticalScrollIndicator = false
+    private lazy var collectionView: ClubListCollectionView = {
+        let collectionView = ClubListCollectionView()
+        collectionView.tapDelegate = self
         return collectionView
     }()
+    
+    //MARK: - lifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setCustomNavigationBar()
-        configureCollectionView()
         configureUI()
         setupLayout()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        Task {
-            clubList = await FirebaseManager.shared.requestClubInformation() ?? []
+        showTabBar()
+        Task { [weak self] in
+            let clubList = await FirebaseManager.shared.requestClubInformation() ?? []
+            self?.collectionView.setClubList(clubList: clubList)
         }
     }
     
-    private func configureCollectionView() {
-        collectionView.delegate = self
-        collectionView.dataSource = self
+    //MARK: - func
+    
+    private func showTabBar() {
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    private func hideTabBar() {
+        tabBarController?.tabBar.isHidden = true
     }
     
     private func configureUI() {
@@ -111,6 +113,8 @@ class GroupListViewController: UIViewController {
         navigationBarView.spacing = space - 115
 
         navigationItem.titleView = navigationBarView
+        navigationItem.backButtonDisplayMode = .minimal
+        navigationController?.navigationBar.tintColor = .black
     }
     
     private func setupLayout() {
@@ -131,29 +135,9 @@ class GroupListViewController: UIViewController {
     }
 }
 
-extension GroupListViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(clubList[indexPath.item])
-    }
-}
-
-extension GroupListViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return clubList.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClubListCollectionViewCell.className, for: indexPath) as? ClubListCollectionViewCell else { return UICollectionViewCell() }
-        cell.configure(with: clubList[indexPath.item])
-        return cell
-    }
-}
-
-extension GroupListViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: (collectionView.frame.width - 20) / 2, height: 165)
+extension GroupListViewController: ClubListCollectionViewDelegate {
+    func clubListCellTapped(viewController: PostDetailViewController) {
+        hideTabBar()
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }

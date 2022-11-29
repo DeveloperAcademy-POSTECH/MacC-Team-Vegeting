@@ -97,8 +97,9 @@ extension FirebaseManager {
             let addedClub = Club(clubID: docClub.documentID, chatID: docChat.documentID,
                                  clubTitle: club.clubTitle, clubCategory: club.clubCategory,
                                  clubContent: club.clubContent, hostID: user.userID,
-                                 participants: [participant], createdAt: club.createdAt,
-                                 maxNumberOfPeople: club.maxNumberOfPeople)
+                                 participants: [participant], dateToMeet: club.dateToMeet,
+                                 createdAt: club.createdAt, placeToMeet: club.placeToMeet,
+                                 maxNumberOfPeople: club.maxNumberOfPeople, coverImageURL: club.coverImageURL)
             
             let addedChat = Chat(chatRoomID: docChat.documentID, clubID: docClub.documentID,
                                  chatRoomName: chat.chatRoomName, participants: [participant],
@@ -292,5 +293,18 @@ extension FirebaseManager {
             } .map(\.exists)
             .eraseToAnyPublisher()
         
+    }
+    
+    func isPossibleNickname(newName: String) async throws -> Bool {
+        do {
+            let querySnapshot = try await db.collection(Path.user.rawValue).whereField("userName", isEqualTo: newName).getDocuments()
+            if querySnapshot.documents.isEmpty {
+                return true
+            } else {
+                return false
+            }
+        } catch {
+            throw error
+        }
     }
 }
