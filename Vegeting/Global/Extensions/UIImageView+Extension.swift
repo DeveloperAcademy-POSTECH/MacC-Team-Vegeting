@@ -10,8 +10,8 @@ import UIKit
 import Kingfisher
 
 extension UIImageView {
-    func setImage(with url: URL?) {
-        guard let url = url else {
+    func setImage(with resource: String?) {
+        guard let resource = resource, let url = URL(string: resource) else {
             self.image = UIImage(named: "groupCoverImage1")
             return
         }

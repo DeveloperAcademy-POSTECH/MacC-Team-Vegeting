@@ -116,7 +116,6 @@ extension FirebaseManager {
             
             let recentChat = RecentChat(chatRoomID: docChat.documentID, chatRoomName: chat.chatRoomName
                                         ,lastSentMessage: nil, lastSentTime: Date(), coverImageURL: chat.coverImageURL)
-            
             try docClub.setData(from: addedClub)
             try docChat.setData(from: addedChat)
             try docRecentChat.setData(from: recentChat)
@@ -204,7 +203,7 @@ extension FirebaseManager {
     }
 
     func requestChat(participatedChat: ParticipatedChatRoom) -> AnyPublisher<Chat, Error> {
-        guard let chatID = participatedChat.chatID else { return Fail(error: ErrorLiteral.emptyChatID).eraseToAnyPublisher() }
+        guard let chatID = participatedChat.chatID else { return Fail(error: FirebaseError.isChatIDInvalid).eraseToAnyPublisher() }
         return db.collection(Path.chat.rawValue).document(chatID).snapshotPublisher(includeMetadataChanges: true)
             .catch { error in
                 return Fail(error: error)
@@ -226,7 +225,7 @@ extension FirebaseManager {
     
     func requestRecentChat(user: VFUser) -> AnyPublisher<[RecentChat], Error> {
         guard let participatedChatRoomIDs =  user.participatedChats?.compactMap(\.chatID) else {
-            return Fail(error: FBError.didFailToLoadChat)
+            return Fail(error: FirebaseError.didFailToLoadChat)
                 .eraseToAnyPublisher()
         }
         

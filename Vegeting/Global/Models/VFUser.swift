@@ -30,6 +30,6 @@ struct ParticipatedChatRoom: Hashable, Codable {
 struct ParticipatedClub: Hashable, Codable {
     let clubID: String?
     let clubName: String
-    let profileImageURL: URL?
+    let profileImageURL: String?
 }
 

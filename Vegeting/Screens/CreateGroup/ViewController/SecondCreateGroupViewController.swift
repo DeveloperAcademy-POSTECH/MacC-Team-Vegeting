@@ -142,7 +142,7 @@ final class SecondCreateGroupViewController: BaseViewController {
               let chat = makeChat() else { return }
         
         requestImageURL() { url in
-            club.coverImageURL = url
+            club.coverImageURL = url?.absoluteString
             Task {
                 guard let vfUser = await FirebaseManager.shared.requestUser() else { return }
                 FirebaseManager.shared.requestPost(user: vfUser, club: club, chat: chat)
