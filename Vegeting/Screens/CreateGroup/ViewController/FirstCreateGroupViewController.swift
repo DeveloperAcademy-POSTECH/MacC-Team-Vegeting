@@ -200,7 +200,7 @@ final class FirstCreateGroupViewController: UIViewController {
     
     @objc
     private func bottomButtonTapped() {
-        guard let selectedCategory = categoryCollectionView.getSelectedCategory(),
+        guard let selectedCategory = categoryCollectionView.selectedCategory(),
               let selectedNumberOfPeople = numberOfGroupCollectionView.getSelectedNumber() else { return }
         let passedData = IncompleteClub(clubCategory: selectedCategory,
                                         placeToMeet: locationLabel.text ?? "",
