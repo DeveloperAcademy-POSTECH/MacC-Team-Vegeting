@@ -29,7 +29,6 @@ final class NumberOfGroupPeopleView: UIView {
     
     private let numberList: [String] = ["2명", "3명", "4명", "5명", "6명", "7명", "8명"]
     weak var delegate: NumberOfGroupPeopleViewDelegate?
-    private var selectedNumber: Int?
     
     // MARK: - init
     
@@ -76,13 +75,6 @@ extension NumberOfGroupPeopleView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NumberOfPeopleCollectionViewCell.className, for: indexPath) as? NumberOfPeopleCollectionViewCell else { return UICollectionViewCell()}
-        
-        if let selectedNumber = self.selectedNumber {
-            let index = numberList.firstIndex(of: "\(selectedNumber)명")
-            if index == indexPath.item {
-                numberCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .bottom)
-            }
-        }
         cell.setItemLabel(with: numberList[indexPath.item])
         return cell
     }
