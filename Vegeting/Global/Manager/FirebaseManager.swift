@@ -147,12 +147,42 @@ extension FirebaseManager {
         
         guard let result = result else { return }
         
-        let participatedClub = ParticipatedClub(clubID: result.clubID, clubName: club.clubTitle ?? "", profileImageURL: club.coverImageURL)
+        let participatedClub = ParticipatedClub(clubID: result.clubID, clubName: club.clubTitle, profileImageURL: club.coverImageURL)
         let participatedChatRoom = ParticipatedChatRoom(chatID: result.chatID, chatName: chat.chatRoomName, imageURL: chat.coverImageURL)
         
         requestUpdateUser(user: user, participatedChatRoom: participatedChatRoom, participatedClub: participatedClub)
     }
     
+    
+    /// 채팅방과 게시물에 참여한 유저 추가
+    func appendMemberInClub(user: VFUser, club: Club) async throws {
+        guard let clubID = club.clubID, let chatID = club.chatID else { throw FirebaseError.invalidID }
+        
+        let clubDocument = db.collection(Path.club.rawValue).document(clubID)
+        let chatDocument = db.collection(Path.chat.rawValue).document(chatID)
+        let participant = Participant(userID: user.userID, name: user.userName, profileImageURL: user.imageURL)
+        do {
+            let encodedParticipant = try Firestore.Encoder().encode(participant)
+            try await clubDocument.updateData(["participants": encodedParticipant])
+            try await chatDocument.updateData(["participants": encodedParticipant])
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    
+    /// 특정 모임 참여하기
+    func participateInClub(user: VFUser, club: Club) async throws {
+        let participatedClub = ParticipatedClub(clubID: club.clubID, clubName: club.clubTitle, profileImageURL: club.coverImageURL)
+        let participatedChat = ParticipatedChatRoom(chatID: club.chatID, chatName: club.clubTitle, imageURL: club.coverImageURL)
+        
+        do {
+            try await requestUpdateUser(user: user, participatedChatRoom: participatedChat, participatedClub: participatedClub)
+            try await appendMemberInClub(user: user, club: club)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
 }
 
 // MARK: Firebase 채팅
