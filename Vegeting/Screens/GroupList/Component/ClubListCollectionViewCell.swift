@@ -17,7 +17,20 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 8
+        imageView.contentMode = .scaleAspectFill
         return imageView
+    }()
+    
+    private lazy var invalidLabel: UILabel = {
+        let labelView = UILabel()
+        labelView.clipsToBounds = true
+        labelView.layer.cornerRadius = 8
+        labelView.textAlignment = .center
+        labelView.textColor = .vfYellow1
+        labelView.backgroundColor = UIColor(hex: "#000000", alpha: 0.6 )
+        labelView.text = "마감"
+        labelView.font = .preferredFont(forTextStyle: .title3, compatibleWith: .init(legibilityWeight: .bold))
+        return labelView
     }()
     
     private lazy var titleLabel: UILabel = {
@@ -44,13 +57,20 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupLayout() {
-        addSubviews(coverImageView, categoryView, titleLabel, clubInfoLabel)
+        addSubviews(coverImageView, invalidLabel, categoryView, titleLabel, clubInfoLabel)
         
         NSLayoutConstraint.activate([
             coverImageView.topAnchor.constraint(equalTo: self.topAnchor),
             coverImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             coverImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             coverImageView.heightAnchor.constraint(equalToConstant: 87)
+        ])
+        
+        NSLayoutConstraint.activate([
+            invalidLabel.topAnchor.constraint(equalTo: self.topAnchor),
+            invalidLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            invalidLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            invalidLabel.heightAnchor.constraint(equalToConstant: 87)
         ])
         
         NSLayoutConstraint.activate([
@@ -70,10 +90,20 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with item: Club) {
-        coverImageView.image = UIImage(named: item.coverImageURL ?? "groupCoverImage1")
+        print("configure in", item)
+        if item.coverImageURL == nil {
+            coverImageView.image = UIImage(named: "groupCoverImage1")
+        } else {
+            guard let url = item.coverImageURL else { return }
+            coverImageView.setImage(with: url)
+        }
         categoryView.configure(text: item.clubCategory, backgroundColor: .vfGray4 )
         titleLabel.text = item.clubTitle
-        let participantsCount = item.participants?.count ?? 0
-        clubInfoLabel.text = "서울시 동작구ㆍ\(participantsCount)/\(item.maxNumberOfPeople) 모집"
+        let participantsCount = item.participants?.count ?? 1
+        clubInfoLabel.text = "\(item.placeToMeet)ㆍ\(participantsCount)/\(item.maxNumberOfPeople) 모집"
+        
+        let isShown = !(Date() > item.dateToMeet || (participantsCount == item.maxNumberOfPeople))
+        invalidLabel.isHidden = isShown
+        
     }
 }
