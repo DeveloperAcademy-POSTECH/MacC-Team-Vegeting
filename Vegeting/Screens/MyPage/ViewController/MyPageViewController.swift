@@ -133,9 +133,14 @@ extension MyPageViewController: UITableViewDataSource {
 extension MyPageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
+        // 주최한 모임
         case 1 :
             let viewController = MyClubsViewController()
-            self.navigationController?.pushViewController(viewController, animated: true)
+            navigationController?.pushViewController(viewController, animated: true)
+        // 회원탈퇴
+        case 10:
+            let reportViewController = ReportViewController(entryPoint: .unregister)
+            navigationController?.pushViewController(reportViewController, animated: true)
         default:
             return
         }
