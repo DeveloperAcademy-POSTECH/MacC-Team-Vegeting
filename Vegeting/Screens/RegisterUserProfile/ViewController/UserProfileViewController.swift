@@ -56,9 +56,11 @@ final class UserProfileViewController: UIViewController {
         return label
     }()
     
-    private let nicknameTextField: UITextField = {
+    private lazy var nicknameTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .none
+        textField.delegate = self
+        textField.addTarget(self, action: #selector(textDidChangeForLabel), for: .editingChanged)
         return textField
     }()
     
@@ -77,10 +79,9 @@ final class UserProfileViewController: UIViewController {
         return button
     }()
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        configureTextField()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        nicknameTextField.underlined(color: .vfGray4)
     }
     
     override func viewDidLoad() {
@@ -88,17 +89,6 @@ final class UserProfileViewController: UIViewController {
         
         configureUI()
         setupLayout()
-    }
-    
-    private func configureTextField() {
-        let border = CALayer()
-        border.frame = CGRect(x: 0, y: nicknameTextField.frame.size.height-1,
-                              width: nicknameTextField.frame.width, height: 1)
-        border.backgroundColor = UIColor(hex: "#F2F2F2").cgColor
-        nicknameTextField.layer.addSublayer(border)
-        nicknameTextField.delegate = self
-        
-        nicknameTextField.addTarget(self, action: #selector(textDidChangeForLabel), for: .editingChanged)
     }
     
     private func configureUI() {
@@ -181,6 +171,7 @@ final class UserProfileViewController: UIViewController {
     
     @objc
     private func textDidChangeForLabel() {
+        print("textDidChangeForLabel")
         guard let text = nicknameTextField.text else { return }
         var textLength = text.count
         
@@ -227,6 +218,16 @@ extension UserProfileViewController: UITextFieldDelegate {
             return false
         }
         return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        print("begin")
+        configureTextField(lineColor: .vfYellow1)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        print("end")
+        configureTextField(lineColor: .vfGray4)
     }
 }
 
