@@ -221,13 +221,11 @@ extension UserProfileViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        print("begin")
-        configureTextField(lineColor: .vfYellow1)
+        textField.underlined(color: .vfYellow1)
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        print("end")
-        configureTextField(lineColor: .vfGray4)
+        textField.underlined(color: .vfGray4)
     }
 }
 
