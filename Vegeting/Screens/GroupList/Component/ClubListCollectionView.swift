@@ -59,7 +59,7 @@ class ClubListCollectionView: UICollectionView {
 
 extension ClubListCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let currentUser = AuthManager.shared.getCurrentUser() else { return }
+        guard let currentUser = AuthManager.shared.fetchCurrentUser() else { return }
         let selectedClub = clubList[indexPath.item]
         let isMine = currentUser.userID == selectedClub.hostID
         let entryPoint: PostDetailViewController.EntryPoint = isMine ? .mine : .other

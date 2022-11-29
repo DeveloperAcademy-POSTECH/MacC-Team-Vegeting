@@ -55,7 +55,7 @@ final class AuthManager {
             .eraseToAnyPublisher()
     }
     
-    func getCurrentUser() -> VFUser? {
+    func fetchCurrentUser() -> VFUser? {
         return self.currentUser
     }
     
