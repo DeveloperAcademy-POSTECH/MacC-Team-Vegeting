@@ -90,12 +90,8 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with item: Club) {
-        if item.coverImageURL == nil {
-            coverImageView.image = UIImage(named: "groupCoverImage1")
-        } else {
-            guard let url = item.coverImageURL else { return }
-            coverImageView.setImage(with: url)
-        }
+        coverImageView.setImage(with: item.coverImageURL)
+
         categoryView.configure(text: item.clubCategory, backgroundColor: .vfGray4 )
         titleLabel.text = item.clubTitle
         let participantsCount = item.participants?.count ?? 1
