@@ -261,7 +261,6 @@ final class PostDetailViewController: UIViewController {
             // TODO: - 게시글 수정
             let viewController = FirstCreateGroupViewController(entryPoint: .revise, club: self.club)
             viewController.configure(with: self.club)
-            viewController.changeCategory()
             self.navigationController?.pushViewController(viewController, animated: true)
         })
         return (firstAlertAction, secondAlertAction)

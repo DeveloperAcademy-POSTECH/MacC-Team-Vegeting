@@ -33,8 +33,8 @@ final class FirstCreateGroupViewController: UIViewController {
     
     private lazy var categoryCollectionView: GroupCategoryView = {
         let groupCategoryView = GroupCategoryView()
-        if entryPoint == .revise {
-            groupCategoryView.setupPostCategory(selectedCategory: club?.clubCategory ?? "")
+        if entryPoint == .revise, let category = club?.clubCategory {
+            groupCategoryView.setupPostCategory(selectedCategory: category)
         }
         groupCategoryView.delegate = self
         return groupCategoryView
@@ -112,8 +112,8 @@ final class FirstCreateGroupViewController: UIViewController {
     
     private lazy var numberOfGroupCollectionView: NumberOfGroupPeopleView = {
         let view = NumberOfGroupPeopleView()
-        if entryPoint == .revise {
-            view.setupPostNumberOfPeople(selectedNumber: club?.maxNumberOfPeople ?? 2)
+        if entryPoint == .revise, let maxNumber = club?.maxNumberOfPeople {
+            view.setupPostNumberOfPeople(selectedNumber: maxNumber)
         }
         view.delegate = self
         return view
