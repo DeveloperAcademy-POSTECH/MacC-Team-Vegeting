@@ -64,9 +64,9 @@ final class UserProfileViewController: UIViewController {
         return textField
     }()
     
-    private let validImageLabel: UILabel = {
-        let label = UILabel()
-        return label
+    private let validImageView: UIImageView = {
+        let imageView = UIImageView()
+        return imageView
     }()
     
     private let validLabel: UILabel = {
@@ -111,7 +111,7 @@ final class UserProfileViewController: UIViewController {
         view.backgroundColor = .systemBackground
         view.addSubviews(progressBarImageView, profileMessageLabel, profileImageView,
                          nicknameMessageLabel, cameraButton, nicknameTextField,
-                         validImageLabel, validLabel, nicknameTextCountLabel, nextButton)
+                         validImageView, validLabel, nicknameTextCountLabel, nextButton)
     }
     
     private func setupLayout() {
@@ -154,8 +154,8 @@ final class UserProfileViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            validImageLabel.topAnchor.constraint(equalTo: nicknameTextField.bottomAnchor, constant: 8.5),
-            validImageLabel.leadingAnchor.constraint(equalTo: nicknameTextField.leadingAnchor),
+            validImageView.topAnchor.constraint(equalTo: nicknameTextField.bottomAnchor, constant: 10),
+            validImageView.leadingAnchor.constraint(equalTo: nicknameTextField.leadingAnchor),
         ])
         
         NSLayoutConstraint.activate([
@@ -235,9 +235,7 @@ final class UserProfileViewController: UIViewController {
         let imageSize = CGSize(width: 15, height: 15)
         let textColor = isPossible ? UIColor.vfGreen : UIColor.vfRed
         
-        let SFSymbolToText = NSTextAttachment()
-        SFSymbolToText.image = UIImage(systemName: (isPossible ? "checkmark.circle.fill" : "exclamationmark.circle.fill"))?.withTintColor(textColor).resize(to: imageSize)
-        validImageLabel.attributedText = NSAttributedString(attachment: SFSymbolToText)
+        validImageView.image = UIImage(systemName: (isPossible ? "checkmark.circle.fill" : "exclamationmark.circle.fill"))?.withTintColor(textColor).resize(to: imageSize)
     
         validLabel.text = text
         validLabel.textColor = textColor
