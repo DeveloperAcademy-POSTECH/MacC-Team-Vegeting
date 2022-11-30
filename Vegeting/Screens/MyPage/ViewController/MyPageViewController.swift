@@ -64,6 +64,11 @@ class MyPageViewController: UIViewController {
             self?.vfUser = vfUser
         }
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        hideTabBar()
+    }
 
     //MARK: - func
     
@@ -81,6 +86,10 @@ class MyPageViewController: UIViewController {
     
     private func showTabBar() {
         tabBarController?.tabBar.isHidden = false
+    }
+
+    private func hideTabBar() {
+        tabBarController?.tabBar.isHidden = true
     }
     
     private func setupNavigationBar() {
