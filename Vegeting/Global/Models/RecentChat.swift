@@ -5,7 +5,7 @@
 //  Created by yudonlee on 2022/11/09.
 //
 
-import UIKit
+import Foundation
 
 import FirebaseFirestoreSwift
 
