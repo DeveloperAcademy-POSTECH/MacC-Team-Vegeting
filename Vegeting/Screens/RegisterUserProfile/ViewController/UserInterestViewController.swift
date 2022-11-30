@@ -96,22 +96,23 @@ class UserInterestViewController: UIViewController {
     
     private func registerUser(model: UserInterests) {
         
+        guard let uid = FirebaseManager.shared.requestCurrentUserUID() else { return }
         
-        if let uid = FirebaseManager.shared.requestCurrentUserUID(),
-            let imageURL = model.userTypeIntroduction.userGenderBirthYear.userLocation.userImageNickname.userImageURL,
-            let introduction = model.userTypeIntroduction.userIntroduction {
-            
-            let userName = model.userTypeIntroduction.userGenderBirthYear.userLocation.userImageNickname.userNickname
-            let birth = model.userTypeIntroduction.userGenderBirthYear.userBirthYear
-            let location = model.userTypeIntroduction.userGenderBirthYear.userLocation.userLocation
-            let gender = model.userTypeIntroduction.userGenderBirthYear.userGender
-            let vegetarianType = model.userTypeIntroduction.userVegetarianType
-            let interests = model.userInterest
-            
-            let user = VFUser(userID: uid, userName: userName, imageURL: imageURL, birth: birth, location: location, gender: gender, vegetarianType: vegetarianType, introduction: introduction, interests: interests, participatedChats: [], participatedClubs: [])
-            
-            FirebaseManager.shared.registerUserInformation(with: user)
-        }
+        let imageURL = model.userTypeIntroduction.userGenderBirthYear.userLocation.userImageNickname.userImageURL
+        let introduction = model.userTypeIntroduction.userIntroduction ?? ""
+        
+        let userName = model.userTypeIntroduction.userGenderBirthYear.userLocation.userImageNickname.userNickname
+        let birth = model.userTypeIntroduction.userGenderBirthYear.userBirthYear
+        let location = model.userTypeIntroduction.userGenderBirthYear.userLocation.userLocation
+        let gender = model.userTypeIntroduction.userGenderBirthYear.userGender
+        let vegetarianType = model.userTypeIntroduction.userVegetarianType
+        let interests = model.userInterest
+        
+        let user = VFUser(userID: uid, userName: userName, imageURL: imageURL, birth: birth,
+                          location: location, gender: gender, vegetarianType: vegetarianType,
+                          introduction: introduction, interests: interests, participatedChats: [], participatedClubs: [])
+        
+        FirebaseManager.shared.registerUserInformation(with: user)
     }
 }
 

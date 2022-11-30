@@ -232,10 +232,37 @@ final class UserProfileViewController: UIViewController {
     
     @objc
     private func nextButtonTapped() {
-        guard let image = profileImageView.image else { return }
-        guard let nickname = nicknameTextField.text else { return }
-        let userImageNickname = UserImageNickname(userNickname: nickname)
-        navigationController?.pushViewController(LocationAuthViewController(userImageNickname: userImageNickname), animated: true)
+        guard let nickname = nicknameTextField.text else {
+            return
+        }
+        
+        requestImageURL { url in
+            let profileImage = url
+            let userImageNickname = UserImageNickname(userImageURL: profileImage, userNickname: nickname)
+            self.navigationController?.pushViewController(LocationAuthViewController(userImageNickname: userImageNickname), animated: true)
+        }
+    }
+    
+    private func requestImageURL(completion: @escaping (URL?) -> Void) {
+        if !(profileImageView.image == nil) {
+            
+            guard let image = profileImageView.image else {
+                completion(nil)
+                return
+            }
+            
+            FirebaseStorageManager.shared.uploadImage(image: image, folderName: "userProfile") { result in
+                switch result {
+                case .success(let url):
+                    completion(url)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+            
+        } else {
+            completion(nil)
+        }
     }
 }
 

@@ -8,10 +8,10 @@
 import Foundation
 
 class UserImageNickname {
-    var userImageURL: String?
+    var userImageURL: URL?
     var userNickname: String
     
-    init(userImageURL: String? = nil, userNickname: String) {
+    init(userImageURL: URL? = nil, userNickname: String) {
         self.userImageURL = userImageURL
         self.userNickname = userNickname
     }

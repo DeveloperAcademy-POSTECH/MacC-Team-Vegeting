@@ -22,7 +22,7 @@ class BottomButton: UIButton {
     private func configureUI() {
         layer.masksToBounds = true
         layer.cornerRadius = 10
-        titleLabel?.font = .preferredFont(forTextStyle: .body)
+        titleLabel?.font = .preferredFont(forTextStyle: .body, compatibleWith: .init(legibilityWeight: .bold))
         setBackgroundColor(.vfYellow1, for: .normal)
         setBackgroundColor(.vfYellow2, for: .disabled)
         setTitleColor(.vfBlack, for: .normal)

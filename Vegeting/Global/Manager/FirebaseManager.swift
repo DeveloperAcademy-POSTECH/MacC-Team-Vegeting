@@ -41,11 +41,20 @@ final class FirebaseManager {
     /// - Returns: 모든 클럽 정보가 나타난다.
     func requestClubInformation() async -> [Club]? {
         do {
+            var validClubs = [Club]()
+            var invalidClubs = [Club]()
             let querySnapshot = try await db.collection(Path.club.rawValue).getDocuments()
             let data = querySnapshot.documents.compactMap { snapshot in
                 try? snapshot.data(as: Club.self)
             }
-            return data
+            data.forEach { club in
+                if club.participants?.count ?? 0 < club.maxNumberOfPeople && Date() < club.dateToMeet {
+                    validClubs.append(club)
+                } else {
+                    invalidClubs.append(club)
+                }
+            }
+            return validClubs + invalidClubs
         } catch {
             print(error.localizedDescription)
             return nil
@@ -97,8 +106,9 @@ extension FirebaseManager {
             let addedClub = Club(clubID: docClub.documentID, chatID: docChat.documentID,
                                  clubTitle: club.clubTitle, clubCategory: club.clubCategory,
                                  clubContent: club.clubContent, hostID: user.userID,
-                                 participants: [participant], createdAt: club.createdAt,
-                                 maxNumberOfPeople: club.maxNumberOfPeople)
+                                 participants: [participant], dateToMeet: club.dateToMeet,
+                                 createdAt: club.createdAt, placeToMeet: club.placeToMeet,
+                                 maxNumberOfPeople: club.maxNumberOfPeople, coverImageURL: club.coverImageURL)
             
             let addedChat = Chat(chatRoomID: docChat.documentID, clubID: docClub.documentID,
                                  chatRoomName: chat.chatRoomName, participants: [participant],
@@ -290,6 +300,22 @@ extension FirebaseManager {
         return uid
     }
     
+    func requestUser(completion: @escaping (Result<VFUser, Error>) -> Void) {
+        guard let uid = auth.currentUser?.uid else { return }
+        db.collection(Path.user.rawValue).document(uid).addSnapshotListener { querySnapshot, error in
+            do {
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    guard let userData = try querySnapshot?.data(as: VFUser.self) else { return }
+                    completion(.success(userData))
+                }
+            } catch {
+                completion(.failure(FBError.didFailToLoadUser))
+            }
+        }
+    }
+
     func isUserAlreadyExisted(user: User) -> AnyPublisher<Bool, Error> {
         return db.collection(Path.user.rawValue).document(user.uid).getDocument()
             .catch { error in
