@@ -198,7 +198,6 @@ final class UserProfileViewController: UIViewController {
     
     @objc
     private func textDidChangeForLabel() {
-        print("textDidChangeForLabel")
         guard let text = nicknameTextField.text else { return }
         var textLength = text.count
         
