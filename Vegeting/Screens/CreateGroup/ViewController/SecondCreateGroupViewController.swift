@@ -14,22 +14,19 @@ final class SecondCreateGroupViewController: BaseViewController {
     private let contentView = UIView()
     
     private lazy var coverPickerView: PhotoPickerView = {
-        var pickerView = PhotoPickerView()
-        pickerView.setLabelText(title: "모임과 관련된 사진을 첨부해주세요.",
-                                sub: "사진은 1장만 첨부할 수 있어요.")
+        let pickerView = PhotoPickerView()
+        pickerView.setLabelText(text: StringLiteral.secondCreateGroupViewControllerPhoto)
         pickerView.delegate = self
         return pickerView
     }()
     
-    private lazy var groupInfomationLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .subheadline)
-        label.textColor = .vfGray3
-        return label
+    private lazy var groupInfoStackView: GroupInfoView = {
+        let stackView = GroupInfoView()
+        return stackView
     }()
     
     private lazy var titleTextField: UITextField = {
-        var textField = UITextField()
+        let textField = UITextField()
         textField.placeholder = StringLiteral.secondCreateGroupViewControllerTitle
         textField.font = .preferredFont(forTextStyle: .body)
         textField.layer.cornerRadius = 5
@@ -64,7 +61,7 @@ final class SecondCreateGroupViewController: BaseViewController {
     }()
     
     private lazy var contentTextView: UITextView = {
-        var textView = UITextView()
+        let textView = UITextView()
         textView.text = StringLiteral.secondCreateGroupViewControllerContent
         textView.textColor = .lightGray
         textView.font = .preferredFont(forTextStyle: .body)
@@ -203,12 +200,46 @@ final class SecondCreateGroupViewController: BaseViewController {
         navigationController?.popToRootViewController(animated: true)
     }
     
-    private func registerClub() {
-        guard let incompleteClub = incompleteClub,
-              let clubTitle = titleTextField.text else { return }
-        let firebaseManager = FirebaseManager.shared
+    @objc
+    private func registerButtonTapped() {
+        guard var club = makeClub(),
+              let chat = makeChat() else { return }
+        
+        requestImageURL() { url in
+            club.coverImageURL = url
+            Task {
+                guard let vfUser = await FirebaseManager.shared.requestUser() else { return }
+                FirebaseManager.shared.requestPost(user: vfUser, club: club, chat: chat)
+            }
+        }
+        
+        navigationController?.popToRootViewController(animated: true)
+    }
 
-        var club = Club(id: nil, clubID: nil, chatID: nil,
+    private func requestImageURL(completion: @escaping (URL?) -> Void) {
+        if !coverPickerView.isDefaultCoverImage() {
+            guard let image = coverPickerView.getImageView()
+            else {
+                completion(nil)
+                return
+            }
+            FirebaseStorageManager.shared.uploadImage(image: image, folderName: "club") { result in
+                switch result {
+                case .success(let url):
+                    completion(url)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        } else {
+            completion(nil)
+        }
+    }
+    
+    private func makeClub() -> Club? {
+        guard let incompleteClub = groupInfoStackView.getData(),
+              let clubTitle = titleTextField.text else { return nil }
+        let club = Club(id: nil, clubID: nil, chatID: nil,
                         clubTitle: clubTitle,
                         clubCategory: incompleteClub.clubCategory,
                         clubContent: contentTextView.text,
@@ -217,55 +248,18 @@ final class SecondCreateGroupViewController: BaseViewController {
                         createdAt: Date(),
                         placeToMeet: incompleteClub.placeToMeet,
                         maxNumberOfPeople: incompleteClub.maxNumberOfPeople)
-
+        return club
+    }
+    
+    private func makeChat() -> Chat? {
+        guard let clubTitle = titleTextField.text else { return nil }
         let chat = Chat(chatRoomID: nil,
                         clubID: nil,
                         chatRoomName: clubTitle,
                         participants: nil,
                         messages: nil,
                         coverImageURL: nil)
-
-        getImageURL() { url in
-            club.coverImageURL = url
-            Task {
-                guard let vfUser = await firebaseManager.requestUser() else { return }
-                firebaseManager.requestPost(user: vfUser, club: club, chat: chat)
-            }
-        }
-    }
-    
-    private func updateClub() {
-        guard let incompleteClub = incompleteClub,
-              let club = club,
-              let clubTitle = titleTextField.text else { return }
-        let firebaseManager = FirebaseManager.shared
-        
-//        var updatedClub = Club(id: club.id,
-//                               clubID: club.clubID,
-//                               chatID: club.chatID,
-//                               clubTitle: clubTitle,
-//                               clubCategory: incompleteClub.clubCategory,
-//                               clubContent: contentTextView.text,
-//                               hostID: club.hostID,
-//                               participants: club.participants,
-//                               dateToMeet: incompleteClub.dateToMeet,
-//                               createdAt: club.createdAt,
-//                               placeToMeet: club.placeToMeet,
-//                               maxNumberOfPeople: incompleteClub.maxNumberOfPeople,
-//                               coverImageURL: <#T##URL?#>)
-        // TODO: url로 넘기지 말고, UIimage로 넘겨서 image 변화여부를 체크하여 getImageURL을 호출해야할 것 같아요.
-    }
-    
-    private func getImageURL(completion: @escaping (URL?) -> Void) {
-        if !coverPickerView.isDefaultImage {
-            guard let image = coverPickerView.getImageView() else { return completion(nil) }
-            FirebaseStorageManager.uploadImage(image: image, folderName: "club") { url in
-                guard let url = url else {return}
-                completion(url)
-            }
-        } else {
-            completion(nil)
-        }
+        return chat
     }
     
     @objc

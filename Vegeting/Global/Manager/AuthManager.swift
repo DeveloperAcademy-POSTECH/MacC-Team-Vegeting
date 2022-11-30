@@ -15,15 +15,19 @@ final class AuthManager {
     
     static let shared = AuthManager()
     private let auth = Auth.auth()
-    private var currentUser: VFUser?
+    private var user: VFUser?
     
     private init() {
-        Task { [weak self] in
-            guard let currentUser = await FirebaseManager.shared.requestUser() else { return }
-            self?.currentUser = currentUser
+        FirebaseManager.shared.requestUser { result in
+            switch result {
+            case .success(let user):
+                self.user = user
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
         }
     }
-    
+
     func signInUser(email: String, password: String) -> AnyPublisher<User, Error> {
         return auth.signIn(withEmail: email, password: password)
             .catch { error in
@@ -51,8 +55,8 @@ final class AuthManager {
             .eraseToAnyPublisher()
     }
     
-    func getCurrentUser() -> VFUser? {
-        return self.currentUser
+    func currentUser() -> VFUser? {
+        return self.user
     }
     
 }

@@ -32,15 +32,12 @@ final class FirstCreateGroupViewController: UIViewController {
     }()
     
     private lazy var categoryCollectionView: GroupCategoryView = {
-        let view: GroupCategoryView
-        switch entryPoint {
-        case .create:
-            view = GroupCategoryView()
-        case .revise:
-            view = GroupCategoryView(selectedCategory: club?.clubCategory)
+        let groupCategoryView = GroupCategoryView()
+        if entryPoint == .revise, let category = club?.clubCategory {
+            groupCategoryView.selectPostCategory(with: category)
         }
-        view.delegate = self
-        return view
+        groupCategoryView.delegate = self
+        return groupCategoryView
     }()
     
     private let locationTitleLabel: UILabel = {
@@ -114,12 +111,9 @@ final class FirstCreateGroupViewController: UIViewController {
     }()
     
     private lazy var numberOfGroupCollectionView: NumberOfGroupPeopleView = {
-        let view: NumberOfGroupPeopleView
-        switch entryPoint {
-        case .create:
-            view = NumberOfGroupPeopleView()
-        case .revise:
-            view = NumberOfGroupPeopleView(selectedNumber: club?.maxNumberOfPeople)
+        let view = NumberOfGroupPeopleView()
+        if entryPoint == .revise, let maxNumber = club?.maxNumberOfPeople {
+            view.setupPostNumberOfPeople(selectedNumber: maxNumber)
         }
         view.delegate = self
         return view
@@ -152,9 +146,7 @@ final class FirstCreateGroupViewController: UIViewController {
         setupLayout()
         configureUI()
         setupNavigationBar()
-        if entryPoint == .create {
-            hideAll()
-        }
+        hideElementWhenCreateClub()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -163,15 +155,17 @@ final class FirstCreateGroupViewController: UIViewController {
     
     // MARK: - func
     
-    private func hideAll() {
-        locationTitleLabel.isHidden = true
-        locationSearchingButton.isHidden = true
-        locationFooterLabel.isHidden = true
-        dateTitleLabel.isHidden = true
-        datePicker.isHidden = true
-        datePickerFooterLabel.isHidden = true
-        numberOfGroupPeopleTitleLabel.isHidden = true
-        numberOfGroupCollectionView.isHidden = true
+    private func hideElementWhenCreateClub() {
+        if entryPoint == .create {
+            locationTitleLabel.isHidden = true
+            locationSearchingButton.isHidden = true
+            locationFooterLabel.isHidden = true
+            dateTitleLabel.isHidden = true
+            datePicker.isHidden = true
+            datePickerFooterLabel.isHidden = true
+            numberOfGroupPeopleTitleLabel.isHidden = true
+            numberOfGroupCollectionView.isHidden = true
+        }
     }
     
     private func hideTabBar() {
@@ -206,7 +200,7 @@ final class FirstCreateGroupViewController: UIViewController {
     
     @objc
     private func bottomButtonTapped() {
-        guard let selectedCategory = categoryCollectionView.getSelectedCategory(),
+        guard let selectedCategory = categoryCollectionView.selectedCategory(),
               let selectedNumberOfPeople = numberOfGroupCollectionView.getSelectedNumber() else { return }
         let passedData = IncompleteClub(clubCategory: selectedCategory,
                                         placeToMeet: locationLabel.text ?? "",

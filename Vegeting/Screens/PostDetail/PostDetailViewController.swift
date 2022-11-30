@@ -25,15 +25,7 @@ final class PostDetailViewController: UIViewController {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        guard let url = self.club.coverImageURL else {
-            imageView.image = UIImage(named: "coverImage")
-            return imageView
-        }
-        Task { [weak self] in
-            FirebaseStorageManager.downloadImage(url: url) { image in
-                imageView.image = image
-            }
-        }
+        imageView.setImage(with: club.coverImageURL)
         return imageView
     }()
     
@@ -155,18 +147,20 @@ final class PostDetailViewController: UIViewController {
     }
     
     private func setupLayout() {
-        scrollView.constraint(top: view.safeAreaLayoutGuide.topAnchor,
-                              leading: view.safeAreaLayoutGuide.leadingAnchor,
-                              bottom: enterButton.topAnchor,
-                              trailing: view.safeAreaLayoutGuide.trailingAnchor,
-                              padding: UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0))
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: enterButton.topAnchor, constant: -20),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
         
-        contentView.constraint(top: scrollView.contentLayoutGuide.topAnchor,
-                               leading: scrollView.contentLayoutGuide.leadingAnchor,
-                               bottom: scrollView.contentLayoutGuide.bottomAnchor,
-                               trailing: scrollView.contentLayoutGuide.trailingAnchor)
-        
-        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            contentView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+        ])
         
         NSLayoutConstraint.activate([
             coverImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
@@ -230,51 +224,63 @@ final class PostDetailViewController: UIViewController {
         let actionSheet = UIAlertController(title: .none, message: .none, preferredStyle: .actionSheet)
         let firstAlertAction: UIAlertAction
         let secondAlertAction: UIAlertAction
+        let actions: (firstAction: UIAlertAction, secondAction: UIAlertAction)
         
         switch entryPoint {
         case .mine:
-            firstAlertAction = UIAlertAction(title: "게시글 삭제", style: .destructive, handler: { [weak self] _ in
-                self?.makeRequestAlert(title: "게시글을 삭제하시겠습니까?",
-                                      message: "게시글이 삭제되어도,\n채팅방은 사라지지 않습니다.",
-                                      okTitle: "삭제",
-                                      cancelTitle: "취소") { okAction in
-                    // TODO: - 삭제 코드
-                }
-            })
-            
-            secondAlertAction = UIAlertAction(title: "게시글 수정", style: .default, handler: { action in
-                // TODO: - 게시글 수정
-                let viewController = FirstCreateGroupViewController(entryPoint: .revise, club: self.club)
-                viewController.configure(with: self.club)
-                self.navigationController?.pushViewController(viewController, animated: true)
-            })
-            
+            actions = makeAlertActionForMine()
         case .other:
-            firstAlertAction = UIAlertAction(title: "게시글 신고", style: .default, handler: { [weak self] _ in
-                self?.makeRequestAlert(title: "게시글을 신고하시겠습니까?",
-                                      message: "",
-                                      okTitle: "신고",
-                                      cancelTitle: "취소") { okAction in
-                    // TODO: - 신고 코드
-                }
-            })
-            
-            secondAlertAction = UIAlertAction(title: "작성자 차단", style: .default, handler: { [weak self] _ in
-                self?.makeRequestAlert(title: "사용자 차단",
-                                      message: "해당 사용자가 작성한\n모임 모집글을 볼 수 없게 됩니다.",
-                                      okTitle: "차단",
-                                      cancelTitle: "취소") { okAction in
-                    // TODO: - 차단 코드
-                }
-            })
+            actions = makeAlertActionForMine()
         }
+        firstAlertAction = actions.firstAction
+        secondAlertAction = actions.secondAction
         
         let cancelAlertAction = UIAlertAction(title: "취소", style: .cancel)
-        
         [firstAlertAction, secondAlertAction, cancelAlertAction].forEach { action in
             actionSheet.addAction(action)
         }
         present(actionSheet, animated: true, completion: nil)
+    }
+    
+    private func makeAlertActionForMine() -> (firstAction: UIAlertAction, secondAction: UIAlertAction) {
+        let firstAlertAction = UIAlertAction(title: "게시글 삭제", style: .destructive, handler: { [weak self] _ in
+            self?.makeRequestAlert(title: "게시글을 삭제하시겠습니까?",
+                                   message: "게시글이 삭제되어도,\n채팅방은 사라지지 않습니다.",
+                                   okTitle: "삭제",
+                                   cancelTitle: "취소") { okAction in
+                // TODO: - 삭제 코드
+            }
+        })
+        
+        let secondAlertAction = UIAlertAction(title: "게시글 수정", style: .default, handler: { action in
+            // TODO: - 게시글 수정
+            let viewController = FirstCreateGroupViewController(entryPoint: .revise, club: self.club)
+            viewController.configure(with: self.club)
+            self.navigationController?.pushViewController(viewController, animated: true)
+        })
+        return (firstAlertAction, secondAlertAction)
+    }
+    
+    private func makeAlertActionForOther() -> (firstAction: UIAlertAction, secondAction: UIAlertAction) {
+        let firstAlertAction = UIAlertAction(title: "게시글 신고", style: .default, handler: { [weak self] _ in
+            self?.makeRequestAlert(title: "게시글을 신고하시겠습니까?",
+                                   message: "",
+                                   okTitle: "신고",
+                                   cancelTitle: "취소") { okAction in
+                // TODO: - 신고 코드
+            }
+        })
+        
+        let secondAlertAction = UIAlertAction(title: "작성자 차단", style: .default, handler: { [weak self] _ in
+            self?.makeRequestAlert(title: "사용자 차단",
+                                   message: "해당 사용자가 작성한\n모임 모집글을 볼 수 없게 됩니다.",
+                                   okTitle: "차단",
+                                   cancelTitle: "취소") { okAction in
+                // TODO: - 차단 코드
+            }
+        })
+        
+        return (firstAlertAction, secondAlertAction)
     }
 }
 
