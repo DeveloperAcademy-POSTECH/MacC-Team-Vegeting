@@ -172,14 +172,20 @@ final class ReportViewController: UIViewController {
             // TODO: 차단하기 눌렀을때
             break
         case .unregister:
-            FirebaseManager.shared.unregisterUser(reason: selectedElementList)
-            makeAlert(title: "탈퇴되었습니다", message: "", completion: {
-                let signInViewController = SignInViewController()
-                signInViewController.modalPresentationStyle = .fullScreen
-                self.present(signInViewController, animated: false, completion: nil)
-            })
+            unregister()
         }
         
+    }
+    
+    private func unregister() {
+        FirebaseManager.shared.unregisterUser(reason: selectedElementList)
+        
+        let alert = UIAlertController(title: "탈퇴되었습니다.", message: "서비스를 사용하려면 다시 가입해주세요.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
+            let signInViewController = SignInViewController()
+            self.navigationController?.setViewControllers([signInViewController], animated: false)
+        }))
+        present(alert, animated: true)
     }
     
     private func observeKeyboardWillShow() {
