@@ -13,4 +13,5 @@ enum ErrorLiteral: Error {
 
 enum FBError: Error {
     case didFailToLoadChat
+    case didFailToLoadUser
 }

@@ -296,7 +296,7 @@ extension FirebaseManager {
                     completion(.success(userData))
                 }
             } catch {
-            
+                completion(.failure(FBError.didFailToLoadUser))
             }
         }
     }
