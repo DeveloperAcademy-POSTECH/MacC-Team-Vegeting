@@ -61,8 +61,8 @@ final class GroupCategoryView: UIView {
         return categoryList[index]
     }
     
-    func setupPostCategory(selectedCategory: String) {
-        guard let index = categoryList.firstIndex(of: selectedCategory) else { return }
+    func selectPostCategory(with category: String) {
+        guard let index = categoryList.firstIndex(of: category) else { return }
         let indexPath = IndexPath(item: index, section: 0)
         categoryCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .bottom)
     }
