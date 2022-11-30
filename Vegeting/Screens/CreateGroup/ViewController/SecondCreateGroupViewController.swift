@@ -322,6 +322,7 @@ final class SecondCreateGroupViewController: BaseViewController {
     
     override func configureUI() {
         scrollView.showsVerticalScrollIndicator = false
+        view.backgroundColor = .systemBackground
     }
     
     private func applyEditingTextViewForm() {
