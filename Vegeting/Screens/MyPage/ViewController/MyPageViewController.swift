@@ -14,6 +14,15 @@ class MyPageViewController: UIViewController {
         case setting = 1
     }
     
+    private enum SettingElement: Int {
+        case participatedClub = 1
+        case termsOfUse = 3
+        case privacyPolicy = 4
+        case suggest = 5
+        case logout = 7
+        case unregister = 8
+    }
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.showsVerticalScrollIndicator = false
@@ -131,9 +140,21 @@ extension MyPageViewController: UITableViewDataSource {
 extension MyPageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
-        case 1 :
+        case SettingElement.participatedClub.rawValue:
             let viewController = MyClubsViewController()
             self.navigationController?.pushViewController(viewController, animated: true)
+        case SettingElement.termsOfUse.rawValue:
+            guard let url = URL(string: StringLiteral.termsOfUseNotionLink) else { return }
+            UIApplication.shared.open(url)
+        case SettingElement.privacyPolicy.rawValue:
+            guard let url = URL(string: StringLiteral.privayPolicyNotionLink) else { return }
+            UIApplication.shared.open(url)
+        case SettingElement.suggest.rawValue:
+         print("suggest")
+        case SettingElement.logout.rawValue:
+            print("logout")
+        case SettingElement.unregister.rawValue:
+            print("unregister")
         default:
             return
         }
