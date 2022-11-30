@@ -64,8 +64,13 @@ final class UserProfileViewController: UIViewController {
         return textField
     }()
     
-    private let validNicknameLabel: UILabel = {
+    private let validImageLabel: UILabel = {
         let label = UILabel()
+        return label
+    }()
+    
+    private let validLabel: UILabel = {
+        let label  = UILabel()
         label.font = .preferredFont(forTextStyle: .footnote)
         return label
     }()
@@ -106,7 +111,7 @@ final class UserProfileViewController: UIViewController {
         view.backgroundColor = .systemBackground
         view.addSubviews(progressBarImageView, profileMessageLabel, profileImageView,
                          nicknameMessageLabel, cameraButton, nicknameTextField,
-                         validNicknameLabel, nicknameTextCountLabel, nextButton)
+                         validImageLabel, validLabel, nicknameTextCountLabel, nextButton)
     }
     
     private func setupLayout() {
@@ -149,8 +154,13 @@ final class UserProfileViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            validNicknameLabel.topAnchor.constraint(equalTo: nicknameTextField.bottomAnchor, constant: 10),
-            validNicknameLabel.leadingAnchor.constraint(equalTo: nicknameTextField.leadingAnchor)
+            validImageLabel.topAnchor.constraint(equalTo: nicknameTextField.bottomAnchor, constant: 8.5),
+            validImageLabel.leadingAnchor.constraint(equalTo: nicknameTextField.leadingAnchor),
+        ])
+        
+        NSLayoutConstraint.activate([
+            validLabel.topAnchor.constraint(equalTo: nicknameTextField.bottomAnchor, constant: 10),
+            validLabel.leadingAnchor.constraint(equalTo: nicknameTextField.leadingAnchor, constant: 15),
         ])
         
         NSLayoutConstraint.activate([
@@ -212,19 +222,26 @@ final class UserProfileViewController: UIViewController {
         guard let nickname = nicknameTextField.text else { return }
 
         if nickname.count < 2 {
-            validNicknameLabel.text = "닉네임은 두 글자 이상이어야 합니다."
-            changeButtonStatusAndValidLabel(false)
+            changeButtonStatusAndValidLabel(false, text: " 닉네임은 두 글자 이상이어야 합니다.")
         } else {
             Task { [weak self] in
                 let isPossible = try await FirebaseManager.shared.isPossibleNickname(newName: nickname)
-                self?.validNicknameLabel.text = isPossible ? "사용 가능한 닉네임입니다." : "다른 사용자가 사용 중인 닉네임입니다."
-                self?.changeButtonStatusAndValidLabel(isPossible)
+                self?.changeButtonStatusAndValidLabel(isPossible, text: (isPossible ? " 사용 가능한 닉네임입니다." : " 다른 사용자가 사용 중인 닉네임입니다."))
             }
         }
     }
     
-    private func changeButtonStatusAndValidLabel(_ isPossible: Bool) {
-        validNicknameLabel.textColor = isPossible ? .vfGreen : .vfRed
+    private func changeButtonStatusAndValidLabel(_ isPossible: Bool, text: String) {
+        let imageSize = CGSize(width: 15, height: 15)
+        let textColor = isPossible ? UIColor.vfGreen : UIColor.vfRed
+        
+        let SFSymbolToText = NSTextAttachment()
+        SFSymbolToText.image = UIImage(systemName: (isPossible ? "checkmark.circle.fill" : "exclamationmark.circle.fill"))?.withTintColor(textColor).resize(to: imageSize)
+        validImageLabel.attributedText = NSAttributedString(attachment: SFSymbolToText)
+    
+        validLabel.text = text
+        validLabel.textColor = textColor
+        
         nextButton.isEnabled = isPossible
     }
     
