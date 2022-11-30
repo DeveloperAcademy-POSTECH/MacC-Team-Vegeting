@@ -60,6 +60,7 @@ final class UserProfileViewController: UIViewController {
         let textField = UITextField()
         textField.borderStyle = .none
         textField.delegate = self
+        textField.clearButtonMode = .always
         textField.addTarget(self, action: #selector(textDidChangeForLabel), for: .editingChanged)
         return textField
     }()
