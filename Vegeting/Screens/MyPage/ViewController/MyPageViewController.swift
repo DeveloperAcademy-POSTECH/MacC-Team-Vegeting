@@ -28,7 +28,6 @@ class MyPageViewController: UIViewController {
     private let tableCellList: [MyPageSettingElement] = [MyPageSettingElement(text: "모임", isSmallTitle: true),
                                                          MyPageSettingElement(text: "주최한 모임", isSmallTitle: false),
                                                          MyPageSettingElement(text: "설정", isSmallTitle: true),
-                                                         MyPageSettingElement(text: "채팅 알람", isSmallTitle: false, isSwitch: true),
                                                          MyPageSettingElement(text: "차단한 사용자 관리", isSmallTitle: false),
                                                          MyPageSettingElement(text: "안내", isSmallTitle: true),
                                                          MyPageSettingElement(text: "공지사항", isSmallTitle: false),
