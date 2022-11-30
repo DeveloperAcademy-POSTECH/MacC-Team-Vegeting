@@ -199,12 +199,26 @@ final class SecondCreateGroupViewController: BaseViewController {
         case .revise:
             self.updateClub()
         }
-
         navigationController?.popToRootViewController(animated: true)
     }
     
-    @objc
-    private func registerButtonTapped() {
+//    @objc
+//    private func registerButtonTapped() {
+//        guard var club = makeClub(),
+//              let chat = makeChat() else { return }
+//
+//        requestImageURL() { url in
+//            club.coverImageURL = url
+//            Task {
+//                guard let vfUser = await FirebaseManager.shared.requestUser() else { return }
+//                FirebaseManager.shared.requestPost(user: vfUser, club: club, chat: chat)
+//            }
+//        }
+//
+//        navigationController?.popToRootViewController(animated: true)
+//    }
+    
+    private func registerClub() {
         guard var club = makeClub(),
               let chat = makeChat() else { return }
         
@@ -215,10 +229,25 @@ final class SecondCreateGroupViewController: BaseViewController {
                 FirebaseManager.shared.requestPost(user: vfUser, club: club, chat: chat)
             }
         }
-        
-        navigationController?.popToRootViewController(animated: true)
     }
-
+    
+    private func updateClub() {
+//        var club = Club(id: club.id,
+//                               clubID: club.clubID,
+//                               chatID: club.chatID,
+//                               clubTitle: clubTitle,
+//                               clubCategory: incompleteClub.clubCategory,
+//                               clubContent: contentTextView.text,
+//                               hostID: club.hostID,
+//                               participants: club.participants,
+//                               dateToMeet: incompleteClub.dateToMeet,
+//                               createdAt: club.createdAt,
+//                               placeToMeet: club.placeToMeet,
+//                               maxNumberOfPeople: incompleteClub.maxNumberOfPeople,
+//                               coverImageURL: <#T##URL?#>)
+        // TODO: url로 넘기지 말고, UIimage로 넘겨서 image 변화여부를 체크하여 getImageURL을 호출해야할 것 같아요.
+    }
+    
     private func requestImageURL(completion: @escaping (URL?) -> Void) {
         if !coverPickerView.isDefaultCoverImage() {
             guard let image = coverPickerView.getImageView()
@@ -240,7 +269,7 @@ final class SecondCreateGroupViewController: BaseViewController {
     }
     
     private func makeClub() -> Club? {
-        guard let incompleteClub = groupInfoStackView.getData(),
+        guard let incompleteClub = incompleteClub,
               let clubTitle = titleTextField.text else { return nil }
         let club = Club(id: nil, clubID: nil, chatID: nil,
                         clubTitle: clubTitle,
