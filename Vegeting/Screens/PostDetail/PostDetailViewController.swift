@@ -225,6 +225,26 @@ final class PostDetailViewController: UIViewController {
         }
     }
     
+    @objc
+    private func enterButtonTapped() {
+        switch entryPoint {
+        case .mine:
+            return
+        case .other:
+            print("참여하기 하프모달")
+            // TODO: - 하프모달 띄워주기 연결
+        case .participatedInOther:
+            leaveClub()
+        }
+    }
+    
+    private func leaveClub() {
+        makeRequestAlert(title: "모임 나가기",
+                         message: "현재 참여 중인 모임입니다.\n모임을 나가면, 모임의 채팅방도\n나가게 됩니다.",
+                         okTitle: "나가기", cancelTitle: "취소") { okAction in
+            // TODO: - 모임 나가기 코드
+        }
+    }
     
     @objc
     private func showActionSheet() {
