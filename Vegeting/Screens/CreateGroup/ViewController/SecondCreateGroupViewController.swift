@@ -368,7 +368,6 @@ final class SecondCreateGroupViewController: BaseViewController {
     }
     
     func configure(with data: IncompleteClub) {
-        print(data, "passed Data")
         categoryLabel.text = data.clubCategory
         groupInfomationLabel.text = "\(data.placeToMeet)･\(data.dateToMeet.toString(format: "M월 d일"))"
     }
