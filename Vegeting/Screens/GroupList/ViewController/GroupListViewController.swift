@@ -46,7 +46,7 @@ class GroupListViewController: UIViewController {
     
     @objc
     private func addClubButtontapped() {
-        let creatrViewController = FirstCreateGroupViewController()
+        let creatrViewController = FirstCreateGroupViewController(entryPoint: .create)
         navigationController?.pushViewController(creatrViewController, animated: true)
     }
     
@@ -154,7 +154,7 @@ class GroupListViewController: UIViewController {
     }
     
     private func updateShowClubList() {
-        switch groupCategoryView.getSelectedCategory() {
+        switch groupCategoryView.selectedCategory() {
         case "전체" :
             showClubList = allClubList
         case "맛집" :

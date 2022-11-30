@@ -15,7 +15,7 @@ final class GroupCategoryView: UIView {
     
     // MARK: - properties
     
-    private let categoryCollectionView: UICollectionView = {
+    private lazy var categoryCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 12
@@ -25,6 +25,8 @@ final class GroupCategoryView: UIView {
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(GroupCategoryCollectionViewCell.self, forCellWithReuseIdentifier: GroupCategoryCollectionViewCell.className)
+        collectionView.dataSource = self
+        collectionView.delegate = self
         return collectionView
     }()
     
@@ -35,7 +37,6 @@ final class GroupCategoryView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureCollectionView()
         setupLayout()
     }
     
@@ -56,11 +57,6 @@ final class GroupCategoryView: UIView {
         ])
     }
     
-    private func configureCollectionView() {
-        categoryCollectionView.dataSource = self
-        categoryCollectionView.delegate = self
-    }
-    
     func setupDefaultStatus() {
         let fisrtIndexPath = IndexPath(item: 0, section: 0)
         guard let cellToSelect = categoryCollectionView.cellForItem(at: fisrtIndexPath) as? GroupCategoryCollectionViewCell else { return }
@@ -72,9 +68,15 @@ final class GroupCategoryView: UIView {
         categoryList = list
     }
     
-    func getSelectedCategory() -> String? {
+    func selectedCategory() -> String? {
         guard let index = categoryCollectionView.indexPathsForSelectedItems?.first?.item else { return nil }
         return categoryList[index]
+    }
+    
+    func selectPostCategory(with category: String) {
+        guard let index = categoryList.firstIndex(of: category) else { return }
+        let indexPath = IndexPath(item: index, section: 0)
+        categoryCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .bottom)
     }
 }
 
@@ -100,13 +102,6 @@ extension GroupCategoryView: UICollectionViewDelegateFlowLayout {
 
 extension GroupCategoryView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? GroupCategoryCollectionViewCell else { return }
         delegate?.didSelectCategory(didSelectItemAt: indexPath)
-        cell.applySelectedState()
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? GroupCategoryCollectionViewCell else { return }
-        cell.applySelectedState()
     }
 }

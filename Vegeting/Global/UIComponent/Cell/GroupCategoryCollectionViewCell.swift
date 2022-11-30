@@ -26,6 +26,12 @@ final class GroupCategoryCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    override var isSelected: Bool {
+        didSet {
+            applySelectedState()
+        }
+    }
+    
     // MARK: - init
     
     override init(frame: CGRect) {

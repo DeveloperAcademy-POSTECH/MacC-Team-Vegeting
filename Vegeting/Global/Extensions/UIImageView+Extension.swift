@@ -10,7 +10,11 @@ import UIKit
 import Kingfisher
 
 extension UIImageView {
-    func setImage(with url: URL) {
+    func setImage(with url: URL?) {
+        guard let url = url else {
+            self.image = UIImage(named: "groupCoverImage1")
+            return
+        }
         let cache = ImageCache.default
         cache.retrieveImage(forKey: url.absoluteString, options: nil) { result in
             switch result {
