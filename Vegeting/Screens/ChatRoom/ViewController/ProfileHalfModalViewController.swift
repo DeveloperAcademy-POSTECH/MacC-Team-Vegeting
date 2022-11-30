@@ -88,7 +88,7 @@ class ProfileHalfModalViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    func configure(with data: ModalModel) {
+    func configure(with data: Participant) {
         profileView.configure(with: data)
     }
 }

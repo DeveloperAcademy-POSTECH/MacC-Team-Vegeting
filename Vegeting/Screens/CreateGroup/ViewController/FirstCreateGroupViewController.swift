@@ -8,16 +8,16 @@
 import UIKit
 import Combine
 
+enum CreateGroupEntryPoint {
+    case create
+    case revise
+}
+
 final class FirstCreateGroupViewController: UIViewController {
     
     //MARK: - properties
     
-    enum EntryPoint {
-        case create
-        case revise
-    }
-    
-    private var entryPoint: EntryPoint
+    private var entryPoint: CreateGroupEntryPoint
     var cancellables = Set<AnyCancellable>()
     private var club: Club?
     
@@ -131,7 +131,7 @@ final class FirstCreateGroupViewController: UIViewController {
     
     // MARK: - lifeCycle
     
-    init(entryPoint: EntryPoint, club: Club? = nil) {
+    init(entryPoint: CreateGroupEntryPoint, club: Club? = nil) {
         self.entryPoint = entryPoint
         self.club = club
         super.init(nibName: nil, bundle: nil)
@@ -206,8 +206,10 @@ final class FirstCreateGroupViewController: UIViewController {
                                         placeToMeet: locationLabel.text ?? "",
                                         dateToMeet: datePicker.date,
                                         maxNumberOfPeople: selectedNumberOfPeople)
-        let viewController = SecondCreateGroupViewController()
+  
+        let viewController = SecondCreateGroupViewController(club: club, incompleteClub: passedData, entryPoint: entryPoint)
         viewController.configure(with: passedData)
+        viewController.configure(with: club)
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
