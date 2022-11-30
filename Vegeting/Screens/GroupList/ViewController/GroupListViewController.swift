@@ -60,7 +60,7 @@ class GroupListViewController: UIViewController {
     private lazy var collectionView: ClubListCollectionView = {
         let collectionView = ClubListCollectionView()
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshClubList), for: .valueChanged)
         collectionView.refreshControl = refreshControl
         collectionView.tapDelegate = self
         return collectionView
@@ -74,7 +74,7 @@ class GroupListViewController: UIViewController {
         configureUI()
         setupLayout()
         groupCategoryView.setupDefaultStatus()
-        refresh()
+        refreshClubList()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -125,7 +125,7 @@ class GroupListViewController: UIViewController {
     }
     
     @objc
-    func refresh(){
+    private func refreshClubList(){
         Task {
             resetClubArray()
             allClubList = await FirebaseManager.shared.requestClubInformation() ?? []
