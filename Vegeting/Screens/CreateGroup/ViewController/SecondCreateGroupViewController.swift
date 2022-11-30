@@ -407,7 +407,6 @@ extension SecondCreateGroupViewController: UITextViewDelegate {
             textView.textColor = .black
         }
         applyEditingTextViewForm()
-//        scrollVertical(to: keyboardHeight)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -421,7 +420,6 @@ extension SecondCreateGroupViewController: UITextViewDelegate {
             }
         }
         applyEndEditingTextViewForm()
-//        scrollVertical(to: .zero)
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
