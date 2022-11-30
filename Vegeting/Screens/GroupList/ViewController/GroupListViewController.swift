@@ -82,6 +82,11 @@ class GroupListViewController: UIViewController {
         showTabBar()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        showTabBar()
+    }
+    
     //MARK: - func
     
     private func showTabBar() {
