@@ -47,7 +47,6 @@ final class ClubListCollectionView: UICollectionView {
     }
     
     private func configureCollectionView() {
-        print("configureCollectionView")
         register(ClubListCollectionViewCell.self, forCellWithReuseIdentifier: ClubListCollectionViewCell.className)
         delegate = self
         dataSource = self
@@ -72,7 +71,6 @@ extension ClubListCollectionView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        print(".....why")
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ClubListCollectionViewCell.className, for: indexPath) as? ClubListCollectionViewCell else { return UICollectionViewCell() }
         cell.configure(with: clubList[indexPath.item])
         return cell

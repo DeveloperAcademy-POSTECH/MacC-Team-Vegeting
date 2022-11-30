@@ -90,7 +90,6 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with item: Club) {
-        print("configure in", item)
         if item.coverImageURL == nil {
             coverImageView.image = UIImage(named: "groupCoverImage1")
         } else {
