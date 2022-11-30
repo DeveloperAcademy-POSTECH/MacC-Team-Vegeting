@@ -10,6 +10,7 @@ import UIKit
 extension UIViewController {
     
     struct ReportStringLiteral {
+        let title: String
         let buttonTitle: String
         let alertTitle: String
         let alertMessage: String
@@ -26,19 +27,22 @@ extension UIViewController {
             switch self {
                 
             case .report:
-                return ReportStringLiteral(buttonTitle: "신고합니다",
+                return ReportStringLiteral(title: "게시물 신고",
+                                           buttonTitle: "신고합니다",
                                            alertTitle: "신고하시겠습니까?",
                                            alertMessage: "신고해주신 내용이 운영팀에 전달됩니다.",
                                            headerTitle: "신고 사유 (최대 3개 선택)",
                                            reportElementList: ["모집글 성격과 맞지 않아요.", "불쾌감을 줍니다.", "개인정보 노출 문제가 있어요", "연애/19+ 만남을 유도합니다.", "법적인 문제가 있어요", "욕설/혐오/차별적 표현이 있습니다.", "음란물입니다.", "불쾌한 표현이 있습니다.", "홍보/도배글입니다.", "기타 (직접 입력)"])
             case .block:
-                return ReportStringLiteral(buttonTitle: "차단합니다",
+                return ReportStringLiteral(title: "사용자 차단",
+                                           buttonTitle: "차단합니다",
                                            alertTitle: "차단하시겠습니까?",
                                            alertMessage: "차단한 사용자의 게시글이 노출되지 않습니다.",
                                            headerTitle: "‘초보채식인'\n사용자를 차단하는 이유가 무언인가요?",
                                            reportElementList: ["불쾌감을 줍니다.", "개인정보를 유출합니다.", "욕설/혐오/차별적 표현을사용해요", "다른 목적을 가지고 접근하는 것 같아요", "불쾌한 표현을 사용해요", "홍보/도배글을 작성합니다.", "기타 (직접 입력)" ])
             case .unregister:
-                return ReportStringLiteral(buttonTitle: "회원 탈퇴",
+                return ReportStringLiteral(title: "회원 탈퇴",
+                                           buttonTitle: "회원 탈퇴",
                                            alertTitle: "탈퇴하시겠습니까?",
                                            alertMessage: "더 이상 해당 계정으로 로그인할 수 없습니다.",
                                            headerTitle: "탈퇴 사유 (최대 3개 선택)",
@@ -102,6 +106,7 @@ final class ReportViewController: UIViewController {
         setupButtonTitle()
         setupLayout()
         configureUI()
+        setupNavigationBar()
         hideKeyboardWhenTappedAround()
     }
     
@@ -115,6 +120,10 @@ final class ReportViewController: UIViewController {
         let buttonTitle = reportType.stringLiteral.buttonTitle
         
         reportButton.setTitle(buttonTitle, for: .normal)
+    }
+    
+    private func setupNavigationBar() {
+        self.navigationItem.title = reportType.stringLiteral.title
     }
     
     private func setupLayout() {
