@@ -90,14 +90,6 @@ class GroupListViewController: UIViewController {
     
     //MARK: - func
     
-    private func showTabBar() {
-        self.tabBarController?.tabBar.isHidden = false
-    }
-    
-    private func hideTabBar() {
-        tabBarController?.tabBar.isHidden = true
-    }
-    
     private func configureUI() {
         view.backgroundColor = .systemBackground
     }

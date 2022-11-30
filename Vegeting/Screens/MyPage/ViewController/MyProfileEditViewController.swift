@@ -26,6 +26,11 @@ class MyProfileEditViewController: UIViewController {
         setupNavigationBar()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        hideTabBar()
+    }
+    
     private func setupLayout() {
         view.addSubviews(profileView, bottomButton)
         

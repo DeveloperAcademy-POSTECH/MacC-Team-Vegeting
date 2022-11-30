@@ -110,6 +110,11 @@ final class ReportViewController: UIViewController {
         hideKeyboardWhenTappedAround()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        hideTabBar()
+    }
+    
     deinit {
         selectedElementList.removeAll()
     }
