@@ -92,7 +92,9 @@ extension GroupCategoryView: UICollectionViewDataSource {
 
 extension GroupCategoryView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 70, height: 33)
+        let width = categoryList[indexPath.item].size(withAttributes: [.font : UIFont.preferredFont(forTextStyle: .subheadline)]).width + 44
+        
+        return CGSize(width: width, height: 33)
     }
 }
 
