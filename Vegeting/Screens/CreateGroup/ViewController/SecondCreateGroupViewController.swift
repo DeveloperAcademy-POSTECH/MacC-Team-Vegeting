@@ -146,7 +146,7 @@ final class SecondCreateGroupViewController: BaseViewController {
             coverPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height * 0.25)
         ])
         
-        let width = (club?.clubCategory.size(withAttributes: [.font : UIFont.preferredFont(forTextStyle: .subheadline)]).width ?? 0) + 40
+        let width = (incompleteClub?.clubCategory.size(withAttributes: [.font : UIFont.preferredFont(forTextStyle: .subheadline)]).width ?? 0) + 40
         
         NSLayoutConstraint.activate([
             categoryLabel.topAnchor.constraint(equalTo: coverPickerView.bottomAnchor, constant: 15),
@@ -368,6 +368,7 @@ final class SecondCreateGroupViewController: BaseViewController {
     }
     
     func configure(with data: IncompleteClub) {
+        print(data, "passed Data")
         categoryLabel.text = data.clubCategory
         groupInfomationLabel.text = "\(data.placeToMeet)･\(data.dateToMeet.toString(format: "M월 d일"))"
     }
