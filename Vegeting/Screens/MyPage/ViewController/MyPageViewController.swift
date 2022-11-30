@@ -26,12 +26,11 @@ class MyPageViewController: UIViewController {
     }()
     
     private let tableCellList: [MyPageSettingElement] = [MyPageSettingElement(text: "모임", isSmallTitle: true),
-                                                         MyPageSettingElement(text: "주최한 모임", isSmallTitle: false),
-                                                         MyPageSettingElement(text: "설정", isSmallTitle: true),
-                                                         MyPageSettingElement(text: "차단한 사용자 관리", isSmallTitle: false),
+                                                         MyPageSettingElement(text: "참여한 모임", isSmallTitle: false),
                                                          MyPageSettingElement(text: "안내", isSmallTitle: true),
-                                                         MyPageSettingElement(text: "공지사항", isSmallTitle: false),
-                                                         MyPageSettingElement(text: "고객센터", isSmallTitle: false),
+                                                         MyPageSettingElement(text: "이용약관", isSmallTitle: false),
+                                                         MyPageSettingElement(text: "개인정보 처리방침", isSmallTitle: false),
+                                                         MyPageSettingElement(text: "건의하기", isSmallTitle: false),
                                                          MyPageSettingElement(text: "게정", isSmallTitle: true),
                                                          MyPageSettingElement(text: "로그아웃", isSmallTitle: false),
                                                          MyPageSettingElement(text: "회원탈퇴", isSmallTitle: false)]
