@@ -135,9 +135,7 @@ class ChatRoomTableViewCell: UITableViewCell {
     
     func configure(with data: RecentChat) {
         guard let url = URL(string: data.coverImageURL ?? "") else { return }
-        FirebaseStorageManager.downloadImage(url: url) { [weak self] image in
-            self?.roomImageView.image = image
-        }
+        roomImageView.setImage(with: url)
         titleLabel.text = data.chatRoomName
         currentUserCountLabel.text = data.numberOfParticipants.description
         latestChatLabel.text = data.lastSentMessage
