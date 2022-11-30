@@ -55,7 +55,7 @@ class GroupListViewController: UIViewController {
     
     @objc
     private func addClubButtontapped() {
-        let creatrViewController = FirstCreateGroupViewController()
+        let creatrViewController = FirstCreateGroupViewController(entryPoint: .create)
         navigationController?.pushViewController(creatrViewController, animated: true)
     }
     

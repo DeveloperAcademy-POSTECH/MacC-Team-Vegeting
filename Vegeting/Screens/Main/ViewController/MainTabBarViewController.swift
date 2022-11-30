@@ -43,7 +43,6 @@ class MainTabBarViewController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureTabBar()
         configureUI()
         setViewControllers([findClubTab, findFriendTab, chattingTab, myPageTab], animated: true)
