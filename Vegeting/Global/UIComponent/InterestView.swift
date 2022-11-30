@@ -9,7 +9,6 @@ import UIKit
 
 protocol InterestViewDelegate: AnyObject {
     func setBottomButtonEnabled(to isEnabled: Bool)
-    func deliverInterestList(list: [Int:String]) -> [String]
 }
 
 final class InterestView: UIView {
@@ -85,10 +84,12 @@ final class InterestView: UIView {
         interestList = list
     }
     
-    func sendSignal() -> [String] {
-        guard let list = delegate?.deliverInterestList(list: selectedInterestList) else { return [] }
+    func deliverInterestList() -> [String] {
+        var selectedList = selectedInterestList.map({ (key, value) -> String in
+            return value
+        })
         
-        return list
+        return selectedList
     }
 }
 

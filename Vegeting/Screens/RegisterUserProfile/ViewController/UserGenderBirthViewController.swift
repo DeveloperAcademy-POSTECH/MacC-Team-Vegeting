@@ -11,6 +11,7 @@ final class UserGenderBirthViewController: UIViewController {
     
     private var userLocation: UserLocation
     private var selectedGender: String = "여성"
+    private var selectedBirthYear: Int = 0
     
     private let progressBarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -78,6 +79,7 @@ final class UserGenderBirthViewController: UIViewController {
         let button = BottomButton()
         button.setTitle("다음으로", for: .normal)
         button.isEnabled = false
+        button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -210,10 +212,9 @@ final class UserGenderBirthViewController: UIViewController {
         }
     }
     
+    @objc
     private func nextButtonTapped() {
-        //TODO: 프로필 설정 4번째 뷰(채식 단계 설정, 한줄 소개)로 연결
-        guard let birthYear = birthDisplayTextField.text else { return }
-        let userGenderBirthYear = UserGenderBirthYear(userLocation: userLocation, userGender: selectedGender, userBirthYear: birthYear)
+        let userGenderBirthYear = UserGenderBirthYear(userLocation: userLocation, userGender: selectedGender, userBirthYear: selectedBirthYear)
         navigationController?.pushViewController(UserTypeIntroductionViewController(userGenderBirthYear: userGenderBirthYear), animated: true)
     }
 }
@@ -234,9 +235,6 @@ extension UserGenderBirthViewController: UIPickerViewDelegate, UIPickerViewDataS
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         birthDisplayTextField.text = "  \(row+1940)"
     }
-    
-    
-    
 }
 
 //출생년도 textField 수동 입력이 불가능하도록 설정
@@ -253,6 +251,9 @@ extension UserGenderBirthViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+        if let birthYearString = textField.text?.trimmingCharacters(in: .whitespaces), let birthYear = Int(birthYearString) {
+            selectedBirthYear = birthYear
+        }
         nextButtonActive()
     }
 }

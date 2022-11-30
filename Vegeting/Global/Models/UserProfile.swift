@@ -30,9 +30,9 @@ class UserLocation {
 class UserGenderBirthYear {
     var userLocation: UserLocation
     var userGender: String
-    var userBirthYear: String
+    var userBirthYear: Int
     
-    init(userLocation: UserLocation, userGender: String, userBirthYear: String) {
+    init(userLocation: UserLocation, userGender: String, userBirthYear: Int) {
         self.userLocation = userLocation
         self.userGender = userGender
         self.userBirthYear = userBirthYear

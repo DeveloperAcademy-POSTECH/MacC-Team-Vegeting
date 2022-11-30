@@ -29,7 +29,7 @@ final class FirebaseManager {
     //    TODO: 추후 회원가입을 위한 Model 따로 만들기
     /// 파이어베이스 스토어에 User정보 등록하는 함수
     /// - Parameter vfUser: vfUser로 넘어옴
-    func requestUserInformation(with user: VFUser) {
+    func registerUserInformation(with user: VFUser) {
         do {
             try db.collection(Path.user.rawValue).document(user.userID).setData(from: user)
         } catch {
@@ -274,7 +274,7 @@ extension FirebaseManager {
     }
     
     func requestUser() async -> VFUser? {
-        guard let uid = auth.currentUser?.uid else { return nil}
+        guard let uid = auth.currentUser?.uid else { return nil }
         do {
             let user = try await db.collection(Path.user.rawValue).document(uid).getDocument().data(as: VFUser.self)
             return user
@@ -282,6 +282,12 @@ extension FirebaseManager {
             print(error.localizedDescription)
         }
         return nil
+    }
+    
+    func requestCurrentUserUID() -> String? {
+        guard let uid = auth.currentUser?.uid else { return nil }
+        
+        return uid
     }
     
     func isUserAlreadyExisted(user: User) -> AnyPublisher<Bool, Error> {

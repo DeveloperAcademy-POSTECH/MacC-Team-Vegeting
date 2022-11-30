@@ -88,20 +88,35 @@ class UserInterestViewController: UIViewController {
     
     @objc
     private func profileRegisterButtonTapped() {
-        // TODO: 프로필 register 함수 구현
+        let selectedInterests = selectInterestView.deliverInterestList()
+        let userInterests = UserInterests(userTypeIntroduction: userTypeIntroduction, userInterest: selectedInterests)
+        
+        registerUser(model: userInterests)
+    }
+    
+    private func registerUser(model: UserInterests) {
+        
+        
+        if let uid = FirebaseManager.shared.requestCurrentUserUID(),
+            let imageURL = model.userTypeIntroduction.userGenderBirthYear.userLocation.userImageNickname.userImageURL,
+            let introduction = model.userTypeIntroduction.userIntroduction {
+            
+            let userName = model.userTypeIntroduction.userGenderBirthYear.userLocation.userImageNickname.userNickname
+            let birth = model.userTypeIntroduction.userGenderBirthYear.userBirthYear
+            let location = model.userTypeIntroduction.userGenderBirthYear.userLocation.userLocation
+            let gender = model.userTypeIntroduction.userGenderBirthYear.userGender
+            let vegetarianType = model.userTypeIntroduction.userVegetarianType
+            let interests = model.userInterest
+            
+            let user = VFUser(userID: uid, userName: userName, imageURL: imageURL, birth: birth, location: location, gender: gender, vegetarianType: vegetarianType, introduction: introduction, interests: interests, participatedChats: [], participatedClubs: [])
+            
+            FirebaseManager.shared.registerUserInformation(with: user)
+        }
     }
 }
 
 extension UserInterestViewController: InterestViewDelegate {
     func setBottomButtonEnabled(to isEnabled: Bool) {
         profileRegisterButton.isEnabled = isEnabled
-    }
-    
-    func deliverInterestList(list: [Int : String]) -> [String] {
-        var selectedList = list.map({ (key, value) -> String in
-            return value
-        })
-        
-        return selectedList
     }
 }

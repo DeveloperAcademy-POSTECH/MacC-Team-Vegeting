@@ -225,8 +225,10 @@ final class LocationAuthViewController: UIViewController {
             authorizationStatus = CLLocationManager.authorizationStatus()
         }
         
-        if CLLocationManager.locationServicesEnabled() {
-            checkCurrentLocationAuthorization(authorizationStatus: authorizationStatus)
+        DispatchQueue.main.async {
+            if CLLocationManager.locationServicesEnabled() {
+                self.checkCurrentLocationAuthorization(authorizationStatus: authorizationStatus)
+            }
         }
     }
 }
