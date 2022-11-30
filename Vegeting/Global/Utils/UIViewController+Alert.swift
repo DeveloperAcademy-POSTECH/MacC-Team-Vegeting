@@ -28,6 +28,7 @@ extension UIViewController {
                           okAction: ((UIAlertAction) -> Void)?,
                           cancelAction: ((UIAlertAction) -> Void)? = nil,
                           completion : (() -> Void)? = nil) {
+     
         let alertViewController = UIAlertController(title: title,
                                                     message: message,
                                                     preferredStyle: .alert)
@@ -35,12 +36,14 @@ extension UIViewController {
         let cancelAction = UIAlertAction(title: cancelTitle,
                                          style: .default,
                                          handler: cancelAction)
-        alertViewController.addAction(cancelAction)
         
         let okAction = UIAlertAction(title: okTitle,
                                      style: .destructive,
                                      handler: okAction)
-        alertViewController.addAction(okAction)
+        
+        [cancelAction, okAction].forEach { action in
+            alertViewController.addAction(action)
+        }
         
         self.present(alertViewController, animated: true, completion: completion)
     }

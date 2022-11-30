@@ -14,7 +14,7 @@ protocol PhotoPickerViewDelegate: AnyObject {
 }
 
 final class PhotoPickerView: UIView {
-    var isDefaultImage = true
+    private var isDefaultImage = true
     private let selectedImage = UIImageView()
     
     private let titleLabel: UILabel = {
@@ -133,6 +133,10 @@ final class PhotoPickerView: UIView {
     func setLabelText(title: String, sub: String) {
         titleLabel.text = title
         subTitleLabel.text = sub
+    }
+    
+    func isDefaultCoverImage() -> Bool {
+        return self.isDefaultImage
     }
 }
 

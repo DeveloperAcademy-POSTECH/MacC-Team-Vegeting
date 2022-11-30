@@ -34,7 +34,7 @@ final class FirstCreateGroupViewController: UIViewController {
     private lazy var categoryCollectionView: GroupCategoryView = {
         let groupCategoryView = GroupCategoryView()
         if entryPoint == .revise, let category = club?.clubCategory {
-            groupCategoryView.setupPostCategory(selectedCategory: category)
+            groupCategoryView.selectPostCategory(with: category)
         }
         groupCategoryView.delegate = self
         return groupCategoryView
