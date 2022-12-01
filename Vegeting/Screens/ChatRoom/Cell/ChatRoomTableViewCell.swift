@@ -139,7 +139,7 @@ class ChatRoomTableViewCell: UITableViewCell {
         currentUserCountLabel.text = data.currentNumer.description
         latestChatLabel.text = data.latestChat
         latestChatDateLabel.text = convertDate(lastChatDate: data.latestChatDate)
-        unreadChatCountLabel.text = data.unreadChatCount.description
+        unreadChatCountLabel.text = data.unreadChatCount?.description
     }
 
     private func convertDate(lastChatDate: Date) -> String {

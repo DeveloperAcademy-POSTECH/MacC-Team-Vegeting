@@ -13,7 +13,7 @@ struct TempChatModel {
     let currentNumer: Int = 5
     let latestChat: String
     var latestChatDate: Date
-    let unreadChatCount: Int = 5
+    let unreadChatCount: Int?
 }
 
 class ChatRoomListViewController: UIViewController {
@@ -85,15 +85,24 @@ class ChatRoomListViewController: UIViewController {
     
     private func bind() {
         guard let user = user else { return }
+        var lastReadIndexInChatRoom: [String: Int] = [:]
         
-        FirebaseManager.shared.requestRecentChat(user: user) { result in
+        user.participatedChats?.forEach {
+            if let chatID = $0.chatID, let lastReadIndex = $0.lastReadIndex {
+                lastReadIndexInChatRoom.updateValue(lastReadIndex, forKey: chatID)
+            }
+        }
+        
+        FirebaseManager.shared.requestRecentChat(user: user) { [weak self] result in
             switch result {
             case .success(let recentChats):
-                self.chatList = recentChats.map { recentChat in
+                self?.chatList = recentChats.map { recentChat in
                     let title = recentChat.chatRoomName ?? ""
                     let lastestChat = recentChat.lastSentMessage ?? ""
                     let lastestChatDate = recentChat.lastSentTime ?? Date()
-                    let result = TempChatModel(title: title, latestChat: lastestChat, latestChatDate: lastestChatDate)
+                    let unreadMessageCount = self?.calculateUnreadMessage(messagesCount: recentChat.messagesCount,
+                                                                          lastReadIndexByUser: lastReadIndexInChatRoom[recentChat.chatRoomID ?? ""])
+                    let result = TempChatModel(title: title, latestChat: lastestChat, latestChatDate: lastestChatDate,  unreadChatCount: unreadMessageCount)
                     return result
                 }
             case .failure(let error):
@@ -101,7 +110,13 @@ class ChatRoomListViewController: UIViewController {
             }
         }
     }
-  
+    private func calculateUnreadMessage(messagesCount: Int?, lastReadIndexByUser: Int?) -> Int {
+        if let messagesCount = messagesCount, let lastReadIndexByUser = lastReadIndexByUser {
+            return messagesCount - lastReadIndexByUser
+        } else {
+            return 0
+        }
+    }
 }
 
 extension ChatRoomListViewController: UITableViewDataSource {
