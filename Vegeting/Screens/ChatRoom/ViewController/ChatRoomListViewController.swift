@@ -85,13 +85,8 @@ class ChatRoomListViewController: UIViewController {
     
     private func bind() {
         guard let user = user else { return }
-        var lastReadIndexInChatRoom: [String: Int] = [:]
         
-        user.participatedChats?.forEach {
-            if let chatID = $0.chatID, let lastReadIndex = $0.lastReadIndex {
-                lastReadIndexInChatRoom.updateValue(lastReadIndex, forKey: chatID)
-            }
-        }
+        var lastReadIndexInChatRoom = calculateUnreadCountInChat(participatedChats: user.participatedChats)
         
         FirebaseManager.shared.requestRecentChat(user: user) { [weak self] result in
             switch result {
@@ -110,6 +105,20 @@ class ChatRoomListViewController: UIViewController {
             }
         }
     }
+    
+    /// 참여한 채팅방에 마지막으로 읽은 Index를 알려주는 Dictionary
+    private func calculateUnreadCountInChat(participatedChats: [ParticipatedChatRoom]?) -> [String: Int] {
+        var result = [String: Int]()
+        guard let participatedChats = participatedChats else { return result }
+        participatedChats.forEach {
+            if let chatID = $0.chatID, let lastReadIndex = $0.lastReadIndex {
+                result.updateValue(lastReadIndex, forKey: chatID)
+            }
+        }
+        return result
+    }
+    
+    ///  안읽은 메세지 수 계산(채팅방 메시지 - 해당 유저가 마지막으로 읽은 index)
     private func calculateUnreadMessage(messagesCount: Int?, lastReadIndexByUser: Int?) -> Int {
         if let messagesCount = messagesCount, let lastReadIndexByUser = lastReadIndexByUser {
             return messagesCount - lastReadIndexByUser
