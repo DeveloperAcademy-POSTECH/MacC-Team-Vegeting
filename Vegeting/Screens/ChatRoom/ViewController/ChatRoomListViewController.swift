@@ -48,6 +48,16 @@ class ChatRoomListViewController: UIViewController {
         requestUserInfo()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        showTabBar()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        hideTabBar()
+    }
+    
     // MARK: - func
     
     private func setupLayout() {

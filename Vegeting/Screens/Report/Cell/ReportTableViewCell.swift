@@ -103,6 +103,10 @@ final class ReportTableViewCell: UITableViewCell {
         reportLabel.text = reportText
     }
     
+    func readOtherContent() -> String {
+        return contentTextView.text
+    }
+    
     private func setupLayoutTextView() {
         stackView.addArrangedSubviews(contentTextView, contentWordsCountLabel)
         contentTextView.constraint(leading: stackView.leadingAnchor,

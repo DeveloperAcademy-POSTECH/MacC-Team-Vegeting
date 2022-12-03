@@ -23,4 +23,12 @@ extension UIViewController {
             NSLayoutConstraint.activate(constraint)
         }
     }
+    
+    func showTabBar() {
+        tabBarController?.tabBar.isHidden = false
+    }
+    
+    func hideTabBar() {
+        tabBarController?.tabBar.isHidden = true
+    }
 }

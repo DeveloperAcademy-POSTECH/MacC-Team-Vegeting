@@ -11,6 +11,7 @@ extension UIStackView {
 
     func addArrangedSubviews (_ views: UIView...) {
         views.forEach { [weak self] view in
+            view.translatesAutoresizingMaskIntoConstraints = false
             self?.addArrangedSubview(view)
         }
     }

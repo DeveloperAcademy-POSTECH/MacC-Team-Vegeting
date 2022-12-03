@@ -79,10 +79,6 @@ class MyPageViewController: UIViewController {
         view.backgroundColor = .white
     }
     
-    private func showTabBar() {
-        tabBarController?.tabBar.isHidden = false
-    }
-    
     private func setupNavigationBar() {
         self.navigationItem.backButtonDisplayMode = .minimal
         self.navigationController?.navigationBar.tintColor = .black
@@ -133,9 +129,14 @@ extension MyPageViewController: UITableViewDataSource {
 extension MyPageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
+        // 주최한 모임
         case 1 :
             let viewController = MyClubsViewController()
-            self.navigationController?.pushViewController(viewController, animated: true)
+            navigationController?.pushViewController(viewController, animated: true)
+        // 회원탈퇴
+        case 10:
+            let reportViewController = ReportViewController(entryPoint: .unregister)
+            navigationController?.pushViewController(reportViewController, animated: true)
         default:
             return
         }
