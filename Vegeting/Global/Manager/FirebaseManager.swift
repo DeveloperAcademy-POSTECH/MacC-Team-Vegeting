@@ -175,8 +175,9 @@ extension FirebaseManager {
         let participant = Participant(userID: user.userID, name: user.userName, profileImageURL: user.imageURL)
         do {
             let encodedParticipant = try Firestore.Encoder().encode(participant)
-            try await clubDocument.updateData(["participants": encodedParticipant])
-            try await chatDocument.updateData(["participants": encodedParticipant])
+            
+            try await clubDocument.updateData(["participants": FieldValue.arrayUnion([encodedParticipant])])
+            try await chatDocument.updateData(["participants": FieldValue.arrayUnion([encodedParticipant])])
         } catch {
             print(error.localizedDescription)
         }
