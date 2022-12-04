@@ -200,23 +200,7 @@ final class SecondCreateGroupViewController: BaseViewController {
         }
         navigationController?.popToRootViewController(animated: true)
     }
-    
-//    @objc
-//    private func registerButtonTapped() {
-//        guard var club = makeClub(),
-//              let chat = makeChat() else { return }
-//
-//        requestImageURL() { url in
-//            club.coverImageURL = url
-//            Task {
-//                guard let vfUser = await FirebaseManager.shared.requestUser() else { return }
-//                FirebaseManager.shared.requestPost(user: vfUser, club: club, chat: chat)
-//            }
-//        }
-//
-//        navigationController?.popToRootViewController(animated: true)
-//    }
-    
+
     private func registerClub() {
         guard var club = makeClub(),
               let chat = makeChat() else { return }
