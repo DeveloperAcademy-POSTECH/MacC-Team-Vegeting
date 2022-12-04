@@ -256,6 +256,7 @@ final class FirstCreateGroupViewController: UIViewController {
                                           leading: contentView.leadingAnchor,
                                           trailing: contentView.trailingAnchor,
                                           padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
+        categoryCollectionView.constraint(.heightAnchor, constant: 60)
         
         locationTitleLabel.constraint(top: categoryCollectionView.bottomAnchor,
                                       leading: contentView.leadingAnchor,
