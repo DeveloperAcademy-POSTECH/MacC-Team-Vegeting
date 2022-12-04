@@ -77,7 +77,8 @@ class UserInterestViewController: UIViewController {
     
     @objc
     private func profileRegisterButtonTapped() {
-        // TODO: 프로필 register 함수 구현
+        let mainTabBarViewController = MainTabBarViewController()
+        self.navigationController?.setViewControllers([mainTabBarViewController], animated: true)
     }
 }
 
