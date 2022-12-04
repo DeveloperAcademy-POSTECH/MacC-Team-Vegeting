@@ -362,11 +362,7 @@ final class SecondCreateGroupViewController: BaseViewController {
             scrollView.setContentOffset(bottomOffset, animated: true)
         }
     }
-    
-    private func scrollVertical(to yOffset: CGFloat) {
-        scrollView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: true)
-    }
-    
+
     func configure(with data: IncompleteClub) {
         categoryLabel.text = data.clubCategory
         groupInfomationLabel.text = "\(data.placeToMeet)･\(data.dateToMeet.toString(format: "M월 d일"))"
