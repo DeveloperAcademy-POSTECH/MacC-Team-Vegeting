@@ -357,7 +357,7 @@ final class SecondCreateGroupViewController: BaseViewController {
     
     @objc
     private func scrollVerticalWhenKeybaordWillShow(notification: NSNotification) {
-        let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height + scrollView.contentInset.bottom)
+        let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height)
         if bottomOffset.y > 0 {
             scrollView.setContentOffset(bottomOffset, animated: true)
         }
