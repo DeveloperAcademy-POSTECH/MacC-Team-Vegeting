@@ -282,7 +282,6 @@ extension FirebaseManager {
             print(error.localizedDescription)
         }
     }
-    
     func requestUser() async -> VFUser? {
         guard let uid = auth.currentUser?.uid else { return nil}
         do {
@@ -301,7 +300,15 @@ extension FirebaseManager {
                     .eraseToAnyPublisher()
             } .map(\.exists)
             .eraseToAnyPublisher()
-        
+    }
+    
+    func isUserAlreadyExisted(user: User) async throws -> Bool {
+        do {
+            let documentSnapshot = try await db.collection(Path.user.rawValue).document(user.uid).getDocument()
+            return documentSnapshot.exists
+        } catch {
+            throw error
+        }
     }
     
     func isPossibleNickname(newName: String) async throws -> Bool {

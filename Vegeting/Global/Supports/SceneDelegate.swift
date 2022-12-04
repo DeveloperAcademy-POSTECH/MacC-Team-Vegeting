@@ -17,12 +17,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
+        window.backgroundColor = .systemBackground
         
-        if AuthManager.shared.isSignInValid() {
-            window.rootViewController = MainTabBarViewController()
-        } else {
-            let signInViewController = UINavigationController(rootViewController: SignInViewController())
-            window.rootViewController = signInViewController
+        Task {
+            switch await AuthManager.shared.rootNavigationBySignInStatus() {
+            case .mainTabbarController:
+                window.rootViewController = MainTabBarViewController()
+            case .signInViewController:
+                let signInViewController = UINavigationController(rootViewController: SignInViewController())
+                window.rootViewController = signInViewController
+            case .userProfileViewController:
+                let userProfileViewController = UINavigationController(rootViewController: UserProfileViewController())
+                window.rootViewController = userProfileViewController
+            }
         }
         window.makeKeyAndVisible()
         self.window = window

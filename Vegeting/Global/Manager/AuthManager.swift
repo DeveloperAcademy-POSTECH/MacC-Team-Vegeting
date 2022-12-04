@@ -48,4 +48,16 @@ final class AuthManager {
     func isSignInValid() -> Bool {
         return (auth.currentUser != nil) ? true : false
     }
+    
+    func rootNavigationBySignInStatus() async -> RootNavigation {
+        if let user = auth.currentUser {
+            do {
+                let isUserProfileAlreadyStored = try await FirebaseManager.shared.isUserAlreadyExisted(user: user)
+                return isUserProfileAlreadyStored ? RootNavigation.mainTabbarController : RootNavigation.userProfileViewController
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return RootNavigation.signInViewController
+    }
 }
