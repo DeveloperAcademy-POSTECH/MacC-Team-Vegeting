@@ -150,7 +150,8 @@ extension MyPageViewController: UITableViewDelegate {
             guard let url = URL(string: StringLiteral.privayPolicyNotionLink) else { return }
             UIApplication.shared.open(url)
         case SettingElement.suggest.rawValue:
-         print("suggest")
+            guard let url = URL(string: StringLiteral.suggestGoogleLink) else { return }
+            UIApplication.shared.open(url)
         case SettingElement.logout.rawValue:
             print("logout")
         case SettingElement.unregister.rawValue:

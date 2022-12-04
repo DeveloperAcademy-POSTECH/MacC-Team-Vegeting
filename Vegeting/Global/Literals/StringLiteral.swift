@@ -30,4 +30,5 @@ enum StringLiteral {
     
     static let privayPolicyNotionLink = "https://gabby-twilight-6a0.notion.site/47ed297f523c47229bb0e21822005d11"
     static let termsOfUseNotionLink = "https://gabby-twilight-6a0.notion.site/55b4430a5d7b4f6d819a891749d0e92e"
+    static let suggestGoogleLink = "https://forms.gle/SATk9C6nUUWk5fMo9"
 }
