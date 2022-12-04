@@ -46,8 +46,8 @@ class GroupListViewController: UIViewController {
     
     @objc
     private func addClubButtontapped() {
-        let creatrViewController = FirstCreateGroupViewController(entryPoint: .create)
-        navigationController?.pushViewController(creatrViewController, animated: true)
+        let createViewController = FirstCreateGroupViewController(createGroupEntryPoint: .create)
+        navigationController?.pushViewController(createViewController, animated: true)
     }
     
     private lazy var groupCategoryView: GroupCategoryView = {
