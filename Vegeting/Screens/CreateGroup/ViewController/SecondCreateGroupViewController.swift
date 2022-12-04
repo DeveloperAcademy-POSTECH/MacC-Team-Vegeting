@@ -96,7 +96,6 @@ final class SecondCreateGroupViewController: BaseViewController {
     private var club: Club?
     private var incompleteClub: IncompleteClub?
     private var entryPoint: CreateGroupEntryPoint
-    private lazy var keyboardHeight: CGFloat = self.view.frame.height * 0.4
     
     //MARK: - lifeCycle
     
