@@ -88,21 +88,21 @@ final class SecondCreateGroupViewController: BaseViewController {
     private lazy var registerButton: BottomButton = {
         let button = BottomButton()
         button.isEnabled = false
-        button.setTitle(entryPoint == .create ? StringLiteral.secondCreateGroupViewControllerRegisterButton : "수정 완료", for: .normal)
+        button.setTitle(createGroupEntryPoint == .create ? StringLiteral.secondCreateGroupViewControllerRegisterButton : "수정 완료", for: .normal)
         button.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
         return button
     }()
     
     private var club: Club?
     private var incompleteClub: IncompleteClub?
-    private var entryPoint: CreateGroupEntryPoint
+    private var createGroupEntryPoint: CreateGroupEntryPoint
     
     //MARK: - lifeCycle
     
-    init(club: Club? = nil, incompleteClub: IncompleteClub? = nil, entryPoint: CreateGroupEntryPoint) {
+    init(club: Club? = nil, incompleteClub: IncompleteClub? = nil, createGroupEntryPoint: CreateGroupEntryPoint) {
         self.club = club
         self.incompleteClub = incompleteClub
-        self.entryPoint = entryPoint
+        self.createGroupEntryPoint = createGroupEntryPoint
         super.init()
     }
     
@@ -192,7 +192,7 @@ final class SecondCreateGroupViewController: BaseViewController {
 
     @objc
     private func registerButtonTapped() {
-        switch entryPoint {
+        switch createGroupEntryPoint {
         case .create:
             self.registerClub()
         case .revise:
