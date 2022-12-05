@@ -89,9 +89,10 @@ final class PostDetailViewController: UIViewController {
         return collectionView
     }()
     
-    private let enterButton: BottomButton = {
+    lazy private var enterButton: BottomButton = {
         let button = BottomButton()
         button.setTitle("참여하기", for: .normal)
+        button.addTarget(self, action: #selector(enterButtonTapped(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -253,7 +254,7 @@ final class PostDetailViewController: UIViewController {
         
         let secondAlertAction = UIAlertAction(title: "게시글 수정", style: .default, handler: { action in
             // TODO: - 게시글 수정
-            let viewController = FirstCreateGroupViewController(entryPoint: .revise, club: self.club)
+            let viewController = FirstCreateGroupViewController(createGroupEntryPoint: .revise, club: self.club)
             viewController.configure(with: self.club)
             self.navigationController?.pushViewController(viewController, animated: true)
         })
@@ -283,6 +284,19 @@ final class PostDetailViewController: UIViewController {
     }
 }
 
+// MARK: Target - Action 함수
+extension PostDetailViewController {
+    
+    @objc
+    private func enterButtonTapped(_ sender: Any) {
+        Task {
+            guard let user = await FirebaseManager.shared.requestUser() else { return }
+            guard let club = await FirebaseManager.shared.requestMyClubInformation() else { return }
+            try await FirebaseManager.shared.participateInClub(user: user, club: club.last!)
+        }
+    }
+    
+}
 extension PostDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return profileImages.count

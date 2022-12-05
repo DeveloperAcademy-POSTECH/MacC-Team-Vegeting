@@ -8,13 +8,18 @@
 import UIKit
 
 class GroupListViewController: UIViewController {
-    private var clubList: [Club] = [] {
+    private var showClubList: [Club] = [] {
         didSet {
             DispatchQueue.main.async { [weak self] in
-                self?.collectionView.reloadData()
+                self?.updateCollectionViewList()
             }
         }
     }
+    
+    private var allClubList = [Club]()
+    private var restaurantClubList = [Club]()
+    private var eventClubList = [Club]()
+    private var elseClubList = [Club]()
     
     private lazy var navigationBarView: UIStackView = {
         let hStackView = UIStackView()
@@ -30,15 +35,6 @@ class GroupListViewController: UIViewController {
         return label
     }()
     
-    private lazy var searchButton: UIButton = {
-        let button = UIButton(type: .system)
-        let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 18, weight: .regular)
-        button.setImage(UIImage(systemName: "magnifyingglass", withConfiguration: imageConfig), for: .normal)
-        button.tintColor = .black
-        button.addTarget(self, action: #selector(searchButtontapped), for: .touchUpInside)
-        return button
-    }()
-    
     private lazy var addClubButton: UIButton = {
         let button = UIButton(type: .system)
         let imageConfig = UIImage.SymbolConfiguration.init(pointSize: 18, weight: .regular)
@@ -49,23 +45,23 @@ class GroupListViewController: UIViewController {
     }()
     
     @objc
-    private func searchButtontapped() {
-        print("tapSearchButton")
-    }
-    
-    @objc
     private func addClubButtontapped() {
-        let creatrViewController = FirstCreateGroupViewController(entryPoint: .create)
-        navigationController?.pushViewController(creatrViewController, animated: true)
+        let createViewController = FirstCreateGroupViewController(createGroupEntryPoint: .create)
+        navigationController?.pushViewController(createViewController, animated: true)
     }
     
-    private lazy var customSegmentedControl: SegmentedControlCustomView = {
-        let segmentedControl = SegmentedControlCustomView()
-        return segmentedControl
+    private lazy var groupCategoryView: GroupCategoryView = {
+        let groupCategoryView = GroupCategoryView()
+        groupCategoryView.changeCategoryList(with: ["전체", "맛집", "행사", "기타"])
+        groupCategoryView.delegate = self
+        return groupCategoryView
     }()
     
     private lazy var collectionView: ClubListCollectionView = {
         let collectionView = ClubListCollectionView()
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshClubList), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
         collectionView.tapDelegate = self
         return collectionView
     }()
@@ -77,15 +73,13 @@ class GroupListViewController: UIViewController {
         setCustomNavigationBar()
         configureUI()
         setupLayout()
+        groupCategoryView.setupDefaultStatus()
+        refreshClubList()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         showTabBar()
-        Task { [weak self] in
-            let clubList = await FirebaseManager.shared.requestClubInformation() ?? []
-            self?.collectionView.setClubList(clubList: clubList)
-        }
     }
     
     //MARK: - func
@@ -103,14 +97,9 @@ class GroupListViewController: UIViewController {
     }
     
     private func setCustomNavigationBar() {
-        let rightButtonStackView = UIStackView()
-        rightButtonStackView.setHorizontalStack()
-        rightButtonStackView.spacing = 15
-        rightButtonStackView.addArrangedSubviews(searchButton, addClubButton)
-        
-        navigationBarView.addArrangedSubviews(navigationTitleLabel, rightButtonStackView)
+        navigationBarView.addArrangedSubviews(navigationTitleLabel, addClubButton)
         let space = view.frame.width - navigationTitleLabel.frame.width
-        navigationBarView.spacing = space - 115
+        navigationBarView.spacing = space - 70
 
         navigationItem.titleView = navigationBarView
         navigationItem.backButtonDisplayMode = .minimal
@@ -118,20 +107,93 @@ class GroupListViewController: UIViewController {
     }
     
     private func setupLayout() {
-        view.addSubviews(customSegmentedControl, collectionView)
+        view.addSubviews(groupCategoryView, collectionView)
         
         NSLayoutConstraint.activate([
-            customSegmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 18),
-            customSegmentedControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            customSegmentedControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            groupCategoryView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
+            groupCategoryView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            groupCategoryView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            groupCategoryView.heightAnchor.constraint(equalToConstant: 60)
         ])
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: customSegmentedControl.bottomAnchor),
+            collectionView.topAnchor.constraint(equalTo: groupCategoryView.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    @objc
+    private func refreshClubList(){
+        Task {
+            resetClubArray()
+            allClubList = await FirebaseManager.shared.requestClubInformation() ?? []
+            fetchClubLists()
+            updateShowClubList()
+            updateCollectionViewList()
+            DispatchQueue.main.async { [weak self] in
+                self?.collectionView.refreshControl?.endRefreshing()
+            }
+        }
+    }
+    
+    private func fetchClubLists() {
+        for club in allClubList {
+            switch club.clubCategory {
+            case "맛집" :
+                restaurantClubList.append(club)
+            case "행사" :
+                eventClubList.append(club)
+            case "기타" :
+                elseClubList.append(club)
+            default :
+                break
+            }
+        }
+    }
+    
+    private func updateShowClubList() {
+        switch groupCategoryView.selectedCategory() {
+        case "전체" :
+            showClubList = allClubList
+        case "맛집" :
+            showClubList = restaurantClubList
+        case "행사" :
+            showClubList = eventClubList
+        case "기타" :
+            showClubList = elseClubList
+        default :
+            groupCategoryView.setupDefaultStatus()
+            showClubList = allClubList
+        }
+    }
+    
+    private func updateCollectionViewList() {
+        self.collectionView.setClubList(clubList: showClubList)
+    }
+    
+    private func resetClubArray() {
+        restaurantClubList = []
+        eventClubList = []
+        elseClubList = []
+    }
+}
+
+extension GroupListViewController: GroupCategoryViewDelegate {
+    func didSelectCategory(didSelectItemAt indexPath: IndexPath) {
+        switch indexPath.row {
+        case 0:
+            showClubList = allClubList
+        case 1:
+            showClubList = restaurantClubList
+        case 2:
+            showClubList = eventClubList
+        case 3:
+            showClubList = elseClubList
+        default:
+            break
+        }
     }
 }
 
