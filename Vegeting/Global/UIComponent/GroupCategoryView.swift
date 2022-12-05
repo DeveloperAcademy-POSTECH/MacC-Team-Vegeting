@@ -18,7 +18,7 @@ final class GroupCategoryView: UIView {
     private lazy var categoryCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 8
+        layout.minimumLineSpacing = 12
         layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -47,11 +47,23 @@ final class GroupCategoryView: UIView {
     // MARK: - func
     
     private func setupLayout() {
-        addSubview(categoryCollectionView)
-        categoryCollectionView.constraint(to: self)
-        categoryCollectionView.constraint(.heightAnchor, constant: 60)
+        addSubviews(categoryCollectionView)
+        
+        NSLayoutConstraint.activate([
+            categoryCollectionView.heightAnchor.constraint(equalToConstant: 40),
+            categoryCollectionView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            categoryCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            categoryCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+        ])
     }
-
+    
+    func setupDefaultStatus() {
+        let fisrtIndexPath = IndexPath(item: 0, section: 0)
+        guard let cellToSelect = categoryCollectionView.cellForItem(at: fisrtIndexPath) as? GroupCategoryCollectionViewCell else { return }
+        categoryCollectionView.selectItem(at: fisrtIndexPath, animated: false , scrollPosition: .init())
+        cellToSelect.applySelectedState()
+    }
+    
     func changeCategoryList(with list: [String]) {
         categoryList = list
     }
@@ -82,9 +94,9 @@ extension GroupCategoryView: UICollectionViewDataSource {
 
 extension GroupCategoryView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = categoryList[indexPath.item].size(withAttributes: [.font : UIFont.preferredFont(forTextStyle: .subheadline)]).width + 40
+        let width = categoryList[indexPath.item].size(withAttributes: [.font : UIFont.preferredFont(forTextStyle: .subheadline)]).width + 44
         
-        return CGSize(width: width, height: 34)
+        return CGSize(width: width, height: 33)
     }
 }
 

@@ -47,9 +47,9 @@ final class ClubListCollectionView: UICollectionView {
     }
     
     private func configureCollectionView() {
-        self.delegate = self
-        self.dataSource = self
-        self.register(ClubListCollectionViewCell.self, forCellWithReuseIdentifier: ClubListCollectionViewCell.className)
+        register(ClubListCollectionViewCell.self, forCellWithReuseIdentifier: ClubListCollectionViewCell.className)
+        delegate = self
+        dataSource = self
     }
     
     func setClubList(clubList: [Club]) {

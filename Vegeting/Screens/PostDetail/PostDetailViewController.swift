@@ -254,7 +254,7 @@ final class PostDetailViewController: UIViewController {
         
         let secondAlertAction = UIAlertAction(title: "게시글 수정", style: .default, handler: { action in
             // TODO: - 게시글 수정
-            let viewController = FirstCreateGroupViewController(entryPoint: .revise, club: self.club)
+            let viewController = FirstCreateGroupViewController(createGroupEntryPoint: .revise, club: self.club)
             viewController.configure(with: self.club)
             self.navigationController?.pushViewController(viewController, animated: true)
         })

@@ -88,22 +88,21 @@ final class SecondCreateGroupViewController: BaseViewController {
     private lazy var registerButton: BottomButton = {
         let button = BottomButton()
         button.isEnabled = false
-        button.setTitle(entryPoint == .create ? StringLiteral.secondCreateGroupViewControllerRegisterButton : "수정 완료", for: .normal)
+        button.setTitle(createGroupEntryPoint == .create ? StringLiteral.secondCreateGroupViewControllerRegisterButton : "수정 완료", for: .normal)
         button.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
         return button
     }()
     
     private var club: Club?
     private var incompleteClub: IncompleteClub?
-    private var entryPoint: CreateGroupEntryPoint
-    private lazy var keyboardHeight: CGFloat = self.view.frame.height * 0.4
+    private var createGroupEntryPoint: CreateGroupEntryPoint
     
     //MARK: - lifeCycle
     
-    init(club: Club? = nil, incompleteClub: IncompleteClub? = nil, entryPoint: CreateGroupEntryPoint) {
+    init(club: Club? = nil, incompleteClub: IncompleteClub? = nil, createGroupEntryPoint: CreateGroupEntryPoint) {
         self.club = club
         self.incompleteClub = incompleteClub
-        self.entryPoint = entryPoint
+        self.createGroupEntryPoint = createGroupEntryPoint
         super.init()
     }
     
@@ -146,7 +145,7 @@ final class SecondCreateGroupViewController: BaseViewController {
             coverPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height * 0.25)
         ])
         
-        let width = (club?.clubCategory.size(withAttributes: [.font : UIFont.preferredFont(forTextStyle: .subheadline)]).width ?? 0) + 40
+        let width = (incompleteClub?.clubCategory.size(withAttributes: [.font : UIFont.preferredFont(forTextStyle: .subheadline)]).width ?? 0) + 40
         
         NSLayoutConstraint.activate([
             categoryLabel.topAnchor.constraint(equalTo: coverPickerView.bottomAnchor, constant: 15),
@@ -193,7 +192,7 @@ final class SecondCreateGroupViewController: BaseViewController {
 
     @objc
     private func registerButtonTapped() {
-        switch entryPoint {
+        switch createGroupEntryPoint {
         case .create:
             self.registerClub()
         case .revise:
@@ -201,23 +200,7 @@ final class SecondCreateGroupViewController: BaseViewController {
         }
         navigationController?.popToRootViewController(animated: true)
     }
-    
-//    @objc
-//    private func registerButtonTapped() {
-//        guard var club = makeClub(),
-//              let chat = makeChat() else { return }
-//
-//        requestImageURL() { url in
-//            club.coverImageURL = url
-//            Task {
-//                guard let vfUser = await FirebaseManager.shared.requestUser() else { return }
-//                FirebaseManager.shared.requestPost(user: vfUser, club: club, chat: chat)
-//            }
-//        }
-//
-//        navigationController?.popToRootViewController(animated: true)
-//    }
-    
+
     private func registerClub() {
         guard var club = makeClub(),
               let chat = makeChat() else { return }
@@ -322,6 +305,7 @@ final class SecondCreateGroupViewController: BaseViewController {
     
     override func configureUI() {
         scrollView.showsVerticalScrollIndicator = false
+        view.backgroundColor = .systemBackground
     }
     
     private func applyEditingTextViewForm() {
@@ -357,16 +341,13 @@ final class SecondCreateGroupViewController: BaseViewController {
     
     @objc
     private func scrollVerticalWhenKeybaordWillShow(notification: NSNotification) {
-        let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height + scrollView.contentInset.bottom)
-        if bottomOffset.y > 0 {
-            scrollView.setContentOffset(bottomOffset, animated: true)
+        let scrollHeightToBottom = scrollView.contentSize.height - scrollView.bounds.size.height
+        if scrollHeightToBottom > 0 {
+            let scrollHeightToBottomOffset = CGPoint(x: 0, y: scrollHeightToBottom)
+            scrollView.setContentOffset(scrollHeightToBottomOffset, animated: true)
         }
     }
-    
-    private func scrollVertical(to yOffset: CGFloat) {
-        scrollView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: true)
-    }
-    
+
     func configure(with data: IncompleteClub) {
         categoryLabel.text = data.clubCategory
         groupInfomationLabel.text = "\(data.placeToMeet)･\(data.dateToMeet.toString(format: "M월 d일"))"
@@ -407,7 +388,6 @@ extension SecondCreateGroupViewController: UITextViewDelegate {
             textView.textColor = .black
         }
         applyEditingTextViewForm()
-//        scrollVertical(to: keyboardHeight)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -421,7 +401,6 @@ extension SecondCreateGroupViewController: UITextViewDelegate {
             }
         }
         applyEndEditingTextViewForm()
-//        scrollVertical(to: .zero)
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
