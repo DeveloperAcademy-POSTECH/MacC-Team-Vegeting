@@ -10,7 +10,7 @@ import UIKit
 
 final class SecondLocationViewController: UIViewController {
     
-    private var userImageNickname: UserImageNickname
+    private var userImageNickname: FirstImageNickname
     
     //포항공대 위치 - default
     private let defaultLocation = CLLocationCoordinate2D(latitude: 36.0106098, longitude: 129.321296)
@@ -62,7 +62,7 @@ final class SecondLocationViewController: UIViewController {
         return button
     }()
     
-    init(userImageNickname: UserImageNickname) {
+    init(userImageNickname: FirstImageNickname) {
         self.userImageNickname = userImageNickname
         super.init(nibName: nil, bundle: nil)
     }
@@ -171,7 +171,7 @@ final class SecondLocationViewController: UIViewController {
     @objc
     private func nextButtonTapped() {
         guard let location = locationDisplayLabel.text else { return }
-        let userLocation = UserLocation(userImageNickname: userImageNickname, userLocation: location)
+        let userLocation = SecondLocation(userImageNickname: userImageNickname, userLocation: location)
         navigationController?.pushViewController(ThirdGenderBirthViewController(userLocation: userLocation), animated: true)
     }
     

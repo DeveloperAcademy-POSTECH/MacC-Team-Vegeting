@@ -9,7 +9,7 @@ import UIKit
 
 final class FourthTypeIntroductionViewController: UIViewController {
     
-    private var userGenderBirthYear: UserGenderBirthYear
+    private var userGenderBirthYear: ThirdGenderBirthYear
     
     let vegetarianTypeSelectButtonTitle = "채식 단계"
     let introductionMaxLength = 60
@@ -79,7 +79,7 @@ final class FourthTypeIntroductionViewController: UIViewController {
         return button
     }()
     
-    init(userGenderBirthYear: UserGenderBirthYear) {
+    init(userGenderBirthYear: ThirdGenderBirthYear) {
         self.userGenderBirthYear = userGenderBirthYear
         super.init(nibName: nil, bundle: nil)
     }
@@ -191,7 +191,7 @@ final class FourthTypeIntroductionViewController: UIViewController {
     @objc
     private func nextButtonTapped() {
         guard let type = vegetarianTypeSelectButton.currentTitle else { return }
-        let userTypeIntroduction = UserTypeIntroduction(userGenderBirthYear: userGenderBirthYear, userVegetarianType: type, userIntroduction: introductionTextView.text)
+        let userTypeIntroduction = FourthTypeIntroduction(userGenderBirthYear: userGenderBirthYear, userVegetarianType: type, userIntroduction: introductionTextView.text)
         navigationController?.pushViewController(FifthInterestViewController(userTypeIntroduction: userTypeIntroduction), animated: true)
     }
 }

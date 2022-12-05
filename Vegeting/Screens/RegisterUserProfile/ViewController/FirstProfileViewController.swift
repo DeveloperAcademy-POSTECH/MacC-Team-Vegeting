@@ -238,7 +238,7 @@ final class FirstProfileViewController: UIViewController {
         
         requestImageURL { url in
             let profileImage = url
-            let userImageNickname = UserImageNickname(userImageURL: profileImage, userNickname: nickname)
+            let userImageNickname = FirstImageNickname(userImageURL: profileImage, userNickname: nickname)
             self.navigationController?.pushViewController(SecondLocationViewController(userImageNickname: userImageNickname), animated: true)
         }
     }

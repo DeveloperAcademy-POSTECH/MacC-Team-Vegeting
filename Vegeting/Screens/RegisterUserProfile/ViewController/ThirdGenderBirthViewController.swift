@@ -9,7 +9,7 @@ import UIKit
 
 final class ThirdGenderBirthViewController: UIViewController {
     
-    private var userLocation: UserLocation
+    private var userLocation: SecondLocation
     private var selectedGender: String = "여성"
     private var selectedBirthYear: Int = 0
     
@@ -92,7 +92,7 @@ final class ThirdGenderBirthViewController: UIViewController {
         birthDisplayTextField.inputView = yearPicker
     }
     
-    init(userLocation: UserLocation) {
+    init(userLocation: SecondLocation) {
         self.userLocation = userLocation
         super.init(nibName: nil, bundle: nil)
     }
@@ -214,7 +214,7 @@ final class ThirdGenderBirthViewController: UIViewController {
     
     @objc
     private func nextButtonTapped() {
-        let userGenderBirthYear = UserGenderBirthYear(userLocation: userLocation, userGender: selectedGender, userBirthYear: selectedBirthYear)
+        let userGenderBirthYear = ThirdGenderBirthYear(userLocation: userLocation, userGender: selectedGender, userBirthYear: selectedBirthYear)
         navigationController?.pushViewController(FourthTypeIntroductionViewController(userGenderBirthYear: userGenderBirthYear), animated: true)
     }
 }

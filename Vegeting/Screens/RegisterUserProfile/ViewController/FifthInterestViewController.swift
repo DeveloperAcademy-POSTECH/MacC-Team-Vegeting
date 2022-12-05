@@ -9,7 +9,7 @@ import UIKit
 
 class FifthInterestViewController: UIViewController {
     
-    private var userTypeIntroduction: UserTypeIntroduction
+    private var userTypeIntroduction: FourthTypeIntroduction
 
     private let progressBarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -35,7 +35,7 @@ class FifthInterestViewController: UIViewController {
     private let interestList: [String] = ["맛집", "카페", "행사", "패션", "뷰티", "환경", "정치", "친목", "동물권", "요리", "베이킹"]
     private lazy var selectInterestView = InterestView(interestList: interestList, entryPoint: .register)
     
-    init(userTypeIntroduction: UserTypeIntroduction) {
+    init(userTypeIntroduction: FourthTypeIntroduction) {
         self.userTypeIntroduction = userTypeIntroduction
         super.init(nibName: nil, bundle: nil)
     }
@@ -89,12 +89,12 @@ class FifthInterestViewController: UIViewController {
     @objc
     private func profileRegisterButtonTapped() {
         let selectedInterests = selectInterestView.deliverInterestList()
-        let userInterests = UserInterests(userTypeIntroduction: userTypeIntroduction, userInterest: selectedInterests)
+        let userInterests = FifthInterests(userTypeIntroduction: userTypeIntroduction, userInterest: selectedInterests)
         
         registerUser(model: userInterests)
     }
     
-    private func registerUser(model: UserInterests) {
+    private func registerUser(model: FifthInterests) {
         
         guard let uid = FirebaseManager.shared.requestCurrentUserUID() else { return }
         
