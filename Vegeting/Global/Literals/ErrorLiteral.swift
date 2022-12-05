@@ -7,11 +7,10 @@
 
 import Foundation
 
-enum ErrorLiteral: Error {
-    case emptyChatID
-}
-
-enum FBError: Error {
+enum FirebaseError: Error {
+    case isClubIDInvalid
+    case isChatIDInvalid
+    case invalidID
     case didFailToLoadChat
     case didFailToLoadUser
 }
