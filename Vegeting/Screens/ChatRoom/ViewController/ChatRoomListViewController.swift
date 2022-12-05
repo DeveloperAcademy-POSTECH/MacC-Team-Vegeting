@@ -121,7 +121,7 @@ class ChatRoomListViewController: UIViewController {
     ///  안읽은 메세지 수 계산(채팅방 메시지 - 해당 유저가 마지막으로 읽은 index)
     private func calculateUnreadMessage(messagesCount: Int?, lastReadIndexByUser: Int?) -> Int {
         if let messagesCount = messagesCount, let lastReadIndexByUser = lastReadIndexByUser {
-            return messagesCount - lastReadIndexByUser
+            return (messagesCount - 1) - lastReadIndexByUser
         } else {
             return 0
         }
