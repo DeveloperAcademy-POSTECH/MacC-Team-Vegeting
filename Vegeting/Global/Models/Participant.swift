@@ -16,5 +16,5 @@ struct Participant: Codable {
     let vegetarianType: String?
     let introduction: String?
     let interests: [String]?
-    var profileImageURL: String?
+    var profileImageURL: URL?
 }

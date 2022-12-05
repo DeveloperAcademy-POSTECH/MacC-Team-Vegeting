@@ -12,13 +12,13 @@ struct VFUser: Identifiable, Codable, Equatable {
     @DocumentID var id: String?
     let userID: String
     let userName: String
-    let imageURL: String?
-    let birth: Int
-    let location: String
-    let gender: String
+    let imageURL: URL?
+    let birth: Int?
+    let location: String?
+    let gender: String?
     let vegetarianType: String
-    let introduction: String
-    let interests: [String]
+    let introduction: String?
+    let interests: [String]?
     let participatedChats: [ParticipatedChatRoom]?
     let participatedClubs: [ParticipatedClub]?
 }
@@ -26,7 +26,7 @@ struct VFUser: Identifiable, Codable, Equatable {
 struct ParticipatedChatRoom: Hashable, Codable {
     let chatID: String?
     let chatName: String
-    let imageURL: String?
+    let imageURL: URL?
 }
 
 struct ParticipatedClub: Hashable, Codable {

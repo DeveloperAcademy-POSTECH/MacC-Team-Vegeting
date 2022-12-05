@@ -102,6 +102,7 @@ extension FirebaseManager {
             let docClub = db.collection(Path.club.rawValue).document()
             let docRecentChat = db.collection(Path.recentChat.rawValue).document(docChat.documentID)
         
+            
             let participant = Participant(userID: user.userID, name: user.userName, birth: user.birth, location: user.location, gender: user.gender, vegetarianType: user.vegetarianType, introduction: user.introduction, interests: user.interests, profileImageURL: user.imageURL)
             
             let addedClub = Club(clubID: docClub.documentID, chatID: docChat.documentID,
@@ -117,7 +118,6 @@ extension FirebaseManager {
             
             let recentChat = RecentChat(chatRoomID: docChat.documentID, chatRoomName: chat.chatRoomName
                                         ,lastSentMessage: nil, lastSentTime: Date(), coverImageURL: chat.coverImageURL)
-            
             try docClub.setData(from: addedClub)
             try docChat.setData(from: addedChat)
             try docRecentChat.setData(from: recentChat)
@@ -136,7 +136,19 @@ extension FirebaseManager {
             let encodedParticipatedClub = try Firestore.Encoder().encode(participatedClub)
             let encodedParticipatedChat = try Firestore.Encoder().encode(participatedChatRoom)
             document.updateData(["participatedClubs": FieldValue.arrayUnion([encodedParticipatedClub]), "participatedChats": FieldValue.arrayUnion([encodedParticipatedChat])])
-            
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+    }
+    
+    private func requestUpdateUser(user: VFUser, participatedChatRoom: ParticipatedChatRoom, participatedClub: ParticipatedClub) async throws {
+        
+        do {
+            let document = db.collection(Path.user.rawValue).document(user.userID)
+            let encodedParticipatedClub = try Firestore.Encoder().encode(participatedClub)
+            let encodedParticipatedChat = try Firestore.Encoder().encode(participatedChatRoom)
+            try await document.updateData(["participatedClubs": FieldValue.arrayUnion([encodedParticipatedClub]), "participatedChats": FieldValue.arrayUnion([encodedParticipatedChat])])
         } catch {
             print(error.localizedDescription)
         }
@@ -149,12 +161,44 @@ extension FirebaseManager {
         
         guard let result = result else { return }
         
-        let participatedClub = ParticipatedClub(clubID: result.clubID, clubName: club.clubTitle ?? "", profileImageURL: club.coverImageURL)
+        let participatedClub = ParticipatedClub(clubID: result.clubID, clubName: club.clubTitle, profileImageURL: club.coverImageURL)
         let participatedChatRoom = ParticipatedChatRoom(chatID: result.chatID, chatName: chat.chatRoomName, imageURL: chat.coverImageURL)
         
         requestUpdateUser(user: user, participatedChatRoom: participatedChatRoom, participatedClub: participatedClub)
     }
     
+    
+    /// 채팅방과 게시물에 참여한 유저 추가
+    func appendMemberInClub(user: VFUser, club: Club) async throws {
+        guard let clubID = club.clubID, let chatID = club.chatID else { throw FirebaseError.invalidID }
+        
+        let clubDocument = db.collection(Path.club.rawValue).document(clubID)
+        let chatDocument = db.collection(Path.chat.rawValue).document(chatID)
+        let participant = Participant(userID: user.userID, name: user.userName, birth: user.birth, location: user.location, gender: user.gender, vegetarianType: user.vegetarianType, introduction: user.introduction, interests: user.interests, profileImageURL: user.imageURL)
+        
+        do {
+            let encodedParticipant = try Firestore.Encoder().encode(participant)
+            
+            try await clubDocument.updateData(["participants": FieldValue.arrayUnion([encodedParticipant])])
+            try await chatDocument.updateData(["participants": FieldValue.arrayUnion([encodedParticipant])])
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    
+    /// 특정 모임 참여하기
+    func participateInClub(user: VFUser, club: Club) async throws {
+        let participatedClub = ParticipatedClub(clubID: club.clubID, clubName: club.clubTitle, profileImageURL: club.coverImageURL)
+        let participatedChat = ParticipatedChatRoom(chatID: club.chatID, chatName: club.clubTitle, imageURL: club.coverImageURL)
+        
+        do {
+            try await requestUpdateUser(user: user, participatedChatRoom: participatedChat, participatedClub: participatedClub)
+            try await appendMemberInClub(user: user, club: club)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
 }
 
 // MARK: Firebase 채팅
@@ -205,7 +249,7 @@ extension FirebaseManager {
     }
 
     func requestChat(participatedChat: ParticipatedChatRoom) -> AnyPublisher<Chat, Error> {
-        guard let chatID = participatedChat.chatID else { return Fail(error: ErrorLiteral.emptyChatID).eraseToAnyPublisher() }
+        guard let chatID = participatedChat.chatID else { return Fail(error: FirebaseError.isChatIDInvalid).eraseToAnyPublisher() }
         return db.collection(Path.chat.rawValue).document(chatID).snapshotPublisher(includeMetadataChanges: true)
             .catch { error in
                 return Fail(error: error)
@@ -227,7 +271,7 @@ extension FirebaseManager {
     
     func requestRecentChat(user: VFUser) -> AnyPublisher<[RecentChat], Error> {
         guard let participatedChatRoomIDs =  user.participatedChats?.compactMap(\.chatID) else {
-            return Fail(error: FBError.didFailToLoadChat)
+            return Fail(error: FirebaseError.didFailToLoadChat)
                 .eraseToAnyPublisher()
         }
         
@@ -306,7 +350,7 @@ extension FirebaseManager {
                     completion(.success(userData))
                 }
             } catch {
-                completion(.failure(FBError.didFailToLoadUser))
+                completion(.failure(FirebaseError.didFailToLoadUser))
             }
         }
     }

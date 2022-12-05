@@ -16,16 +16,16 @@ struct Chat: Identifiable, Codable {
     let chatRoomName: String
     let participants: [Participant]?
     var messages: [Message]?
-    let coverImageURL: String?
+    let coverImageURL: URL?
 }
 
 struct Message: Identifiable, Codable {
     var id = UUID.init().uuidString
     let senderID, senderName: String
-    let senderProfileImageURL: String?
+    let senderProfileImageURL: URL?
     let contentType: String
     let createdAt: Date
-    let imageURL: String?
+    let imageURL: URL?
     let content: String?
 }
 

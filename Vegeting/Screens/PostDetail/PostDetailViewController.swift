@@ -90,9 +90,10 @@ final class PostDetailViewController: UIViewController {
         return collectionView
     }()
     
-    private let enterButton: BottomButton = {
+    lazy private var enterButton: BottomButton = {
         let button = BottomButton()
         button.setTitle("참여하기", for: .normal)
+        button.addTarget(self, action: #selector(enterButtonTapped(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -284,6 +285,19 @@ final class PostDetailViewController: UIViewController {
     }
 }
 
+// MARK: Target - Action 함수
+extension PostDetailViewController {
+    
+    @objc
+    private func enterButtonTapped(_ sender: Any) {
+        Task {
+            guard let user = await FirebaseManager.shared.requestUser() else { return }
+            guard let club = await FirebaseManager.shared.requestMyClubInformation() else { return }
+            try await FirebaseManager.shared.participateInClub(user: user, club: club.last!)
+        }
+    }
+    
+}
 extension PostDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return club.participants?.count ?? 0
