@@ -298,36 +298,6 @@ extension FirebaseManager {
 
 // MARK: Firebase Authentifcation 전용(유저 회원가입 및 로그인 담당)
 extension FirebaseManager {
-    //  MARK: 유저 회원가입
-    /// Firebase Authentification에 등록하는 함수
-    /// - Returns: Firebase User 객체
-    func requestRegisterUser(email: String, password: String) -> AnyPublisher<User, Error> {
-        return Auth.auth().createUser(withEmail: email, password: password)
-            .map(\.user)
-            .eraseToAnyPublisher()
-    }
-    
-    
-    /// Firebase Authentification에 로그인 하는 함수
-    /// - Returns: Firebase 유저정보
-    func requestSignIn(email: String, password: String) async -> User? {
-        do {
-            let data = try await auth.signIn(withEmail: email, password: password)
-            return data.user
-        } catch {
-            print(error.localizedDescription)
-            return nil
-        }
-    }
-    
-    func requestSignOut() {
-        do {
-            try Auth.auth().signOut()
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
     func requestUser() async -> VFUser? {
         guard let uid = auth.currentUser?.uid else { return nil}
         do {
@@ -362,7 +332,15 @@ extension FirebaseManager {
                     .eraseToAnyPublisher()
             } .map(\.exists)
             .eraseToAnyPublisher()
-        
+    }
+    
+    func isUserAlreadyExisted(user: User) async throws -> Bool {
+        do {
+            let documentSnapshot = try await db.collection(Path.user.rawValue).document(user.uid).getDocument()
+            return documentSnapshot.exists
+        } catch {
+            throw error
+        }
     }
     
     func isPossibleNickname(newName: String) async throws -> Bool {
