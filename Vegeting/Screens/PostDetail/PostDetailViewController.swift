@@ -346,7 +346,7 @@ extension PostDetailViewController: ParticipateHalfViewControllerDelegate {
         let participatedChatRoom = ParticipatedChatRoom(chatID: club.chatID,
                                                         chatName: club.clubTitle,
                                                         imageURL: club.coverImageURL?.description)
-        guard let user = AuthManager.shared.getCurrentUser() else { return }
+        guard let user = AuthManager.shared.currentUser() else { return }
         viewController.configureViewModel(participatedChatRoom: participatedChatRoom, user: user)
         self.navigationController?.pushViewController(viewController, animated: true)
     }
