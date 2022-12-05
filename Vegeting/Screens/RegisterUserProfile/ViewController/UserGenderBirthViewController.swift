@@ -9,6 +9,9 @@ import UIKit
 
 final class UserGenderBirthViewController: UIViewController {
     
+    private var userLocation: UserLocation
+    private var selectedGender: String = "여성"
+    
     private let progressBarImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "progress3")
@@ -87,14 +90,29 @@ final class UserGenderBirthViewController: UIViewController {
         birthDisplayTextField.inputView = yearPicker
     }
     
+    init(userLocation: UserLocation) {
+        self.userLocation = userLocation
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureNavBar()
         configureUI()
         configureTextField()
         setupLayout()
         createBirthYearPicker()
         hideKeyboardWhenTappedAround()
+    }
+    
+    public func configureNavBar() {
+        navigationItem.title = "프로필 설정"
+        navigationController?.navigationBar.topItem?.title = ""
     }
     
     private func configureTextField() {
@@ -163,9 +181,11 @@ final class UserGenderBirthViewController: UIViewController {
         if femaleButton == sender {
             selectedButtonUI(femaleButton)
             unSelectedButtonUI(maleButton)
+            selectedGender = "여성"
         } else {
             selectedButtonUI(maleButton)
             unSelectedButtonUI(femaleButton)
+            selectedGender = "남성"
         }
         nextButtonActive()
     }
@@ -188,6 +208,13 @@ final class UserGenderBirthViewController: UIViewController {
             nextButton.setTitleColor(UIColor.label, for: .normal)
             nextButton.setBackgroundColor(UIColor(hex: "#FFD243"), for: .normal)
         }
+    }
+    
+    private func nextButtonTapped() {
+        //TODO: 프로필 설정 4번째 뷰(채식 단계 설정, 한줄 소개)로 연결
+        guard let birthYear = birthDisplayTextField.text else { return }
+        let userGenderBirthYear = UserGenderBirthYear(userLocation: userLocation, userGender: selectedGender, userBirthYear: birthYear)
+        navigationController?.pushViewController(UserTypeIntroductionViewController(userGenderBirthYear: userGenderBirthYear), animated: true)
     }
 }
 

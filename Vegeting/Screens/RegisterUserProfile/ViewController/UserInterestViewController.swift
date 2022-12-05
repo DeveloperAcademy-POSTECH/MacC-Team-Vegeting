@@ -8,6 +8,8 @@
 import UIKit
 
 class UserInterestViewController: UIViewController {
+    
+    private var userTypeIntroduction: UserTypeIntroduction
 
     private let progressBarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -32,6 +34,15 @@ class UserInterestViewController: UIViewController {
     
     private let interestList: [String] = ["맛집", "카페", "행사", "패션", "뷰티", "환경", "정치", "친목", "동물권", "요리", "베이킹"]
     private lazy var selectInterestView = InterestView(interestList: interestList, entryPoint: .register)
+    
+    init(userTypeIntroduction: UserTypeIntroduction) {
+        self.userTypeIntroduction = userTypeIntroduction
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,5 +95,13 @@ class UserInterestViewController: UIViewController {
 extension UserInterestViewController: InterestViewDelegate {
     func setBottomButtonEnabled(to isEnabled: Bool) {
         profileRegisterButton.isEnabled = isEnabled
+    }
+    
+    func deliverInterestList(list: [Int : String]) -> [String] {
+        var selectedList = list.map({ (key, value) -> String in
+            return value
+        })
+        
+        return selectedList
     }
 }

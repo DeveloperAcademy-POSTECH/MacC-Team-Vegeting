@@ -9,6 +9,8 @@ import UIKit
 
 final class UserTypeIntroductionViewController: UIViewController {
     
+    private var userGenderBirthYear: UserGenderBirthYear
+    
     let vegetarianTypeSelectButtonTitle = "채식 단계"
     let introductionMaxLength = 60
     
@@ -73,9 +75,19 @@ final class UserTypeIntroductionViewController: UIViewController {
         let button = BottomButton()
         button.setTitle("다음으로", for: .normal)
         button.isEnabled = false
+        button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         return button
     }()
-
+    
+    init(userGenderBirthYear: UserGenderBirthYear) {
+        self.userGenderBirthYear = userGenderBirthYear
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -174,6 +186,13 @@ final class UserTypeIntroductionViewController: UIViewController {
     
     private func nextButtonActive() {
         nextButton.isEnabled = true
+    }
+    
+    @objc
+    private func nextButtonTapped() {
+        guard let type = vegetarianTypeSelectButton.currentTitle else { return }
+        let userTypeIntroduction = UserTypeIntroduction(userGenderBirthYear: userGenderBirthYear, userVegetarianType: type, userIntroduction: introductionTextView.text)
+        navigationController?.pushViewController(UserInterestViewController(userTypeIntroduction: userTypeIntroduction), animated: true)
     }
 }
 

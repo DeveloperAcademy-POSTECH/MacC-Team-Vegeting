@@ -74,6 +74,7 @@ final class UserProfileViewController: UIViewController {
         let button = BottomButton()
         button.setTitle("다음으로", for: .normal)
         button.isEnabled = false
+        button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -86,8 +87,16 @@ final class UserProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureNavBar()
         configureUI()
         setupLayout()
+        hideKeyboardWhenTappedAround()
+    }
+    
+    func configureNavBar() {
+        navigationItem.title = "프로필 설정"
+        navigationController?.navigationBar.tintColor = .label
+        navigationController?.navigationBar.topItem?.title = ""
     }
     
     func configureTextField() {
@@ -195,6 +204,10 @@ final class UserProfileViewController: UIViewController {
             let newString = text[text.startIndex..<index]
             nicknameTextField.text = String(newString)
             textLength = newString.count
+        } else if textLength < nicknameMinLength {
+            nextButtonInactive()
+        } else {
+            nextButtonActive()
         }
         
         changeButtonStatus(textLength: textLength)
@@ -215,6 +228,13 @@ final class UserProfileViewController: UIViewController {
     
     private func nextButtonActive() {
         nextButton.isEnabled = true
+    }
+    
+    @objc
+    private func nextButtonTapped() {
+        guard let nickname = nicknameTextField.text else { return }
+        let userImageNickname = UserImageNickname(userNickname: nickname)
+        navigationController?.pushViewController(LocationAuthViewController(userImageNickname: userImageNickname), animated: true)
     }
 }
 
