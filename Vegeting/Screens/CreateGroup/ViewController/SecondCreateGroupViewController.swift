@@ -29,7 +29,7 @@ final class SecondCreateGroupViewController: BaseViewController {
     }()
     
     private lazy var titleTextField: UITextField = {
-        var textField = UITextField()
+        let textField = UITextField()
         textField.placeholder = StringLiteral.secondCreateGroupViewControllerTitle
         textField.font = .preferredFont(forTextStyle: .body)
         textField.layer.cornerRadius = 5
@@ -64,7 +64,7 @@ final class SecondCreateGroupViewController: BaseViewController {
     }()
     
     private lazy var contentTextView: UITextView = {
-        var textView = UITextView()
+        let textView = UITextView()
         textView.text = StringLiteral.secondCreateGroupViewControllerContent
         textView.textColor = .lightGray
         textView.font = .preferredFont(forTextStyle: .body)
@@ -88,22 +88,21 @@ final class SecondCreateGroupViewController: BaseViewController {
     private lazy var registerButton: BottomButton = {
         let button = BottomButton()
         button.isEnabled = false
-        button.setTitle(entryPoint == .create ? StringLiteral.secondCreateGroupViewControllerRegisterButton : "수정 완료", for: .normal)
+        button.setTitle(createGroupEntryPoint == .create ? StringLiteral.secondCreateGroupViewControllerRegisterButton : "수정 완료", for: .normal)
         button.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
         return button
     }()
     
     private var club: Club?
     private var incompleteClub: IncompleteClub?
-    private var entryPoint: CreateGroupEntryPoint
-    private lazy var keyboardHeight: CGFloat = self.view.frame.height * 0.4
+    private var createGroupEntryPoint: CreateGroupEntryPoint
     
     //MARK: - lifeCycle
     
-    init(club: Club? = nil, incompleteClub: IncompleteClub? = nil, entryPoint: CreateGroupEntryPoint) {
+    init(club: Club? = nil, incompleteClub: IncompleteClub? = nil, createGroupEntryPoint: CreateGroupEntryPoint) {
         self.club = club
         self.incompleteClub = incompleteClub
-        self.entryPoint = entryPoint
+        self.createGroupEntryPoint = createGroupEntryPoint
         super.init()
     }
     
@@ -146,7 +145,7 @@ final class SecondCreateGroupViewController: BaseViewController {
             coverPickerView.heightAnchor.constraint(equalToConstant: view.bounds.height * 0.25)
         ])
         
-        let width = (club?.clubCategory.size(withAttributes: [.font : UIFont.preferredFont(forTextStyle: .subheadline)]).width ?? 0) + 40
+        let width = (incompleteClub?.clubCategory.size(withAttributes: [.font : UIFont.preferredFont(forTextStyle: .subheadline)]).width ?? 0) + 40
         
         NSLayoutConstraint.activate([
             categoryLabel.topAnchor.constraint(equalTo: coverPickerView.bottomAnchor, constant: 15),
@@ -193,54 +192,30 @@ final class SecondCreateGroupViewController: BaseViewController {
 
     @objc
     private func registerButtonTapped() {
-        switch entryPoint {
+        switch createGroupEntryPoint {
         case .create:
             self.registerClub()
         case .revise:
             self.updateClub()
         }
-
         navigationController?.popToRootViewController(animated: true)
     }
-    
+
     private func registerClub() {
-        guard let incompleteClub = incompleteClub,
-              let clubTitle = titleTextField.text else { return }
-        let firebaseManager = FirebaseManager.shared
-
-        var club = Club(id: nil, clubID: nil, chatID: nil,
-                        clubTitle: clubTitle,
-                        clubCategory: incompleteClub.clubCategory,
-                        clubContent: contentTextView.text,
-                        hostID: nil, participants: nil,
-                        dateToMeet: incompleteClub.dateToMeet,
-                        createdAt: Date(),
-                        placeToMeet: incompleteClub.placeToMeet,
-                        maxNumberOfPeople: incompleteClub.maxNumberOfPeople)
-
-        let chat = Chat(chatRoomID: nil,
-                        clubID: nil,
-                        chatRoomName: clubTitle,
-                        participants: nil,
-                        messages: nil,
-                        coverImageURL: nil)
-
-        getImageURL() { url in
+        guard var club = makeClub(),
+              let chat = makeChat() else { return }
+        
+        requestImageURL() { url in
             club.coverImageURL = url
             Task {
-                guard let vfUser = await firebaseManager.requestUser() else { return }
-                firebaseManager.requestPost(user: vfUser, club: club, chat: chat)
+                guard let vfUser = await FirebaseManager.shared.requestUser() else { return }
+                FirebaseManager.shared.requestPost(user: vfUser, club: club, chat: chat)
             }
         }
     }
     
     private func updateClub() {
-        guard let incompleteClub = incompleteClub,
-              let club = club,
-              let clubTitle = titleTextField.text else { return }
-        let firebaseManager = FirebaseManager.shared
-        
-//        var updatedClub = Club(id: club.id,
+//        var club = Club(id: club.id,
 //                               clubID: club.clubID,
 //                               chatID: club.chatID,
 //                               clubTitle: clubTitle,
@@ -256,16 +231,50 @@ final class SecondCreateGroupViewController: BaseViewController {
         // TODO: url로 넘기지 말고, UIimage로 넘겨서 image 변화여부를 체크하여 getImageURL을 호출해야할 것 같아요.
     }
     
-    private func getImageURL(completion: @escaping (URL?) -> Void) {
-        if !coverPickerView.isDefaultImage {
-            guard let image = coverPickerView.getImageView() else { return completion(nil) }
-            FirebaseStorageManager.uploadImage(image: image, folderName: "club") { url in
-                guard let url = url else {return}
-                completion(url)
+    private func requestImageURL(completion: @escaping (URL?) -> Void) {
+        if !coverPickerView.isDefaultCoverImage() {
+            guard let image = coverPickerView.getImageView()
+            else {
+                completion(nil)
+                return
+            }
+            FirebaseStorageManager.shared.uploadImage(image: image, folderName: "club") { result in
+                switch result {
+                case .success(let url):
+                    completion(url)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
             }
         } else {
             completion(nil)
         }
+    }
+    
+    private func makeClub() -> Club? {
+        guard let incompleteClub = incompleteClub,
+              let clubTitle = titleTextField.text else { return nil }
+        let club = Club(id: nil, clubID: nil, chatID: nil,
+                        clubTitle: clubTitle,
+                        clubCategory: incompleteClub.clubCategory,
+                        clubContent: contentTextView.text,
+                        hostID: nil, participants: nil,
+                        dateToMeet: incompleteClub.dateToMeet,
+                        createdAt: Date(),
+                        placeToMeet: incompleteClub.placeToMeet,
+                        maxNumberOfPeople: incompleteClub.maxNumberOfPeople)
+        return club
+    }
+    
+    private func makeChat() -> Chat? {
+        guard let clubTitle = titleTextField.text else { return nil }
+        let chat = Chat(chatRoomID: nil,
+                        clubID: nil,
+                        chatRoomName: clubTitle,
+                        participants: nil,
+                        messages: nil,
+                        coverImageURL: nil)
+        return chat
     }
     
     @objc
@@ -296,6 +305,7 @@ final class SecondCreateGroupViewController: BaseViewController {
     
     override func configureUI() {
         scrollView.showsVerticalScrollIndicator = false
+        view.backgroundColor = .systemBackground
     }
     
     private func applyEditingTextViewForm() {
@@ -331,16 +341,13 @@ final class SecondCreateGroupViewController: BaseViewController {
     
     @objc
     private func scrollVerticalWhenKeybaordWillShow(notification: NSNotification) {
-        let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height + scrollView.contentInset.bottom)
-        if bottomOffset.y > 0 {
-            scrollView.setContentOffset(bottomOffset, animated: true)
+        let scrollHeightToBottom = scrollView.contentSize.height - scrollView.bounds.size.height
+        if scrollHeightToBottom > 0 {
+            let scrollHeightToBottomOffset = CGPoint(x: 0, y: scrollHeightToBottom)
+            scrollView.setContentOffset(scrollHeightToBottomOffset, animated: true)
         }
     }
-    
-    private func scrollVertical(to yOffset: CGFloat) {
-        scrollView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: true)
-    }
-    
+
     func configure(with data: IncompleteClub) {
         categoryLabel.text = data.clubCategory
         groupInfomationLabel.text = "\(data.placeToMeet)･\(data.dateToMeet.toString(format: "M월 d일"))"
@@ -381,7 +388,6 @@ extension SecondCreateGroupViewController: UITextViewDelegate {
             textView.textColor = .black
         }
         applyEditingTextViewForm()
-//        scrollVertical(to: keyboardHeight)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -395,7 +401,6 @@ extension SecondCreateGroupViewController: UITextViewDelegate {
             }
         }
         applyEndEditingTextViewForm()
-//        scrollVertical(to: .zero)
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

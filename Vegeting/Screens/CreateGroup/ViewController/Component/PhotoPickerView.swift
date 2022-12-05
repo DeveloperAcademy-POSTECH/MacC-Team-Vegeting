@@ -14,7 +14,7 @@ protocol PhotoPickerViewDelegate: AnyObject {
 }
 
 final class PhotoPickerView: UIView {
-    var isDefaultImage = true
+    private var isDefaultImage = true
     private let selectedImage = UIImageView()
     
     private let titleLabel: UILabel = {
@@ -107,10 +107,10 @@ final class PhotoPickerView: UIView {
             self.delegate?.showPHPicker(PHPicker: PHPicker)
         }
         
-        let defaultImageAction = UIAlertAction(title: "기본 이미지로 변경", style: .default) { action in
-            self.setImageView(image: UIImage(named: "coverImage")) // 추후 기본이미지로 변경
-            self.isDefaultImage = true
-            self.setLabelText(title: "", sub: "")
+        let defaultImageAction = UIAlertAction(title: "기본 이미지로 변경", style: .default) { [weak self] action in
+            self?.setImageView(image: UIImage(named: "coverImage")) // 추후 기본이미지로 변경
+            self?.isDefaultImage = true
+            self?.setLabelText(title: "", sub: "")
         }
         
         let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: nil)
@@ -134,6 +134,10 @@ final class PhotoPickerView: UIView {
         titleLabel.text = title
         subTitleLabel.text = sub
     }
+    
+    func isDefaultCoverImage() -> Bool {
+        return self.isDefaultImage
+    }
 }
 
 extension PhotoPickerView: PHPickerViewControllerDelegate {
@@ -141,11 +145,11 @@ extension PhotoPickerView: PHPickerViewControllerDelegate {
         picker.dismiss(animated: true)
         if let itemProvider = results.first?.itemProvider, itemProvider.canLoadObject(ofClass: UIImage.self) {
             itemProvider.loadObject(ofClass: UIImage.self) { image, error in
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [weak self] in
                     guard let image = image as? UIImage else { return }
-                    self.setImageView(image: image)
-                    self.setLabelText(title: "", sub: "")
-                    self.isDefaultImage = false
+                    self?.setImageView(image: image)
+                    self?.setLabelText(title: "", sub: "")
+                    self?.isDefaultImage = false
                 }
             }
         }

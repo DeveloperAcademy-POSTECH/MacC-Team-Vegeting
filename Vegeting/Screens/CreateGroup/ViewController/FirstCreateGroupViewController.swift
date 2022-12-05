@@ -17,7 +17,7 @@ final class FirstCreateGroupViewController: UIViewController {
     
     //MARK: - properties
     
-    private var entryPoint: CreateGroupEntryPoint
+    private var createGroupEntryPoint: CreateGroupEntryPoint
     var cancellables = Set<AnyCancellable>()
     private var club: Club?
     
@@ -32,15 +32,12 @@ final class FirstCreateGroupViewController: UIViewController {
     }()
     
     private lazy var categoryCollectionView: GroupCategoryView = {
-        let view: GroupCategoryView
-        switch entryPoint {
-        case .create:
-            view = GroupCategoryView()
-        case .revise:
-            view = GroupCategoryView(selectedCategory: club?.clubCategory)
+        let groupCategoryView = GroupCategoryView()
+        if createGroupEntryPoint == .revise, let category = club?.clubCategory {
+            groupCategoryView.selectPostCategory(with: category)
         }
-        view.delegate = self
-        return view
+        groupCategoryView.delegate = self
+        return groupCategoryView
     }()
     
     private let locationTitleLabel: UILabel = {
@@ -114,12 +111,9 @@ final class FirstCreateGroupViewController: UIViewController {
     }()
     
     private lazy var numberOfGroupCollectionView: NumberOfGroupPeopleView = {
-        let view: NumberOfGroupPeopleView
-        switch entryPoint {
-        case .create:
-            view = NumberOfGroupPeopleView()
-        case .revise:
-            view = NumberOfGroupPeopleView(selectedNumber: club?.maxNumberOfPeople)
+        let view = NumberOfGroupPeopleView()
+        if createGroupEntryPoint == .revise, let maxNumber = club?.maxNumberOfPeople {
+            view.setupPostNumberOfPeople(selectedNumber: maxNumber)
         }
         view.delegate = self
         return view
@@ -130,15 +124,15 @@ final class FirstCreateGroupViewController: UIViewController {
         button.setTitle("다음으로", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = .preferredFont(forTextStyle: .body, compatibleWith: .init(legibilityWeight: .bold))
-        button.isEnabled = entryPoint == .create ?  false : true
+        button.isEnabled = createGroupEntryPoint == .create ?  false : true
         button.addTarget(self, action: #selector(bottomButtonTapped), for: .touchUpInside)
         return button
     }()
     
     // MARK: - lifeCycle
     
-    init(entryPoint: CreateGroupEntryPoint, club: Club? = nil) {
-        self.entryPoint = entryPoint
+    init(createGroupEntryPoint: CreateGroupEntryPoint, club: Club? = nil) {
+        self.createGroupEntryPoint = createGroupEntryPoint
         self.club = club
         super.init(nibName: nil, bundle: nil)
     }
@@ -152,9 +146,7 @@ final class FirstCreateGroupViewController: UIViewController {
         setupLayout()
         configureUI()
         setupNavigationBar()
-        if entryPoint == .create {
-            hideAll()
-        }
+        hideElementWhenCreateClub()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -163,15 +155,17 @@ final class FirstCreateGroupViewController: UIViewController {
     
     // MARK: - func
     
-    private func hideAll() {
-        locationTitleLabel.isHidden = true
-        locationSearchingButton.isHidden = true
-        locationFooterLabel.isHidden = true
-        dateTitleLabel.isHidden = true
-        datePicker.isHidden = true
-        datePickerFooterLabel.isHidden = true
-        numberOfGroupPeopleTitleLabel.isHidden = true
-        numberOfGroupCollectionView.isHidden = true
+    private func hideElementWhenCreateClub() {
+        if createGroupEntryPoint == .create {
+            locationTitleLabel.isHidden = true
+            locationSearchingButton.isHidden = true
+            locationFooterLabel.isHidden = true
+            dateTitleLabel.isHidden = true
+            datePicker.isHidden = true
+            datePickerFooterLabel.isHidden = true
+            numberOfGroupPeopleTitleLabel.isHidden = true
+            numberOfGroupCollectionView.isHidden = true
+        }
     }
     
     private func hideTabBar() {
@@ -206,14 +200,16 @@ final class FirstCreateGroupViewController: UIViewController {
     
     @objc
     private func bottomButtonTapped() {
-        guard let selectedCategory = categoryCollectionView.getSelectedCategory(),
+        guard let selectedCategory = categoryCollectionView.selectedCategory(),
               let selectedNumberOfPeople = numberOfGroupCollectionView.getSelectedNumber() else { return }
         let passedData = IncompleteClub(clubCategory: selectedCategory,
                                         placeToMeet: locationLabel.text ?? "",
                                         dateToMeet: datePicker.date,
                                         maxNumberOfPeople: selectedNumberOfPeople)
   
-        let viewController = SecondCreateGroupViewController(club: club, incompleteClub: passedData, entryPoint: entryPoint)
+        let viewController = SecondCreateGroupViewController(club: club,
+                                                             incompleteClub: passedData,
+                                                             createGroupEntryPoint: createGroupEntryPoint)
         viewController.configure(with: passedData)
         viewController.configure(with: club)
         self.navigationController?.pushViewController(viewController, animated: true)
@@ -260,6 +256,7 @@ final class FirstCreateGroupViewController: UIViewController {
                                           leading: contentView.leadingAnchor,
                                           trailing: contentView.trailingAnchor,
                                           padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
+        categoryCollectionView.constraint(.heightAnchor, constant: 60)
         
         locationTitleLabel.constraint(top: categoryCollectionView.bottomAnchor,
                                       leading: contentView.leadingAnchor,
@@ -321,7 +318,7 @@ final class FirstCreateGroupViewController: UIViewController {
 extension FirstCreateGroupViewController: LocationSearchingViewControllerDelegate {
     func configureLocationText(with text: String) {
         locationLabel.text = text
-        if entryPoint == .create {
+        if createGroupEntryPoint == .create {
             self.showDateView()
         }
     }
@@ -329,7 +326,7 @@ extension FirstCreateGroupViewController: LocationSearchingViewControllerDelegat
 
 extension FirstCreateGroupViewController: GroupCategoryViewDelegate {
     func didSelectCategory(didSelectItemAt indexPath: IndexPath) {
-        if entryPoint == .create {
+        if createGroupEntryPoint == .create {
             self.showLocationView()
         }
     }

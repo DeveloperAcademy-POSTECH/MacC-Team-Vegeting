@@ -29,7 +29,6 @@ final class NumberOfGroupPeopleView: UIView {
     
     private let numberList: [String] = ["2명", "3명", "4명", "5명", "6명", "7명", "8명"]
     weak var delegate: NumberOfGroupPeopleViewDelegate?
-    private var selectedNumber: Int?
     
     // MARK: - init
     
@@ -38,12 +37,7 @@ final class NumberOfGroupPeopleView: UIView {
         configureCollectionView()
         setupLayout()
     }
-    
-    convenience init(selectedNumber: Int? = nil) {
-        self.init()
-        self.selectedNumber = selectedNumber
-    }
-    
+  
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -65,6 +59,13 @@ final class NumberOfGroupPeopleView: UIView {
         guard let index = numberCollectionView.indexPathsForSelectedItems?.first?.item else { return nil }
         return index + 2
     }
+    
+    func setupPostNumberOfPeople(selectedNumber: Int) {
+        let numberInString = "\(selectedNumber)명"
+        guard let index = numberList.firstIndex(of: numberInString) else { return }
+        let indexPath = IndexPath(item: index, section: 0)
+        numberCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .bottom)
+    }
 }
 
 extension NumberOfGroupPeopleView: UICollectionViewDataSource {
@@ -74,13 +75,6 @@ extension NumberOfGroupPeopleView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NumberOfPeopleCollectionViewCell.className, for: indexPath) as? NumberOfPeopleCollectionViewCell else { return UICollectionViewCell()}
-        
-        if let selectedNumber = self.selectedNumber {
-            let index = numberList.firstIndex(of: "\(selectedNumber)명")
-            if index == indexPath.item {
-                numberCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .bottom)
-            }
-        }
         cell.setItemLabel(with: numberList[indexPath.item])
         return cell
     }
@@ -94,7 +88,6 @@ extension NumberOfGroupPeopleView: UICollectionViewDelegateFlowLayout {
 
 extension NumberOfGroupPeopleView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? NumberOfPeopleCollectionViewCell else { return }
         delegate?.didSelectedItem()
     }
 }

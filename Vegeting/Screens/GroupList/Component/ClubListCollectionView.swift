@@ -11,7 +11,7 @@ protocol ClubListCollectionViewDelegate: AnyObject {
     func clubListCellTapped(viewController: PostDetailViewController)
 }
 
-class ClubListCollectionView: UICollectionView {
+final class ClubListCollectionView: UICollectionView {
     private var clubList: [Club] = [] {
         didSet {
             DispatchQueue.main.async { [weak self] in
@@ -43,13 +43,13 @@ class ClubListCollectionView: UICollectionView {
     
     private func configureUI() {
         self.backgroundColor = .clear
-        self.register(ClubListCollectionViewCell.self, forCellWithReuseIdentifier: ClubListCollectionViewCell.className)
         self.showsVerticalScrollIndicator = false
     }
     
     private func configureCollectionView() {
-        self.delegate = self
-        self.dataSource = self
+        register(ClubListCollectionViewCell.self, forCellWithReuseIdentifier: ClubListCollectionViewCell.className)
+        delegate = self
+        dataSource = self
     }
     
     func setClubList(clubList: [Club]) {
@@ -59,13 +59,12 @@ class ClubListCollectionView: UICollectionView {
 
 extension ClubListCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        Task {
-            guard let currentUser = AuthManager.shared.getCurrentUser() else { return }
-            let selectedClub = clubList[indexPath.item]
-            let isMine = currentUser.userID == selectedClub.hostID
-            let detailViewController = PostDetailViewController(club: clubList[indexPath.item], entryPoint: isMine ? .mine : .other)
-            tapDelegate?.clubListCellTapped(viewController: detailViewController)
-        }
+        guard let currentUser = AuthManager.shared.currentUser() else { return }
+        let selectedClub = clubList[indexPath.item]
+        let isMine = currentUser.userID == selectedClub.hostID
+        let entryPoint: PostDetailViewController.EntryPoint = isMine ? .mine : .other
+        let detailViewController = PostDetailViewController(club: clubList[indexPath.item], entryPoint: entryPoint)
+        tapDelegate?.clubListCellTapped(viewController: detailViewController)
     }
 }
 
