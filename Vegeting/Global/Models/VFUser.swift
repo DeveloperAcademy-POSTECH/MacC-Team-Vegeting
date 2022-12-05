@@ -25,6 +25,7 @@ struct ParticipatedChatRoom: Hashable, Codable {
     let chatID: String?
     let chatName: String
     let imageURL: String?
+    let lastReadIndex: Int?
 }
 
 struct ParticipatedClub: Hashable, Codable {

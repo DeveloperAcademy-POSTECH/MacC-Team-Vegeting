@@ -61,6 +61,7 @@ final class ChatRoomViewModel: ViewModelType {
             }
         } receiveValue: { [weak self] chat in
             self?.chat = chat
+            self?.updateLastReadIndex()
             let messageBubbles = self?.messagesToMessageBubbles(messages: chat.messages ?? []) ?? []
             self?.output.send(.serverChatDataChanged(messageBubbles: messageBubbles))
         }.store(in: &cancellables)
@@ -128,6 +129,22 @@ final class ChatRoomViewModel: ViewModelType {
         self.participatedChatRoom = participatedChatRoom
         self.user = user
         requestMessagesFromServer()
+    }
+    
+    private func updateLastReadIndex() {
+        Task { [weak self] in
+            guard let participatedChatRoom = participatedChatRoom else { return }
+            guard let messagesCount = self?.chat?.messages?.count else { return }
+            guard let user = self?.user else { return }
+            try await FirebaseManager.shared.updateLastReadIndex(user: user, participatedChatRoom: participatedChatRoom, index: messagesCount - 1)
+        }
+    }
+    
+    init() {
+        Task {
+            guard let user = await FirebaseManager.shared.requestUser(), let chats = user.participatedChats  else { return }
+            configure(participatedChatRoom: chats[3], user: user)
+        }
     }
 }
 

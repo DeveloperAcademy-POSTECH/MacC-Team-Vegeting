@@ -13,7 +13,7 @@ struct TempChatModel {
     let currentNumer: Int = 5
     let latestChat: String
     var latestChatDate: Date
-    let unreadChatCount: Int = 5
+    let unreadChatCount: Int?
 }
 
 class ChatRoomListViewController: UIViewController {
@@ -86,14 +86,18 @@ class ChatRoomListViewController: UIViewController {
     private func bind() {
         guard let user = user else { return }
         
-        FirebaseManager.shared.requestRecentChat(user: user) { result in
+        var lastReadIndexInChatRoom = calculateUnreadCountInChat(participatedChats: user.participatedChats)
+        
+        FirebaseManager.shared.requestRecentChat(user: user) { [weak self] result in
             switch result {
             case .success(let recentChats):
-                self.chatList = recentChats.map { recentChat in
+                self?.chatList = recentChats.map { recentChat in
                     let title = recentChat.chatRoomName ?? ""
                     let lastestChat = recentChat.lastSentMessage ?? ""
                     let lastestChatDate = recentChat.lastSentTime ?? Date()
-                    let result = TempChatModel(title: title, latestChat: lastestChat, latestChatDate: lastestChatDate)
+                    let unreadMessageCount = self?.calculateUnreadMessage(messagesCount: recentChat.messagesCount,
+                                                                          lastReadIndexByUser: lastReadIndexInChatRoom[recentChat.chatRoomID ?? ""])
+                    let result = TempChatModel(title: title, latestChat: lastestChat, latestChatDate: lastestChatDate,  unreadChatCount: unreadMessageCount)
                     return result
                 }
             case .failure(let error):
@@ -101,7 +105,27 @@ class ChatRoomListViewController: UIViewController {
             }
         }
     }
-  
+    
+    /// 참여한 채팅방에 마지막으로 읽은 Index를 알려주는 Dictionary
+    private func calculateUnreadCountInChat(participatedChats: [ParticipatedChatRoom]?) -> [String: Int] {
+        var result = [String: Int]()
+        guard let participatedChats = participatedChats else { return result }
+        participatedChats.forEach {
+            if let chatID = $0.chatID, let lastReadIndex = $0.lastReadIndex {
+                result.updateValue(lastReadIndex, forKey: chatID)
+            }
+        }
+        return result
+    }
+    
+    ///  안읽은 메세지 수 계산(채팅방 메시지 - 해당 유저가 마지막으로 읽은 index)
+    private func calculateUnreadMessage(messagesCount: Int?, lastReadIndexByUser: Int?) -> Int {
+        if let messagesCount = messagesCount, let lastReadIndexByUser = lastReadIndexByUser {
+            return (messagesCount - 1) - lastReadIndexByUser
+        } else {
+            return 0
+        }
+    }
 }
 
 extension ChatRoomListViewController: UITableViewDataSource {
