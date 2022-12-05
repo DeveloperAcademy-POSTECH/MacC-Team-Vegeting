@@ -14,7 +14,7 @@ final class GroupCategoryCollectionViewCell: UICollectionViewCell {
     private let backgroundContentView: UIView = {
         let view = UIView()
         view.layer.masksToBounds = true
-        view.backgroundColor = .systemGray6
+        view.backgroundColor = .vfGray4
         return view
     }()
     
@@ -22,8 +22,15 @@ final class GroupCategoryCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .subheadline)
         label.textAlignment = .center
+        label.textColor = .vfGray1
         return label
     }()
+    
+    override var isSelected: Bool {
+        didSet {
+            applySelectedState()
+        }
+    }
     
     // MARK: - init
     
@@ -43,21 +50,17 @@ final class GroupCategoryCollectionViewCell: UICollectionViewCell {
         addSubview(backgroundContentView)
         backgroundContentView.constraint(to: self)
         backgroundContentView.addSubview(itemLabel)
-        itemLabel.constraint(leading: backgroundContentView.leadingAnchor,
-                                                   trailing: backgroundContentView.trailingAnchor,
-                                                   centerY: self.centerYAnchor,
-                                                   padding: UIEdgeInsets(top: 0, left: 14, bottom: 0, right: 14))
+        itemLabel.constraint(centerX: self.centerXAnchor,
+                             centerY: self.centerYAnchor)
     }
     
     private func configureUI() {
-        layer.masksToBounds = false
-        let cellCornerRadius = (self.bounds.size.width * (self.bounds.size.height / self.bounds.size.width)) / 2
-        backgroundContentView.layer.cornerRadius = cellCornerRadius
+        backgroundContentView.layer.cornerRadius = 17
     }
     
     func applySelectedState() {
-        backgroundContentView.backgroundColor = isSelected ? .black : .systemGray6
-        itemLabel.textColor = isSelected ? .white : .black
+        backgroundContentView.backgroundColor = isSelected ? .vfBlack : .vfGray4
+        itemLabel.textColor = isSelected ? .white : .vfGray1
         itemLabel.font = isSelected ? .preferredFont(forTextStyle: .subheadline, compatibleWith: .init(legibilityWeight: .bold)) : .preferredFont(forTextStyle:.subheadline)
     }
     
