@@ -53,7 +53,7 @@ class SignInViewController: UIViewController {
             switch event {
             case .didFirstSignInWithApple, .didFirstSignInWithKakao:
 //                TODO: Profile 생성 ViewController로 이동하도록 구현
-                self?.navigationController?.pushViewController(UserProfileViewController(), animated: true)
+                self?.navigationController?.pushViewController(FirstProfileViewController(), animated: true)
                 break
             case .didFailToSignInWithApple(let error), .didFailToSignInWithKakao(let error):
                 print(error.localizedDescription)

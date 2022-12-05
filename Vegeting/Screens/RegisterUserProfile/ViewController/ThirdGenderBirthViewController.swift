@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class UserGenderBirthViewController: UIViewController {
+final class ThirdGenderBirthViewController: UIViewController {
     
     private var userLocation: UserLocation
     private var selectedGender: String = "여성"
@@ -215,11 +215,11 @@ final class UserGenderBirthViewController: UIViewController {
     @objc
     private func nextButtonTapped() {
         let userGenderBirthYear = UserGenderBirthYear(userLocation: userLocation, userGender: selectedGender, userBirthYear: selectedBirthYear)
-        navigationController?.pushViewController(UserTypeIntroductionViewController(userGenderBirthYear: userGenderBirthYear), animated: true)
+        navigationController?.pushViewController(FourthTypeIntroductionViewController(userGenderBirthYear: userGenderBirthYear), animated: true)
     }
 }
 
-extension UserGenderBirthViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+extension ThirdGenderBirthViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -238,7 +238,7 @@ extension UserGenderBirthViewController: UIPickerViewDelegate, UIPickerViewDataS
 }
 
 //출생년도 textField 수동 입력이 불가능하도록 설정
-extension UserGenderBirthViewController: UITextFieldDelegate {
+extension ThirdGenderBirthViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
         

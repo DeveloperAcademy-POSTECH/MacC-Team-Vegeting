@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class UserTypeIntroductionViewController: UIViewController {
+final class FourthTypeIntroductionViewController: UIViewController {
     
     private var userGenderBirthYear: UserGenderBirthYear
     
@@ -192,11 +192,11 @@ final class UserTypeIntroductionViewController: UIViewController {
     private func nextButtonTapped() {
         guard let type = vegetarianTypeSelectButton.currentTitle else { return }
         let userTypeIntroduction = UserTypeIntroduction(userGenderBirthYear: userGenderBirthYear, userVegetarianType: type, userIntroduction: introductionTextView.text)
-        navigationController?.pushViewController(UserInterestViewController(userTypeIntroduction: userTypeIntroduction), animated: true)
+        navigationController?.pushViewController(FifthInterestViewController(userTypeIntroduction: userTypeIntroduction), animated: true)
     }
 }
 
-extension UserTypeIntroductionViewController: SelectVegetarianTypeViewDelegate {
+extension FourthTypeIntroductionViewController: SelectVegetarianTypeViewDelegate {
     func didSelectVegetarianType(type: String) {
         vegetarianTypeSelectButton.setTitle(type, for: .normal)
         vegetarianTypeSelectButton.setTitleColor(.label, for: .normal)
@@ -213,7 +213,7 @@ extension UserTypeIntroductionViewController: SelectVegetarianTypeViewDelegate {
     }
 }
 
-extension UserTypeIntroductionViewController: UITextViewDelegate {
+extension FourthTypeIntroductionViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         guard let text = textView.text else { return }
         var textLength = text.count

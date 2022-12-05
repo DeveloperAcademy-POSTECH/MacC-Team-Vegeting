@@ -8,7 +8,7 @@
 import MapKit
 import UIKit
 
-final class LocationAuthViewController: UIViewController {
+final class SecondLocationViewController: UIViewController {
     
     private var userImageNickname: UserImageNickname
     
@@ -172,7 +172,7 @@ final class LocationAuthViewController: UIViewController {
     private func nextButtonTapped() {
         guard let location = locationDisplayLabel.text else { return }
         let userLocation = UserLocation(userImageNickname: userImageNickname, userLocation: location)
-        navigationController?.pushViewController(UserGenderBirthViewController(userLocation: userLocation), animated: true)
+        navigationController?.pushViewController(ThirdGenderBirthViewController(userLocation: userLocation), animated: true)
     }
     
     /// 위치 권한 설정 함수
@@ -233,7 +233,7 @@ final class LocationAuthViewController: UIViewController {
     }
 }
 
-extension LocationAuthViewController: CLLocationManagerDelegate {
+extension SecondLocationViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else {

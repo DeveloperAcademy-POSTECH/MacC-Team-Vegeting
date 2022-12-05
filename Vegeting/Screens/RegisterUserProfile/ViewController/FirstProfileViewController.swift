@@ -8,7 +8,7 @@
 import UIKit
 import PhotosUI
 
-final class UserProfileViewController: UIViewController {
+final class FirstProfileViewController: UIViewController {
     
     private let nicknameMinLength = 2
     private let nicknameMaxLength = 10
@@ -239,7 +239,7 @@ final class UserProfileViewController: UIViewController {
         requestImageURL { url in
             let profileImage = url
             let userImageNickname = UserImageNickname(userImageURL: profileImage, userNickname: nickname)
-            self.navigationController?.pushViewController(LocationAuthViewController(userImageNickname: userImageNickname), animated: true)
+            self.navigationController?.pushViewController(SecondLocationViewController(userImageNickname: userImageNickname), animated: true)
         }
     }
     
@@ -266,7 +266,7 @@ final class UserProfileViewController: UIViewController {
     }
 }
 
-extension UserProfileViewController: UITextFieldDelegate {
+extension FirstProfileViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
         guard let text = textField.text else { return false }
@@ -278,7 +278,7 @@ extension UserProfileViewController: UITextFieldDelegate {
     }
 }
 
-extension UserProfileViewController: PHPickerViewControllerDelegate {
+extension FirstProfileViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
         

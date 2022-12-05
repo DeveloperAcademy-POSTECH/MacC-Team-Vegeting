@@ -7,7 +7,7 @@
 
 import UIKit
 
-class UserInterestViewController: UIViewController {
+class FifthInterestViewController: UIViewController {
     
     private var userTypeIntroduction: UserTypeIntroduction
 
@@ -116,7 +116,7 @@ class UserInterestViewController: UIViewController {
     }
 }
 
-extension UserInterestViewController: InterestViewDelegate {
+extension FifthInterestViewController: InterestViewDelegate {
     func setBottomButtonEnabled(to isEnabled: Bool) {
         profileRegisterButton.isEnabled = isEnabled
     }
