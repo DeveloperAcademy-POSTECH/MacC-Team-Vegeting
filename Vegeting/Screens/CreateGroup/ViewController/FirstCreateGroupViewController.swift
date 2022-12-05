@@ -8,9 +8,18 @@
 import UIKit
 import Combine
 
+enum CreateGroupEntryPoint {
+    case create
+    case revise
+}
+
 final class FirstCreateGroupViewController: UIViewController {
     
     //MARK: - properties
+    
+    private var createGroupEntryPoint: CreateGroupEntryPoint
+    var cancellables = Set<AnyCancellable>()
+    private var club: Club?
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -23,16 +32,18 @@ final class FirstCreateGroupViewController: UIViewController {
     }()
     
     private lazy var categoryCollectionView: GroupCategoryView = {
-        let view = GroupCategoryView()
-        view.delegate = self
-        return view
+        let groupCategoryView = GroupCategoryView()
+        if createGroupEntryPoint == .revise, let category = club?.clubCategory {
+            groupCategoryView.selectPostCategory(with: category)
+        }
+        groupCategoryView.delegate = self
+        return groupCategoryView
     }()
     
     private let locationTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "모임 지역은 어디인가요?"
         label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
-        label.isHidden = true
         return label
     }()
     
@@ -42,7 +53,6 @@ final class FirstCreateGroupViewController: UIViewController {
         label.numberOfLines = 0
         label.textColor = .gray
         label.font = .preferredFont(forTextStyle: .subheadline)
-        label.isHidden = true
         label.lineBreakMode = .byCharWrapping
         return label
     }()
@@ -55,7 +65,6 @@ final class FirstCreateGroupViewController: UIViewController {
         })
         button.backgroundColor = .systemGray6
         button.layer.cornerRadius = 7
-        button.isHidden = true
         return button
     }()
     
@@ -69,7 +78,6 @@ final class FirstCreateGroupViewController: UIViewController {
         let label = UILabel()
         label.text = "날짜를 선택해주세요."
         label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
-        label.isHidden = true
         return label
     }()
     
@@ -83,7 +91,6 @@ final class FirstCreateGroupViewController: UIViewController {
         let now = Date()
         datePicker.minimumDate = now
         datePicker.maximumDate = Calendar.current.date(byAdding: .month, value: 1, to: now)
-        datePicker.isHidden = true
         datePicker.addTarget(self, action: #selector(showNumberOfGroupPeopleView), for: .valueChanged)
         return datePicker
     }()
@@ -93,7 +100,6 @@ final class FirstCreateGroupViewController: UIViewController {
         label.text = "오늘부터 한달 이내로만 모임을 만들 수 있어요."
         label.font = .preferredFont(forTextStyle: .subheadline)
         label.textColor = .gray
-        label.isHidden = true
         return label
     }()
     
@@ -101,14 +107,15 @@ final class FirstCreateGroupViewController: UIViewController {
         let label = UILabel()
         label.text = "모임 인원을 선택해주세요."
         label.font = .preferredFont(forTextStyle: .title2, compatibleWith: .init(legibilityWeight: .bold))
-        label.isHidden = true
         return label
     }()
     
     private lazy var numberOfGroupCollectionView: NumberOfGroupPeopleView = {
         let view = NumberOfGroupPeopleView()
+        if createGroupEntryPoint == .revise, let maxNumber = club?.maxNumberOfPeople {
+            view.setupPostNumberOfPeople(selectedNumber: maxNumber)
+        }
         view.delegate = self
-        view.isHidden = true
         return view
     }()
     
@@ -117,25 +124,49 @@ final class FirstCreateGroupViewController: UIViewController {
         button.setTitle("다음으로", for: .normal)
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = .preferredFont(forTextStyle: .body, compatibleWith: .init(legibilityWeight: .bold))
-        button.isEnabled = false
+        button.isEnabled = createGroupEntryPoint == .create ?  false : true
         button.addTarget(self, action: #selector(bottomButtonTapped), for: .touchUpInside)
         return button
     }()
     
-    //MARK: - lifeCycle
+    // MARK: - lifeCycle
+    
+    init(createGroupEntryPoint: CreateGroupEntryPoint, club: Club? = nil) {
+        self.createGroupEntryPoint = createGroupEntryPoint
+        self.club = club
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
         configureUI()
         setupNavigationBar()
+        hideElementWhenCreateClub()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         hideTabBar()
     }
     
-    //MARK: - func
+    // MARK: - func
+    
+    private func hideElementWhenCreateClub() {
+        if createGroupEntryPoint == .create {
+            locationTitleLabel.isHidden = true
+            locationSearchingButton.isHidden = true
+            locationFooterLabel.isHidden = true
+            dateTitleLabel.isHidden = true
+            datePicker.isHidden = true
+            datePickerFooterLabel.isHidden = true
+            numberOfGroupPeopleTitleLabel.isHidden = true
+            numberOfGroupCollectionView.isHidden = true
+        }
+    }
     
     private func hideTabBar() {
         self.tabBarController?.tabBar.isHidden = true
@@ -169,14 +200,18 @@ final class FirstCreateGroupViewController: UIViewController {
     
     @objc
     private func bottomButtonTapped() {
-        guard let selectedCategory = categoryCollectionView.getSelectedCategory(),
+        guard let selectedCategory = categoryCollectionView.selectedCategory(),
               let selectedNumberOfPeople = numberOfGroupCollectionView.getSelectedNumber() else { return }
         let passedData = IncompleteClub(clubCategory: selectedCategory,
                                         placeToMeet: locationLabel.text ?? "",
                                         dateToMeet: datePicker.date,
                                         maxNumberOfPeople: selectedNumberOfPeople)
-        let viewController = SecondCreateGroupViewController()
+  
+        let viewController = SecondCreateGroupViewController(club: club,
+                                                             incompleteClub: passedData,
+                                                             createGroupEntryPoint: createGroupEntryPoint)
         viewController.configure(with: passedData)
+        viewController.configure(with: club)
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
@@ -221,6 +256,7 @@ final class FirstCreateGroupViewController: UIViewController {
                                           leading: contentView.leadingAnchor,
                                           trailing: contentView.trailingAnchor,
                                           padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
+        categoryCollectionView.constraint(.heightAnchor, constant: 60)
         
         locationTitleLabel.constraint(top: categoryCollectionView.bottomAnchor,
                                       leading: contentView.leadingAnchor,
@@ -272,18 +308,27 @@ final class FirstCreateGroupViewController: UIViewController {
         view.backgroundColor = .white
         scrollView.showsVerticalScrollIndicator = false
     }
+    
+    func configure(with data: Club) {
+        locationLabel.text = data.placeToMeet
+        datePicker.date = data.dateToMeet
+    }
 }
 
 extension FirstCreateGroupViewController: LocationSearchingViewControllerDelegate {
     func configureLocationText(with text: String) {
         locationLabel.text = text
-        self.showDateView()
+        if createGroupEntryPoint == .create {
+            self.showDateView()
+        }
     }
 }
 
 extension FirstCreateGroupViewController: GroupCategoryViewDelegate {
     func didSelectCategory(didSelectItemAt indexPath: IndexPath) {
-        self.showLocationView()
+        if createGroupEntryPoint == .create {
+            self.showLocationView()
+        }
     }
 }
 

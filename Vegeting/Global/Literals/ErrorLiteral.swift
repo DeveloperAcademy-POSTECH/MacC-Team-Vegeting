@@ -12,6 +12,7 @@ enum FirebaseError: Error {
     case isChatIDInvalid
     case invalidID
     case didFailToLoadChat
+    case didFailToLoadUser
 }
 
 enum StorageError: Error {

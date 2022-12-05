@@ -37,6 +37,12 @@ class NumberOfPeopleCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override var isSelected: Bool {
+        didSet {
+            applySelectedState()
+        }
+    }
+    
     //MARK: - func
     
     private func setupLayout() {

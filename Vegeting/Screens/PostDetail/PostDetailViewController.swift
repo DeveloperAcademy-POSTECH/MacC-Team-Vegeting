@@ -6,54 +6,17 @@
 //
 import UIKit
 
-public class VerticalAlignLabel: UILabel {
-    enum VerticalAlignment {
-        case top
-        case middle
-        case bottom
-    }
-    
-    var verticalAlignment : VerticalAlignment = .top {
-        didSet {
-            setNeedsDisplay()
-        }
-    }
-    
-    override public func textRect(forBounds bounds: CGRect, limitedToNumberOfLines: Int) -> CGRect {
-        let rect = super.textRect(forBounds: bounds, limitedToNumberOfLines: limitedToNumberOfLines)
-        
-        if UIView.userInterfaceLayoutDirection(for: .unspecified) == .rightToLeft {
-            switch verticalAlignment {
-            case .top:
-                return CGRect(x: self.bounds.size.width - rect.size.width, y: bounds.origin.y, width: rect.size.width, height: rect.size.height)
-            case .middle:
-                return CGRect(x: self.bounds.size.width - rect.size.width, y: bounds.origin.y + (bounds.size.height - rect.size.height) / 2, width: rect.size.width, height: rect.size.height)
-            case .bottom:
-                return CGRect(x: self.bounds.size.width - rect.size.width, y: bounds.origin.y + (bounds.size.height - rect.size.height), width: rect.size.width, height: rect.size.height)
-            }
-        } else {
-            switch verticalAlignment {
-            case .top:
-                return CGRect(x: bounds.origin.x, y: bounds.origin.y, width: rect.size.width, height: rect.size.height)
-            case .middle:
-                return CGRect(x: bounds.origin.x, y: bounds.origin.y + (bounds.size.height - rect.size.height) / 2, width: rect.size.width, height: rect.size.height)
-            case .bottom:
-                return CGRect(x: bounds.origin.x, y: bounds.origin.y + (bounds.size.height - rect.size.height), width: rect.size.width, height: rect.size.height)
-            }
-        }
-    }
-    
-    override public func drawText(in rect: CGRect) {
-        let r = self.textRect(forBounds: rect, limitedToNumberOfLines: self.numberOfLines)
-        super.drawText(in: r)
-    }
-}
-
 final class PostDetailViewController: UIViewController {
     
     // MARK: - properties
     
+    enum EntryPoint {
+        case mine
+        case other
+    }
+    
     private var club: Club
+    private let entryPoint: EntryPoint
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -95,8 +58,8 @@ final class PostDetailViewController: UIViewController {
         return label
     }()
     
-    private lazy var contentTextLabel: VerticalAlignLabel = {
-        let label = VerticalAlignLabel()
+    private lazy var contentTextLabel: UILabel = {
+        let label = UILabel()
         label.numberOfLines = 0
         label.text = club.clubContent
         label.font = .preferredFont(forTextStyle: .callout)
@@ -135,8 +98,9 @@ final class PostDetailViewController: UIViewController {
     
     // MARK: - init
     
-    init(club: Club) {
+    init(club: Club, entryPoint: EntryPoint) {
         self.club = club
+        self.entryPoint = entryPoint
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -153,6 +117,7 @@ final class PostDetailViewController: UIViewController {
         configureAddSubviews()
         configureUI()
         configureNavBar()
+        setupEnterButtonUI()
         setupLayout()
     }
     
@@ -244,31 +209,78 @@ final class PostDetailViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             enterButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -55),
-            enterButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            enterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         ])
+    }
+    
+    private func setupEnterButtonUI() {
+        if entryPoint == .mine {
+            enterButton.isEnabled = false
+        }
     }
     
     @objc
     private func showActionSheet() {
         let actionSheet = UIAlertController(title: .none, message: .none, preferredStyle: .actionSheet)
+        let firstAlertAction: UIAlertAction
+        let secondAlertAction: UIAlertAction
+        let actions: (firstAction: UIAlertAction, secondAction: UIAlertAction)
         
-        let deletePostAlertAction = UIAlertAction(title: "게시글 삭제", style: .default) { action in
-            //TODO: 게시글 삭제 action 연결
+        switch entryPoint {
+        case .mine:
+            actions = makeAlertActionForMine()
+        case .other:
+            actions = makeAlertActionForMine()
         }
+        firstAlertAction = actions.firstAction
+        secondAlertAction = actions.secondAction
         
-        let modifyPostAlertAction = UIAlertAction(title: "게시글 수정", style: .default) { action in
-            //TODO: 게시글 수정 action 연결
-        }
-        
-        let cancelAlertAction = UIAlertAction(title: "취소", style: .cancel) { action in
-            //TODO: 액션시트 취소 action 연결
-        }
-        
-        [deletePostAlertAction, modifyPostAlertAction, cancelAlertAction].forEach { action in
+        let cancelAlertAction = UIAlertAction(title: "취소", style: .cancel)
+        [firstAlertAction, secondAlertAction, cancelAlertAction].forEach { action in
             actionSheet.addAction(action)
         }
-        
         present(actionSheet, animated: true, completion: nil)
+    }
+    
+    private func makeAlertActionForMine() -> (firstAction: UIAlertAction, secondAction: UIAlertAction) {
+        let firstAlertAction = UIAlertAction(title: "게시글 삭제", style: .destructive, handler: { [weak self] _ in
+            self?.makeRequestAlert(title: "게시글을 삭제하시겠습니까?",
+                                   message: "게시글이 삭제되어도,\n채팅방은 사라지지 않습니다.",
+                                   okTitle: "삭제",
+                                   cancelTitle: "취소") { okAction in
+                // TODO: - 삭제 코드
+            }
+        })
+        
+        let secondAlertAction = UIAlertAction(title: "게시글 수정", style: .default, handler: { action in
+            // TODO: - 게시글 수정
+            let viewController = FirstCreateGroupViewController(createGroupEntryPoint: .revise, club: self.club)
+            viewController.configure(with: self.club)
+            self.navigationController?.pushViewController(viewController, animated: true)
+        })
+        return (firstAlertAction, secondAlertAction)
+    }
+    
+    private func makeAlertActionForOther() -> (firstAction: UIAlertAction, secondAction: UIAlertAction) {
+        let firstAlertAction = UIAlertAction(title: "게시글 신고", style: .default, handler: { [weak self] _ in
+            self?.makeRequestAlert(title: "게시글을 신고하시겠습니까?",
+                                   message: "",
+                                   okTitle: "신고",
+                                   cancelTitle: "취소") { okAction in
+                // TODO: - 신고 코드
+            }
+        })
+        
+        let secondAlertAction = UIAlertAction(title: "작성자 차단", style: .default, handler: { [weak self] _ in
+            self?.makeRequestAlert(title: "사용자 차단",
+                                   message: "해당 사용자가 작성한\n모임 모집글을 볼 수 없게 됩니다.",
+                                   okTitle: "차단",
+                                   cancelTitle: "취소") { okAction in
+                // TODO: - 차단 코드
+            }
+        })
+        
+        return (firstAlertAction, secondAlertAction)
     }
 }
 

@@ -47,9 +47,9 @@ final class ClubListCollectionView: UICollectionView {
     }
     
     private func configureCollectionView() {
-        self.delegate = self
-        self.dataSource = self
-        self.register(ClubListCollectionViewCell.self, forCellWithReuseIdentifier: ClubListCollectionViewCell.className)
+        register(ClubListCollectionViewCell.self, forCellWithReuseIdentifier: ClubListCollectionViewCell.className)
+        delegate = self
+        dataSource = self
     }
     
     func setClubList(clubList: [Club]) {
@@ -59,8 +59,12 @@ final class ClubListCollectionView: UICollectionView {
 
 extension ClubListCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let postDetailViewController = PostDetailViewController(club: clubList[indexPath.item])
-        tapDelegate?.clubListCellTapped(viewController: postDetailViewController)
+        guard let currentUser = AuthManager.shared.currentUser() else { return }
+        let selectedClub = clubList[indexPath.item]
+        let isMine = currentUser.userID == selectedClub.hostID
+        let entryPoint: PostDetailViewController.EntryPoint = isMine ? .mine : .other
+        let detailViewController = PostDetailViewController(club: clubList[indexPath.item], entryPoint: entryPoint)
+        tapDelegate?.clubListCellTapped(viewController: detailViewController)
     }
 }
 
