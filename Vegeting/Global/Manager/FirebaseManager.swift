@@ -101,8 +101,9 @@ extension FirebaseManager {
             let docChat = db.collection(Path.chat.rawValue).document()
             let docClub = db.collection(Path.club.rawValue).document()
             let docRecentChat = db.collection(Path.recentChat.rawValue).document(docChat.documentID)
+        
+            let participant = Participant(userID: user.userID, name: user.userName, birth: user.birth, location: user.location, gender: user.gender, vegetarianType: user.vegetarianType, introduction: user.introduction, interests: user.interests, profileImageURL: user.imageURL)
             
-            let participant = Participant(userID: user.userID, name: user.userName, profileImageURL: user.imageURL)
             let addedClub = Club(clubID: docClub.documentID, chatID: docChat.documentID,
                                  clubTitle: club.clubTitle, clubCategory: club.clubCategory,
                                  clubContent: club.clubContent, hostID: user.userID,
@@ -115,7 +116,8 @@ extension FirebaseManager {
                                  messages: nil, coverImageURL: chat.coverImageURL)
             
             let recentChat = RecentChat(chatRoomID: docChat.documentID, chatRoomName: chat.chatRoomName
-                                        ,lastSentMessage: nil, lastSentTime: Date(), coverImageURL: chat.coverImageURL)
+                                        ,lastSentMessage: nil, lastSentTime: Date(),
+                                        numberOfParticipants: 1, coverImageURL: chat.coverImageURL)
             
             try docClub.setData(from: addedClub)
             try docChat.setData(from: addedChat)
@@ -215,9 +217,12 @@ extension FirebaseManager {
     }
     
     func registerRecentMessageOnChat(chat: Chat, message: Message) {
-        guard let chatID = chat.chatRoomID else { return }
+        guard let chatID = chat.chatRoomID,
+              let participantsCount = chat.participants?.count else { return }
         do {
-            let recentChat = RecentChat(chatRoomID: chatID, chatRoomName: chat.chatRoomName, lastSentMessage: message.content, lastSentTime: message.createdAt, coverImageURL: chat.coverImageURL)
+            let recentChat = RecentChat(chatRoomID: chatID, chatRoomName: chat.chatRoomName,
+                                        lastSentMessage: message.content, lastSentTime: message.createdAt,
+                                        numberOfParticipants: participantsCount, coverImageURL: chat.coverImageURL)
             try db.collection(Path.recentChat.rawValue).document(chatID).setData(from: recentChat)
         } catch {
             print(error.localizedDescription)

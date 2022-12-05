@@ -163,7 +163,7 @@ extension ChatRoomViewController {
     private func configureUI() {
         view.addSubviews(chatListCollectionView,transferMessageStackView)
         view.backgroundColor = .systemBackground
-        
+        tabBarController?.tabBar.isHidden = true
         chatListCollectionView.dataSource = self
         chatListCollectionView.delegate = self
     }

@@ -147,13 +147,14 @@ final class ProfileView: UIView {
         self.layer.cornerRadius = 24
     }
     
-    func configure(with data: ModalModel) {
-        profileImageView.image = data.image
-        nicknameLabel.text = data.nickname
-        vegetarianStepLabel.text = data.vegetarianStep
-        ageGroupLabel.text = data.ageGroup
+    func configure(with data: Participant) {
+        profileImageView.image = UIImage(named: "coverImage")
+        nicknameLabel.text = data.name
+        vegetarianStepLabel.text = data.vegetarianType
+        ageGroupLabel.text = data.birth?.toAgeGroup()
         locationLabel.text = data.location
         genderLabel.text = data.gender
         selfIntroductionLabel.text = data.introduction
+        interestCollectionView.changeCategoryList(with: data.interests ?? [])
     }
 }

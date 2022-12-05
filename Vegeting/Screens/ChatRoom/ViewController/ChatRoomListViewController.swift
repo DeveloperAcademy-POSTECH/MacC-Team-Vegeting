@@ -27,7 +27,7 @@ class ChatRoomListViewController: UIViewController {
         return tableView
     }()
     
-    private var chatList: [TempChatModel] = [] {
+    private var chatList: [RecentChat] = [] {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 self?.tableView.reloadData()
@@ -48,6 +48,13 @@ class ChatRoomListViewController: UIViewController {
         requestUserInfo()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
+        guard let selectedIndexPath = tableView.indexPathForSelectedRow else { return }
+        tableView.deselectRow(at: selectedIndexPath, animated: true)
+    }
+    
     // MARK: - func
     
     private func setupLayout() {
@@ -60,6 +67,7 @@ class ChatRoomListViewController: UIViewController {
     
     private func configureTableView() {
         tableView.dataSource = self
+        tableView.delegate = self
     }
     
     private func setupNavigationBar() {
@@ -89,13 +97,7 @@ class ChatRoomListViewController: UIViewController {
         FirebaseManager.shared.requestRecentChat(user: user) { result in
             switch result {
             case .success(let recentChats):
-                self.chatList = recentChats.map { recentChat in
-                    let title = recentChat.chatRoomName ?? ""
-                    let lastestChat = recentChat.lastSentMessage ?? ""
-                    let lastestChatDate = recentChat.lastSentTime ?? Date()
-                    let result = TempChatModel(title: title, latestChat: lastestChat, latestChatDate: lastestChatDate)
-                    return result
-                }
+                self.chatList = recentChats
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -117,4 +119,17 @@ extension ChatRoomListViewController: UITableViewDataSource {
         return cell
     }
     
+}
+
+extension ChatRoomListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let viewController = ChatRoomViewController()
+        let selectedChatRoom = chatList[indexPath.row]
+        let participatedChatRoom = ParticipatedChatRoom(chatID: selectedChatRoom.chatRoomID,
+                                                        chatName: selectedChatRoom.chatRoomName ?? "",
+                                                        imageURL: selectedChatRoom.coverImageURL)
+        guard let user = self.user else { return }
+        viewController.configureViewModel(participatedChatRoom: participatedChatRoom, user: user)
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }
