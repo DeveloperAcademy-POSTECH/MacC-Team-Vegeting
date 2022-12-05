@@ -90,9 +90,10 @@ final class PostDetailViewController: UIViewController {
         return collectionView
     }()
     
-    private let enterButton: BottomButton = {
+    private lazy var enterButton: BottomButton = {
         let button = BottomButton()
         button.setTitle("참여하기", for: .normal)
+        button.addTarget(self, action: #selector(enterButtonTapped), for: .touchUpInside)
         return button
     }()
     
