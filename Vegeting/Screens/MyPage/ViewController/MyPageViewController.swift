@@ -153,7 +153,13 @@ extension MyPageViewController: UITableViewDelegate {
             guard let url = URL(string: StringLiteral.suggestGoogleLink) else { return }
             UIApplication.shared.open(url)
         case SettingElement.logout.rawValue:
-            print("logout")
+            makeRequestAlert(title: "로그아웃",
+                             message: "정말 로그아웃 하시겠습니까?",
+                             okTitle: "확인",
+                             cancelTitle: "취소") { okAction in
+                // TODO: logout 코드
+            }
+
         case SettingElement.unregister.rawValue:
             print("unregister")
         default:
