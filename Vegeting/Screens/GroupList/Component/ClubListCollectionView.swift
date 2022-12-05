@@ -62,7 +62,18 @@ extension ClubListCollectionView: UICollectionViewDelegate {
         guard let currentUser = AuthManager.shared.currentUser() else { return }
         let selectedClub = clubList[indexPath.item]
         let isMine = currentUser.userID == selectedClub.hostID
-        let entryPoint: PostDetailViewController.EntryPoint = isMine ? .mine : .other
+        guard let isParticipatedInOther = selectedClub.participants?.contains(where: { participant in
+            participant.userID == currentUser.userID
+        }) else { return }
+        let entryPoint: PostDetailViewController.EntryPoint = {
+            if isMine {
+                return .mine
+            } else if isParticipatedInOther {
+                return .participatedInOther
+            } else {
+                return .other
+            }
+        }()
         let detailViewController = PostDetailViewController(club: clubList[indexPath.item], entryPoint: entryPoint)
         tapDelegate?.clubListCellTapped(viewController: detailViewController)
     }
