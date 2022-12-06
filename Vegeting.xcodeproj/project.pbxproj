@@ -15,9 +15,8 @@
 		4A31CD2A2903D89600E5E422 /* GroupCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD292903D89600E5E422 /* GroupCategoryCollectionViewCell.swift */; };
 		4A4A696729268D4500EB53F0 /* ReportTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4A696629268D4500EB53F0 /* ReportTableViewHeaderView.swift */; };
 		4A50D5A52908E03600D1ADE4 /* EmptyResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A50D5A42908E03600D1ADE4 /* EmptyResultView.swift */; };
-		4A6642412917A7820027B2A3 /* UserInterestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6642402917A7820027B2A3 /* UserInterestViewController.swift */; };
-		4A7112A22935FC8E00FF5DB6 /* ParticipateHalfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7112A12935FC8E00FF5DB6 /* ParticipateHalfViewController.swift */; };
 		4A6642412917A7820027B2A3 /* FifthInterestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6642402917A7820027B2A3 /* FifthInterestViewController.swift */; };
+		4A7112A22935FC8E00FF5DB6 /* ParticipateHalfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7112A12935FC8E00FF5DB6 /* ParticipateHalfViewController.swift */; };
 		4A759EEE291D18EF00E7DF9B /* SecondCreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A215B29829069D9600DD60B2 /* SecondCreateGroupViewController.swift */; };
 		4A91B7DA29252DE60053AD32 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A91B7D929252DE60053AD32 /* Int+Extension.swift */; };
 		4AB5C27429078A910064C41E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 4AB5C27329078A910064C41E /* Alamofire */; };
@@ -136,9 +135,8 @@
 		4A4A696629268D4500EB53F0 /* ReportTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTableViewHeaderView.swift; sourceTree = "<group>"; };
 		4A50D5A42908E03600D1ADE4 /* EmptyResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyResultView.swift; sourceTree = "<group>"; };
 		4A50D5A929094D8900D1ADE4 /* Secret.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secret.xcconfig; sourceTree = "<group>"; };
-		4A6642402917A7820027B2A3 /* UserInterestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInterestViewController.swift; sourceTree = "<group>"; };
-		4A7112A12935FC8E00FF5DB6 /* ParticipateHalfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipateHalfViewController.swift; sourceTree = "<group>"; };
 		4A6642402917A7820027B2A3 /* FifthInterestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FifthInterestViewController.swift; sourceTree = "<group>"; };
+		4A7112A12935FC8E00FF5DB6 /* ParticipateHalfViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipateHalfViewController.swift; sourceTree = "<group>"; };
 		4A91B7D929252DE60053AD32 /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		4AB5C27629078AE90064C41E /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		4AB5C27B2907A9CE0064C41E /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
