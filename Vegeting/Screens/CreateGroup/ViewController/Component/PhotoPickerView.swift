@@ -108,7 +108,7 @@ final class PhotoPickerView: UIView {
         }
         
         let defaultImageAction = UIAlertAction(title: "기본 이미지로 변경", style: .default) { [weak self] action in
-            self?.setImageView(image: UIImage(named: <#T##String#>))
+            self?.setImageView(image: UIImage(named: "basicImage"))
             self?.isDefaultImage = true
             self?.setLabelText(title: "", sub: "")
         }

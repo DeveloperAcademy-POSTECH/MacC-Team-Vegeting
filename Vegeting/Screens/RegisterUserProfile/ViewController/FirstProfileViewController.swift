@@ -67,6 +67,8 @@ final class FirstProfileViewController: UIViewController {
     
     private let validImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     

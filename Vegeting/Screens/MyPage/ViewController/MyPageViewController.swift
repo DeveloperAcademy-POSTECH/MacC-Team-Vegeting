@@ -40,7 +40,7 @@ class MyPageViewController: UIViewController {
                                                          MyPageSettingElement(text: "이용약관", isSmallTitle: false),
                                                          MyPageSettingElement(text: "개인정보 처리방침", isSmallTitle: false),
                                                          MyPageSettingElement(text: "건의하기", isSmallTitle: false),
-                                                         MyPageSettingElement(text: "게정", isSmallTitle: true),
+                                                         MyPageSettingElement(text: "계정", isSmallTitle: true),
                                                          MyPageSettingElement(text: "로그아웃", isSmallTitle: false),
                                                          MyPageSettingElement(text: "회원탈퇴", isSmallTitle: false)]
     
