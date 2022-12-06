@@ -93,6 +93,7 @@ extension AuthManager {
     func requestSignOut() {
         do {
             try auth.signOut()
+            
         } catch {
             print(error.localizedDescription)
         }

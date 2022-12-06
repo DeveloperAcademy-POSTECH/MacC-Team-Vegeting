@@ -92,7 +92,7 @@ final class PostDetailViewController: UIViewController {
     private lazy var enterButton: BottomButton = {
         let button = BottomButton()
         button.setTitle("참여하기", for: .normal)
-        button.addTarget(self, action: #selector(enterButtonTapped(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(enterButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -231,8 +231,7 @@ final class PostDetailViewController: UIViewController {
         case .mine:
             return
         case .other:
-            print("참여하기 하프모달")
-            // TODO: - 하프모달 띄워주기 연결
+            showParticipateHalfModal()
         case .participatedInOther:
             leaveClub()
         }
@@ -244,12 +243,6 @@ final class PostDetailViewController: UIViewController {
                          okTitle: "나가기", cancelTitle: "취소") { okAction in
             // TODO: - 모임 나가기 코드
         }
-    }
-    
-    @objc
-    private func enterButtonTapped(_ sender: Any) {
-        showParticipateHalfModal()
-        
     }
     
     private func showParticipateHalfModal() {

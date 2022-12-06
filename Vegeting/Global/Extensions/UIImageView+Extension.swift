@@ -11,7 +11,10 @@ import Kingfisher
 
 extension UIImageView {
     func setImage(with url: URL?) {
-        guard let url = url else { return }
+        guard let url = url else {
+            self.image = UIImage(named: "earthImage")
+            return
+        }
         let cache = ImageCache.default
         cache.retrieveImage(forKey: url.absoluteString, options: nil) { result in
             switch result {

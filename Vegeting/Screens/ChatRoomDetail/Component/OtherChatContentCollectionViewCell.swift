@@ -47,7 +47,6 @@ final class OtherChatContentCollectionViewCell: UICollectionViewCell {
     
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .vfGray3
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = SizeLiteral.profileImageSize.rawValue / 2
         imageView.clipsToBounds = true

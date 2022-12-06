@@ -213,8 +213,7 @@ extension LocationSearchingViewController: UITableViewDataSource {
         let totalAddress = addressResultList.count
         let totalCount = addressResultList.count + placeResultList.count
         
-        if totalCount == 0 {
-            cell.configure(with: autoSearchResults[indexPath.row].title)
+        if totalCount == 0 {            cell.configure(with: autoSearchResults[indexPath.row].title)
         } else if indexPath.row < totalAddress {
             cell.configure(with: addressResultList[indexPath.row])
         } else {

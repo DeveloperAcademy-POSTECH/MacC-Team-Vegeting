@@ -141,7 +141,7 @@ final class ProfileView: UIView {
                                           bottom: self.bottomAnchor,
                                           trailing: self.trailingAnchor,
                                           padding: UIEdgeInsets(top: UIScreen().hasNotch ? 35 : 15, left: 30, bottom: 0, right: 30))
-        interestCollectionView.heightAnchor.constraint(equalToConstant: 35)
+        interestCollectionView.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
     }
     
