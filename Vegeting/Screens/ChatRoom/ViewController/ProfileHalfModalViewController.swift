@@ -8,7 +8,7 @@
 import UIKit
 
 struct ModalModel {
-    let image: UIImage = UIImage(named: "coverImage") ?? UIImage()
+    let image: UIImage
     let nickname: String
     let vegetarianStep: String
     let ageGroup: String

@@ -118,7 +118,7 @@ extension MyPageViewController: UITableViewDataSource {
             cell.selectionStyle = .none
             Task {
                 guard let vfUser = await FirebaseManager.shared.requestUser() else { return }
-                cell.configure(image: "coverImage", nickName: vfUser.userName, step: vfUser.vegetarianType)
+                cell.configure(imageURL: vfUser.imageURL, nickName: vfUser.userName, step: vfUser.vegetarianType)
                 self.vfUser = vfUser
             }
             return cell

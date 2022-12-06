@@ -96,6 +96,7 @@ class FifthInterestViewController: UIViewController {
         Task {
             do {
                 try await FirebaseManager.shared.requestUserInformation(with: user)
+                AuthManager.shared.updateUser()
                 let mainTabBarViewController = MainTabBarViewController()
                 self.navigationController?.setViewControllers([mainTabBarViewController], animated: true)
             } catch {

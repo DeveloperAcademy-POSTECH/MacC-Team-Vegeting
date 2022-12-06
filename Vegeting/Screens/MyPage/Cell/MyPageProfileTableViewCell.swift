@@ -87,8 +87,8 @@ class MyPageProfileTableViewCell: UITableViewCell {
         profileEditButton.constraint(.heightAnchor, constant: 33)
     }
 
-   func configure(image: String, nickName: String, step: String) {
-        profileImageView.image = UIImage(named: image)
+   func configure(imageURL: URL?, nickName: String, step: String) {
+        profileImageView.setImage(with: imageURL)
         nicknameLabel.text = nickName
         vegetarianStepLabel.text = step
     }
