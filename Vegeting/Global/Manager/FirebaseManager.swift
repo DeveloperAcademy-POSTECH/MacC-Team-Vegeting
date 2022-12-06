@@ -24,6 +24,7 @@ final class FirebaseManager {
         case club = "Clubs"
         case chat = "Chats"
         case recentChat = "RecentChats"
+        case unregister = "Unregister"
     }
     
     //    TODO: 추후 회원가입을 위한 Model 따로 만들기
@@ -322,6 +323,24 @@ extension FirebaseManager {
 
 // MARK: Firebase Authentifcation 전용(유저 회원가입 및 로그인 담당)
 extension FirebaseManager {
+    func unregisterUser(reason: [String]) {
+        let reportDocument = db.collection(Path.unregister.rawValue).document()
+        let reason = Report(reason: reason)
+        reportDocument.setData(from: reason)
+        
+        guard let uid = auth.currentUser?.uid else { return }
+        
+        db.collection(Path.user.rawValue).document(uid).delete() { err in
+            if let err = err {
+                print("Error removing document: \(err)")
+            } else {
+                print("Document successfully removed!")
+            }
+        }
+        
+        auth.currentUser?.delete()
+    }
+    
     func requestUser() async -> VFUser? {
         guard let uid = auth.currentUser?.uid else { return nil}
         do {

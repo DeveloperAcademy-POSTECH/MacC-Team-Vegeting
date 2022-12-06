@@ -76,10 +76,6 @@ class MyClubsViewController: UIViewController {
         view.backgroundColor = .systemBackground
     }
     
-    private func hideTabBar() {
-        tabBarController?.tabBar.isHidden = true
-    }
-    
     private func setupNavigationBar() {
         navigationItem.title = "참여한 모임"
     }

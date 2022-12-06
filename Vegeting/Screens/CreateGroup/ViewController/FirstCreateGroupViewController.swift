@@ -168,10 +168,6 @@ final class FirstCreateGroupViewController: UIViewController {
         }
     }
     
-    private func hideTabBar() {
-        self.tabBarController?.tabBar.isHidden = true
-    }
-    
     private func setupNavigationBar() {
         self.navigationItem.backButtonDisplayMode = .minimal
     }

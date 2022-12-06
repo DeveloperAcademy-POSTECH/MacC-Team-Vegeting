@@ -56,10 +56,24 @@ final class UserProfileViewController: UIViewController {
         return label
     }()
     
-    private let nicknameTextField: UITextField = {
+    private lazy var nicknameTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .none
+        textField.delegate = self
+        textField.clearButtonMode = .always
+        textField.addTarget(self, action: #selector(textDidChangeForLabel), for: .editingChanged)
         return textField
+    }()
+    
+    private let validImageView: UIImageView = {
+        let imageView = UIImageView()
+        return imageView
+    }()
+    
+    private let validLabel: UILabel = {
+        let label  = UILabel()
+        label.font = .preferredFont(forTextStyle: .footnote)
+        return label
     }()
     
     private let nicknameTextCountLabel: UILabel = {
@@ -78,10 +92,9 @@ final class UserProfileViewController: UIViewController {
         return button
     }()
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        configureTextField()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        nicknameTextField.underlined(color: .vfGray4)
     }
     
     override func viewDidLoad() {
@@ -99,25 +112,18 @@ final class UserProfileViewController: UIViewController {
         navigationController?.navigationBar.topItem?.title = ""
     }
     
-    func configureTextField() {
-        let border = CALayer()
-        border.frame = CGRect(x: 0, y: nicknameTextField.frame.size.height-1,
-                              width: nicknameTextField.frame.width, height: 1)
-        border.backgroundColor = UIColor(hex: "#F2F2F2").cgColor
-        nicknameTextField.layer.addSublayer(border)
-        nicknameTextField.delegate = self
-        
-        nicknameTextField.addTarget(self, action: #selector(textDidChangeForLabel), for: .editingChanged)
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
-    func configureUI() {
+    private func configureUI() {
         view.backgroundColor = .systemBackground
         view.addSubviews(progressBarImageView, profileMessageLabel, profileImageView,
                          nicknameMessageLabel, cameraButton, nicknameTextField,
-                         nicknameTextCountLabel, nextButton)
+                         validImageView, validLabel, nicknameTextCountLabel, nextButton)
     }
     
-    func setupLayout() {
+    private func setupLayout() {
         NSLayoutConstraint.activate([
             progressBarImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height * 1/10),
             progressBarImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -153,11 +159,21 @@ final class UserProfileViewController: UIViewController {
             nicknameTextField.topAnchor.constraint(equalTo: nicknameMessageLabel.bottomAnchor, constant: 17),
             nicknameTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             nicknameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            nicknameTextField.heightAnchor.constraint(equalToConstant: 50)
+            nicknameTextField.heightAnchor.constraint(equalToConstant: 35)
         ])
         
         NSLayoutConstraint.activate([
-            nicknameTextCountLabel.topAnchor.constraint(equalTo: nicknameTextField.bottomAnchor, constant: 13),
+            validImageView.topAnchor.constraint(equalTo: nicknameTextField.bottomAnchor, constant: 10),
+            validImageView.leadingAnchor.constraint(equalTo: nicknameTextField.leadingAnchor),
+        ])
+        
+        NSLayoutConstraint.activate([
+            validLabel.topAnchor.constraint(equalTo: nicknameTextField.bottomAnchor, constant: 10),
+            validLabel.leadingAnchor.constraint(equalTo: nicknameTextField.leadingAnchor, constant: 15),
+        ])
+        
+        NSLayoutConstraint.activate([
+            nicknameTextCountLabel.topAnchor.constraint(equalTo: nicknameTextField.bottomAnchor, constant: 10),
             nicknameTextCountLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
         
@@ -210,12 +226,33 @@ final class UserProfileViewController: UIViewController {
             nextButtonActive()
         }
         
-        changeButtonStatus(textLength: textLength)
+        validateNickname()
         configureTextCountLabel(textLength: textLength)
     }
     
-    private func changeButtonStatus(textLength: Int) {
-        textLength < nicknameMinLength ? nextButtonInactive() : nextButtonActive()
+    private func validateNickname() {
+        guard let nickname = nicknameTextField.text else { return }
+
+        if nickname.count < 2 {
+            changeButtonStatusAndValidLabel(false, text: " 닉네임은 두 글자 이상이어야 합니다.")
+        } else {
+            Task { [weak self] in
+                let isPossible = try await FirebaseManager.shared.isPossibleNickname(newName: nickname)
+                self?.changeButtonStatusAndValidLabel(isPossible, text: (isPossible ? " 사용 가능한 닉네임입니다." : " 다른 사용자가 사용 중인 닉네임입니다."))
+            }
+        }
+    }
+    
+    private func changeButtonStatusAndValidLabel(_ isPossible: Bool, text: String) {
+        let imageSize = CGSize(width: 15, height: 15)
+        let textColor = isPossible ? UIColor.vfGreen : UIColor.vfRed
+        
+        validImageView.image = UIImage(systemName: (isPossible ? "checkmark.circle.fill" : "exclamationmark.circle.fill"))?.withTintColor(textColor).resize(to: imageSize)
+    
+        validLabel.text = text
+        validLabel.textColor = textColor
+        
+        nextButton.isEnabled = isPossible
     }
     
     private func configureTextCountLabel(textLength: Int) {
@@ -247,6 +284,14 @@ extension UserProfileViewController: UITextFieldDelegate {
             return false
         }
         return true
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.underlined(color: .vfYellow1)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.underlined(color: .vfGray4)
     }
 }
 
