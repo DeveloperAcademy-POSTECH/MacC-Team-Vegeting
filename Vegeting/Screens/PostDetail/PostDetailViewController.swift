@@ -90,10 +90,10 @@ final class PostDetailViewController: UIViewController {
         return collectionView
     }()
     
-    lazy private var enterButton: BottomButton = {
+    private lazy var enterButton: BottomButton = {
         let button = BottomButton()
         button.setTitle("참여하기", for: .normal)
-        button.addTarget(self, action: #selector(enterButtonTapped(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(enterButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -221,6 +221,23 @@ final class PostDetailViewController: UIViewController {
     }
     
     @objc
+    private func enterButtonTapped() {
+        showParticipateHalfModal()
+        
+    }
+    
+    private func showParticipateHalfModal() {
+        let viewController = ParticipateHalfViewController(club: self.club)
+        viewController.delegate = self
+        viewController.modalPresentationStyle = .pageSheet
+        if let sheet = viewController.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = false
+        }
+        present(viewController, animated: true, completion: nil)
+    }
+    
+    @objc
     private func showActionSheet() {
         let actionSheet = UIAlertController(title: .none, message: .none, preferredStyle: .actionSheet)
         let firstAlertAction: UIAlertAction
@@ -289,7 +306,7 @@ final class PostDetailViewController: UIViewController {
 extension PostDetailViewController {
     
     @objc
-    private func enterButtonTapped(_ sender: Any) {
+    private func enterButtonTappeds(_ sender: Any) {
         Task {
             guard let user = await FirebaseManager.shared.requestUser() else { return }
             guard let club = await FirebaseManager.shared.requestMyClubInformation() else { return }
@@ -331,9 +348,27 @@ extension PostDetailViewController:  UICollectionViewDelegate {
             sheet.detents = [.medium()]
             sheet.prefersGrabberVisible = false
         }
-   
         viewController.configure(with: user)
-        
         present(viewController, animated: true, completion: nil)
     }
 }
+
+extension PostDetailViewController: ParticipateHalfViewControllerDelegate {
+    func navigateChatRoom() {
+        
+        let viewController = ChatRoomViewController()
+        let participatedChatRoom = ParticipatedChatRoom(chatID: club.chatID, chatName: club.clubTitle, imageURL: club.coverImageURL, lastReadIndex: nil)
+        guard let user = AuthManager.shared.currentUser() else { return }
+        
+        Task {
+            do {
+                try await FirebaseManager.shared.participateInClub(user: user, club: club)
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        viewController.configureViewModel(participatedChatRoom: participatedChatRoom, user: user)
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+}
+

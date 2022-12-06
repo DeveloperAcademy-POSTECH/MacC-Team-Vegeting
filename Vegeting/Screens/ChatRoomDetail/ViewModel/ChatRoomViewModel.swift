@@ -80,12 +80,13 @@ final class ChatRoomViewModel: ViewModelType {
     private func sendMessageFromLocal(text: String) {
         guard let user = self.user else { return }
         let message = Message(senderID: user.userID, senderName: user.userName, senderProfileImageURL: user.imageURL, contentType: "text", createdAt: Date(), imageURL: nil, content: text)
+        if chat?.messages == nil {
+            chat?.messages = []
+        }
         chat?.messages?.append(message)
-        
         guard let chat = chat, let messages = chat.messages else { return }
         let messageBubbles = messagesToMessageBubbles(messages: messages)
         output.send(.localChatDataChanged(messageBubbles: messageBubbles))
-        
         Task {
             await FirebaseManager.shared.registerMessage(chat: chat, message: message)
         }
