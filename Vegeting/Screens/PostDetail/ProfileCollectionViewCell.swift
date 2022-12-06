@@ -14,7 +14,7 @@ private enum Constants {
 }
 
 struct ParticipantMinimum {
-    let profileImage: UIImage
+    let profileImageURL: URL?
     let participantsName: String
     let isHost: Bool
 }
@@ -84,7 +84,7 @@ final class ProfileCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with data: ParticipantMinimum) {
-        profileImage.image = data.profileImage
+        profileImage.setImage(with: data.profileImageURL)
         participantsName.text = data.participantsName
         if data.isHost {
             nameStackView.addArrangedSubview(hostLabel)

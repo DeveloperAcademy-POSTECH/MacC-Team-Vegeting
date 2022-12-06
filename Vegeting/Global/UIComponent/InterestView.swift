@@ -72,7 +72,14 @@ final class InterestView: UIView {
     
     private func setupLayout() {
         addSubview(interestCollectionView)
-        interestCollectionView.constraint(to: self)
+        interestCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            interestCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            interestCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            interestCollectionView.topAnchor.constraint(equalTo: self.topAnchor),
+            interestCollectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            
+        ])
     }
     
     private func configureCollectionView() {
@@ -81,7 +88,10 @@ final class InterestView: UIView {
     }
     
     func changeCategoryList(with list: [String]) {
-        interestList = list
+        DispatchQueue.main.async { [weak self] in
+            self?.interestList = list
+            self?.interestCollectionView.reloadData()
+        }
     }
     
     func deliverInterestList() -> [String] {

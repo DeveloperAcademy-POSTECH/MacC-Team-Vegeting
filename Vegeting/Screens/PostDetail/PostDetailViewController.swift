@@ -74,9 +74,7 @@ final class PostDetailViewController: UIViewController {
         label.font = .preferredFont(forTextStyle: .headline)
         return label
     }()
-    
-    let profileImages = ["profile1.jpg", "profile2.jpg", "profile3.jpg", "profile4.jpg", "profile5.jpg"]
-    
+        
     private let profileCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 80, height: 125)
@@ -346,9 +344,11 @@ extension PostDetailViewController: UICollectionViewDataSource {
                 as? ProfileCollectionViewCell else { return UICollectionViewCell() }
         
         let isHost = self.club.hostID == club.participants?[indexPath.item].userID
-        let participant = ParticipantMinimum(profileImage: UIImage(named: profileImages[indexPath.item]) ?? UIImage(),
+        let participant = ParticipantMinimum(profileImageURL: club.participants?[indexPath.item].profileImageURL,
                                                     participantsName: club.participants?[indexPath.item].name ?? "",
                                                     isHost: isHost)
+                                             
+                                             
         cell.configure(with: participant)
         return cell
     }

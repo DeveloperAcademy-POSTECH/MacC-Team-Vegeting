@@ -16,7 +16,7 @@ struct Chat: Identifiable, Codable {
     let chatRoomName: String
     let participants: [Participant]?
     var messages: [Message]?
-    let coverImageURL: URL?
+    var coverImageURL: URL?
 }
 
 struct Message: Identifiable, Codable {

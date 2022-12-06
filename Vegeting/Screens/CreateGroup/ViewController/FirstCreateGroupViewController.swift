@@ -49,7 +49,7 @@ final class FirstCreateGroupViewController: UIViewController {
     
     private let locationFooterLabel: UILabel = {
         let label = UILabel()
-        label.text = "구체적인 장소가 정해지지 않았다면 구, 동 단위로 입력해도 좋아요!"
+        label.text = "구체적인 장소가 정해지지 않았다면 구, 동 단위로 입력해도 좋아요"
         label.numberOfLines = 0
         label.textColor = .gray
         label.font = .preferredFont(forTextStyle: .subheadline)

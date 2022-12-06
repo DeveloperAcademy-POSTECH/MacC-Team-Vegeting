@@ -139,6 +139,7 @@ final class ProfileView: UIView {
                                           bottom: self.bottomAnchor,
                                           trailing: self.trailingAnchor,
                                           padding: UIEdgeInsets(top: UIScreen().hasNotch ? 35 : 15, left: 30, bottom: 0, right: 30))
+        interestCollectionView.heightAnchor.constraint(equalToConstant: 35)
         
     }
     
@@ -148,7 +149,7 @@ final class ProfileView: UIView {
     }
     
     func configure(with data: Participant) {
-        profileImageView.image = UIImage(named: "coverImage")
+        profileImageView.setImage(with: data.profileImageURL)
         nicknameLabel.text = data.name
         vegetarianStepLabel.text = data.vegetarianType
         ageGroupLabel.text = data.birth?.toAgeGroup()
@@ -156,5 +157,7 @@ final class ProfileView: UIView {
         genderLabel.text = data.gender
         selfIntroductionLabel.text = data.introduction
         interestCollectionView.changeCategoryList(with: data.interests ?? [])
+        
     }
 }
+
