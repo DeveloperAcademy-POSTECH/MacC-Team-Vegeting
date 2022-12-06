@@ -14,6 +14,15 @@ class MyPageViewController: UIViewController {
         case setting = 1
     }
     
+    private enum SettingElement: Int {
+        case participatedClub = 1
+        case termsOfUse = 3
+        case privacyPolicy = 4
+        case suggest = 5
+        case logout = 7
+        case unregister = 8
+    }
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.showsVerticalScrollIndicator = false
@@ -26,13 +35,11 @@ class MyPageViewController: UIViewController {
     }()
     
     private let tableCellList: [MyPageSettingElement] = [MyPageSettingElement(text: "모임", isSmallTitle: true),
-                                                         MyPageSettingElement(text: "주최한 모임", isSmallTitle: false),
-                                                         MyPageSettingElement(text: "설정", isSmallTitle: true),
-                                                         MyPageSettingElement(text: "채팅 알람", isSmallTitle: false, isSwitch: true),
-                                                         MyPageSettingElement(text: "차단한 사용자 관리", isSmallTitle: false),
+                                                         MyPageSettingElement(text: "참여한 모임", isSmallTitle: false),
                                                          MyPageSettingElement(text: "안내", isSmallTitle: true),
-                                                         MyPageSettingElement(text: "공지사항", isSmallTitle: false),
-                                                         MyPageSettingElement(text: "고객센터", isSmallTitle: false),
+                                                         MyPageSettingElement(text: "이용약관", isSmallTitle: false),
+                                                         MyPageSettingElement(text: "개인정보 처리방침", isSmallTitle: false),
+                                                         MyPageSettingElement(text: "건의하기", isSmallTitle: false),
                                                          MyPageSettingElement(text: "게정", isSmallTitle: true),
                                                          MyPageSettingElement(text: "로그아웃", isSmallTitle: false),
                                                          MyPageSettingElement(text: "회원탈퇴", isSmallTitle: false)]
@@ -129,14 +136,28 @@ extension MyPageViewController: UITableViewDataSource {
 extension MyPageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
-        // 주최한 모임
-        case 1 :
+        case SettingElement.participatedClub.rawValue:
             let viewController = MyClubsViewController()
-            navigationController?.pushViewController(viewController, animated: true)
-        // 회원탈퇴
-        case 10:
-            let reportViewController = ReportViewController(entryPoint: .unregister)
-            navigationController?.pushViewController(reportViewController, animated: true)
+            self.navigationController?.pushViewController(viewController, animated: true)
+        case SettingElement.termsOfUse.rawValue:
+            guard let url = URL(string: StringLiteral.termsOfUseNotionLink) else { return }
+            UIApplication.shared.open(url)
+        case SettingElement.privacyPolicy.rawValue:
+            guard let url = URL(string: StringLiteral.privayPolicyNotionLink) else { return }
+            UIApplication.shared.open(url)
+        case SettingElement.suggest.rawValue:
+            guard let url = URL(string: StringLiteral.suggestGoogleLink) else { return }
+            UIApplication.shared.open(url)
+        case SettingElement.logout.rawValue:
+            makeRequestAlert(title: "로그아웃",
+                             message: "정말 로그아웃 하시겠습니까?",
+                             okTitle: "확인",
+                             cancelTitle: "취소") { okAction in
+                AuthManager.shared.requestSignOut()
+            }
+
+        case SettingElement.unregister.rawValue:
+            print("unregister")
         default:
             return
         }

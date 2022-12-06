@@ -10,5 +10,4 @@ import Foundation
 struct MyPageSettingElement {
     let text: String
     let isSmallTitle: Bool
-    var isSwitch: Bool = false
 }
