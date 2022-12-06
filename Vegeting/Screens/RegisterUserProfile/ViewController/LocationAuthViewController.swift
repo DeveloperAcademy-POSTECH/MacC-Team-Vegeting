@@ -252,4 +252,5 @@ extension LocationAuthViewController: CLLocationManagerDelegate {
         
         nextButtonActive()
     }
+    
 }

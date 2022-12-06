@@ -14,7 +14,9 @@ class SignInViewController: UIViewController {
     
     private let brandingImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .gray
+        imageView.image = UIImage(named: "SignInBackground")
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     

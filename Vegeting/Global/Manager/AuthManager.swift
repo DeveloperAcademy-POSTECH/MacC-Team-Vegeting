@@ -18,6 +18,10 @@ final class AuthManager {
     private var user: VFUser?
     
     private init() {
+        updateUser()
+    }
+    
+    func updateUser() {
         FirebaseManager.shared.requestUser { result in
             switch result {
             case .success(let user):

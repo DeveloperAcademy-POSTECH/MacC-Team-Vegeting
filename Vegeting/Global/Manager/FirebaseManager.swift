@@ -30,9 +30,10 @@ final class FirebaseManager {
     //    TODO: 추후 회원가입을 위한 Model 따로 만들기
     /// 파이어베이스 스토어에 User정보 등록하는 함수
     /// - Parameter vfUser: vfUser로 넘어옴
-    func requestUserInformation(with user: VFUser) {
+    func requestUserInformation(with user: VFUser) async throws {
         do {
-            try db.collection(Path.user.rawValue).document(user.userID).setData(from: user)
+            let encodedUser = try Firestore.Encoder().encode(user)
+            try await db.collection(Path.user.rawValue).document(user.userID).setData(encodedUser)
         } catch {
             print(error.localizedDescription)
         }

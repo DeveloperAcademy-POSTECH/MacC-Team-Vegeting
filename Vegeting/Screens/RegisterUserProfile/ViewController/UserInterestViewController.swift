@@ -88,6 +88,8 @@ class UserInterestViewController: UIViewController {
     
     @objc
     private func profileRegisterButtonTapped() {
+        
+//        FirebaseManager.shared.requestUserInformation(with: <#T##VFUser#>)
         let mainTabBarViewController = MainTabBarViewController()
         self.navigationController?.setViewControllers([mainTabBarViewController], animated: true)
     }

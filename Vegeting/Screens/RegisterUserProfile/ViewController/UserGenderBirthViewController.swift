@@ -74,10 +74,11 @@ final class UserGenderBirthViewController: UIViewController {
         return label
     }()
     
-    private let nextButton: BottomButton = {
+    lazy private var nextButton: BottomButton = {
         let button = BottomButton()
         button.setTitle("다음으로", for: .normal)
         button.isEnabled = false
+        button.addTarget(self, action: #selector(nextButtonTapped(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -210,7 +211,8 @@ final class UserGenderBirthViewController: UIViewController {
         }
     }
     
-    private func nextButtonTapped() {
+    @objc
+    private func nextButtonTapped(_ sender: Any) {
         //TODO: 프로필 설정 4번째 뷰(채식 단계 설정, 한줄 소개)로 연결
         guard let birthYear = birthDisplayTextField.text else { return }
         let userGenderBirthYear = UserGenderBirthYear(userLocation: userLocation, userGender: selectedGender, userBirthYear: birthYear)

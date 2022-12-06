@@ -94,7 +94,7 @@ final class PostDetailViewController: UIViewController {
     private lazy var enterButton: BottomButton = {
         let button = BottomButton()
         button.setTitle("참여하기", for: .normal)
-        button.addTarget(self, action: #selector(enterButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(enterButtonTapped(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -249,7 +249,7 @@ final class PostDetailViewController: UIViewController {
     }
     
     @objc
-    private func enterButtonTapped() {
+    private func enterButtonTapped(_ sender: Any) {
         showParticipateHalfModal()
         
     }
@@ -334,15 +334,6 @@ final class PostDetailViewController: UIViewController {
 
 // MARK: Target - Action 함수
 extension PostDetailViewController {
-    
-    @objc
-    private func enterButtonTappeds(_ sender: Any) {
-        Task {
-            guard let user = await FirebaseManager.shared.requestUser() else { return }
-            guard let club = await FirebaseManager.shared.requestMyClubInformation() else { return }
-            try await FirebaseManager.shared.participateInClub(user: user, club: club.last!)
-        }
-    }
     
 }
 extension PostDetailViewController: UICollectionViewDataSource {
