@@ -16,4 +16,5 @@ struct RecentChat: Codable, Identifiable {
     let lastSentMessage: String?
     let lastSentTime: Date?
     let coverImageURL: URL?
+    let messagesCount: Int?
 }

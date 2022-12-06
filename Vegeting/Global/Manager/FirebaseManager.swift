@@ -117,7 +117,8 @@ extension FirebaseManager {
                                  messages: nil, coverImageURL: chat.coverImageURL)
             
             let recentChat = RecentChat(chatRoomID: docChat.documentID, chatRoomName: chat.chatRoomName
-                                        ,lastSentMessage: nil, lastSentTime: Date(), coverImageURL: chat.coverImageURL)
+                                        ,lastSentMessage: nil, lastSentTime: Date(), coverImageURL: chat.coverImageURL, messagesCount: nil)
+            
             try docClub.setData(from: addedClub)
             try docChat.setData(from: addedChat)
             try docRecentChat.setData(from: recentChat)
@@ -161,8 +162,8 @@ extension FirebaseManager {
         
         guard let result = result else { return }
         
-        let participatedClub = ParticipatedClub(clubID: result.clubID, clubName: club.clubTitle, profileImageURL: club.coverImageURL)
-        let participatedChatRoom = ParticipatedChatRoom(chatID: result.chatID, chatName: chat.chatRoomName, imageURL: chat.coverImageURL)
+        let participatedClub = ParticipatedClub(clubID: result.clubID, clubName: club.clubTitle ?? "", profileImageURL: club.coverImageURL)
+        let participatedChatRoom = ParticipatedChatRoom(chatID: result.chatID, chatName: chat.chatRoomName, imageURL: chat.coverImageURL, lastReadIndex: nil)
         
         requestUpdateUser(user: user, participatedChatRoom: participatedChatRoom, participatedClub: participatedClub)
     }
@@ -190,7 +191,7 @@ extension FirebaseManager {
     /// 특정 모임 참여하기
     func participateInClub(user: VFUser, club: Club) async throws {
         let participatedClub = ParticipatedClub(clubID: club.clubID, clubName: club.clubTitle, profileImageURL: club.coverImageURL)
-        let participatedChat = ParticipatedChatRoom(chatID: club.chatID, chatName: club.clubTitle, imageURL: club.coverImageURL)
+        let participatedChat = ParticipatedChatRoom(chatID: club.chatID, chatName: club.clubTitle, imageURL: club.coverImageURL, lastReadIndex: nil)
         
         do {
             try await requestUpdateUser(user: user, participatedChatRoom: participatedChat, participatedClub: participatedClub)
@@ -262,7 +263,7 @@ extension FirebaseManager {
     func registerRecentMessageOnChat(chat: Chat, message: Message) {
         guard let chatID = chat.chatRoomID else { return }
         do {
-            let recentChat = RecentChat(chatRoomID: chatID, chatRoomName: chat.chatRoomName, lastSentMessage: message.content, lastSentTime: message.createdAt, coverImageURL: chat.coverImageURL)
+            let recentChat = RecentChat(chatRoomID: chatID, chatRoomName: chat.chatRoomName, lastSentMessage: message.content, lastSentTime: message.createdAt, coverImageURL: chat.coverImageURL, messagesCount: chat.messages?.count )
             try db.collection(Path.recentChat.rawValue).document(chatID).setData(from: recentChat)
         } catch {
             print(error.localizedDescription)
@@ -294,7 +295,30 @@ extension FirebaseManager {
             }
         }
     }
+    
+    
+    /// 채팅방에서 유저가 마지막으로 읽은 Index 업데이트
+    func updateLastReadIndex(user: VFUser, participatedChatRoom: ParticipatedChatRoom, index: Int) async throws {
+        guard let chatID = participatedChatRoom.chatID else { return }
+        if let lastReadIndex = participatedChatRoom.lastReadIndex, lastReadIndex >= index { return }
+        let updatedParticipatedChatRoom = user.participatedChats?.map({ chatRoom in
+            if chatID == chatRoom.chatID {
+                return ParticipatedChatRoom(chatID: chatRoom.chatID, chatName: chatRoom.chatName, imageURL: chatRoom.imageURL, lastReadIndex: index)
+            }
+            return chatRoom
+        })
+        
+        
+        let newUser = VFUser(userID: user.userID, userName: user.userName, imageURL: user.imageURL, birth: user.birth, location: user.location, gender: user.gender, vegetarianType: user.vegetarianType, introduction: user.introduction, interests: user.interests, participatedChats: updatedParticipatedChatRoom, participatedClubs: user.participatedClubs)
+        do {
+            db.collection(Path.user.rawValue).document(user.userID).setData(from: newUser)
+            
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
 }
+
 
 // MARK: Firebase Authentifcation 전용(유저 회원가입 및 로그인 담당)
 extension FirebaseManager {
