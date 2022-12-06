@@ -13,6 +13,7 @@ final class PostDetailViewController: UIViewController {
     enum EntryPoint {
         case mine
         case other
+        case participatedInOther
     }
     
     private var club: Club
@@ -215,8 +216,35 @@ final class PostDetailViewController: UIViewController {
     }
     
     private func setupEnterButtonUI() {
-        if entryPoint == .mine {
+        
+        switch entryPoint {
+        case .mine:
             enterButton.isEnabled = false
+        case .other:
+            return
+        case .participatedInOther:
+            enterButton.setTitle("모임 나가기", for: .normal)
+        }
+    }
+    
+    @objc
+    private func enterButtonTapped() {
+        switch entryPoint {
+        case .mine:
+            return
+        case .other:
+            print("참여하기 하프모달")
+            // TODO: - 하프모달 띄워주기 연결
+        case .participatedInOther:
+            leaveClub()
+        }
+    }
+    
+    private func leaveClub() {
+        makeRequestAlert(title: "모임 나가기",
+                         message: "현재 참여 중인 모임입니다.\n모임을 나가면, 모임의 채팅방도\n나가게 됩니다.",
+                         okTitle: "나가기", cancelTitle: "취소") { okAction in
+            // TODO: - 모임 나가기 코드
         }
     }
     
@@ -247,8 +275,8 @@ final class PostDetailViewController: UIViewController {
         switch entryPoint {
         case .mine:
             actions = makeAlertActionForMine()
-        case .other:
-            actions = makeAlertActionForMine()
+        case .other, .participatedInOther:
+            actions = makeAlertActionForOther()
         }
         firstAlertAction = actions.firstAction
         secondAlertAction = actions.secondAction
@@ -261,9 +289,9 @@ final class PostDetailViewController: UIViewController {
     }
     
     private func makeAlertActionForMine() -> (firstAction: UIAlertAction, secondAction: UIAlertAction) {
-        let firstAlertAction = UIAlertAction(title: "게시글 삭제", style: .destructive, handler: { [weak self] _ in
-            self?.makeRequestAlert(title: "게시글을 삭제하시겠습니까?",
-                                   message: "게시글이 삭제되어도,\n채팅방은 사라지지 않습니다.",
+        let firstAlertAction = UIAlertAction(title: "모임 삭제", style: .destructive, handler: { [weak self] _ in
+            self?.makeRequestAlert(title: "모임 삭제",
+                                   message: "게시글, 모임 채팅방이 삭제되며,\n되돌릴 수 없습니다.",
                                    okTitle: "삭제",
                                    cancelTitle: "취소") { okAction in
                 // TODO: - 삭제 코드
@@ -281,11 +309,12 @@ final class PostDetailViewController: UIViewController {
     
     private func makeAlertActionForOther() -> (firstAction: UIAlertAction, secondAction: UIAlertAction) {
         let firstAlertAction = UIAlertAction(title: "게시글 신고", style: .default, handler: { [weak self] _ in
-            self?.makeRequestAlert(title: "게시글을 신고하시겠습니까?",
-                                   message: "",
+            self?.makeRequestAlert(title: "게시글 신고",
+                                   message: "운영진이 검토 후 해당 사용자를 활동 중지,\n계정 삭제 등의 조치를 취할 수 있습니다.",
                                    okTitle: "신고",
                                    cancelTitle: "취소") { okAction in
-                // TODO: - 신고 코드
+                let reportViewController = ReportViewController(entryPoint: .report)
+                self?.navigationController?.pushViewController(reportViewController, animated: true)
             }
         })
         
@@ -294,7 +323,8 @@ final class PostDetailViewController: UIViewController {
                                    message: "해당 사용자가 작성한\n모임 모집글을 볼 수 없게 됩니다.",
                                    okTitle: "차단",
                                    cancelTitle: "취소") { okAction in
-                // TODO: - 차단 코드
+                let reportViewController = ReportViewController(entryPoint: .block)
+                self?.navigationController?.pushViewController(reportViewController, animated: true)
             }
         })
         
