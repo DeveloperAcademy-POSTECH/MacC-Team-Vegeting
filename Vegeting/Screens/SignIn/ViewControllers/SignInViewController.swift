@@ -54,8 +54,8 @@ class SignInViewController: UIViewController {
         output.sink { [weak self] event in
             switch event {
             case .didFirstSignInWithApple, .didFirstSignInWithKakao:
-                let userProfileViewController = UserProfileViewController()
-                self?.navigationController?.setViewControllers([userProfileViewController], animated: true)
+                let firstProfileViewController = FirstProfileViewController()
+                self?.navigationController?.setViewControllers([firstProfileViewController], animated: true)
             case .didFailToSignInWithApple(let error), .didFailToSignInWithKakao(let error):
                 print(error.localizedDescription)
             case .didAlreadySignInWithApple, .didAlreadySignInWithKakao:

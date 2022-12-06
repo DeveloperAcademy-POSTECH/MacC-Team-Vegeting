@@ -347,7 +347,7 @@ extension FirebaseManager {
     }
 
     func requestUser() async -> VFUser? {
-        guard let uid = auth.currentUser?.uid else { return nil}
+        guard let uid = auth.currentUser?.uid else { return nil }
         do {
             let user = try await db.collection(Path.user.rawValue).document(uid).getDocument().data(as: VFUser.self)
             return user
@@ -355,6 +355,11 @@ extension FirebaseManager {
             print(error.localizedDescription)
         }
         return nil
+    }
+    
+    func requestCurrentUserUID() -> String? {
+        guard let uid = auth.currentUser?.uid else { return nil }
+        return uid
     }
     
     func requestUser(completion: @escaping (Result<VFUser, Error>) -> Void) {

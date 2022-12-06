@@ -8,9 +8,9 @@
 import MapKit
 import UIKit
 
-final class LocationAuthViewController: UIViewController {
+final class SecondLocationViewController: UIViewController {
     
-    private var userImageNickname: UserImageNickname
+    private var userImageNickname: FirstImageNickname
     
     //포항공대 위치 - default
     private let defaultLocation = CLLocationCoordinate2D(latitude: 36.0106098, longitude: 129.321296)
@@ -62,7 +62,7 @@ final class LocationAuthViewController: UIViewController {
         return button
     }()
     
-    init(userImageNickname: UserImageNickname) {
+    init(userImageNickname: FirstImageNickname) {
         self.userImageNickname = userImageNickname
         super.init(nibName: nil, bundle: nil)
     }
@@ -147,13 +147,28 @@ final class LocationAuthViewController: UIViewController {
     private func findCurrentLocation() {
         //사용자 현재 위치 표시
         mapView.map.showsUserLocation = true
-        mapView.map.setUserTrackingMode(.follow, animated: true)
+        DispatchQueue.main.async { [weak self] in
+            self?.mapView.map.setUserTrackingMode(.follow, animated: true)
+        }
 
         //유저의 현재 위치 정보(locationManager.location)가 없으면(nil)-> 허용 안함 클릭 시 위치 허용 권한 확인
-        guard let _ = locationManager.location else {
+        guard let location = locationManager.location else {
             checkUserLocationServicesAuthorization()
             return
         }
+        
+        geocoder.reverseGeocodeLocation(CLLocation(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude), preferredLocale: Locale(identifier: "Ko-kr")) { placeMarks, error in
+            guard let placeMarks = placeMarks,
+                  let address = placeMarks.last,
+                  error == nil else {
+                return
+            }
+            DispatchQueue.main.async { [weak self] in
+                self?.locationDisplayLabel.text = "  \(address.locality ?? "") \(address.subLocality ?? address.name!)"
+            }
+        }
+        
+        nextButtonActive()
     }
     
     private func currentLocationButtonAction() {
@@ -171,8 +186,8 @@ final class LocationAuthViewController: UIViewController {
     @objc
     private func nextButtonTapped() {
         guard let location = locationDisplayLabel.text else { return }
-        let userLocation = UserLocation(userImageNickname: userImageNickname, userLocation: location)
-        navigationController?.pushViewController(UserGenderBirthViewController(userLocation: userLocation), animated: true)
+        let userLocation = SecondLocation(userImageNickname: userImageNickname, userLocation: location)
+        navigationController?.pushViewController(ThirdGenderBirthViewController(userLocation: userLocation), animated: true)
     }
     
     /// 위치 권한 설정 함수
@@ -225,13 +240,15 @@ final class LocationAuthViewController: UIViewController {
             authorizationStatus = CLLocationManager.authorizationStatus()
         }
         
-        if CLLocationManager.locationServicesEnabled() {
-            checkCurrentLocationAuthorization(authorizationStatus: authorizationStatus)
+        DispatchQueue.main.async {
+            if CLLocationManager.locationServicesEnabled() {
+                self.checkCurrentLocationAuthorization(authorizationStatus: authorizationStatus)
+            }
         }
     }
 }
 
-extension LocationAuthViewController: CLLocationManagerDelegate {
+extension SecondLocationViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else {

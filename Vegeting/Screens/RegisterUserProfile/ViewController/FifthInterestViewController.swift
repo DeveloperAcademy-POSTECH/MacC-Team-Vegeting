@@ -7,9 +7,9 @@
 
 import UIKit
 
-class UserInterestViewController: UIViewController {
+class FifthInterestViewController: UIViewController {
     
-    private var userTypeIntroduction: UserTypeIntroduction
+    private var userTypeIntroduction: FourthTypeIntroduction
 
     private let progressBarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -35,7 +35,7 @@ class UserInterestViewController: UIViewController {
     private let interestList: [String] = ["맛집", "카페", "행사", "패션", "뷰티", "환경", "정치", "친목", "동물권", "요리", "베이킹"]
     private lazy var selectInterestView = InterestView(interestList: interestList, entryPoint: .register)
     
-    init(userTypeIntroduction: UserTypeIntroduction) {
+    init(userTypeIntroduction: FourthTypeIntroduction) {
         self.userTypeIntroduction = userTypeIntroduction
         super.init(nibName: nil, bundle: nil)
     }
@@ -88,23 +88,46 @@ class UserInterestViewController: UIViewController {
     
     @objc
     private func profileRegisterButtonTapped() {
+        let selectedInterests = selectInterestView.deliverInterestList()
+        let userInterests = FifthInterests(userTypeIntroduction: userTypeIntroduction, userInterest: selectedInterests)
         
-//        FirebaseManager.shared.requestUserInformation(with: <#T##VFUser#>)
-        let mainTabBarViewController = MainTabBarViewController()
-        self.navigationController?.setViewControllers([mainTabBarViewController], animated: true)
+        guard let user = makeUser(model: userInterests) else { return }
+
+        Task {
+            do {
+                try await FirebaseManager.shared.requestUserInformation(with: user)
+                let mainTabBarViewController = MainTabBarViewController()
+                self.navigationController?.setViewControllers([mainTabBarViewController], animated: true)
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func makeUser(model: FifthInterests) -> VFUser? {
+        
+        guard let uid = AuthManager.shared.currentUserID() else { return nil }
+        let ud = AuthManager.shared.currentUserID()
+        let imageURL = model.userTypeIntroduction.userGenderBirthYear.userLocation.userImageNickname.userImageURL
+        let introduction = model.userTypeIntroduction.userIntroduction ?? ""
+        
+        let userName = model.userTypeIntroduction.userGenderBirthYear.userLocation.userImageNickname.userNickname
+        let birth = model.userTypeIntroduction.userGenderBirthYear.userBirthYear
+        let location = model.userTypeIntroduction.userGenderBirthYear.userLocation.userLocation
+        let gender = model.userTypeIntroduction.userGenderBirthYear.userGender
+        let vegetarianType = model.userTypeIntroduction.userVegetarianType
+        let interests = model.userInterest
+        
+        let user = VFUser(userID: uid, userName: userName, imageURL: imageURL, birth: birth,
+                          location: location, gender: gender, vegetarianType: vegetarianType,
+                          introduction: introduction, interests: interests, participatedChats: [], participatedClubs: [])
+        
+        return user
     }
 }
 
-extension UserInterestViewController: InterestViewDelegate {
+extension FifthInterestViewController: InterestViewDelegate {
     func setBottomButtonEnabled(to isEnabled: Bool) {
         profileRegisterButton.isEnabled = isEnabled
-    }
-    
-    func deliverInterestList(list: [Int : String]) -> [String] {
-        var selectedList = list.map({ (key, value) -> String in
-            return value
-        })
-        
-        return selectedList
     }
 }

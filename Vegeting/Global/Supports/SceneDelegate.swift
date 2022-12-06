@@ -26,8 +26,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 let signInViewController = UINavigationController(rootViewController: SignInViewController())
                 window.rootViewController = signInViewController
             case .userProfileViewController:
-                let userProfileViewController = UINavigationController(rootViewController: UserProfileViewController())
-                window.rootViewController = userProfileViewController
+                let firstProfileViewController = UINavigationController(rootViewController: FirstProfileViewController())
+                window.rootViewController = firstProfileViewController
             }
         }
         window.makeKeyAndVisible()

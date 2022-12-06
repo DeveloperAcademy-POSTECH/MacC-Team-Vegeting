@@ -32,6 +32,9 @@ final class AuthManager {
         }
     }
     
+    func currentUserID() -> String? {
+        return auth.currentUser?.uid
+    }
     func currentUser() -> VFUser? {
         return self.user
     }
