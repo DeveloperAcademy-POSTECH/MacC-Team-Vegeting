@@ -22,11 +22,13 @@ struct MessageBubble {
 final class ChatRoomViewModel: ViewModelType {
     
     enum Input {
+        case viewWillAppear
         case sendButtonTapped(text: String)
         case textChanged(height: CGFloat)
     }
     
     enum Output {
+        case participatedChatTitle(title: String)
         case localChatDataChanged(messageBubbles: [MessageBubble])
         case serverChatDataChanged(messageBubbles: [MessageBubble])
         case failToGetDataFromServer(error: Error)
@@ -43,6 +45,8 @@ final class ChatRoomViewModel: ViewModelType {
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
             switch event {
+            case .viewWillAppear:
+                self?.setupNavigationTitle()
             case .textChanged(let height):
                 self?.calculateTextViewHeight(height: height)
             case .sendButtonTapped(let text):
@@ -50,6 +54,12 @@ final class ChatRoomViewModel: ViewModelType {
             }
         }.store(in: &cancellables)
         return output.eraseToAnyPublisher()
+    }
+    
+    private func setupNavigationTitle() {
+        if let title = participatedChatRoom?.chatName {
+            output.send(.participatedChatTitle(title: title))
+        }
     }
     
     private func requestMessagesFromServer() {
@@ -77,7 +87,7 @@ final class ChatRoomViewModel: ViewModelType {
         output.send(.localChatDataChanged(messageBubbles: messageBubbles))
         
         Task {
-            await FirebaseManager.shared.sendMessage(chat: chat, message: message)
+            await FirebaseManager.shared.registerMessage(chat: chat, message: message)
         }
     }
     
@@ -128,6 +138,7 @@ final class ChatRoomViewModel: ViewModelType {
     func configure(participatedChatRoom: ParticipatedChatRoom, user: VFUser) {
         self.participatedChatRoom = participatedChatRoom
         self.user = user
+        setupNavigationTitle()
         requestMessagesFromServer()
     }
     
@@ -139,12 +150,6 @@ final class ChatRoomViewModel: ViewModelType {
             try await FirebaseManager.shared.updateLastReadIndex(user: user, participatedChatRoom: participatedChatRoom, index: messagesCount - 1)
         }
     }
-    
-    init() {
-        Task {
-            guard let user = await FirebaseManager.shared.requestUser(), let chats = user.participatedChats  else { return }
-            configure(participatedChatRoom: chats[3], user: user)
-        }
-    }
+
 }
 

@@ -75,8 +75,16 @@ final class ChatRoomViewController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
+        configureNavigationBar()
         setupLayout()
         bind()
+    }
+    
+    private func configureNavigationBar() {
+        self.navigationItem.largeTitleDisplayMode = .automatic
+        self.navigationController?.navigationBar.tintColor = .vfBlack
+        self.navigationController?.navigationBar.topItem?.backButtonTitle = ""
+
     }
     
     private func bind() {
@@ -84,12 +92,16 @@ final class ChatRoomViewController: UIViewController {
     
         output.sink { [weak self] event in
             switch event {
+            case .participatedChatTitle(let title):
+                self?.navigationItem.title = title
             case .localChatDataChanged(let messageBubbles), .serverChatDataChanged(let messageBubbles):
                 self?.messageBubbles = messageBubbles
                 DispatchQueue.main.async {
                     self?.chatListCollectionView.reloadData()
-                    let indexPath = IndexPath(item: messageBubbles.count - 1, section: 0)
-                    self?.chatListCollectionView.scrollToItem(at: indexPath, at: .bottom, animated: false)
+                    self?.chatListCollectionView.performBatchUpdates({
+                        let indexPath = IndexPath(item: messageBubbles.count - 1, section: 0)
+                        self?.chatListCollectionView.scrollToItem(at: indexPath, at: .bottom, animated: false)
+                    })
                 }
             case .failToGetDataFromServer(let error):
                 print(error.localizedDescription)
@@ -108,6 +120,11 @@ final class ChatRoomViewController: UIViewController {
     
     func configureViewModel(participatedChatRoom: ParticipatedChatRoom, user: VFUser) {
         viewModel.configure(participatedChatRoom: participatedChatRoom, user: user)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        input.send(.viewWillAppear)
     }
 }
 
@@ -163,7 +180,7 @@ extension ChatRoomViewController {
     private func configureUI() {
         view.addSubviews(chatListCollectionView,transferMessageStackView)
         view.backgroundColor = .systemBackground
-        
+        tabBarController?.tabBar.isHidden = true
         chatListCollectionView.dataSource = self
         chatListCollectionView.delegate = self
     }

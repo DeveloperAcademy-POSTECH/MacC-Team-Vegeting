@@ -118,7 +118,8 @@ extension FirebaseManager {
                                  messages: nil, coverImageURL: chat.coverImageURL)
             
             let recentChat = RecentChat(chatRoomID: docChat.documentID, chatRoomName: chat.chatRoomName
-                                        ,lastSentMessage: nil, lastSentTime: Date(), coverImageURL: chat.coverImageURL, messagesCount: nil)
+                                        ,lastSentMessage: nil, lastSentTime: Date(),
+                                        coverImageURL: chat.coverImageURL, numberOfParticipants: 1, messagesCount: nil)
             
             try docClub.setData(from: addedClub)
             try docChat.setData(from: addedChat)
@@ -262,9 +263,12 @@ extension FirebaseManager {
     }
     
     func registerRecentMessageOnChat(chat: Chat, message: Message) {
-        guard let chatID = chat.chatRoomID else { return }
+        guard let chatID = chat.chatRoomID,
+              let participantsCount = chat.participants?.count else { return }
         do {
-            let recentChat = RecentChat(chatRoomID: chatID, chatRoomName: chat.chatRoomName, lastSentMessage: message.content, lastSentTime: message.createdAt, coverImageURL: chat.coverImageURL, messagesCount: chat.messages?.count )
+            let recentChat = RecentChat(chatRoomID: chatID, chatRoomName: chat.chatRoomName,
+                                        lastSentMessage: message.content, lastSentTime: message.createdAt,
+                                        coverImageURL: chat.coverImageURL, numberOfParticipants: participantsCount, messagesCount: chat.messages?.count )
             try db.collection(Path.recentChat.rawValue).document(chatID).setData(from: recentChat)
         } catch {
             print(error.localizedDescription)
@@ -340,7 +344,7 @@ extension FirebaseManager {
         
         auth.currentUser?.delete()
     }
-    
+
     func requestUser() async -> VFUser? {
         guard let uid = auth.currentUser?.uid else { return nil}
         do {
@@ -367,7 +371,7 @@ extension FirebaseManager {
             }
         }
     }
-
+    
     func isUserAlreadyExisted(user: User) -> AnyPublisher<Bool, Error> {
         return db.collection(Path.user.rawValue).document(user.uid).getDocument()
             .catch { error in
