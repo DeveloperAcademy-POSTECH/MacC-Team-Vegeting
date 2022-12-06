@@ -11,17 +11,10 @@ class MyPageTableViewCell: UITableViewCell {
     
     private let label: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body, compatibleWith: .init(legibilityWeight: .regular))
+        label.font = .preferredFont(forTextStyle: .body, compatibleWith: .init(legibilityWeight: .bold))
         return label
     }()
-    
-    private lazy var alarmSwitch: UISwitch = {
-        let uiSwitch = UISwitch()
-        uiSwitch.isOn = true
-        uiSwitch.addTarget(self, action: #selector(alarmSwitchTapped(_ :)), for: .touchUpInside)
-        return uiSwitch
-    }()
-    
+
     private lazy var separatorView: UIView = {
         let view = UIView()
         view.backgroundColor = .systemGray6
@@ -44,37 +37,19 @@ class MyPageTableViewCell: UITableViewCell {
                          bottom: contentView.bottomAnchor,
                          padding: UIEdgeInsets(top: 16, left: 20, bottom: 16, right: 0))
         
-        separatorView.constraint(leading: contentView.leadingAnchor,
-                              bottom: contentView.bottomAnchor,
-                              trailing: contentView.trailingAnchor,
-                              padding: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
+        separatorView.constraint(top: contentView.topAnchor,
+                                 leading: contentView.leadingAnchor,
+                                 trailing: contentView.trailingAnchor,
+                                 padding: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20))
         separatorView.constraint(.heightAnchor, constant: 1)
-    }
-    
-    private func setupSwitchLayout() {
-        contentView.addSubview(alarmSwitch)
-        alarmSwitch.constraint(trailing: contentView.trailingAnchor,
-                               centerY: contentView.centerYAnchor,
-                               padding: UIEdgeInsets(top: 16, left: 20, bottom: 16, right: 20))
-    }
-    
-    @objc
-    private func alarmSwitchTapped(_ sender: UISwitch) {
-        if sender.isOn {
-            print("on!")
-        }
     }
     
     func configure(with data: MyPageSettingElement) {
         label.text = data.text
         
-        if data.isSmallTitle {
-            label.font = .preferredFont(forTextStyle: .body, compatibleWith: .init(legibilityWeight: .bold))
+        if !data.isSmallTitle {
+            label.font = .preferredFont(forTextStyle: .body, compatibleWith: .init(legibilityWeight: .regular))
             separatorView.removeFromSuperview()
-        }
-        
-        if data.isSwitch {
-            setupSwitchLayout()
         }
     }
 }
