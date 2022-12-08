@@ -97,6 +97,7 @@ final class FirebaseManager {
 
 // MARK: Firebase 첫 모임생성
 extension FirebaseManager {
+    
     func registerChatAndPost(user: VFUser, club: Club, chat: Chat) -> (clubID: String, chatID: String)? {
         do {
             let docChat = db.collection(Path.chat.rawValue).document()
@@ -131,7 +132,6 @@ extension FirebaseManager {
         }
         return nil
     }
-    
     /// 모임 ID와 채팅 ID 서로 가지기
     private func requestUpdateUser(user: VFUser, participatedChatRoom: ParticipatedChatRoom, participatedClub: ParticipatedClub) {
         
@@ -155,10 +155,8 @@ extension FirebaseManager {
         
         let participatedClub = ParticipatedClub(clubID: result.clubID, clubName: club.clubTitle ?? "", profileImageURL: club.coverImageURL)
         let participatedChatRoom = ParticipatedChatRoom(chatID: result.chatID, chatName: chat.chatRoomName, imageURL: chat.coverImageURL, lastReadIndex: nil)
-        
         requestUpdateUser(user: user, participatedChatRoom: participatedChatRoom, participatedClub: participatedClub)
     }
-    
     
     /// 채팅방과 게시물에 참여한 유저 추가
     func appendMemberInClub(user: VFUser, club: Club) {
@@ -176,7 +174,7 @@ extension FirebaseManager {
             print(error.localizedDescription)
         }
     }
-      
+    
     func participateInClub(user: VFUser, club: Club) {
         let participatedClub = ParticipatedClub(clubID: club.clubID, clubName: club.clubTitle, profileImageURL: club.coverImageURL)
         let participatedChat = ParticipatedChatRoom(chatID: club.chatID, chatName: club.clubTitle, imageURL: club.coverImageURL, lastReadIndex: nil)
