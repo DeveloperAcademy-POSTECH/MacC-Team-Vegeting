@@ -10,6 +10,8 @@
 		4A060C01291398A600D75699 /* ProfileHalfModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A060C00291398A600D75699 /* ProfileHalfModalViewController.swift */; };
 		4A060C062913AA4300D75699 /* InterestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A060C052913AA4300D75699 /* InterestView.swift */; };
 		4A060C082913AA5E00D75699 /* InterestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A060C072913AA5E00D75699 /* InterestCollectionViewCell.swift */; };
+		4A1B96122942378A009FCFE3 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1B96112942378A009FCFE3 /* EventViewController.swift */; };
+		4A1B9614294238AE009FCFE3 /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1B9613294238AE009FCFE3 /* EventDetailViewController.swift */; };
 		4A31CD242903D73D00E5E422 /* FirstCreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD232903D73D00E5E422 /* FirstCreateGroupViewController.swift */; };
 		4A31CD272903D86200E5E422 /* GroupCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD262903D86200E5E422 /* GroupCategoryView.swift */; };
 		4A31CD2A2903D89600E5E422 /* GroupCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD292903D89600E5E422 /* GroupCategoryCollectionViewCell.swift */; };
@@ -129,6 +131,8 @@
 		4A060C00291398A600D75699 /* ProfileHalfModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHalfModalViewController.swift; sourceTree = "<group>"; };
 		4A060C052913AA4300D75699 /* InterestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestView.swift; sourceTree = "<group>"; };
 		4A060C072913AA5E00D75699 /* InterestCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestCollectionViewCell.swift; sourceTree = "<group>"; };
+		4A1B96112942378A009FCFE3 /* EventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
+		4A1B9613294238AE009FCFE3 /* EventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
 		4A31CD232903D73D00E5E422 /* FirstCreateGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstCreateGroupViewController.swift; sourceTree = "<group>"; };
 		4A31CD262903D86200E5E422 /* GroupCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCategoryView.swift; sourceTree = "<group>"; };
 		4A31CD292903D89600E5E422 /* GroupCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -258,6 +262,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A1B961029423778009FCFE3 /* Event */ = {
+			isa = PBXGroup;
+			children = (
+				4A1B96112942378A009FCFE3 /* EventViewController.swift */,
+				4A1B9613294238AE009FCFE3 /* EventDetailViewController.swift */,
+			);
+			path = Event;
+			sourceTree = "<group>";
+		};
 		4A31CD222903D61900E5E422 /* CreateGroup */ = {
 			isa = PBXGroup;
 			children = (
@@ -402,6 +415,7 @@
 		4ADC12DA29017B9E00C0FFB6 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				4A1B961029423778009FCFE3 /* Event */,
 				4AE140972925ED15005485A8 /* Report */,
 				7615B65B29221F5B00A34DA4 /* ChatRoomDetail */,
 				4AFF0F4D2919F7A200F7496C /* MyPage */,
@@ -950,6 +964,7 @@
 				765C9E8729231A730090B14A /* ChatRoomViewModel.swift in Sources */,
 				4A50D5A52908E03600D1ADE4 /* EmptyResultView.swift in Sources */,
 				A20A2F9F29217EC2002F0672 /* MyClubsViewController.swift in Sources */,
+				4A1B96122942378A009FCFE3 /* EventViewController.swift in Sources */,
 				4ADC12E92901819800C0FFB6 /* UIScreen+Extension.swift in Sources */,
 				4A6642412917A7820027B2A3 /* FifthInterestViewController.swift in Sources */,
 				A7C8DF262901274500F38AD7 /* SceneDelegate.swift in Sources */,
@@ -963,6 +978,7 @@
 				4AFF0F57291AA5CE00F7496C /* MyPageSettingElement.swift in Sources */,
 				4AB5C27729078AE90064C41E /* Address.swift in Sources */,
 				4ADC12E72901818900C0FFB6 /* UIStackView+Extention.swift in Sources */,
+				4A1B9614294238AE009FCFE3 /* EventDetailViewController.swift in Sources */,
 				76B02839290526AF002C9DF7 /* Club.swift in Sources */,
 				4AFF0F59291AAF0900F7496C /* ProfileView.swift in Sources */,
 				4AFF0F5B291AB2F600F7496C /* MyProfileEditViewController.swift in Sources */,
