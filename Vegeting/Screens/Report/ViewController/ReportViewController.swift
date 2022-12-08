@@ -38,7 +38,7 @@ extension UIViewController {
                                            buttonTitle: "차단합니다",
                                            alertTitle: "차단하시겠습니까?",
                                            alertMessage: "차단한 사용자의 게시글이 노출되지 않습니다.",
-                                           headerTitle: "‘초보채식인'\n사용자를 차단하는 이유가 무언인가요?",
+                                           headerTitle: "‘초보채식인'\n사용자를 차단하는 이유가 무엇인가요?",
                                            reportElementList: ["불쾌감을 줍니다.", "개인정보를 유출합니다.", "욕설/혐오/차별적 표현을사용해요", "다른 목적을 가지고 접근하는 것 같아요", "불쾌한 표현을 사용해요", "홍보/도배글을 작성합니다.", "기타 (직접 입력)" ])
             case .unregister:
                 return ReportStringLiteral(title: "회원 탈퇴",
@@ -86,6 +86,7 @@ final class ReportViewController: UIViewController {
     }()
     
     private var reportType: ReportType
+    private var headerTitleWhenBlock: String? = nil
     private lazy var keyboardHeight: CGFloat = self.view.frame.height * 0.3
     private lazy var selectedElementList: [String] = []
     
@@ -220,6 +221,10 @@ final class ReportViewController: UIViewController {
      private func scrollVertical(to yOffset: CGFloat) {
          tableView.setContentOffset(CGPoint(x: 0, y: yOffset), animated: true)
      }
+    
+    func configureBlockUser(name: String) {
+        self.headerTitleWhenBlock = "'\(name)'\n사용자를 차단하는 이유가 무엇인가요?"
+    }
 }
 
 extension ReportViewController: UITableViewDataSource {
@@ -246,10 +251,14 @@ extension ReportViewController: UITableViewDelegate {
         guard let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: ReportTableViewHeaderView.className) as?  ReportTableViewHeaderView else { return UIView() }
         
         headerView.contentView.backgroundColor = .systemBackground
-        headerView.configure(with: reportType.stringLiteral.headerTitle)
+        switch reportType {
+        case .block:
+            headerView.configure(with: headerTitleWhenBlock ?? "")
+        case .report, .unregister:
+            headerView.configure(with: reportType.stringLiteral.headerTitle)
+        }
         return headerView
     }
-    
 }
 
 extension ReportViewController: ReportTableViewCellDelegate {
