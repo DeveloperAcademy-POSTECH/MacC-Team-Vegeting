@@ -67,7 +67,8 @@ final class FirebaseManager {
     /// - Returns: 내가 참여한 클럽 정보가 나타난다.
     func requestMyClubInformation() async -> [Club]? {
         do {
-            var myClubs: [Club] = []
+            var validClubs = [Club]()
+            var invalidClubs = [Club]()
             guard let currentUser = await requestUser() else { return nil }
             guard let participatedClubs = currentUser.participatedClubs else { return nil }
             var participatedClubIDs = participatedClubs.map { $0.clubID ?? nil }
@@ -82,12 +83,15 @@ final class FirebaseManager {
                 let querySnapshot = try await db.collection(Path.club.rawValue).whereField("clubID", in: idsUnder10 as [Any]).getDocuments()
                 for snapshot in querySnapshot.documents {
                     guard let club = try? snapshot.data(as: Club.self) else { return nil }
-                    myClubs.append(club)
+                    if club.participants?.count ?? 0 < club.maxNumberOfPeople && Date() < club.dateToMeet {
+                        validClubs.append(club)
+                    } else {
+                        invalidClubs.append(club)
+                    }
                 }
                 if participatedClubIDs.isEmpty { break }
             }
-            
-            return myClubs
+            return validClubs + invalidClubs
         } catch {
             print(error.localizedDescription)
             return nil

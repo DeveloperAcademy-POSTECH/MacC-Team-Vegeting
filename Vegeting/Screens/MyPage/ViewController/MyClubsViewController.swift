@@ -65,6 +65,7 @@ class MyClubsViewController: UIViewController {
     
     private func setupNavigationBar() {
         navigationItem.title = "참여한 모임"
+        navigationItem.backButtonDisplayMode = .minimal
     }
     
     private func updateCollectionViewList() {
