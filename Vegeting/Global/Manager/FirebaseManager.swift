@@ -302,8 +302,7 @@ extension FirebaseManager {
             }
         }
     }
-    
-    
+
     /// 채팅방에서 유저가 마지막으로 읽은 Index 업데이트
     func updateLastReadIndex(user: VFUser, participatedChatRoom: ParticipatedChatRoom, index: Int) async throws {
         guard let chatID = participatedChatRoom.chatID else { return }
