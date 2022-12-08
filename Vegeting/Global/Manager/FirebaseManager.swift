@@ -97,7 +97,6 @@ final class FirebaseManager {
 
 // MARK: Firebase 첫 모임생성
 extension FirebaseManager {
-    
     func registerChatAndPost(user: VFUser, club: Club, chat: Chat) -> (clubID: String, chatID: String)? {
         do {
             let docChat = db.collection(Path.chat.rawValue).document()
@@ -132,6 +131,7 @@ extension FirebaseManager {
         }
         return nil
     }
+    
     /// 모임 ID와 채팅 ID 서로 가지기
     private func requestUpdateUser(user: VFUser, participatedChatRoom: ParticipatedChatRoom, participatedClub: ParticipatedClub) {
         
@@ -145,19 +145,6 @@ extension FirebaseManager {
             print(error.localizedDescription)
         }
         
-    }
-    
-    private func requestUpdateUser(user: VFUser, participatedChatRoom: ParticipatedChatRoom, participatedClub: ParticipatedClub) async throws {
-
-        do {
-            let document = db.collection(Path.user.rawValue).document(user.userID)
-            let encodedParticipatedClub = try Firestore.Encoder().encode(participatedClub)
-            let encodedParticipatedChat = try Firestore.Encoder().encode(participatedChatRoom)
-            try await document.updateData(["participatedClubs": FieldValue.arrayUnion([encodedParticipatedClub]), "participatedChats": FieldValue.arrayUnion([encodedParticipatedChat])])
-        } catch {
-            print(error.localizedDescription)
-        }
-
     }
     
     /// 첫 Club 모임 생성
@@ -174,8 +161,8 @@ extension FirebaseManager {
     
     
     /// 채팅방과 게시물에 참여한 유저 추가
-    func appendMemberInClub(user: VFUser, club: Club) async throws {
-        guard let clubID = club.clubID, let chatID = club.chatID else { throw FirebaseError.invalidID }
+    func appendMemberInClub(user: VFUser, club: Club) {
+        guard let clubID = club.clubID, let chatID = club.chatID else { return }
         
         let clubDocument = db.collection(Path.club.rawValue).document(clubID)
         let chatDocument = db.collection(Path.chat.rawValue).document(chatID)
@@ -183,26 +170,19 @@ extension FirebaseManager {
         
         do {
             let encodedParticipant = try Firestore.Encoder().encode(participant)
-            
-            try await clubDocument.updateData(["participants": FieldValue.arrayUnion([encodedParticipant])])
-            try await chatDocument.updateData(["participants": FieldValue.arrayUnion([encodedParticipant])])
+            clubDocument.updateData(["participants": FieldValue.arrayUnion([encodedParticipant])])
+            chatDocument.updateData(["participants": FieldValue.arrayUnion([encodedParticipant])])
         } catch {
             print(error.localizedDescription)
         }
     }
-    
-    
-    /// 특정 모임 참여하기
-    func participateInClub(user: VFUser, club: Club) async throws {
+      
+    func participateInClub(user: VFUser, club: Club) {
         let participatedClub = ParticipatedClub(clubID: club.clubID, clubName: club.clubTitle, profileImageURL: club.coverImageURL)
         let participatedChat = ParticipatedChatRoom(chatID: club.chatID, chatName: club.clubTitle, imageURL: club.coverImageURL, lastReadIndex: nil)
+        requestUpdateUser(user: user, participatedChatRoom: participatedChat, participatedClub: participatedClub)
+        appendMemberInClub(user: user, club: club)
         
-        do {
-            try await requestUpdateUser(user: user, participatedChatRoom: participatedChat, participatedClub: participatedClub)
-            try await appendMemberInClub(user: user, club: club)
-        } catch {
-            print(error.localizedDescription)
-        }
     }
 }
 
