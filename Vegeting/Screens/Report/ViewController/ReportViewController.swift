@@ -182,9 +182,15 @@ final class ReportViewController: UIViewController {
         switch reportType {
         case .report:
             // TODO: 신고하기 눌렀을때
+            makeAlert(title: "신고가 접수되었습니다.", message: "") { _ in
+                self.navigationController?.popViewController(animated: true)
+            }
             break
         case .block:
             // TODO: 차단하기 눌렀을때
+            makeAlert(title: "차단되었습니다.", message: "") { _ in
+                self.navigationController?.popViewController(animated: true)
+            }
             break
         case .unregister:
             unregister()
