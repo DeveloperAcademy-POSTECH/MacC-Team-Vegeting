@@ -25,7 +25,7 @@ final class PostDetailViewController: UIViewController {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.setImage(with: club.coverImageURL)
+        imageView.setImage(kind: "coverImage", with: club.coverImageURL)
         return imageView
     }()
     
