@@ -79,7 +79,7 @@ final class ChatRoomViewModel: ViewModelType {
 
     private func sendMessageFromLocal(text: String) {
         guard let user = self.user else { return }
-        let message = Message(senderID: user.userID, senderName: user.userName, senderProfileImageURL: user.imageURL, contentType: "text", createdAt: Date(), imageURL: nil, content: text)
+        let message = Message(senderID: user.userID, senderName: user.userName, senderProfileImageURL: user.imageURL, contentType: "text", createdAt: Date(), content: text)
         if chat?.messages == nil {
             chat?.messages = []
         }
