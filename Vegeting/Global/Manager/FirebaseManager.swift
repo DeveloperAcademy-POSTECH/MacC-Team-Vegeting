@@ -45,9 +45,10 @@ final class FirebaseManager {
             var validClubs = [Club]()
             var invalidClubs = [Club]()
             let querySnapshot = try await db.collection(Path.club.rawValue).getDocuments()
-            let data = querySnapshot.documents.compactMap { snapshot in
+            var data = querySnapshot.documents.compactMap { snapshot in
                 try? snapshot.data(as: Club.self)
             }
+            data.sort { return $0.createdAt > $1.createdAt }
             data.forEach { club in
                 if club.participants?.count ?? 0 < club.maxNumberOfPeople && Date() < club.dateToMeet {
                     validClubs.append(club)

@@ -97,7 +97,6 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
         let participantsCount = item.participants?.count ?? 1
         clubInfoLabel.text = "\(item.placeToMeet)ㆍ\(participantsCount)/\(item.maxNumberOfPeople) 모집"
         
-        print(Date(), item.dateToMeet, (Date() > item.dateToMeet))
         let isShown = !(Date() > item.dateToMeet || (participantsCount >= item.maxNumberOfPeople))
         invalidLabel.isHidden = isShown
         
