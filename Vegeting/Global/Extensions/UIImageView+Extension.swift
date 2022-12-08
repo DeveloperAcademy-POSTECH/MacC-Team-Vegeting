@@ -12,7 +12,7 @@ import Kingfisher
 extension UIImageView {
     func setImage(kind: String, with url: URL?) {
         guard let url = url else {
-            let imageName = (kind == "profile" ? "profile\(Int.random(in: 1...6))" : "groupCoverImage1")
+            let imageName = (kind == "profile" ? "profile\(Int.random(in: 1...9))" : "groupCoverImage1")
             self.image = UIImage(named: imageName)
             return
         }
