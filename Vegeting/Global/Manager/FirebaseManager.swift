@@ -68,10 +68,8 @@ final class FirebaseManager {
     func requestMyClubInformation() async -> [Club]? {
         do {
             var myClubs: [Club] = []
-            guard let currentUser = await requestUser() else { return nil }
-            guard let participatedClubs = currentUser.participatedClubs else { return nil }
+            guard let currentUser = AuthManager.shared.currentUser(), let participatedClubs = currentUser.participatedClubs else { return nil }
             var participatedClubIDs = participatedClubs.map { $0.clubID ?? nil }
-            
             while true {
                 var count = 0
                 var idsUnder10: [String?] = []
@@ -268,7 +266,7 @@ extension FirebaseManager {
     
     func requestRecentChat(user: VFUser, completion: @escaping (Result<[RecentChat], Error>) -> Void) {
         guard let participatedChatRoomIDs =  user.participatedChats?.compactMap(\.chatID) else { return }
-        
+        if participatedChatRoomIDs.isEmpty { return }
         db.collection(Path.recentChat.rawValue).whereField(FieldPath.documentID(), in: participatedChatRoomIDs).addSnapshotListener { querySnapshot, error in
             if let error = error {
                 print("Error getting documents: \(error)")

@@ -66,7 +66,7 @@ class MyPageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         showTabBar()
-        self?.vfUser = AuthManager.shared.currentUser()
+        self.vfUser = AuthManager.shared.currentUser()
     }
 
     //MARK: - func
@@ -113,11 +113,7 @@ extension MyPageViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageProfileTableViewCell.className, for: indexPath) as? MyPageProfileTableViewCell else { return UITableViewCell() }
             cell.delegate = self
             cell.selectionStyle = .none
-            Task {
-                guard let vfUser = await FirebaseManager.shared.requestUser() else { return }
-                cell.configure(imageURL: vfUser.imageURL, nickName: vfUser.userName, step: vfUser.vegetarianType)
-                self.vfUser = vfUser
-            }
+            cell.configure(imageURL: vfUser?.imageURL, nickName: vfUser?.userName ?? "", step: vfUser?.vegetarianType ?? "")
             return cell
         case TableSection.setting.rawValue:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageTableViewCell.className, for: indexPath) as? MyPageTableViewCell else { return UITableViewCell() }
