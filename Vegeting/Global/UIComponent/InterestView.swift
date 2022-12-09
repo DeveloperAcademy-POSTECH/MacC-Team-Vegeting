@@ -119,23 +119,32 @@ extension InterestView: UICollectionViewDataSource {
 extension InterestView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        guard let selectedCellCount = interestCollectionView.indexPathsForSelectedItems?.count else { return true }
-        
-        if 0 <= selectedCellCount  && selectedCellCount <= 2 {
-            return true
-        } else {
+        switch entryPoint {
+        case .profile:
             return false
+        case .register:
+            guard let selectedCellCount = interestCollectionView.indexPathsForSelectedItems?.count else { return true }
+            
+            if 0 <= selectedCellCount  && selectedCellCount <= 2 {
+                return true
+            } else {
+                return false
+            }
         }
     }
   
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selectedInterestList[indexPath.item] = interestList[indexPath.item]
-        judgeBottomButtonEnabled(status: true, targetValue: 1)
+        if entryPoint == .profile {
+            selectedInterestList[indexPath.item] = interestList[indexPath.item]
+            judgeBottomButtonEnabled(status: true, targetValue: 1)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        selectedInterestList[indexPath.item] = nil
-        judgeBottomButtonEnabled(status: false, targetValue: 0)
+        if entryPoint == .profile {
+            selectedInterestList[indexPath.item] = nil
+            judgeBottomButtonEnabled(status: false, targetValue: 0)
+        }
     }
     
     private func judgeBottomButtonEnabled(status: Bool, targetValue: Int) {
@@ -144,5 +153,4 @@ extension InterestView: UICollectionViewDelegate {
             delegate?.setBottomButtonEnabled(to: status)
         }
     }
-    
 }

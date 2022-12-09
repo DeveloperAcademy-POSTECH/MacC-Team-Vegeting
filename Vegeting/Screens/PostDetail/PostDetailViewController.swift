@@ -357,6 +357,7 @@ extension PostDetailViewController:  UICollectionViewDelegate {
     private func showProfileHalfModal(of user: Participant) {
         
         let viewController = ProfileHalfModalViewController()
+        viewController.delegate = self
         viewController.modalPresentationStyle = .pageSheet
         if let sheet = viewController.sheetPresentationController {
             sheet.detents = [.medium()]
@@ -379,3 +380,10 @@ extension PostDetailViewController: ParticipateHalfViewControllerDelegate {
     }
 }
 
+extension PostDetailViewController: ProfileHalfModalViewControllerDelgate {
+    func showReportViewController(user: Participant) {
+        let reportViewController = ReportViewController(entryPoint: .block)
+        reportViewController.configureBlockUser(name: user.name)
+        self.navigationController?.pushViewController(reportViewController, animated: true)
+    }
+}
