@@ -46,9 +46,10 @@ final class FirebaseManager {
             var validClubs = [Club]()
             var invalidClubs = [Club]()
             let querySnapshot = try await db.collection(Path.club.rawValue).getDocuments()
-            let data = querySnapshot.documents.compactMap { snapshot in
+            var data = querySnapshot.documents.compactMap { snapshot in
                 try? snapshot.data(as: Club.self)
             }
+            data.sort { return $0.createdAt > $1.createdAt }
             data.forEach { club in
                 if club.participants?.count ?? 0 < club.maxNumberOfPeople && Date() < club.dateToMeet {
                     validClubs.append(club)
@@ -67,8 +68,10 @@ final class FirebaseManager {
     /// - Returns: 내가 참여한 클럽 정보가 나타난다.
     func requestMyClubInformation() async -> [Club]? {
         do {
-            var myClubs: [Club] = []
+            var validClubs = [Club]()
+            var invalidClubs = [Club]()
             guard let currentUser = AuthManager.shared.currentUser(), let participatedClubs = currentUser.participatedClubs else { return nil }
+            guard let participatedClubs = currentUser.participatedClubs else { return nil }
             var participatedClubIDs = participatedClubs.map { $0.clubID ?? nil }
             while true {
                 var count = 0
@@ -80,12 +83,15 @@ final class FirebaseManager {
                 let querySnapshot = try await db.collection(Path.club.rawValue).whereField("clubID", in: idsUnder10 as [Any]).getDocuments()
                 for snapshot in querySnapshot.documents {
                     guard let club = try? snapshot.data(as: Club.self) else { return nil }
-                    myClubs.append(club)
+                    if club.participants?.count ?? 0 < club.maxNumberOfPeople && Date() < club.dateToMeet {
+                        validClubs.append(club)
+                    } else {
+                        invalidClubs.append(club)
+                    }
                 }
                 if participatedClubIDs.isEmpty { break }
             }
-            
-            return myClubs
+            return validClubs + invalidClubs
         } catch {
             print(error.localizedDescription)
             return nil

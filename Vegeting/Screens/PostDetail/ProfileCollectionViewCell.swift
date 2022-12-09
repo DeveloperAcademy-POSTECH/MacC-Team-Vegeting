@@ -84,7 +84,7 @@ final class ProfileCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with data: ParticipantMinimum) {
-        profileImage.setImage(with: data.profileImageURL)
+        profileImage.setImage(kind: "profile", with: data.profileImageURL)
         participantsName.text = data.participantsName
         if data.isHost {
             nameStackView.addArrangedSubview(hostLabel)
