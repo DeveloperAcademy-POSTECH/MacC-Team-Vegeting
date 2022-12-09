@@ -95,7 +95,7 @@ final class OtherChatContentCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(with model: MessageBubble) {
-        profileImageView.setImage(with: model.message.senderProfileImageURL)
+        profileImageView.setImage(kind: "profile", with: model.message.senderProfileImageURL)
         contentLabel.text = model.message.content
         dateTimeLabel.text = model.message.createdAt.toMessageTimeText()
         profileUserNameLabel.text = model.message.senderName
