@@ -197,7 +197,6 @@ extension FirebaseManager {
         let participatedClub = ParticipatedClub(clubID: club.clubID, clubName: club.clubTitle, profileImageURL: club.coverImageURL)
         let participatedChat = ParticipatedChatRoom(chatID: club.chatID, chatName: club.clubTitle, imageURL: club.coverImageURL, lastReadIndex: nil)
         updateUser(user: user, participatedChat: participatedChat, participatedClub: participatedClub)
-        appendMemberInClub(user: user, club: club)
     }
 }
 

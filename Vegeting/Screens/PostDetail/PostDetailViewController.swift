@@ -375,6 +375,7 @@ extension PostDetailViewController: ParticipateHalfViewControllerDelegate {
         let participatedChatRoom = ParticipatedChatRoom(chatID: club.chatID, chatName: club.clubTitle, imageURL: club.coverImageURL, lastReadIndex: nil)
         guard let user = AuthManager.shared.currentUser() else { return }
         FirebaseManager.shared.participateInClub(user: user, club: club)
+        FirebaseManager.shared.appendMemberInClub(user: user, club: club)
         viewController.configureViewModel(participatedChatRoom: participatedChatRoom, user: user)
         self.navigationController?.pushViewController(viewController, animated: true)
     }
