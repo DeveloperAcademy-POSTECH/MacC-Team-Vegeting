@@ -24,6 +24,7 @@ struct VFUser: Identifiable, Codable, Equatable {
 }
 
 struct ParticipatedChatRoom: Hashable, Codable {
+    var id = UUID().uuidString
     let chatID: String?
     let chatName: String
     let imageURL: URL?
@@ -31,6 +32,7 @@ struct ParticipatedChatRoom: Hashable, Codable {
 }
 
 struct ParticipatedClub: Hashable, Codable {
+    var id = UUID().uuidString
     let clubID: String?
     let clubName: String
     let profileImageURL: URL?
