@@ -101,7 +101,6 @@ final class FirstProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureNavBar()
         configureUI()
         setupLayout()
@@ -109,9 +108,9 @@ final class FirstProfileViewController: UIViewController {
     }
     
     func configureNavBar() {
-        navigationItem.title = "프로필 설정"
+        self.navigationItem.title = "프로필 설정"
         navigationController?.navigationBar.tintColor = .label
-        navigationController?.navigationBar.topItem?.title = ""
+        
     }
     
     deinit {
