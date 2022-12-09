@@ -284,27 +284,21 @@ final class FirstProfileViewController: UIViewController {
     }
     
     private func requestImageURL(completion: @escaping (URL?) -> Void) {
-        if !(profileImageView.image == nil) {
-            
-            guard let image = profileImageView.image else {
-                completion(nil)
-                return
-            }
-            if profileImageView.image == nil {
-                profileImageView.setRandomProfile()
-            }
-            
-            FirebaseStorageManager.shared.uploadImage(image: image, folderName: "userProfile") { result in
-                switch result {
-                case .success(let url):
-                    completion(url)
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-            }
-            
-        } else {
+        if profileImageView.image == nil {
+            profileImageView.setRandomProfile()
+        }
+        
+        guard let image = profileImageView.image else {
             completion(nil)
+            return
+        }
+        FirebaseStorageManager.shared.uploadImage(image: image, folderName: "userProfile") { result in
+            switch result {
+            case .success(let url):
+                completion(url)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
         }
     }
 }
