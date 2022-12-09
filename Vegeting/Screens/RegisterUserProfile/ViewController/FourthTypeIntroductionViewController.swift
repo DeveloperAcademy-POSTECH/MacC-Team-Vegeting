@@ -95,6 +95,7 @@ final class FourthTypeIntroductionViewController: UIViewController {
         configureUI()
         hideKeyboardWhenTappedAround()
         setupLayout()
+        observeKeyboardWillShow()
     }
     
     private func configureTextView() {
@@ -193,6 +194,22 @@ final class FourthTypeIntroductionViewController: UIViewController {
         guard let type = vegetarianTypeSelectButton.currentTitle else { return }
         let userTypeIntroduction = FourthTypeIntroduction(userGenderBirthYear: userGenderBirthYear, userVegetarianType: type, userIntroduction: introductionTextView.text)
         navigationController?.pushViewController(FifthInterestViewController(userTypeIntroduction: userTypeIntroduction), animated: true)
+    }
+    
+    private func observeKeyboardWillShow() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(scrollVerticalWhenKeybaordWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+    }
+    
+    @objc
+    private func scrollVerticalWhenKeybaordWillShow(notification: NSNotification) {
+        let scrollHeightToBottom = scrollView.contentSize.height - scrollView.bounds.size.height
+        if scrollHeightToBottom > 0 {
+            let scrollHeightToBottomOffset = CGPoint(x: 0, y: scrollHeightToBottom)
+            scrollView.setContentOffset(scrollHeightToBottomOffset, animated: true)
+        }
     }
 }
 
