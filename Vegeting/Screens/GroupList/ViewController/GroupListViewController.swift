@@ -80,6 +80,7 @@ class GroupListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         showTabBar()
+        refreshList()
     }
     
     //MARK: - func
@@ -114,6 +115,16 @@ class GroupListViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func refreshList() {
+        Task {
+            resetClubArray()
+            allClubList = await FirebaseManager.shared.requestClubInformation() ?? []
+            fetchClubLists()
+            updateShowClubList()
+            updateCollectionViewList()
+        }
     }
     
     @objc

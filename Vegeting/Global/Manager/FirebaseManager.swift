@@ -173,12 +173,25 @@ extension FirebaseManager {
         }
     }
     
+    private func updateUser(user: VFUser, participatedChat: ParticipatedChatRoom, participatedClub: ParticipatedClub) {
+        var updatedParticipatedChat = user.participatedChats ?? []
+        updatedParticipatedChat.append(participatedChat)
+        var updatedParticipatedClub = user.participatedClubs ?? []
+        updatedParticipatedClub.append(participatedClub)
+        
+        let updateUser = VFUser(userID: user.userID, userName: user.userName, imageURL: user.imageURL, birth: user.birth, location: user.location, gender: user.gender, vegetarianType: user.vegetarianType, introduction: user.introduction, interests: user.interests, participatedChats: updatedParticipatedChat, participatedClubs: updatedParticipatedClub)
+        
+        do {
+            db.collection(Path.user.rawValue).document(updateUser.userID).setData(from: updateUser)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
     func participateInClub(user: VFUser, club: Club) {
         let participatedClub = ParticipatedClub(clubID: club.clubID, clubName: club.clubTitle, profileImageURL: club.coverImageURL)
         let participatedChat = ParticipatedChatRoom(chatID: club.chatID, chatName: club.clubTitle, imageURL: club.coverImageURL, lastReadIndex: nil)
-        requestUpdateUser(user: user, participatedChatRoom: participatedChat, participatedClub: participatedClub)
+        updateUser(user: user, participatedChat: participatedChat, participatedClub: participatedClub)
         appendMemberInClub(user: user, club: club)
-        
     }
 }
 
