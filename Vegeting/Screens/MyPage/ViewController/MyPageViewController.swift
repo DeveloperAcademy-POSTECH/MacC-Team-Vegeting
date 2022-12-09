@@ -66,7 +66,7 @@ class MyPageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         showTabBar()
-        self?.vfUser = AuthManager.shared.currentUser()
+        self.vfUser = AuthManager.shared.currentUser()
     }
 
     //MARK: - func
