@@ -52,7 +52,7 @@ class GroupListViewController: UIViewController {
     
     private lazy var groupCategoryView: GroupCategoryView = {
         let groupCategoryView = GroupCategoryView()
-        groupCategoryView.changeCategoryList(with: ["전체", "맛집", "행사", "기타"])
+        groupCategoryView.changeCategoryList(with: ["전체", "맛집", "파티", "행사", "기타"])
         groupCategoryView.delegate = self
         return groupCategoryView
     }()
