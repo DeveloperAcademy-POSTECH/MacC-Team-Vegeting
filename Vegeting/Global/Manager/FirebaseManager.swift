@@ -158,7 +158,7 @@ extension FirebaseManager {
         guard let result = result else { return }
         
         let participatedClub = ParticipatedClub(clubID: result.clubID, clubName: club.clubTitle ?? "", profileImageURL: club.coverImageURL)
-        let participatedChatRoom = ParticipatedChatRoom(chatID: result.chatID, chatName: chat.chatRoomName, imageURL: chat.coverImageURL, lastReadIndex: nil)
+        let participatedChatRoom = ParticipatedChatRoom(chatID: result.chatID, chatName: chat.chatRoomName, imageURL: chat.coverImageURL, lastReadIndex: 0)
         requestUpdateUser(user: user, participatedChatRoom: participatedChatRoom, participatedClub: participatedClub)
     }
     
@@ -195,7 +195,7 @@ extension FirebaseManager {
     }
     func participateInClub(user: VFUser, club: Club) {
         let participatedClub = ParticipatedClub(clubID: club.clubID, clubName: club.clubTitle, profileImageURL: club.coverImageURL)
-        let participatedChat = ParticipatedChatRoom(chatID: club.chatID, chatName: club.clubTitle, imageURL: club.coverImageURL, lastReadIndex: nil)
+        let participatedChat = ParticipatedChatRoom(chatID: club.chatID, chatName: club.clubTitle, imageURL: club.coverImageURL, lastReadIndex: 0)
         updateUser(user: user, participatedChat: participatedChat, participatedClub: participatedClub)
     }
 }
