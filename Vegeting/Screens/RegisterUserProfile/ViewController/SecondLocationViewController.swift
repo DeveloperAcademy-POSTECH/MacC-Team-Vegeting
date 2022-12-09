@@ -42,7 +42,6 @@ final class SecondLocationViewController: UIViewController {
         label.font = .preferredFont(forTextStyle: .body)
         label.textColor = UIColor(hex: "#616161")
         label.layer.cornerRadius = 8
-        label.text = "포항시 지곡동"
         label.backgroundColor = UIColor(hex: "#F2F2F2")
         return label
     }()
