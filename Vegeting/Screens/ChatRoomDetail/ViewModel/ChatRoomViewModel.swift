@@ -54,6 +54,7 @@ final class ChatRoomViewModel: ViewModelType {
             switch event {
             case .viewWillAppear:
                 self?.setupNavigationTitle()
+                self?.requestMessagesFromServer()
             case .textChanged(let height):
                 self?.calculateTextViewHeight(height: height)
             case .sendButtonTapped(let text):
@@ -146,8 +147,8 @@ final class ChatRoomViewModel: ViewModelType {
     func configure(participatedChatRoom: ParticipatedChatRoom, user: VFUser) {
         self.participatedChatRoom = participatedChatRoom
         self.user = user
-        setupNavigationTitle()
-        requestMessagesFromServer()
+//        setupNavigationTitle()
+//        requestMessagesFromServer()
     }
     
     private func updateLastReadIndex() {
