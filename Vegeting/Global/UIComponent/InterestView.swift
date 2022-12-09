@@ -134,17 +134,13 @@ extension InterestView: UICollectionViewDelegate {
     }
   
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if entryPoint == .profile {
             selectedInterestList[indexPath.item] = interestList[indexPath.item]
             judgeBottomButtonEnabled(status: true, targetValue: 1)
-        }
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        if entryPoint == .profile {
             selectedInterestList[indexPath.item] = nil
             judgeBottomButtonEnabled(status: false, targetValue: 0)
-        }
     }
     
     private func judgeBottomButtonEnabled(status: Bool, targetValue: Int) {
