@@ -196,8 +196,7 @@ final class ReportViewController: UIViewController {
         
         let alert = UIAlertController(title: "탈퇴되었습니다.", message: "서비스를 사용하려면 다시 가입해주세요.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { _ in
-            let signInViewController = SignInViewController()
-            self.navigationController?.setViewControllers([signInViewController], animated: true)
+            NotificationCenter.default.post(name: NSNotification.Name("sceneRootViewToMainTabbar"), object: nil)
         }))
         present(alert, animated: true)
     }

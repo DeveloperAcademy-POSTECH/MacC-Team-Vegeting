@@ -97,8 +97,7 @@ class FifthInterestViewController: UIViewController {
             do {
                 try await FirebaseManager.shared.requestUserInformation(with: user)
                 AuthManager.shared.updateUser()
-                let mainTabBarViewController = MainTabBarViewController()
-                self.navigationController?.setViewControllers([mainTabBarViewController], animated: true)
+                NotificationCenter.default.post(name: NSNotification.Name("sceneRootViewToMainTabbar"), object: nil)
             } catch {
                 print(error.localizedDescription)
             }

@@ -59,8 +59,7 @@ class SignInViewController: UIViewController {
             case .didFailToSignInWithApple(let error), .didFailToSignInWithKakao(let error):
                 print(error.localizedDescription)
             case .didAlreadySignInWithApple, .didAlreadySignInWithKakao:
-                let mainTabbarViewController = MainTabBarViewController()
-                self?.navigationController?.setViewControllers([mainTabbarViewController], animated: true)
+                NotificationCenter.default.post(name: NSNotification.Name("sceneRootViewToMainTabbar"), object: nil)
             }
         }.store(in: &cancellables)
     }

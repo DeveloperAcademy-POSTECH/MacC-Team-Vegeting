@@ -66,10 +66,7 @@ class MyPageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         showTabBar()
-        Task { [weak self] in
-            guard let vfUser = await FirebaseManager.shared.requestUser() else { return }
-            self?.vfUser = vfUser
-        }
+        self?.vfUser = AuthManager.shared.currentUser()
     }
 
     //MARK: - func
@@ -154,6 +151,9 @@ extension MyPageViewController: UITableViewDelegate {
                              okTitle: "확인",
                              cancelTitle: "취소") { okAction in
                 AuthManager.shared.requestSignOut()
+                NotificationCenter.default.post(name: NSNotification.Name("sceneRootViewToSignInViewController"), object: nil)
+
+                
             }
 
         case SettingElement.unregister.rawValue:
