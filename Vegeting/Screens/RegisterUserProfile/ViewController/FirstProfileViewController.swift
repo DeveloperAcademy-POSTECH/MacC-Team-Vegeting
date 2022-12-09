@@ -270,6 +270,7 @@ final class FirstProfileViewController: UIViewController {
     
     @objc
     private func nextButtonTapped() {
+        nextButtonInactive()
         guard let nickname = nicknameTextField.text else {
             return
         }
@@ -278,6 +279,7 @@ final class FirstProfileViewController: UIViewController {
             let profileImage = url
             let userImageNickname = FirstImageNickname(userImageURL: profileImage, userNickname: nickname)
             self.navigationController?.pushViewController(SecondLocationViewController(userImageNickname: userImageNickname), animated: true)
+            self.nextButtonActive()
         }
     }
     
