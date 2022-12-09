@@ -17,6 +17,8 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 8
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = UIColor.vfGray4.cgColor
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
