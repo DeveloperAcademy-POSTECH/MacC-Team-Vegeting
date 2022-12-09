@@ -140,6 +140,15 @@ class ChatRoomTableViewCell: UITableViewCell {
         latestChatLabel.text = data.latestChat
         latestChatDateLabel.text = convertDate(lastChatDate: data.latestChatDate)
         unreadChatCountLabel.text = data.unreadChatCount?.description
+        if let count = data.unreadChatCount, count > 0 {
+            changeUnreadChatCountLabelColor(isUnreadStatus: true)
+        } else {
+            changeUnreadChatCountLabelColor(isUnreadStatus: false)
+        }
+    }
+    
+    private func changeUnreadChatCountLabelColor(isUnreadStatus: Bool) {
+        backgroundUnreadChatView.backgroundColor = isUnreadStatus ? .vfYellow1 : .vfGray4
     }
 
     private func convertDate(lastChatDate: Date) -> String {
