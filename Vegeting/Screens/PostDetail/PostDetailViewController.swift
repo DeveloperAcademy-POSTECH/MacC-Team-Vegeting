@@ -26,7 +26,7 @@ final class PostDetailViewController: UIViewController {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.setImage(kind: "coverImage", with: club.coverImageURL)
+        imageView.setImage(kind: "groupCoverBasicImage", with: club.coverImageURL)
         return imageView
     }()
     
@@ -382,13 +382,9 @@ extension PostDetailViewController: ParticipateHalfViewControllerDelegate {
                 viewController.configureViewModel(participatedChatRoom: participatedChatRoom, user: newUser)
                 self.navigationController?.pushViewController(viewController, animated: true)
             } catch {
-                print("error 발생입니다!")
+                print(error.localizedDescription)
             }
         }
-        
-        
-//        FirebaseManager.shared.participateInClub(user: user, club: club)
-//        FirebaseManager.shared.appendMemberInClub(user: user, club: club)
     }
 }
 

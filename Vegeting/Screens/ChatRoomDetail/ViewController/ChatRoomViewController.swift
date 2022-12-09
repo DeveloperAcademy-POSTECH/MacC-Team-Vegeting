@@ -42,21 +42,20 @@ final class ChatRoomViewController: UIViewController {
         return stackView
     }()
     
-    private let plusButton: UIButton = {
-        let button = UIButton()
-        let imageConfig = UIImage.SymbolConfiguration(font: UIFont.systemFont(ofSize: 22))
-        let image = UIImage(systemName: "plus.circle", withConfiguration: imageConfig)
-        button.setImage(image, for: .normal)
-        return button
-    }()
-    
     private lazy var sendButton: UIButton = {
         let button = UIButton()
-        let imageConfig = UIImage.SymbolConfiguration(font: UIFont.systemFont(ofSize: 22))
-        let image = UIImage(systemName: "location", withConfiguration: imageConfig)
+    
+        var imageConfig = UIImage.SymbolConfiguration(paletteColors: [.vfYellow1, .vfBlack])
+        imageConfig = imageConfig.applying(UIImage.SymbolConfiguration(font: .systemFont(ofSize: 22.0)))
+        let image = UIImage(systemName: "location.fill", withConfiguration: imageConfig)
         button.setImage(image, for: .normal)
         
+        var disableImageConfig = UIImage.SymbolConfiguration(paletteColors: [.vfBlack])
+        disableImageConfig = disableImageConfig.applying(UIImage.SymbolConfiguration(font: .systemFont(ofSize: 22.0)))
+        let disableImage = UIImage(systemName: "location", withConfiguration: disableImageConfig)
+        button.setImage(disableImage, for: .disabled)
         button.addTarget(self, action: #selector(sendButtonTapped(_:)), for: .touchUpInside)
+        button.isEnabled = false
         return button
     }()
     
@@ -114,7 +113,9 @@ final class ChatRoomViewController: UIViewController {
         let textChangePublihser = NotificationCenter.default.publisher(for: UITextView.textDidChangeNotification)
         textChangePublihser.sink { [weak self] _ in
             guard let height = self?.messageTextView.contentSize.height, let text = self?.messageTextView.text else { return }
-            
+//           텍스트가 개행과 스페이스밖에 없을때 전송불가
+            let textWithoutSpace = text.trimmingCharacters(in: .whitespacesAndNewlines)
+            self?.sendButton.isEnabled = !(textWithoutSpace.isEmpty)
             self?.input.send(.textChanged(height: height))
         }.store(in: &cancellables)
     }
@@ -189,7 +190,7 @@ extension ChatRoomViewController {
     
     private func setupLayout() {
         
-        transferMessageStackView.addArrangedSubviews(plusButton, messageTextView, sendButton)
+        transferMessageStackView.addArrangedSubviews(messageTextView, sendButton)
         messageTextViewHeightAnchor.isActive = true
         let transferMessageStackViewConstraints = [
             transferMessageStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),

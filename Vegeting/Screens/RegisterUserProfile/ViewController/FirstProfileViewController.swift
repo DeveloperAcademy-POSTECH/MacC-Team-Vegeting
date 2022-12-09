@@ -290,6 +290,9 @@ final class FirstProfileViewController: UIViewController {
                 completion(nil)
                 return
             }
+            if profileImageView.image == nil {
+                profileImageView.setRandomProfile()
+            }
             
             FirebaseStorageManager.shared.uploadImage(image: image, folderName: "userProfile") { result in
                 switch result {

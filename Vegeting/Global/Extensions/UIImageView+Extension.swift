@@ -10,10 +10,12 @@ import UIKit
 import Kingfisher
 
 extension UIImageView {
+    
     func setImage(kind: String, with url: URL?) {
         guard let url = url else {
-            let imageName = (kind == "profile" ? "profile\(Int.random(in: 1...9))" : "groupCoverBasicImage")
-            self.image = UIImage(named: imageName)
+            if kind == "groupCoverBasicImage" {
+                self.image = UIImage(named: kind)
+            }
             return
         }
         let cache = ImageCache.default
@@ -30,5 +32,10 @@ extension UIImageView {
                 print(error)
             }
         }
+    }
+    
+    func setRandomProfile() {
+        let imageName = "profile\(Int.random(in: 1...9))"
+        self.image = UIImage(named: imageName)
     }
 }
