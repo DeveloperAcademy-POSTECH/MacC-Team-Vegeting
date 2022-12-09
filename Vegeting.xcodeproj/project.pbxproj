@@ -13,6 +13,7 @@
 		4A1B96122942378A009FCFE3 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1B96112942378A009FCFE3 /* EventViewController.swift */; };
 		4A1B9614294238AE009FCFE3 /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1B9613294238AE009FCFE3 /* EventDetailViewController.swift */; };
 		4A1B961929432997009FCFE3 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 4A1B961829432997009FCFE3 /* Lottie */; };
+		4A2620D629435F4F0057756E /* launchScreenLottie.json in Resources */ = {isa = PBXBuildFile; fileRef = 4A2620D529435F4F0057756E /* launchScreenLottie.json */; };
 		4A31CD242903D73D00E5E422 /* FirstCreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD232903D73D00E5E422 /* FirstCreateGroupViewController.swift */; };
 		4A31CD272903D86200E5E422 /* GroupCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD262903D86200E5E422 /* GroupCategoryView.swift */; };
 		4A31CD2A2903D89600E5E422 /* GroupCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD292903D89600E5E422 /* GroupCategoryCollectionViewCell.swift */; };
@@ -113,7 +114,7 @@
 		A7B5B4F029263EE500421EF1 /* SelectVegetarianTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B5B4EF29263EE500421EF1 /* SelectVegetarianTypeViewController.swift */; };
 		A7C8DF242901274500F38AD7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C8DF232901274500F38AD7 /* AppDelegate.swift */; };
 		A7C8DF262901274500F38AD7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C8DF252901274500F38AD7 /* SceneDelegate.swift */; };
-		A7C8DF282901274500F38AD7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C8DF272901274500F38AD7 /* ViewController.swift */; };
+		A7C8DF282901274500F38AD7 /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C8DF272901274500F38AD7 /* LaunchScreenViewController.swift */; };
 		A7C8DF2D2901274600F38AD7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7C8DF2C2901274600F38AD7 /* Assets.xcassets */; };
 		A7C8DF302901274600F38AD7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7C8DF2E2901274600F38AD7 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -134,6 +135,7 @@
 		4A060C072913AA5E00D75699 /* InterestCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A1B96112942378A009FCFE3 /* EventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
 		4A1B9613294238AE009FCFE3 /* EventDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
+		4A2620D529435F4F0057756E /* launchScreenLottie.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = launchScreenLottie.json; sourceTree = "<group>"; };
 		4A31CD232903D73D00E5E422 /* FirstCreateGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstCreateGroupViewController.swift; sourceTree = "<group>"; };
 		4A31CD262903D86200E5E422 /* GroupCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCategoryView.swift; sourceTree = "<group>"; };
 		4A31CD292903D89600E5E422 /* GroupCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -227,7 +229,7 @@
 		A7C8DF202901274500F38AD7 /* Vegeting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vegeting.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7C8DF232901274500F38AD7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A7C8DF252901274500F38AD7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		A7C8DF272901274500F38AD7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A7C8DF272901274500F38AD7 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
 		A7C8DF2C2901274600F38AD7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A7C8DF2F2901274600F38AD7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A7C8DF312901274600F38AD7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = Vegeting/Global/Supports/Info.plist; sourceTree = SOURCE_ROOT; };
@@ -359,6 +361,7 @@
 		4ADC12D529017A8F00C0FFB6 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4A2620D529435F4F0057756E /* launchScreenLottie.json */,
 				A7C8DF2C2901274600F38AD7 /* Assets.xcassets */,
 				4ADC12DB29017D3200C0FFB6 /* Storyboards */,
 			);
@@ -511,7 +514,7 @@
 		4AFA58AB2904244400679142 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				A7C8DF272901274500F38AD7 /* ViewController.swift */,
+				A7C8DF272901274500F38AD7 /* LaunchScreenViewController.swift */,
 				A760964A2909530600636A99 /* MainTabBarViewController.swift */,
 			);
 			path = ViewController;
@@ -894,6 +897,7 @@
 				A7C8DF302901274600F38AD7 /* LaunchScreen.storyboard in Resources */,
 				A7C8DF2D2901274600F38AD7 /* Assets.xcassets in Resources */,
 				76E9EC3E2919C9FC00193B1C /* GoogleService-Info.plist in Resources */,
+				4A2620D629435F4F0057756E /* launchScreenLottie.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -922,7 +926,7 @@
 				4AE1409F2925F07C005485A8 /* ReportTableViewCell.swift in Sources */,
 				4AF67E95291206C000D4A2C4 /* ChatRoomTableViewCell.swift in Sources */,
 				A2F369D929090E72007F3732 /* UIButton+Extension.swift in Sources */,
-				A7C8DF282901274500F38AD7 /* ViewController.swift in Sources */,
+				A7C8DF282901274500F38AD7 /* LaunchScreenViewController.swift in Sources */,
 				4A060C062913AA4300D75699 /* InterestView.swift in Sources */,
 				A2C7DE582923720300269339 /* FirebaseStorageManager.swift in Sources */,
 				76B0282629051FC9002C9DF7 /* VFUser.swift in Sources */,

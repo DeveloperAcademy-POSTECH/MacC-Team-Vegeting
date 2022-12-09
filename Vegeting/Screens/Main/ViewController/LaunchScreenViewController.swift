@@ -7,26 +7,29 @@
 
 import UIKit
 
-final class ViewController: UIViewController {
+import Lottie
+
+final class LaunchScreenViewController: UIViewController {
     
-    let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "eventDetail")
-        return imageView
+    private let animationView: LottieAnimationView = {
+        let animationView = LottieAnimationView(name: "launchScreenLottie")
+        animationView.loopMode = .playOnce
+        return animationView
     }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tabBarController?.tabBar.isHidden = true
         setupLayout()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+        animationView.play { _ in
             NotificationCenter.default.post(name: NSNotification.Name("didLaunchScreenEnded"), object: nil)
-        })
+        }
     }
     
     private func setupLayout() {
-        view.addSubview(imageView)
-        imageView.constraint(top: view.topAnchor,
+        view.addSubview(animationView)
+        animationView.constraint(top: view.topAnchor,
                              leading: view.leadingAnchor,
                              bottom: view.safeAreaLayoutGuide.bottomAnchor,
                              trailing: view.trailingAnchor)

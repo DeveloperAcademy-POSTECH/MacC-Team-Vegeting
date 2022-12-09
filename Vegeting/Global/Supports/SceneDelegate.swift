@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
 //        MARK: 앱을 처음 켰을때 나오게 되는 화면
-        window.rootViewController = ViewController()
+        window.rootViewController = LaunchScreenViewController()
        
         //        MARK: 앱에서 로그인 상태가 변했을 때 바뀌는 화면
         NotificationCenter.default.addObserver(forName: NSNotification.Name("sceneRootViewToMainTabbar"), object: nil, queue: nil) { _ in
