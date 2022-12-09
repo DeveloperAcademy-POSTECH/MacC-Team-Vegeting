@@ -55,6 +55,7 @@ final class ChatRoomViewController: UIViewController {
         let imageConfig = UIImage.SymbolConfiguration(font: UIFont.systemFont(ofSize: 22))
         let image = UIImage(systemName: "location", withConfiguration: imageConfig)
         button.setImage(image, for: .normal)
+        
         button.addTarget(self, action: #selector(sendButtonTapped(_:)), for: .touchUpInside)
         return button
     }()

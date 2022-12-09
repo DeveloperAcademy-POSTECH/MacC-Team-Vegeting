@@ -158,7 +158,7 @@ extension FirebaseManager {
         guard let result = result else { return }
         
         let participatedClub = ParticipatedClub(clubID: result.clubID, clubName: club.clubTitle ?? "", profileImageURL: club.coverImageURL)
-        let participatedChatRoom = ParticipatedChatRoom(chatID: result.chatID, chatName: chat.chatRoomName, imageURL: chat.coverImageURL, lastReadIndex: 0)
+        let participatedChatRoom = ParticipatedChatRoom(chatID: result.chatID, chatName: chat.chatRoomName, imageURL: chat.coverImageURL, lastReadIndex: nil)
         requestUpdateUser(user: user, participatedChatRoom: participatedChatRoom, participatedClub: participatedClub)
     }
     
@@ -195,8 +195,26 @@ extension FirebaseManager {
     }
     func participateInClub(user: VFUser, club: Club) {
         let participatedClub = ParticipatedClub(clubID: club.clubID, clubName: club.clubTitle, profileImageURL: club.coverImageURL)
-        let participatedChat = ParticipatedChatRoom(chatID: club.chatID, chatName: club.clubTitle, imageURL: club.coverImageURL, lastReadIndex: 0)
+        let participatedChat = ParticipatedChatRoom(chatID: club.chatID, chatName: club.clubTitle, imageURL: club.coverImageURL, lastReadIndex: nil)
         updateUser(user: user, participatedChat: participatedChat, participatedClub: participatedClub)
+    }
+    
+    func participateInClubAsync(user: VFUser, club: Club) async throws {
+        let participatedClub = ParticipatedClub(clubID: club.clubID, clubName: club.clubTitle, profileImageURL: club.coverImageURL)
+        
+        let participatedChat = ParticipatedChatRoom(chatID: club.chatID, chatName: club.clubTitle, imageURL: club.coverImageURL, lastReadIndex: nil)
+        
+        
+        do {
+            let document = db.collection(Path.user.rawValue).document(user.userID)
+            let encodedParticipatedClub = try Firestore.Encoder().encode(participatedClub)
+            let encodedParticipatedChat = try Firestore.Encoder().encode(participatedChat)
+            try await document.updateData(["participatedClubs": FieldValue.arrayUnion([encodedParticipatedClub]), "participatedChats": FieldValue.arrayUnion([encodedParticipatedChat])])
+        } catch {
+            print(error.localizedDescription)
+        }
+    
+        
     }
 }
 
@@ -285,6 +303,7 @@ extension FirebaseManager {
     func requestRecentChat(user: VFUser, completion: @escaping (Result<[RecentChat], Error>) -> Void) {
         guard let participatedChatRoomIDs =  user.participatedChats?.compactMap(\.chatID) else { return }
         if participatedChatRoomIDs.isEmpty { return }
+        if participatedChatRoomIDs.count > 9 { return }
         db.collection(Path.recentChat.rawValue).whereField(FieldPath.documentID(), in: participatedChatRoomIDs).addSnapshotListener { querySnapshot, error in
             if let error = error {
                 print("Error getting documents: \(error)")

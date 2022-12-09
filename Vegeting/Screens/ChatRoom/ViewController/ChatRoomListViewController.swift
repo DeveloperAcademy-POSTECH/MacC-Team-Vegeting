@@ -166,7 +166,7 @@ extension ChatRoomListViewController: UITableViewDelegate {
         let selectedChatRoom = chatList[indexPath.row]
         let participatedChatRoom = ParticipatedChatRoom(chatID: selectedChatRoom.chatRoomID,
                                                         chatName: selectedChatRoom.chatRoomName ?? "",
-                                                        imageURL: selectedChatRoom.coverImageURL, lastReadIndex: 0)
+                                                        imageURL: selectedChatRoom.coverImageURL, lastReadIndex: nil)
         guard let user = self.user else { return }
         viewController.configureViewModel(participatedChatRoom: participatedChatRoom, user: user)
         navigationController?.pushViewController(viewController, animated: true)
