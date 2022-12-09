@@ -12,6 +12,7 @@
 		4A060C082913AA5E00D75699 /* InterestCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A060C072913AA5E00D75699 /* InterestCollectionViewCell.swift */; };
 		4A1B96122942378A009FCFE3 /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1B96112942378A009FCFE3 /* EventViewController.swift */; };
 		4A1B9614294238AE009FCFE3 /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A1B9613294238AE009FCFE3 /* EventDetailViewController.swift */; };
+		4A1B961929432997009FCFE3 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 4A1B961829432997009FCFE3 /* Lottie */; };
 		4A31CD242903D73D00E5E422 /* FirstCreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD232903D73D00E5E422 /* FirstCreateGroupViewController.swift */; };
 		4A31CD272903D86200E5E422 /* GroupCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD262903D86200E5E422 /* GroupCategoryView.swift */; };
 		4A31CD2A2903D89600E5E422 /* GroupCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A31CD292903D89600E5E422 /* GroupCategoryCollectionViewCell.swift */; };
@@ -244,6 +245,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A1B961929432997009FCFE3 /* Lottie in Frameworks */,
 				A23990DC29346FE600664C5C /* Kingfisher in Frameworks */,
 				76B0283529052209002C9DF7 /* FirebaseFirestoreSwift in Frameworks */,
 				76B0282D29052209002C9DF7 /* FirebaseAuth in Frameworks */,
@@ -825,6 +827,7 @@
 				76FF7CF92917BDF70020BB2C /* KakaoSDKUser */,
 				A2B07745292381BE00DFEC08 /* FirebaseStorage */,
 				A23990DB29346FE600664C5C /* Kingfisher */,
+				4A1B961829432997009FCFE3 /* Lottie */,
 			);
 			productName = Vegeting;
 			productReference = A7C8DF202901274500F38AD7 /* Vegeting.app */;
@@ -864,6 +867,7 @@
 				4AB5C27829078DB20064C41E /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				76FF7CF42917BDF70020BB2C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				A23990DA29346FE500664C5C /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				4A1B961729432997009FCFE3 /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			productRefGroup = A7C8DF212901274500F38AD7 /* Products */;
 			projectDirPath = "";
@@ -1298,6 +1302,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		4A1B961729432997009FCFE3 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		4AB5C27229078A910064C41E /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -1341,6 +1353,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4A1B961829432997009FCFE3 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4A1B961729432997009FCFE3 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
 		4AB5C27329078A910064C41E /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4AB5C27229078A910064C41E /* XCRemoteSwiftPackageReference "Alamofire" */;
