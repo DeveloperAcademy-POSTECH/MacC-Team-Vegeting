@@ -213,9 +213,6 @@ extension FirebaseManager {
         } catch {
             print(error.localizedDescription)
         }
-        appendMemberInClub(user: user, club: club)
-    
-        
     }
 }
 

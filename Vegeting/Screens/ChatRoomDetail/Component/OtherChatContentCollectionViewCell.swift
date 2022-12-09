@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 enum MessageType {
     case mine
@@ -55,6 +56,8 @@ final class OtherChatContentCollectionViewCell: UICollectionViewCell {
         imageView.layer.cornerRadius = SizeLiteral.profileImageSize.rawValue / 2
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
+        imageView.backgroundColor = .vfGray3
+
         
         let tapGesture = UITapGestureRecognizer()
         tapGesture.addTarget(self, action: #selector(showProfileHalfModal))

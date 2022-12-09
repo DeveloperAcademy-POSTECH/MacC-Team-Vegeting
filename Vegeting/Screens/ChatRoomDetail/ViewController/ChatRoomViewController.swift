@@ -99,8 +99,9 @@ final class ChatRoomViewController: UIViewController {
                 DispatchQueue.main.async {
                     self?.chatListCollectionView.reloadData()
                     self?.chatListCollectionView.performBatchUpdates({
+                        self?.chatListCollectionView.layoutIfNeeded()
                         let indexPath = IndexPath(item: messageBubbles.count - 1, section: 0)
-                        self?.chatListCollectionView.scrollToItem(at: indexPath, at: .bottom, animated: false)
+                        self?.chatListCollectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
                     })
                 }
             case .failToGetDataFromServer(let error):
