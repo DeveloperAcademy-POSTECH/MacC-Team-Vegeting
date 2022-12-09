@@ -82,11 +82,13 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
         
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: clubInfoLabel.topAnchor, constant: -5)
         ])
         
         NSLayoutConstraint.activate([
             clubInfoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            clubInfoLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             clubInfoLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
