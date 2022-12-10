@@ -147,18 +147,18 @@ extension FirebaseManager {
         
     }
     
-    private func requestUpdateUser(user: VFUser, participatedChatRoom: ParticipatedChatRoom, participatedClub: ParticipatedClub) async throws {
-
-        do {
-            let document = db.collection(Path.user.rawValue).document(user.userID)
-            let encodedParticipatedClub = try Firestore.Encoder().encode(participatedClub)
-            let encodedParticipatedChat = try Firestore.Encoder().encode(participatedChatRoom)
-            try await document.updateData(["participatedClubs": FieldValue.arrayUnion([encodedParticipatedClub]), "participatedChats": FieldValue.arrayUnion([encodedParticipatedChat])])
-        } catch {
-            print(error.localizedDescription)
-        }
-
-    }
+//    private func requestUpdateUser(user: VFUser, participatedChatRoom: ParticipatedChatRoom, participatedClub: ParticipatedClub) async throws {
+//
+//        do {
+//            let document = db.collection(Path.user.rawValue).document(user.userID)
+//            let encodedParticipatedClub = try Firestore.Encoder().encode(participatedClub)
+//            let encodedParticipatedChat = try Firestore.Encoder().encode(participatedChatRoom)
+//            try await document.updateData(["participatedClubs": FieldValue.arrayUnion([encodedParticipatedClub]), "participatedChats": FieldValue.arrayUnion([encodedParticipatedChat])])
+//        } catch {
+//            print(error.localizedDescription)
+//        }
+//
+//    }
     
     /// 첫 Club 모임 생성
     func requestPost(user: VFUser, club: Club, chat: Chat) {
@@ -198,7 +198,7 @@ extension FirebaseManager {
         let participatedChat = ParticipatedChatRoom(chatID: club.chatID, chatName: club.clubTitle, imageURL: club.coverImageURL, lastReadIndex: nil)
         
         do {
-            try await requestUpdateUser(user: user, participatedChatRoom: participatedChat, participatedClub: participatedClub)
+            requestUpdateUser(user: user, participatedChatRoom: participatedChat, participatedClub: participatedClub)
             try await appendMemberInClub(user: user, club: club)
         } catch {
             print(error.localizedDescription)
