@@ -156,6 +156,7 @@ extension ChatRoomViewController: UICollectionViewDataSource {
             
         case .otherWithProfile, .other:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OtherChatContentCollectionViewCell.className, for: indexPath) as? OtherChatContentCollectionViewCell else { return UICollectionViewCell() }
+            cell.delegate = self
             cell.configure(with: data)
             return cell
             
@@ -203,5 +204,29 @@ extension ChatRoomViewController {
         ]
         
         constraintsActivate(transferMessageStackViewConstraints, chatListCollectionViewConstraints)
+    }
+}
+
+extension ChatRoomViewController: OtherChatContentCollectionViewCellDelegate {
+    func showProfileHalfModal(of userID: String) {
+        guard let selectedParticiapnt = self.viewModel.selectedParticipant(of: userID) else { return }
+        
+        let profileHalfModalViewController = ProfileHalfModalViewController()
+        profileHalfModalViewController.delegate = self
+        profileHalfModalViewController.modalPresentationStyle = .pageSheet
+        if let sheet = profileHalfModalViewController.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = false
+        }
+        profileHalfModalViewController.configure(with: selectedParticiapnt)
+        present(profileHalfModalViewController, animated: true, completion: nil)
+    }
+}
+
+extension ChatRoomViewController: ProfileHalfModalViewControllerDelgate {
+    func showReportViewController(user: Participant) {
+        let reportViewController = ReportViewController(entryPoint: .block)
+        reportViewController.configureBlockUser(name: user.name)
+        self.navigationController?.pushViewController(reportViewController, animated: true)
     }
 }

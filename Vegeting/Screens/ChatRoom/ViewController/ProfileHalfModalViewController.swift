@@ -17,7 +17,11 @@ struct ModalModel {
     let introduction: String
 }
 
-class ProfileHalfModalViewController: UIViewController {
+protocol ProfileHalfModalViewControllerDelgate: AnyObject {
+    func showReportViewController(user: Participant)
+}
+
+final class ProfileHalfModalViewController: UIViewController {
     
     // MARK: - properties
     
@@ -29,7 +33,8 @@ class ProfileHalfModalViewController: UIViewController {
     }()
     
     private let profileView = ProfileView()
-    
+    private var participant: Participant? = nil
+    weak var delegate: ProfileHalfModalViewControllerDelgate?
     // MARK: - lifeCycle
     
     override func viewDidLoad() {
@@ -69,19 +74,19 @@ class ProfileHalfModalViewController: UIViewController {
     private func showActionSheet() {
         let alert = UIAlertController(title: .none, message: .none, preferredStyle: .actionSheet)
         
-        let reportAction = UIAlertAction(title: "게시글 신고", style: .default) { action in
-            //
-        }
-        
-        let userBlockAction = UIAlertAction(title: "작성자 차단", style: .default) { action in
-            //
+        let userBlockAction = UIAlertAction(title: "사용자 차단", style: .default) { action in
+            DispatchQueue.main.async {
+                self.dismiss(animated: true)
+            }
+            guard let participant = self.participant else { return }
+            self.delegate?.showReportViewController(user: participant)
         }
         
         let cancelAlertAction = UIAlertAction(title: "취소", style: .cancel) { action in
             //
         }
         
-        [reportAction, userBlockAction, cancelAlertAction].forEach { action in
+        [userBlockAction, cancelAlertAction].forEach { action in
             alert.addAction(action)
         }
         
@@ -90,5 +95,6 @@ class ProfileHalfModalViewController: UIViewController {
     
     func configure(with data: Participant) {
         profileView.configure(with: data)
+        self.participant = data
     }
 }

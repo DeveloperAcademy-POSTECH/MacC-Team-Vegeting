@@ -42,6 +42,13 @@ final class ChatRoomViewModel: ViewModelType {
     private var chat: Chat?
     private var user: VFUser?
     
+    func selectedParticipant(of userID: String) -> Participant? {
+        let selectedParticipant = chat?.participants?.first(where: { participant in
+            participant.userID == userID
+        })
+        return  selectedParticipant
+    }
+    
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
             switch event {
@@ -151,6 +158,5 @@ final class ChatRoomViewModel: ViewModelType {
             try await FirebaseManager.shared.updateLastReadIndex(user: user, participatedChatRoom: participatedChatRoom, index: messagesCount - 1)
         }
     }
-
 }
 

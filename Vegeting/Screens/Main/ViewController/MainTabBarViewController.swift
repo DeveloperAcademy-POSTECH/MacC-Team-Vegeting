@@ -17,7 +17,7 @@ class MainTabBarViewController: UITabBarController {
     }()
     
     private let findFriendTab: UINavigationController = {
-        let controller = UINavigationController(rootViewController: ViewController())
+        let controller = UINavigationController(rootViewController: EventViewController())
         controller.tabBarItem.image = UIImage(named: "calendarStroke")
         controller.tabBarItem.selectedImage = UIImage(named: "calendarFill")
         controller.title = "행사"
