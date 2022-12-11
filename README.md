@@ -8,6 +8,9 @@
 |<img src=https://user-images.githubusercontent.com/39371835/206904147-97f07e89-895d-44c5-a820-cfe3c5b79797.png width=300>|<img src=https://user-images.githubusercontent.com/39371835/206904167-12026e96-7b21-4f2a-a6c3-bc8619c4930f.png width=300>|<img src=https://user-images.githubusercontent.com/39371835/206904430-2c150a0d-6f2e-4b26-bd3e-0f88df9a1910.png width=300>|<img src=https://user-images.githubusercontent.com/39371835/206904226-645a9ff1-e3ae-4b44-a264-837aea8e3561.png width=300>|
 
 
+## Development
+### 🏀Trouble Shooting
+[Discussion](https://github.com/DeveloperAcademy-POSTECH/MacC-Team-Vegeting/discussions)
 __<details><summary>🗂 Folder Structure</summary>__
 
 
@@ -83,7 +86,7 @@ __<details><summary>🗂 Folder Structure</summary>__
 
 
 
-### 🧑‍💻 Authors
+## 🧑‍💻 Authors
 |Tech Lead|Tech|Tech|Tech|Design Lead|
 |---|---|---|---|---|
 |![이유돈](https://user-images.githubusercontent.com/39371835/206903853-78d656d9-0091-4296-97c4-15adab567428.png)|![김원희](https://user-images.githubusercontent.com/39371835/206903852-d98d4045-de8f-4530-b337-8d64ddd91b8b.png)|![김영경](https://user-images.githubusercontent.com/39371835/206903850-cd021d18-9617-4544-93c4-7085ab521fe9.png)|![최동권](https://user-images.githubusercontent.com/39371835/206903854-4756d1ca-ca1d-4cd3-ab5f-2cc6da270ea9.png)|![강은비](https://user-images.githubusercontent.com/39371835/206903846-dda23e07-25fd-49b4-afcd-32e7b49a930d.png)|
