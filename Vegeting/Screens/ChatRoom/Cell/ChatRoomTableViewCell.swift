@@ -134,7 +134,7 @@ class ChatRoomTableViewCell: UITableViewCell {
     }
     
     func configure(with data: TempChatModel) {
-        roomImageView.setImage(with: data.imageURL)
+        roomImageView.setImage(kind: "coverImage", with: data.imageURL)
         titleLabel.text = data.title
         currentUserCountLabel.text = data.currentNumer?.description ?? ""
         latestChatLabel.text = data.latestChat

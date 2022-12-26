@@ -17,6 +17,8 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 8
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = UIColor.vfGray4.cgColor
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
@@ -80,17 +82,19 @@ final class ClubListCollectionViewCell: UICollectionViewCell {
         
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: clubInfoLabel.topAnchor, constant: -5)
         ])
         
         NSLayoutConstraint.activate([
             clubInfoLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            clubInfoLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             clubInfoLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
     
     func configure(with item: Club) {
-        coverImageView.setImage(with: item.coverImageURL)
+        coverImageView.setImage(kind: "coverImage", with: item.coverImageURL)
 
         categoryView.configure(text: item.clubCategory, backgroundColor: .vfGray4 )
         titleLabel.text = item.clubTitle

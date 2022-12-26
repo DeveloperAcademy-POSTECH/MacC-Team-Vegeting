@@ -88,7 +88,7 @@ class MyPageProfileTableViewCell: UITableViewCell {
     }
 
    func configure(imageURL: URL?, nickName: String, step: String) {
-        profileImageView.setImage(with: imageURL)
+        profileImageView.setImage(kind: "profile", with: imageURL)
         nicknameLabel.text = nickName
         vegetarianStepLabel.text = step
     }

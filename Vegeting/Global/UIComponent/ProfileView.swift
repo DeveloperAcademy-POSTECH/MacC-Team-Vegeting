@@ -151,7 +151,7 @@ final class ProfileView: UIView {
     }
     
     func configure(with data: Participant) {
-        profileImageView.setImage(with: data.profileImageURL)
+        profileImageView.setImage(kind: "profile", with: data.profileImageURL)
         nicknameLabel.text = data.name
         vegetarianStepLabel.text = data.vegetarianType
         ageGroupLabel.text = data.birth?.toAgeGroup()
