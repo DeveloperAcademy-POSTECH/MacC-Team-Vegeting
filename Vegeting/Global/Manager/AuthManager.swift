@@ -18,7 +18,9 @@ final class AuthManager {
     private var user: VFUser?
     
     private init() {
-        updateUser()
+        if currentUserID() != nil {
+            updateUser()
+        }
     }
     
     func updateUser() {
