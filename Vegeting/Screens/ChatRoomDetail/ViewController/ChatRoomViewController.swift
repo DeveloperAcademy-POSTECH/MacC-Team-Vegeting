@@ -17,10 +17,10 @@ final class ChatRoomViewController: UIViewController {
     
     private let chatListCollectionView: UICollectionView = {
         
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(900))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(900))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
@@ -95,13 +95,19 @@ final class ChatRoomViewController: UIViewController {
             case .participatedChatTitle(let title):
                 self?.navigationItem.title = title
             case .localChatDataChanged(let messageBubbles), .serverChatDataChanged(let messageBubbles):
-                self?.messageBubbles = messageBubbles
-                DispatchQueue.main.async {
-                    self?.chatListCollectionView.reloadData()
+//                insertItem대상
+                if let currentCount = self?.messageBubbles.count, currentCount < messageBubbles.count {
+                    self?.messageBubbles = messageBubbles
+                    let indexPaths = Array(currentCount...messageBubbles.count - 1).map { IndexPath(row: $0, section: 0) }
+                
                     self?.chatListCollectionView.performBatchUpdates({
-                        self?.chatListCollectionView.layoutIfNeeded()
-                        let indexPath = IndexPath(item: messageBubbles.count - 1, section: 0)
-                        self?.chatListCollectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
+                        self?.chatListCollectionView.insertItems(at: indexPaths)
+                    }, completion: { status in
+                        if status {
+                            self?.chatListCollectionView.layoutIfNeeded()
+                            let indexPath = IndexPath(item: messageBubbles.count - 1, section: 0)
+                            self?.chatListCollectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
+                        }
                     })
                 }
             case .failToGetDataFromServer(let error):
