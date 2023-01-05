@@ -25,4 +25,3 @@ jobs:
             ${{ runner.os }}-spm-
       - name: Set Scheme and Build Xcode 
         run: xcodebuild test -project Vegeting.xcodeproj -scheme "Vegeting" -destination "platform=iOS Simulator,name=iPhone 13 Pro,OS=16.1" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO
-3
