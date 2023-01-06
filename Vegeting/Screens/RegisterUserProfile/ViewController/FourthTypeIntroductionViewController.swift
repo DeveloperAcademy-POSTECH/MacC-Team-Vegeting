@@ -7,7 +7,9 @@
 
 import UIKit
 
-final class UserTypeIntroductionViewController: UIViewController {
+final class FourthTypeIntroductionViewController: UIViewController {
+    
+    private var userGenderBirthYear: ThirdGenderBirthYear
     
     let vegetarianTypeSelectButtonTitle = "채식 단계"
     let introductionMaxLength = 60
@@ -73,9 +75,19 @@ final class UserTypeIntroductionViewController: UIViewController {
         let button = BottomButton()
         button.setTitle("다음으로", for: .normal)
         button.isEnabled = false
+        button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         return button
     }()
-
+    
+    init(userGenderBirthYear: ThirdGenderBirthYear) {
+        self.userGenderBirthYear = userGenderBirthYear
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -175,9 +187,16 @@ final class UserTypeIntroductionViewController: UIViewController {
     private func nextButtonActive() {
         nextButton.isEnabled = true
     }
+    
+    @objc
+    private func nextButtonTapped() {
+        guard let type = vegetarianTypeSelectButton.currentTitle else { return }
+        let userTypeIntroduction = FourthTypeIntroduction(userGenderBirthYear: userGenderBirthYear, userVegetarianType: type, userIntroduction: introductionTextView.text)
+        navigationController?.pushViewController(FifthInterestViewController(userTypeIntroduction: userTypeIntroduction), animated: true)
+    }
 }
 
-extension UserTypeIntroductionViewController: SelectVegetarianTypeViewDelegate {
+extension FourthTypeIntroductionViewController: SelectVegetarianTypeViewDelegate {
     func didSelectVegetarianType(type: String) {
         vegetarianTypeSelectButton.setTitle(type, for: .normal)
         vegetarianTypeSelectButton.setTitleColor(.label, for: .normal)
@@ -194,7 +213,7 @@ extension UserTypeIntroductionViewController: SelectVegetarianTypeViewDelegate {
     }
 }
 
-extension UserTypeIntroductionViewController: UITextViewDelegate {
+extension FourthTypeIntroductionViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         guard let text = textView.text else { return }
         var textLength = text.count

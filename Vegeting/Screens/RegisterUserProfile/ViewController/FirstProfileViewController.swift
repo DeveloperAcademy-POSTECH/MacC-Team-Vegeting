@@ -8,7 +8,7 @@
 import UIKit
 import PhotosUI
 
-final class UserProfileViewController: UIViewController {
+final class FirstProfileViewController: UIViewController {
     
     private let nicknameMinLength = 2
     private let nicknameMaxLength = 10
@@ -74,6 +74,7 @@ final class UserProfileViewController: UIViewController {
         let button = BottomButton()
         button.setTitle("다음으로", for: .normal)
         button.isEnabled = false
+        button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -86,8 +87,16 @@ final class UserProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureNavBar()
         configureUI()
         setupLayout()
+        hideKeyboardWhenTappedAround()
+    }
+    
+    func configureNavBar() {
+        navigationItem.title = "프로필 설정"
+        navigationController?.navigationBar.tintColor = .label
+        navigationController?.navigationBar.topItem?.title = ""
     }
     
     func configureTextField() {
@@ -195,6 +204,10 @@ final class UserProfileViewController: UIViewController {
             let newString = text[text.startIndex..<index]
             nicknameTextField.text = String(newString)
             textLength = newString.count
+        } else if textLength < nicknameMinLength {
+            nextButtonInactive()
+        } else {
+            nextButtonActive()
         }
         
         changeButtonStatus(textLength: textLength)
@@ -216,9 +229,44 @@ final class UserProfileViewController: UIViewController {
     private func nextButtonActive() {
         nextButton.isEnabled = true
     }
+    
+    @objc
+    private func nextButtonTapped() {
+        guard let nickname = nicknameTextField.text else {
+            return
+        }
+        
+        requestImageURL { url in
+            let profileImage = url
+            let userImageNickname = FirstImageNickname(userImageURL: profileImage, userNickname: nickname)
+            self.navigationController?.pushViewController(SecondLocationViewController(userImageNickname: userImageNickname), animated: true)
+        }
+    }
+    
+    private func requestImageURL(completion: @escaping (URL?) -> Void) {
+        if !(profileImageView.image == nil) {
+            
+            guard let image = profileImageView.image else {
+                completion(nil)
+                return
+            }
+            
+            FirebaseStorageManager.shared.uploadImage(image: image, folderName: "userProfile") { result in
+                switch result {
+                case .success(let url):
+                    completion(url)
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+            
+        } else {
+            completion(nil)
+        }
+    }
 }
 
-extension UserProfileViewController: UITextFieldDelegate {
+extension FirstProfileViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
         guard let text = textField.text else { return false }
@@ -230,7 +278,7 @@ extension UserProfileViewController: UITextFieldDelegate {
     }
 }
 
-extension UserProfileViewController: PHPickerViewControllerDelegate {
+extension FirstProfileViewController: PHPickerViewControllerDelegate {
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true)
         

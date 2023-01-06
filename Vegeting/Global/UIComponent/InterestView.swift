@@ -19,6 +19,8 @@ final class InterestView: UIView {
         case profile
         case register
     }
+    
+    var isOtherOption = true
   
     private let interestCollectionView: UICollectionView = {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(76),
@@ -47,7 +49,7 @@ final class InterestView: UIView {
     }()
     
     private var interestList: [String]
-    private var selectedInterestList: [String] = []
+    private var selectedInterestList = [Int:String]()
     private let entryPoint: EntryPoint
     
     weak var delegate: InterestViewDelegate?
@@ -63,7 +65,7 @@ final class InterestView: UIView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError()
     }
     
     // MARK: - func
@@ -80,6 +82,14 @@ final class InterestView: UIView {
     
     func changeCategoryList(with list: [String]) {
         interestList = list
+    }
+    
+    func deliverInterestList() -> [String] {
+        var selectedList = selectedInterestList.map({ (key, value) -> String in
+            return value
+        })
+        
+        return selectedList
     }
 }
 
@@ -109,10 +119,12 @@ extension InterestView: UICollectionViewDelegate {
     }
   
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedInterestList[indexPath.item] = interestList[indexPath.item]
         judgeBottomButtonEnabled(status: true, targetValue: 1)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        selectedInterestList[indexPath.item] = nil
         judgeBottomButtonEnabled(status: false, targetValue: 0)
     }
     

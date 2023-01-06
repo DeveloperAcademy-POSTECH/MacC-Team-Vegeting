@@ -7,7 +7,11 @@
 
 import UIKit
 
-final class UserGenderBirthViewController: UIViewController {
+final class ThirdGenderBirthViewController: UIViewController {
+    
+    private var userLocation: SecondLocation
+    private var selectedGender: String = "여성"
+    private var selectedBirthYear: Int = 0
     
     private let progressBarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -75,6 +79,7 @@ final class UserGenderBirthViewController: UIViewController {
         let button = BottomButton()
         button.setTitle("다음으로", for: .normal)
         button.isEnabled = false
+        button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -87,14 +92,29 @@ final class UserGenderBirthViewController: UIViewController {
         birthDisplayTextField.inputView = yearPicker
     }
     
+    init(userLocation: SecondLocation) {
+        self.userLocation = userLocation
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureNavBar()
         configureUI()
         configureTextField()
         setupLayout()
         createBirthYearPicker()
         hideKeyboardWhenTappedAround()
+    }
+    
+    public func configureNavBar() {
+        navigationItem.title = "프로필 설정"
+        navigationController?.navigationBar.topItem?.title = ""
     }
     
     private func configureTextField() {
@@ -163,9 +183,11 @@ final class UserGenderBirthViewController: UIViewController {
         if femaleButton == sender {
             selectedButtonUI(femaleButton)
             unSelectedButtonUI(maleButton)
+            selectedGender = "여성"
         } else {
             selectedButtonUI(maleButton)
             unSelectedButtonUI(femaleButton)
+            selectedGender = "남성"
         }
         nextButtonActive()
     }
@@ -189,9 +211,15 @@ final class UserGenderBirthViewController: UIViewController {
             nextButton.setBackgroundColor(UIColor(hex: "#FFD243"), for: .normal)
         }
     }
+    
+    @objc
+    private func nextButtonTapped() {
+        let userGenderBirthYear = ThirdGenderBirthYear(userLocation: userLocation, userGender: selectedGender, userBirthYear: selectedBirthYear)
+        navigationController?.pushViewController(FourthTypeIntroductionViewController(userGenderBirthYear: userGenderBirthYear), animated: true)
+    }
 }
 
-extension UserGenderBirthViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+extension ThirdGenderBirthViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -207,13 +235,10 @@ extension UserGenderBirthViewController: UIPickerViewDelegate, UIPickerViewDataS
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         birthDisplayTextField.text = "  \(row+1940)"
     }
-    
-    
-    
 }
 
 //출생년도 textField 수동 입력이 불가능하도록 설정
-extension UserGenderBirthViewController: UITextFieldDelegate {
+extension ThirdGenderBirthViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {
         
@@ -226,6 +251,9 @@ extension UserGenderBirthViewController: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
+        if let birthYearString = textField.text?.trimmingCharacters(in: .whitespaces), let birthYear = Int(birthYearString) {
+            selectedBirthYear = birthYear
+        }
         nextButtonActive()
     }
 }

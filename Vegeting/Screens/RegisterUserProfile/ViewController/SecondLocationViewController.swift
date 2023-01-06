@@ -8,7 +8,9 @@
 import MapKit
 import UIKit
 
-final class LocationAuthViewController: UIViewController {
+final class SecondLocationViewController: UIViewController {
+    
+    private var userImageNickname: FirstImageNickname
     
     //포항공대 위치 - default
     private let defaultLocation = CLLocationCoordinate2D(latitude: 36.0106098, longitude: 129.321296)
@@ -56,17 +58,34 @@ final class LocationAuthViewController: UIViewController {
         let button = BottomButton()
         button.setTitle("다음으로", for: .normal)
         button.isEnabled = false
+        button.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         return button
     }()
+    
+    init(userImageNickname: FirstImageNickname) {
+        self.userImageNickname = userImageNickname
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureLocationManager()
+        configureNavBar()
         configureMap()
         configureUI()
         currentLocationButtonAction()
         setupLayout()
+    }
+    
+    public func configureNavBar() {
+        navigationItem.title = "프로필 설정"
+        navigationController?.navigationBar.tintColor = .label
+        navigationController?.navigationBar.topItem?.title = ""
     }
     
     private func configureLocationManager() {
@@ -149,6 +168,13 @@ final class LocationAuthViewController: UIViewController {
         }
     }
     
+    @objc
+    private func nextButtonTapped() {
+        guard let location = locationDisplayLabel.text else { return }
+        let userLocation = SecondLocation(userImageNickname: userImageNickname, userLocation: location)
+        navigationController?.pushViewController(ThirdGenderBirthViewController(userLocation: userLocation), animated: true)
+    }
+    
     /// 위치 권한 설정 함수
     private func checkCurrentLocationAuthorization(authorizationStatus: CLAuthorizationStatus) {
         switch authorizationStatus {
@@ -199,13 +225,15 @@ final class LocationAuthViewController: UIViewController {
             authorizationStatus = CLLocationManager.authorizationStatus()
         }
         
-        if CLLocationManager.locationServicesEnabled() {
-            checkCurrentLocationAuthorization(authorizationStatus: authorizationStatus)
+        DispatchQueue.main.async {
+            if CLLocationManager.locationServicesEnabled() {
+                self.checkCurrentLocationAuthorization(authorizationStatus: authorizationStatus)
+            }
         }
     }
 }
 
-extension LocationAuthViewController: CLLocationManagerDelegate {
+extension SecondLocationViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else {

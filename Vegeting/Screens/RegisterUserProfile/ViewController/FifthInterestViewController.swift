@@ -7,7 +7,9 @@
 
 import UIKit
 
-class UserInterestViewController: UIViewController {
+class FifthInterestViewController: UIViewController {
+    
+    private var userTypeIntroduction: FourthTypeIntroduction
 
     private let progressBarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -32,6 +34,15 @@ class UserInterestViewController: UIViewController {
     
     private let interestList: [String] = ["맛집", "카페", "행사", "패션", "뷰티", "환경", "정치", "친목", "동물권", "요리", "베이킹"]
     private lazy var selectInterestView = InterestView(interestList: interestList, entryPoint: .register)
+    
+    init(userTypeIntroduction: FourthTypeIntroduction) {
+        self.userTypeIntroduction = userTypeIntroduction
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,11 +88,35 @@ class UserInterestViewController: UIViewController {
     
     @objc
     private func profileRegisterButtonTapped() {
-        // TODO: 프로필 register 함수 구현
+        let selectedInterests = selectInterestView.deliverInterestList()
+        let userInterests = FifthInterests(userTypeIntroduction: userTypeIntroduction, userInterest: selectedInterests)
+        
+        registerUser(model: userInterests)
+    }
+    
+    private func registerUser(model: FifthInterests) {
+        
+        guard let uid = FirebaseManager.shared.requestCurrentUserUID() else { return }
+        
+        let imageURL = model.userTypeIntroduction.userGenderBirthYear.userLocation.userImageNickname.userImageURL
+        let introduction = model.userTypeIntroduction.userIntroduction ?? ""
+        
+        let userName = model.userTypeIntroduction.userGenderBirthYear.userLocation.userImageNickname.userNickname
+        let birth = model.userTypeIntroduction.userGenderBirthYear.userBirthYear
+        let location = model.userTypeIntroduction.userGenderBirthYear.userLocation.userLocation
+        let gender = model.userTypeIntroduction.userGenderBirthYear.userGender
+        let vegetarianType = model.userTypeIntroduction.userVegetarianType
+        let interests = model.userInterest
+        
+        let user = VFUser(userID: uid, userName: userName, imageURL: imageURL, birth: birth,
+                          location: location, gender: gender, vegetarianType: vegetarianType,
+                          introduction: introduction, interests: interests, participatedChats: [], participatedClubs: [])
+        
+        FirebaseManager.shared.registerUserInformation(with: user)
     }
 }
 
-extension UserInterestViewController: InterestViewDelegate {
+extension FifthInterestViewController: InterestViewDelegate {
     func setBottomButtonEnabled(to isEnabled: Bool) {
         profileRegisterButton.isEnabled = isEnabled
     }
