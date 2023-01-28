@@ -42,20 +42,20 @@ final class ChatRoomViewController: UIViewController {
         return stackView
     }()
     
-    private let plusButton: UIButton = {
-        let button = UIButton()
-        let imageConfig = UIImage.SymbolConfiguration(font: UIFont.systemFont(ofSize: 22))
-        let image = UIImage(systemName: "plus.circle", withConfiguration: imageConfig)
-        button.setImage(image, for: .normal)
-        return button
-    }()
-    
     private lazy var sendButton: UIButton = {
         let button = UIButton()
-        let imageConfig = UIImage.SymbolConfiguration(font: UIFont.systemFont(ofSize: 22))
-        let image = UIImage(systemName: "location", withConfiguration: imageConfig)
+    
+        var imageConfig = UIImage.SymbolConfiguration(paletteColors: [.vfYellow1, .vfBlack])
+        imageConfig = imageConfig.applying(UIImage.SymbolConfiguration(font: .systemFont(ofSize: 22.0)))
+        let image = UIImage(systemName: "location.fill", withConfiguration: imageConfig)
         button.setImage(image, for: .normal)
+        
+        var disableImageConfig = UIImage.SymbolConfiguration(paletteColors: [.vfBlack])
+        disableImageConfig = disableImageConfig.applying(UIImage.SymbolConfiguration(font: .systemFont(ofSize: 22.0)))
+        let disableImage = UIImage(systemName: "location", withConfiguration: disableImageConfig)
+        button.setImage(disableImage, for: .disabled)
         button.addTarget(self, action: #selector(sendButtonTapped(_:)), for: .touchUpInside)
+        button.isEnabled = false
         return button
     }()
     
@@ -75,8 +75,16 @@ final class ChatRoomViewController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
+        configureNavigationBar()
         setupLayout()
         bind()
+    }
+    
+    private func configureNavigationBar() {
+        self.navigationItem.largeTitleDisplayMode = .automatic
+        self.navigationController?.navigationBar.tintColor = .vfBlack
+        self.navigationController?.navigationBar.topItem?.backButtonTitle = ""
+
     }
     
     private func bind() {
@@ -84,12 +92,17 @@ final class ChatRoomViewController: UIViewController {
     
         output.sink { [weak self] event in
             switch event {
+            case .participatedChatTitle(let title):
+                self?.navigationItem.title = title
             case .localChatDataChanged(let messageBubbles), .serverChatDataChanged(let messageBubbles):
                 self?.messageBubbles = messageBubbles
                 DispatchQueue.main.async {
                     self?.chatListCollectionView.reloadData()
-                    let indexPath = IndexPath(item: messageBubbles.count - 1, section: 0)
-                    self?.chatListCollectionView.scrollToItem(at: indexPath, at: .bottom, animated: false)
+                    self?.chatListCollectionView.performBatchUpdates({
+                        self?.chatListCollectionView.layoutIfNeeded()
+                        let indexPath = IndexPath(item: messageBubbles.count - 1, section: 0)
+                        self?.chatListCollectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
+                    })
                 }
             case .failToGetDataFromServer(let error):
                 print(error.localizedDescription)
@@ -101,13 +114,20 @@ final class ChatRoomViewController: UIViewController {
         let textChangePublihser = NotificationCenter.default.publisher(for: UITextView.textDidChangeNotification)
         textChangePublihser.sink { [weak self] _ in
             guard let height = self?.messageTextView.contentSize.height, let text = self?.messageTextView.text else { return }
-            
+//           텍스트가 개행과 스페이스밖에 없을때 전송불가
+            let textWithoutSpace = text.trimmingCharacters(in: .whitespacesAndNewlines)
+            self?.sendButton.isEnabled = !(textWithoutSpace.isEmpty)
             self?.input.send(.textChanged(height: height))
         }.store(in: &cancellables)
     }
     
     func configureViewModel(participatedChatRoom: ParticipatedChatRoom, user: VFUser) {
         viewModel.configure(participatedChatRoom: participatedChatRoom, user: user)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        input.send(.viewWillAppear)
     }
 }
 
@@ -139,6 +159,7 @@ extension ChatRoomViewController: UICollectionViewDataSource {
             
         case .otherWithProfile, .other:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OtherChatContentCollectionViewCell.className, for: indexPath) as? OtherChatContentCollectionViewCell else { return UICollectionViewCell() }
+            cell.delegate = self
             cell.configure(with: data)
             return cell
             
@@ -163,14 +184,14 @@ extension ChatRoomViewController {
     private func configureUI() {
         view.addSubviews(chatListCollectionView,transferMessageStackView)
         view.backgroundColor = .systemBackground
-        
+        tabBarController?.tabBar.isHidden = true
         chatListCollectionView.dataSource = self
         chatListCollectionView.delegate = self
     }
     
     private func setupLayout() {
         
-        transferMessageStackView.addArrangedSubviews(plusButton, messageTextView, sendButton)
+        transferMessageStackView.addArrangedSubviews(messageTextView, sendButton)
         messageTextViewHeightAnchor.isActive = true
         let transferMessageStackViewConstraints = [
             transferMessageStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -186,5 +207,29 @@ extension ChatRoomViewController {
         ]
         
         constraintsActivate(transferMessageStackViewConstraints, chatListCollectionViewConstraints)
+    }
+}
+
+extension ChatRoomViewController: OtherChatContentCollectionViewCellDelegate {
+    func showProfileHalfModal(of userID: String) {
+        guard let selectedParticiapnt = self.viewModel.selectedParticipant(of: userID) else { return }
+        
+        let profileHalfModalViewController = ProfileHalfModalViewController()
+        profileHalfModalViewController.delegate = self
+        profileHalfModalViewController.modalPresentationStyle = .pageSheet
+        if let sheet = profileHalfModalViewController.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = false
+        }
+        profileHalfModalViewController.configure(with: selectedParticiapnt)
+        present(profileHalfModalViewController, animated: true, completion: nil)
+    }
+}
+
+extension ChatRoomViewController: ProfileHalfModalViewControllerDelgate {
+    func showReportViewController(user: Participant) {
+        let reportViewController = ReportViewController(entryPoint: .block)
+        reportViewController.configureBlockUser(name: user.name)
+        self.navigationController?.pushViewController(reportViewController, animated: true)
     }
 }

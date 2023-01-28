@@ -26,6 +26,11 @@ class MyProfileEditViewController: UIViewController {
         setupNavigationBar()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        hideTabBar()
+    }
+    
     private func setupLayout() {
         view.addSubviews(profileView, bottomButton)
         
@@ -44,7 +49,7 @@ class MyProfileEditViewController: UIViewController {
         
     }
     
-    func configure(with data: ModalModel) {
+    func configure(with data: Participant) {
         profileView.configure(with: data)
     }
     

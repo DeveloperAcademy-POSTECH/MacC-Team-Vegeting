@@ -6,12 +6,17 @@
 //
 
 import UIKit
+import Kingfisher
 
 enum MessageType {
     case mine
     case other
     case otherWithProfile
     case date
+}
+
+protocol OtherChatContentCollectionViewCellDelegate: AnyObject {
+    func showProfileHalfModal(of userID: String)
 }
 
 final class OtherChatContentCollectionViewCell: UICollectionViewCell {
@@ -45,13 +50,19 @@ final class OtherChatContentCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private let profileImageView: UIImageView = {
+    private lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .vfGray3
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = SizeLiteral.profileImageSize.rawValue / 2
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
+        imageView.backgroundColor = .vfGray3
+
+        
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.addTarget(self, action: #selector(showProfileHalfModal))
+        imageView.addGestureRecognizer(tapGesture)
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
@@ -60,6 +71,9 @@ final class OtherChatContentCollectionViewCell: UICollectionViewCell {
         label.font = .preferredFont(forTextStyle: .subheadline)
         return label
     }()
+    
+    private var userID: String? = nil
+    weak var delegate: OtherChatContentCollectionViewCellDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -78,11 +92,17 @@ final class OtherChatContentCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    @objc
+    private func showProfileHalfModal() {
+        delegate?.showProfileHalfModal(of: self.userID ?? "")
+    }
+    
     func configure(with model: MessageBubble) {
+        profileImageView.setImage(kind: "profile", with: model.message.senderProfileImageURL)
         contentLabel.text = model.message.content
         dateTimeLabel.text = model.message.createdAt.toMessageTimeText()
         profileUserNameLabel.text = model.message.senderName
-        
+        userID = model.message.senderID
         if let text = model.message.content {
             contentLabel.textAlignment = text.count > 1 ? .left : .center
         }

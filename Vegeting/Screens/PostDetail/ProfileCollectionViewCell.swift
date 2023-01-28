@@ -13,22 +13,13 @@ private enum Constants {
     static let spacing = 4.0
 }
 
-struct ParticipantsInfo {
-    let profileImage: UIImage!
+struct ParticipantMinimum {
+    let profileImageURL: URL?
     let participantsName: String
+    let isHost: Bool
 }
 
-class ProfileCollectionViewCell: UICollectionViewCell {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        configureAddSubViews()
-        setupLayout()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+final class ProfileCollectionViewCell: UICollectionViewCell {
     
     private let profileImage: UIImageView = {
         let image = UIImageView()
@@ -44,8 +35,36 @@ class ProfileCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    private let hostLabel: UILabel = {
+        let label = UILabel()
+        label.text = "주최자"
+        label.textColor = .vfGray2
+        label.font = .preferredFont(forTextStyle: .caption1)
+        return label
+    }()
+    
+    private let nameStackView: UIStackView = {
+       let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.spacing = 2
+        return stackView
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        configureAddSubViews()
+        setupLayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func configureAddSubViews() {
-        contentView.addSubviews(profileImage, participantsName)
+        contentView.addSubviews(profileImage, nameStackView)
+        nameStackView.addArrangedSubview(participantsName)
     }
     
     func setupLayout() {
@@ -53,17 +72,22 @@ class ProfileCollectionViewCell: UICollectionViewCell {
             profileImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.spacing),
             profileImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.spacing),
             profileImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constants.spacing),
-            profileImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constants.spacing)
+            profileImage.heightAnchor.constraint(equalToConstant: 72),
+            profileImage.widthAnchor.constraint(equalToConstant: 72)
         ])
         
         NSLayoutConstraint.activate([
-            participantsName.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 5),
-            participantsName.widthAnchor.constraint(equalToConstant: Constants.profileImageSize)
+            nameStackView.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 15),
+            nameStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            nameStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
     
-    func configure(with data: ParticipantsInfo) {
-        profileImage.image = data.profileImage
+    func configure(with data: ParticipantMinimum) {
+        profileImage.setImage(kind: "profile", with: data.profileImageURL)
         participantsName.text = data.participantsName
+        if data.isHost {
+            nameStackView.addArrangedSubview(hostLabel)
+        }
     }
 }

@@ -8,12 +8,12 @@
 import UIKit
 
 struct TempChatModel {
-    let imageName: String = "coverImage"
     let title: String
-    let currentNumer: Int = 5
-    let latestChat: String
+    let currentNumer: Int?
+    let latestChat: String?
     var latestChatDate: Date
-    let unreadChatCount: Int = 5
+    let unreadChatCount: Int?
+    let imageURL: URL?
 }
 
 class ChatRoomListViewController: UIViewController {
@@ -27,13 +27,18 @@ class ChatRoomListViewController: UIViewController {
         return tableView
     }()
     
-    private var chatList: [TempChatModel] = [] {
+    // 데이터 전달용
+    private var chatList: [RecentChat] = [] 
+
+    //  테이블 뷰  용
+    private var chatListData: [TempChatModel] = [] {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 self?.tableView.reloadData()
             }
         }
     }
+
     
     private var user: VFUser? = nil
     
@@ -48,6 +53,15 @@ class ChatRoomListViewController: UIViewController {
         requestUserInfo()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
+        requestUserInfo()
+        guard let selectedIndexPath = tableView.indexPathForSelectedRow else { return }
+        tableView.deselectRow(at: selectedIndexPath, animated: true)
+    }
+    
+    
     // MARK: - func
     
     private func setupLayout() {
@@ -60,6 +74,7 @@ class ChatRoomListViewController: UIViewController {
     
     private func configureTableView() {
         tableView.dataSource = self
+        tableView.delegate = self
     }
     
     private func setupNavigationBar() {
@@ -75,25 +90,31 @@ class ChatRoomListViewController: UIViewController {
         view.backgroundColor = .white
     }
     func requestUserInfo() {
-        Task { [weak self] in
-            self?.user = await FirebaseManager.shared.requestUser()
-            guard let user = user else { return }
-            self?.user = user
-            self?.bind()
-        }
+        user = AuthManager.shared.currentUser()
+        bind()
     }
     
     private func bind() {
+        user = AuthManager.shared.currentUser()
         guard let user = user else { return }
+        var lastReadIndexInChatRoom = calculateUnreadCountInChat(participatedChats: user.participatedChats)
         
-        FirebaseManager.shared.requestRecentChat(user: user) { result in
+        FirebaseManager.shared.requestRecentChat(user: user) { [weak self] result in
             switch result {
             case .success(let recentChats):
-                self.chatList = recentChats.map { recentChat in
+                self?.chatList = recentChats
+                self?.chatListData = recentChats.map { recentChat -> TempChatModel in
                     let title = recentChat.chatRoomName ?? ""
                     let lastestChat = recentChat.lastSentMessage ?? ""
                     let lastestChatDate = recentChat.lastSentTime ?? Date()
-                    let result = TempChatModel(title: title, latestChat: lastestChat, latestChatDate: lastestChatDate)
+                    let unreadMessageCount = self?.calculateUnreadMessage(messagesCount: recentChat.messagesCount,
+                                                                          lastReadIndexByUser: lastReadIndexInChatRoom[recentChat.chatRoomID ?? ""])
+                    let result = TempChatModel(title: title,
+                                               currentNumer: recentChat.numberOfParticipants,
+                                               latestChat: recentChat.lastSentMessage,
+                                               latestChatDate: recentChat.lastSentTime,
+                                               unreadChatCount: unreadMessageCount,
+                                               imageURL: recentChat.coverImageURL)
                     return result
                 }
             case .failure(let error):
@@ -101,7 +122,27 @@ class ChatRoomListViewController: UIViewController {
             }
         }
     }
-  
+    
+    /// 참여한 채팅방에 마지막으로 읽은 Index를 알려주는 Dictionary
+    private func calculateUnreadCountInChat(participatedChats: [ParticipatedChatRoom]?) -> [String: Int] {
+        var result = [String: Int]()
+        guard let participatedChats = participatedChats else { return result }
+        participatedChats.forEach {
+            if let chatID = $0.chatID, let lastReadIndex = $0.lastReadIndex {
+                result.updateValue(lastReadIndex, forKey: chatID)
+            }
+        }
+        return result
+    }
+    
+    ///  안읽은 메세지 수 계산(채팅방 메시지 - 해당 유저가 마지막으로 읽은 index)
+    private func calculateUnreadMessage(messagesCount: Int?, lastReadIndexByUser: Int?) -> Int {
+        if let messagesCount = messagesCount, let lastReadIndexByUser = lastReadIndexByUser {
+            return (messagesCount - 1) - lastReadIndexByUser
+        } else {
+            return 0
+        }
+    }
 }
 
 extension ChatRoomListViewController: UITableViewDataSource {
@@ -113,8 +154,21 @@ extension ChatRoomListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatRoomTableViewCell.className) as? ChatRoomTableViewCell else { return UITableViewCell() }
         
-        cell.configure(with: chatList[indexPath.row])
+        cell.configure(with: chatListData[indexPath.row])
         return cell
     }
     
+}
+
+extension ChatRoomListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let viewController = ChatRoomViewController()
+        let selectedChatRoom = chatList[indexPath.row]
+        let participatedChatRoom = ParticipatedChatRoom(chatID: selectedChatRoom.chatRoomID,
+                                                        chatName: selectedChatRoom.chatRoomName ?? "",
+                                                        imageURL: selectedChatRoom.coverImageURL, lastReadIndex: nil)
+        guard let user = self.user else { return }
+        viewController.configureViewModel(participatedChatRoom: participatedChatRoom, user: user)
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }
