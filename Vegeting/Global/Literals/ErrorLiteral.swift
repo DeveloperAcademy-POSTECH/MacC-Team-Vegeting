@@ -19,3 +19,13 @@ enum StorageError: Error {
     case uploadFail
     case downloadFail
 }
+
+struct ErrorLiteral {
+    enum KakaoAPI: Error {
+        case failedToLoadPlace
+        case failedToLoadAddress
+        case invalidRestAPIKey
+        case failedToDecodeData
+        case failedToLoadData
+    }
+}

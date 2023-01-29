@@ -7,8 +7,23 @@
 
 import Foundation
 
-struct Address {
+struct Address: Codable {
     let addressName: String
     let longitudeX: String
     let latitudeY: String
+
+    enum CodingKeys: String, CodingKey {
+        case addressName = "address_name"
+        case longitudeX = "x"
+        case latitudeY = "y"
+    }
+}
+
+
+struct AddressResponseModel: Codable {
+    let documents: [Address]?
+
+    enum Codingkeys: String, CodingKey {
+        case addressList = "documents"
+    }
 }

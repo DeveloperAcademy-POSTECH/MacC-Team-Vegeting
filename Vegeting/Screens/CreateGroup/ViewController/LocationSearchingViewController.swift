@@ -121,84 +121,64 @@ final class LocationSearchingViewController: UIViewController {
     private func touchUpToPop() {
         self.navigationController?.popViewController(animated: true)
     }
-    
-    private func requestAddress(keyword: String) async {
-        guard let apiKey = StringLiteral.kakaoRESTAPIKey else { return }
-        
-        let headers: HTTPHeaders = [
-            "Authorization": apiKey
+
+    private func requestAddress(keyword: String) async throws -> [Address] {
+        guard let apiKey = StringLiteral.kakaoRESTAPIKey else { throw ErrorLiteral.KakaoAPI.invalidRestAPIKey }
+        var url = URLComponents(string: StringLiteral.kakaoRestAPIAddress)
+        url?.queryItems = [
+            URLQueryItem(name: "query", value: keyword),
+            URLQueryItem(name: "page", value: "1"),
+            URLQueryItem(name: "size", value: "3")
         ]
-        
-        let parameters: [String: Any] = [
-            "query": keyword,
-            "page": 1,
-            "size": 3
-        ]
-        
-        Session.default.request(StringLiteral.kakaoRestAPIAddress,
-                                method: .get,
-                                parameters: parameters,
-                                headers: headers).responseJSON(completionHandler: { [weak self] response in
-            switch response.result {
-            case .success(let value):
-                var list: [Address] = []
-                if let detailsPlace = JSON(value)["documents"].array{
-                    for item in detailsPlace{
-                        let addressName = item["address"]["address_name"].string ?? ""
-                        let longitudeX = item["x"].string ?? ""
-                        let latitudeY = item["y"].string ?? ""
-                        list.append(Address(addressName: addressName,
-                                            longitudeX: longitudeX,
-                                            latitudeY: latitudeY))
-                    }
-                }
-                self?.addressResultList = list
-                
-            case .failure(let error):
-                print(error)
+
+        guard let url = url else { throw ErrorLiteral.KakaoAPI.failedToLoadAddress }
+        do {
+            var urlRequest = try URLRequest(url: url, method: .get)
+            urlRequest.headers = [
+                "Authorization": apiKey
+            ]
+            let (data, response) = try await URLSession.shared.data(for: urlRequest)
+            guard let httpResponse = response as? HTTPURLResponse,
+                  httpResponse.statusCode == 200 else {
+                throw ErrorLiteral.KakaoAPI.failedToLoadData
             }
-        })
+            let result = try JSONDecoder().decode(AddressResponseModel.self, from: data)
+            guard let addressList = result.documents else {
+                throw ErrorLiteral.KakaoAPI.failedToDecodeData
+            }
+            return addressList
+        } catch {
+            throw error
+        }
     }
     
-    private func requestPlace(keyword: String) async {
-        guard let apiKey = StringLiteral.kakaoRESTAPIKey else { return }
-        
-        let headers: HTTPHeaders = [
+    func requestPlace(keyword: String) async throws -> [Place] {
+        guard let apiKey = StringLiteral.kakaoRESTAPIKey else { throw ErrorLiteral.KakaoAPI.invalidRestAPIKey }
+        var url = URLComponents(string: StringLiteral.kakaoRestAPIKeyword)!
+        url.queryItems = [
+            URLQueryItem(name: "query", value: keyword),
+            URLQueryItem(name: "page", value: "1"),
+            URLQueryItem(name: "size", value: "10"),
+        ]
+
+        var urlRequest = try URLRequest(url: url, method: .get)
+        urlRequest.headers = [
             "Authorization": apiKey
         ]
         
-        let parameters: [String: Any] = [
-            "query": keyword,
-            "page": 1,
-            "size": 10
-        ]
-        
-        AF.request(StringLiteral.kakaoRestAPIKeyword,
-                   method: .get,
-                   parameters: parameters,
-                   headers: headers).responseJSON(completionHandler: { [weak self] response in
-            switch response.result {
-            case .success(let value):
-                var list: [Place] = []
-                if let detailsPlace = JSON(value)["documents"].array{
-                    for item in detailsPlace{
-                        let placeName = item["place_name"].string ?? ""
-                        let addressName = item["address_name"].string ?? ""
-                        let longitudeX = item["x"].string ?? ""
-                        let latitudeY = item["y"].string ?? ""
-                        list.append(Place(placeName: placeName,
-                                          addressName: addressName,
-                                          longitudeX: longitudeX,
-                                          latitudeY: latitudeY))
-                    }
-                }
-                self?.placeResultList = list
-                self?.autoSearchCompleter.queryFragment = keyword
-                
-            case .failure(let error):
-                print(error)
+        do {
+            print(url)
+            let (data, response) = try await URLSession.shared.data(for: urlRequest)
+            guard let httpResponse = response as? HTTPURLResponse,
+                  httpResponse.statusCode == 200 else {
+                throw ErrorLiteral.KakaoAPI.failedToLoadAddress
             }
-        })
+            let result = try JSONDecoder().decode(PlaceResponseModel.self, from: data)
+            return result.placeList ?? []
+        } catch {
+            print(error.localizedDescription)
+            throw error
+        }
     }
 }
 
@@ -251,9 +231,18 @@ extension LocationSearchingViewController: UISearchBarDelegate {
             autoSearchResults.removeAll()
         }
         
-        Task {
-            await requestAddress(keyword: searchText)
-            await requestPlace(keyword: searchText)
+        Task { [weak self] in
+            do {
+                let addressList = try await requestAddress(keyword: searchText)
+                self?.addressResultList = addressList
+                print("address Result:", addressResultList)
+                let list = try await requestPlace(keyword: searchText)
+                self?.placeResultList = list
+                self?.autoSearchCompleter.queryFragment = searchText
+            } catch {
+            
+                print(error.localizedDescription)
+            }
         }
         
     }
