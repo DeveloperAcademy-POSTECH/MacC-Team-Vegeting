@@ -23,9 +23,7 @@
 		4A7112A22935FC8E00FF5DB6 /* ParticipateHalfViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7112A12935FC8E00FF5DB6 /* ParticipateHalfViewController.swift */; };
 		4A759EEE291D18EF00E7DF9B /* SecondCreateGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A215B29829069D9600DD60B2 /* SecondCreateGroupViewController.swift */; };
 		4A91B7DA29252DE60053AD32 /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A91B7D929252DE60053AD32 /* Int+Extension.swift */; };
-		4AB5C27429078A910064C41E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 4AB5C27329078A910064C41E /* Alamofire */; };
 		4AB5C27729078AE90064C41E /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB5C27629078AE90064C41E /* Address.swift */; };
-		4AB5C27A29078DB20064C41E /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 4AB5C27929078DB20064C41E /* SwiftyJSON */; };
 		4AB5C27C2907A9CE0064C41E /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB5C27B2907A9CE0064C41E /* Place.swift */; };
 		4AC8F0632906BD18007D3946 /* LocationSearchingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC8F0622906BD18007D3946 /* LocationSearchingViewController.swift */; };
 		4AC8F0652906C5E0007D3946 /* SearchedAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC8F0642906C5E0007D3946 /* SearchedAddressTableViewCell.swift */; };
@@ -79,6 +77,7 @@
 		76B02839290526AF002C9DF7 /* Club.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B02838290526AF002C9DF7 /* Club.swift */; };
 		76B0283B290528F8002C9DF7 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B0283A290528F8002C9DF7 /* Chat.swift */; };
 		76B0283D29052937002C9DF7 /* Participant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76B0283C29052937002C9DF7 /* Participant.swift */; };
+		76D708BD29862F7800FC4A0C /* HTTPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76D708BC29862F7800FC4A0C /* HTTPManager.swift */; };
 		76E9EC3E2919C9FC00193B1C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76E9EC3D2919C9FC00193B1C /* GoogleService-Info.plist */; };
 		76FF7CF62917BDF70020BB2C /* KakaoSDKAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 76FF7CF52917BDF70020BB2C /* KakaoSDKAuth */; };
 		76FF7CF82917BDF70020BB2C /* KakaoSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 76FF7CF72917BDF70020BB2C /* KakaoSDKCommon */; };
@@ -198,6 +197,7 @@
 		76B02838290526AF002C9DF7 /* Club.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Club.swift; sourceTree = "<group>"; };
 		76B0283A290528F8002C9DF7 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		76B0283C29052937002C9DF7 /* Participant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Participant.swift; sourceTree = "<group>"; };
+		76D708BC29862F7800FC4A0C /* HTTPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPManager.swift; sourceTree = "<group>"; };
 		76E9EC3D2919C9FC00193B1C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A2007F4B2914BF5D0003DABB /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		A203AB48293675B0008CB260 /* Report.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
@@ -255,8 +255,6 @@
 				76B0282F29052209002C9DF7 /* FirebaseAuthCombine-Community in Frameworks */,
 				76FF7CF82917BDF70020BB2C /* KakaoSDKCommon in Frameworks */,
 				76B0283129052209002C9DF7 /* FirebaseFirestore in Frameworks */,
-				4AB5C27A29078DB20064C41E /* SwiftyJSON in Frameworks */,
-				4AB5C27429078A910064C41E /* Alamofire in Frameworks */,
 				A2B07746292381BE00DFEC08 /* FirebaseStorage in Frameworks */,
 				76FF7CFA2917BDF70020BB2C /* KakaoSDKUser in Frameworks */,
 				76FF7CF62917BDF70020BB2C /* KakaoSDKAuth in Frameworks */,
@@ -615,6 +613,7 @@
 				7645E75629070FC6009E2E3B /* FirebaseManager.swift */,
 				7628CC782913DEAE00CDA679 /* AuthManager.swift */,
 				A2C7DE572923720300269339 /* FirebaseStorageManager.swift */,
+				76D708BC29862F7800FC4A0C /* HTTPManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -823,8 +822,6 @@
 				76B0283029052209002C9DF7 /* FirebaseFirestore */,
 				76B0283229052209002C9DF7 /* FirebaseFirestoreCombine-Community */,
 				76B0283429052209002C9DF7 /* FirebaseFirestoreSwift */,
-				4AB5C27329078A910064C41E /* Alamofire */,
-				4AB5C27929078DB20064C41E /* SwiftyJSON */,
 				76FF7CF52917BDF70020BB2C /* KakaoSDKAuth */,
 				76FF7CF72917BDF70020BB2C /* KakaoSDKCommon */,
 				76FF7CF92917BDF70020BB2C /* KakaoSDKUser */,
@@ -866,8 +863,6 @@
 			mainGroup = A7C8DF172901274500F38AD7;
 			packageReferences = (
 				76B0282B29052209002C9DF7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
-				4AB5C27229078A910064C41E /* XCRemoteSwiftPackageReference "Alamofire" */,
-				4AB5C27829078DB20064C41E /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				76FF7CF42917BDF70020BB2C /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
 				A23990DA29346FE500664C5C /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				4A1B961729432997009FCFE3 /* XCRemoteSwiftPackageReference "lottie-ios" */,
@@ -968,6 +963,7 @@
 				A7C8DF242901274500F38AD7 /* AppDelegate.swift in Sources */,
 				4AFA58AA2903EA6400679142 /* UIView+Extension.swift in Sources */,
 				A7970136292CA1A0007BF519 /* VegetarianTypeDescription.swift in Sources */,
+				76D708BD29862F7800FC4A0C /* HTTPManager.swift in Sources */,
 				A2957961292B63B5008D513F /* ClubListCollectionView.swift in Sources */,
 				765C9E8729231A730090B14A /* ChatRoomViewModel.swift in Sources */,
 				4A50D5A52908E03600D1ADE4 /* EmptyResultView.swift in Sources */,
@@ -1314,22 +1310,6 @@
 				kind = branch;
 			};
 		};
-		4AB5C27229078A910064C41E /* XCRemoteSwiftPackageReference "Alamofire" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
-		4AB5C27829078DB20064C41E /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
 		76B0282B29052209002C9DF7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -1361,16 +1341,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 4A1B961729432997009FCFE3 /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
-		};
-		4AB5C27329078A910064C41E /* Alamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4AB5C27229078A910064C41E /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = Alamofire;
-		};
-		4AB5C27929078DB20064C41E /* SwiftyJSON */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4AB5C27829078DB20064C41E /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
-			productName = SwiftyJSON;
 		};
 		76B0282C29052209002C9DF7 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;

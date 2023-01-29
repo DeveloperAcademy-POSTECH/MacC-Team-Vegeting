@@ -8,9 +8,6 @@
 import MapKit
 import UIKit
 
-import Alamofire
-import SwiftyJSON
-
 protocol LocationSearchingViewControllerDelegate: AnyObject {
     func configureLocationText(with text: String)
 }
@@ -131,10 +128,12 @@ final class LocationSearchingViewController: UIViewController {
             URLQueryItem(name: "size", value: "3")
         ]
 
-        guard let url = url else { throw ErrorLiteral.KakaoAPI.failedToLoadAddress }
+        guard let url = url?.url else { throw ErrorLiteral.KakaoAPI.failedToLoadAddress }
         do {
             var urlRequest = try URLRequest(url: url, method: .get)
-            urlRequest.headers = [
+            urlRequest.httpMethod = "GET"
+            
+            urlRequest.allHTTPHeaderFields = [
                 "Authorization": apiKey
             ]
             let (data, response) = try await URLSession.shared.data(for: urlRequest)
@@ -161,10 +160,12 @@ final class LocationSearchingViewController: UIViewController {
             URLQueryItem(name: "size", value: "10"),
         ]
 
-        var urlRequest = try URLRequest(url: url, method: .get)
-        urlRequest.headers = [
+        guard let url = url.url else { throw ErrorLiteral.KakaoAPI.failedToLoadAddress }
+        var urlRequest = URLRequest(url: url)
+        urlRequest.allHTTPHeaderFields = [
             "Authorization": apiKey
         ]
+        urlRequest.httpMethod = "GET"
         
         do {
             print(url)
