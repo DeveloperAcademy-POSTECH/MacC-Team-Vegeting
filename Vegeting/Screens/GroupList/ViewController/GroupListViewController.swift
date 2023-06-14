@@ -52,7 +52,7 @@ class GroupListViewController: UIViewController {
     
     private lazy var groupCategoryView: GroupCategoryView = {
         let groupCategoryView = GroupCategoryView()
-        groupCategoryView.changeCategoryList(with: ["전체", "맛집", "행사", "기타"])
+        groupCategoryView.changeCategoryList(with: ["전체", "맛집", "파티", "행사", "기타"])
         groupCategoryView.delegate = self
         return groupCategoryView
     }()
@@ -80,17 +80,10 @@ class GroupListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         showTabBar()
+        refreshList()
     }
     
     //MARK: - func
-    
-    private func showTabBar() {
-        self.tabBarController?.tabBar.isHidden = false
-    }
-    
-    private func hideTabBar() {
-        tabBarController?.tabBar.isHidden = true
-    }
     
     private func configureUI() {
         view.backgroundColor = .systemBackground
@@ -122,6 +115,16 @@ class GroupListViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func refreshList() {
+        Task {
+            resetClubArray()
+            allClubList = await FirebaseManager.shared.requestClubInformation() ?? []
+            fetchClubLists()
+            updateShowClubList()
+            updateCollectionViewList()
+        }
     }
     
     @objc

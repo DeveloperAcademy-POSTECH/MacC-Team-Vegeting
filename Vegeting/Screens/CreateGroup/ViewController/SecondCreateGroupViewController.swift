@@ -203,12 +203,13 @@ final class SecondCreateGroupViewController: BaseViewController {
 
     private func registerClub() {
         guard var club = makeClub(),
-              let chat = makeChat() else { return }
-        
+              var chat = makeChat() else { return }
+
         requestImageURL() { url in
             club.coverImageURL = url
+            chat.coverImageURL = url
             Task {
-                guard let vfUser = await FirebaseManager.shared.requestUser() else { return }
+                guard let vfUser = AuthManager.shared.currentUser() else { return }
                 FirebaseManager.shared.requestPost(user: vfUser, club: club, chat: chat)
             }
         }

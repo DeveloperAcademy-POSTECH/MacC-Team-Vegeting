@@ -13,6 +13,8 @@ final class ProfileView: UIView {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 51.5
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
@@ -139,6 +141,7 @@ final class ProfileView: UIView {
                                           bottom: self.bottomAnchor,
                                           trailing: self.trailingAnchor,
                                           padding: UIEdgeInsets(top: UIScreen().hasNotch ? 35 : 15, left: 30, bottom: 0, right: 30))
+        interestCollectionView.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
     }
     
@@ -147,13 +150,16 @@ final class ProfileView: UIView {
         self.layer.cornerRadius = 24
     }
     
-    func configure(with data: ModalModel) {
-        profileImageView.image = data.image
-        nicknameLabel.text = data.nickname
-        vegetarianStepLabel.text = data.vegetarianStep
-        ageGroupLabel.text = data.ageGroup
+    func configure(with data: Participant) {
+        profileImageView.setImage(kind: "profile", with: data.profileImageURL)
+        nicknameLabel.text = data.name
+        vegetarianStepLabel.text = data.vegetarianType
+        ageGroupLabel.text = data.birth?.toAgeGroup()
         locationLabel.text = data.location
         genderLabel.text = data.gender
         selfIntroductionLabel.text = data.introduction
+        interestCollectionView.changeCategoryList(with: data.interests ?? [])
+        
     }
 }
+

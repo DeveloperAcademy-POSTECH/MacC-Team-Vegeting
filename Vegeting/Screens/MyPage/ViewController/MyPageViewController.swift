@@ -14,6 +14,15 @@ class MyPageViewController: UIViewController {
         case setting = 1
     }
     
+    private enum SettingElement: Int {
+        case participatedClub = 1
+        case termsOfUse = 3
+        case privacyPolicy = 4
+        case suggest = 5
+        case logout = 7
+        case unregister = 8
+    }
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.showsVerticalScrollIndicator = false
@@ -26,14 +35,12 @@ class MyPageViewController: UIViewController {
     }()
     
     private let tableCellList: [MyPageSettingElement] = [MyPageSettingElement(text: "모임", isSmallTitle: true),
-                                                         MyPageSettingElement(text: "주최한 모임", isSmallTitle: false),
-                                                         MyPageSettingElement(text: "설정", isSmallTitle: true),
-                                                         MyPageSettingElement(text: "채팅 알람", isSmallTitle: false, isSwitch: true),
-                                                         MyPageSettingElement(text: "차단한 사용자 관리", isSmallTitle: false),
+                                                         MyPageSettingElement(text: "참여한 모임", isSmallTitle: false),
                                                          MyPageSettingElement(text: "안내", isSmallTitle: true),
-                                                         MyPageSettingElement(text: "공지사항", isSmallTitle: false),
-                                                         MyPageSettingElement(text: "고객센터", isSmallTitle: false),
-                                                         MyPageSettingElement(text: "게정", isSmallTitle: true),
+                                                         MyPageSettingElement(text: "이용약관", isSmallTitle: false),
+                                                         MyPageSettingElement(text: "개인정보 처리방침", isSmallTitle: false),
+                                                         MyPageSettingElement(text: "건의하기", isSmallTitle: false),
+                                                         MyPageSettingElement(text: "계정", isSmallTitle: true),
                                                          MyPageSettingElement(text: "로그아웃", isSmallTitle: false),
                                                          MyPageSettingElement(text: "회원탈퇴", isSmallTitle: false)]
     
@@ -59,10 +66,7 @@ class MyPageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         showTabBar()
-        Task { [weak self] in
-            guard let vfUser = await FirebaseManager.shared.requestUser() else { return }
-            self?.vfUser = vfUser
-        }
+        self.vfUser = AuthManager.shared.currentUser()
     }
 
     //MARK: - func
@@ -77,10 +81,6 @@ class MyPageViewController: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .white
-    }
-    
-    private func showTabBar() {
-        tabBarController?.tabBar.isHidden = false
     }
     
     private func setupNavigationBar() {
@@ -113,11 +113,7 @@ extension MyPageViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageProfileTableViewCell.className, for: indexPath) as? MyPageProfileTableViewCell else { return UITableViewCell() }
             cell.delegate = self
             cell.selectionStyle = .none
-            Task {
-                guard let vfUser = await FirebaseManager.shared.requestUser() else { return }
-                cell.configure(image: "coverImage", nickName: vfUser.userName, step: vfUser.vegetarianType)
-                self.vfUser = vfUser
-            }
+            cell.configure(imageURL: vfUser?.imageURL, nickName: vfUser?.userName ?? "", step: vfUser?.vegetarianType ?? "")
             return cell
         case TableSection.setting.rawValue:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MyPageTableViewCell.className, for: indexPath) as? MyPageTableViewCell else { return UITableViewCell() }
@@ -133,9 +129,31 @@ extension MyPageViewController: UITableViewDataSource {
 extension MyPageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
-        case 1 :
+        case SettingElement.participatedClub.rawValue:
             let viewController = MyClubsViewController()
             self.navigationController?.pushViewController(viewController, animated: true)
+        case SettingElement.termsOfUse.rawValue:
+            guard let url = URL(string: StringLiteral.termsOfUseNotionLink) else { return }
+            UIApplication.shared.open(url)
+        case SettingElement.privacyPolicy.rawValue:
+            guard let url = URL(string: StringLiteral.privayPolicyNotionLink) else { return }
+            UIApplication.shared.open(url)
+        case SettingElement.suggest.rawValue:
+            guard let url = URL(string: StringLiteral.suggestGoogleLink) else { return }
+            UIApplication.shared.open(url)
+        case SettingElement.logout.rawValue:
+            makeRequestAlert(title: "로그아웃",
+                             message: "정말 로그아웃 하시겠습니까?",
+                             okTitle: "확인",
+                             cancelTitle: "취소") { okAction in
+                AuthManager.shared.requestSignOut()
+                NotificationCenter.default.post(name: NSNotification.Name("sceneRootViewToSignInViewController"), object: nil)
+
+                
+            }
+
+        case SettingElement.unregister.rawValue:
+            print("unregister")
         default:
             return
         }
@@ -148,14 +166,14 @@ extension MyPageViewController: MyPageProfileTableViewCellDelegate {
         let viewController = MyProfileEditViewController()
         guard let vfUser = self.vfUser else { return } // return에 아직 vfuser값이 들어오지 않았을 경우 에러 처리 or 뷰 처리
         
-        let modalModel = ModalModel(nickname: vfUser.userName,
-                                    vegetarianStep: vfUser.vegetarianType,
-                                    ageGroup: vfUser.birth.toAgeGroup(),
-                                    location: vfUser.location,
-                                    gender: vfUser.gender,
-                                    introduction: "사람을 좋아하고, 자연을 사랑하는 플렉시테리언입니다. 이곳에서 소중한 인연 많이 만들어갔으면 좋겠어요.")
-        
-        viewController.configure(with: modalModel)
+        let profileModel = Participant(userID: vfUser.userID, name: vfUser.userName,
+                                       birth: vfUser.birth,
+                                       location: vfUser.location,
+                                       gender: vfUser.gender,
+                                       vegetarianType: vfUser.vegetarianType,
+                                       introduction: vfUser.introduction,
+                                       interests: vfUser.interests)
+        viewController.configure(with: profileModel)
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     

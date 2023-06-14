@@ -13,6 +13,7 @@ final class PostDetailViewController: UIViewController {
     enum EntryPoint {
         case mine
         case other
+        case participatedInOther
     }
     
     private var club: Club
@@ -25,7 +26,7 @@ final class PostDetailViewController: UIViewController {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.setImage(with: club.coverImageURL)
+        imageView.setImage(kind: "groupCoverBasicImage", with: club.coverImageURL)
         return imageView
     }()
     
@@ -73,14 +74,13 @@ final class PostDetailViewController: UIViewController {
         label.font = .preferredFont(forTextStyle: .headline)
         return label
     }()
-    
-    let profileImages = ["profile1.jpg", "profile2.jpg", "profile3.jpg", "profile4.jpg", "profile5.jpg"]
-    let participantsNames = ["거북짱", "내가 올해 수영왕", "양송이좋아", "베프", "고수러버"]
-    
+        
     private let profileCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 80, height: 80)
+        layout.itemSize = CGSize(width: 80, height: 125)
         layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 16
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(ProfileCollectionViewCell.self, forCellWithReuseIdentifier: ProfileCollectionViewCell.className)
@@ -89,10 +89,10 @@ final class PostDetailViewController: UIViewController {
         return collectionView
     }()
     
-    lazy private var enterButton: BottomButton = {
+    private lazy var enterButton: BottomButton = {
         let button = BottomButton()
         button.setTitle("참여하기", for: .normal)
-        button.addTarget(self, action: #selector(enterButtonTapped(_:)), for: .touchUpInside)
+        button.addTarget(self, action: #selector(enterButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -200,11 +200,11 @@ final class PostDetailViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            profileCollectionView.topAnchor.constraint(equalTo: participantsCapacityLabel.bottomAnchor),
-            profileCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            profileCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            profileCollectionView.topAnchor.constraint(equalTo: participantsCapacityLabel.bottomAnchor, constant: 15),
+            profileCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            profileCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             profileCollectionView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            profileCollectionView.heightAnchor.constraint(equalToConstant: 115)
+            profileCollectionView.heightAnchor.constraint(equalToConstant: 150)
         ])
         
         NSLayoutConstraint.activate([
@@ -214,9 +214,46 @@ final class PostDetailViewController: UIViewController {
     }
     
     private func setupEnterButtonUI() {
-        if entryPoint == .mine {
+        
+        switch entryPoint {
+        case .mine:
             enterButton.isEnabled = false
+        case .other:
+            return
+        case .participatedInOther:
+            enterButton.setTitle("모임 나가기", for: .normal)
         }
+    }
+    
+    @objc
+    private func enterButtonTapped() {
+        switch entryPoint {
+        case .mine:
+            return
+        case .other:
+            showParticipateHalfModal()
+        case .participatedInOther:
+            leaveClub()
+        }
+    }
+    
+    private func leaveClub() {
+        makeRequestAlert(title: "모임 나가기",
+                         message: "현재 참여 중인 모임입니다.\n모임을 나가면, 모임의 채팅방도\n나가게 됩니다.",
+                         okTitle: "나가기", cancelTitle: "취소") { okAction in
+            // TODO: - 모임 나가기 코드
+        }
+    }
+    
+    private func showParticipateHalfModal() {
+        let viewController = ParticipateHalfViewController(club: self.club)
+        viewController.delegate = self
+        viewController.modalPresentationStyle = .pageSheet
+        if let sheet = viewController.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = false
+        }
+        present(viewController, animated: true, completion: nil)
     }
     
     @objc
@@ -229,8 +266,8 @@ final class PostDetailViewController: UIViewController {
         switch entryPoint {
         case .mine:
             actions = makeAlertActionForMine()
-        case .other:
-            actions = makeAlertActionForMine()
+        case .other, .participatedInOther:
+            actions = makeAlertActionForOther()
         }
         firstAlertAction = actions.firstAction
         secondAlertAction = actions.secondAction
@@ -243,9 +280,9 @@ final class PostDetailViewController: UIViewController {
     }
     
     private func makeAlertActionForMine() -> (firstAction: UIAlertAction, secondAction: UIAlertAction) {
-        let firstAlertAction = UIAlertAction(title: "게시글 삭제", style: .destructive, handler: { [weak self] _ in
-            self?.makeRequestAlert(title: "게시글을 삭제하시겠습니까?",
-                                   message: "게시글이 삭제되어도,\n채팅방은 사라지지 않습니다.",
+        let firstAlertAction = UIAlertAction(title: "모임 삭제", style: .destructive, handler: { [weak self] _ in
+            self?.makeRequestAlert(title: "모임 삭제",
+                                   message: "게시글, 모임 채팅방이 삭제되며,\n되돌릴 수 없습니다.",
                                    okTitle: "삭제",
                                    cancelTitle: "취소") { okAction in
                 // TODO: - 삭제 코드
@@ -263,11 +300,12 @@ final class PostDetailViewController: UIViewController {
     
     private func makeAlertActionForOther() -> (firstAction: UIAlertAction, secondAction: UIAlertAction) {
         let firstAlertAction = UIAlertAction(title: "게시글 신고", style: .default, handler: { [weak self] _ in
-            self?.makeRequestAlert(title: "게시글을 신고하시겠습니까?",
-                                   message: "",
+            self?.makeRequestAlert(title: "게시글 신고",
+                                   message: "운영진이 검토 후 해당 사용자를 활동 중지,\n계정 삭제 등의 조치를 취할 수 있습니다.",
                                    okTitle: "신고",
                                    cancelTitle: "취소") { okAction in
-                // TODO: - 신고 코드
+                let reportViewController = ReportViewController(entryPoint: .report)
+                self?.navigationController?.pushViewController(reportViewController, animated: true)
             }
         })
         
@@ -276,7 +314,8 @@ final class PostDetailViewController: UIViewController {
                                    message: "해당 사용자가 작성한\n모임 모집글을 볼 수 없게 됩니다.",
                                    okTitle: "차단",
                                    cancelTitle: "취소") { okAction in
-                // TODO: - 차단 코드
+                let reportViewController = ReportViewController(entryPoint: .block)
+                self?.navigationController?.pushViewController(reportViewController, animated: true)
             }
         })
         
@@ -287,25 +326,73 @@ final class PostDetailViewController: UIViewController {
 // MARK: Target - Action 함수
 extension PostDetailViewController {
     
-    @objc
-    private func enterButtonTapped(_ sender: Any) {
-        Task {
-            guard let user = await FirebaseManager.shared.requestUser() else { return }
-            guard let club = await FirebaseManager.shared.requestMyClubInformation() else { return }
-            try await FirebaseManager.shared.participateInClub(user: user, club: club.last!)
-        }
-    }
-    
 }
-extension PostDetailViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension PostDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return profileImages.count
+        return club.participants?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCollectionViewCell.className, for: indexPath)
                 as? ProfileCollectionViewCell else { return UICollectionViewCell() }
-        cell.configure(with: ParticipantsInfo(profileImage: UIImage(named: profileImages[indexPath.item]), participantsName: participantsNames[indexPath.item]))
+        
+        let isHost = self.club.hostID == club.participants?[indexPath.item].userID
+        let participant = ParticipantMinimum(profileImageURL: club.participants?[indexPath.item].profileImageURL,
+                                                    participantsName: club.participants?[indexPath.item].name ?? "",
+                                                    isHost: isHost)
+                                             
+                                             
+        cell.configure(with: participant)
         return cell
+    }
+}
+
+extension PostDetailViewController:  UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let participant = club.participants?[indexPath.item] else { return }
+        
+        showProfileHalfModal(of: participant)
+    }
+    
+    private func showProfileHalfModal(of user: Participant) {
+        
+        let viewController = ProfileHalfModalViewController()
+        viewController.delegate = self
+        viewController.modalPresentationStyle = .pageSheet
+        if let sheet = viewController.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = false
+        }
+        viewController.configure(with: user)
+        present(viewController, animated: true, completion: nil)
+    }
+}
+
+extension PostDetailViewController: ParticipateHalfViewControllerDelegate {
+    func navigateChatRoom() {
+        
+        let viewController = ChatRoomViewController()
+        let participatedChatRoom = ParticipatedChatRoom(chatID: club.chatID, chatName: club.clubTitle, imageURL: club.coverImageURL, lastReadIndex: nil)
+        
+        Task {
+            do {
+                guard let user = AuthManager.shared.currentUser() else { return }
+                try await FirebaseManager.shared.participateInClubAsync(user: user, club: club)
+                FirebaseManager.shared.appendMemberInClub(user: user, club: club)
+                guard let newUser = AuthManager.shared.currentUser() else { return }
+                viewController.configureViewModel(participatedChatRoom: participatedChatRoom, user: newUser)
+                self.navigationController?.pushViewController(viewController, animated: true)
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+}
+
+extension PostDetailViewController: ProfileHalfModalViewControllerDelgate {
+    func showReportViewController(user: Participant) {
+        let reportViewController = ReportViewController(entryPoint: .block)
+        reportViewController.configureBlockUser(name: user.name)
+        self.navigationController?.pushViewController(reportViewController, animated: true)
     }
 }

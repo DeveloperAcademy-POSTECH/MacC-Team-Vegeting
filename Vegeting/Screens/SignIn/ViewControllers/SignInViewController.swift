@@ -14,7 +14,9 @@ class SignInViewController: UIViewController {
     
     private let brandingImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .gray
+        imageView.image = UIImage(named: "SignInBackground")
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
@@ -52,12 +54,12 @@ class SignInViewController: UIViewController {
         output.sink { [weak self] event in
             switch event {
             case .didFirstSignInWithApple, .didFirstSignInWithKakao:
-//                TODO: Profile 생성 ViewController로 이동하도록 구현
-                break
+                let firstProfileViewController = FirstProfileViewController()
+                self?.navigationController?.setViewControllers([firstProfileViewController], animated: true)
             case .didFailToSignInWithApple(let error), .didFailToSignInWithKakao(let error):
                 print(error.localizedDescription)
             case .didAlreadySignInWithApple, .didAlreadySignInWithKakao:
-                self?.navigationController?.dismiss(animated: true)
+                NotificationCenter.default.post(name: NSNotification.Name("sceneRootViewToMainTabbar"), object: nil)
             }
         }.store(in: &cancellables)
     }

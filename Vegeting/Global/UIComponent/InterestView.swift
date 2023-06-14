@@ -19,6 +19,8 @@ final class InterestView: UIView {
         case profile
         case register
     }
+    
+    var isOtherOption = true
   
     private let interestCollectionView: UICollectionView = {
         let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(76),
@@ -47,7 +49,7 @@ final class InterestView: UIView {
     }()
     
     private var interestList: [String]
-    private var selectedInterestList: [String] = []
+    private var selectedInterestList = [Int:String]()
     private let entryPoint: EntryPoint
     
     weak var delegate: InterestViewDelegate?
@@ -63,14 +65,21 @@ final class InterestView: UIView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError()
     }
     
     // MARK: - func
     
     private func setupLayout() {
         addSubview(interestCollectionView)
-        interestCollectionView.constraint(to: self)
+        interestCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            interestCollectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            interestCollectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            interestCollectionView.topAnchor.constraint(equalTo: self.topAnchor),
+            interestCollectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            
+        ])
     }
     
     private func configureCollectionView() {
@@ -79,7 +88,18 @@ final class InterestView: UIView {
     }
     
     func changeCategoryList(with list: [String]) {
-        interestList = list
+        DispatchQueue.main.async { [weak self] in
+            self?.interestList = list
+            self?.interestCollectionView.reloadData()
+        }
+    }
+    
+    func deliverInterestList() -> [String] {
+        var selectedList = selectedInterestList.map({ (key, value) -> String in
+            return value
+        })
+        
+        return selectedList
     }
 }
 
@@ -99,21 +119,28 @@ extension InterestView: UICollectionViewDataSource {
 extension InterestView: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        guard let selectedCellCount = interestCollectionView.indexPathsForSelectedItems?.count else { return true }
-        
-        if 0 <= selectedCellCount  && selectedCellCount <= 2 {
-            return true
-        } else {
+        switch entryPoint {
+        case .profile:
             return false
+        case .register:
+            guard let selectedCellCount = interestCollectionView.indexPathsForSelectedItems?.count else { return true }
+            
+            if 0 <= selectedCellCount  && selectedCellCount <= 2 {
+                return true
+            } else {
+                return false
+            }
         }
     }
   
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        judgeBottomButtonEnabled(status: true, targetValue: 1)
+            selectedInterestList[indexPath.item] = interestList[indexPath.item]
+            judgeBottomButtonEnabled(status: true, targetValue: 1)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        judgeBottomButtonEnabled(status: false, targetValue: 0)
+            selectedInterestList[indexPath.item] = nil
+            judgeBottomButtonEnabled(status: false, targetValue: 0)
     }
     
     private func judgeBottomButtonEnabled(status: Bool, targetValue: Int) {
@@ -122,5 +149,4 @@ extension InterestView: UICollectionViewDelegate {
             delegate?.setBottomButtonEnabled(to: status)
         }
     }
-    
 }

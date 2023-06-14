@@ -22,11 +22,13 @@ struct MessageBubble {
 final class ChatRoomViewModel: ViewModelType {
     
     enum Input {
+        case viewWillAppear
         case sendButtonTapped(text: String)
         case textChanged(height: CGFloat)
     }
     
     enum Output {
+        case participatedChatTitle(title: String)
         case localChatDataChanged(messageBubbles: [MessageBubble])
         case serverChatDataChanged(messageBubbles: [MessageBubble])
         case failToGetDataFromServer(error: Error)
@@ -40,9 +42,19 @@ final class ChatRoomViewModel: ViewModelType {
     private var chat: Chat?
     private var user: VFUser?
     
+    func selectedParticipant(of userID: String) -> Participant? {
+        let selectedParticipant = chat?.participants?.first(where: { participant in
+            participant.userID == userID
+        })
+        return  selectedParticipant
+    }
+    
     func transform(input: AnyPublisher<Input, Never>) -> AnyPublisher<Output, Never> {
         input.sink { [weak self] event in
             switch event {
+            case .viewWillAppear:
+                self?.setupNavigationTitle()
+                self?.requestMessagesFromServer()
             case .textChanged(let height):
                 self?.calculateTextViewHeight(height: height)
             case .sendButtonTapped(let text):
@@ -50,6 +62,12 @@ final class ChatRoomViewModel: ViewModelType {
             }
         }.store(in: &cancellables)
         return output.eraseToAnyPublisher()
+    }
+    
+    private func setupNavigationTitle() {
+        if let title = participatedChatRoom?.chatName {
+            output.send(.participatedChatTitle(title: title))
+        }
     }
     
     private func requestMessagesFromServer() {
@@ -61,6 +79,7 @@ final class ChatRoomViewModel: ViewModelType {
             }
         } receiveValue: { [weak self] chat in
             self?.chat = chat
+            self?.updateLastReadIndex()
             let messageBubbles = self?.messagesToMessageBubbles(messages: chat.messages ?? []) ?? []
             self?.output.send(.serverChatDataChanged(messageBubbles: messageBubbles))
         }.store(in: &cancellables)
@@ -68,15 +87,16 @@ final class ChatRoomViewModel: ViewModelType {
 
     private func sendMessageFromLocal(text: String) {
         guard let user = self.user else { return }
-        let message = Message(senderID: user.userID, senderName: user.userName, senderProfileImageURL: user.imageURL, contentType: "text", createdAt: Date(), imageURL: nil, content: text)
+        let message = Message(senderID: user.userID, senderName: user.userName, senderProfileImageURL: user.imageURL, contentType: "text", createdAt: Date(), content: text)
+        if chat?.messages == nil {
+            chat?.messages = []
+        }
         chat?.messages?.append(message)
-        
         guard let chat = chat, let messages = chat.messages else { return }
         let messageBubbles = messagesToMessageBubbles(messages: messages)
         output.send(.localChatDataChanged(messageBubbles: messageBubbles))
-        
         Task {
-            await FirebaseManager.shared.sendMessage(chat: chat, message: message)
+            await FirebaseManager.shared.registerMessage(chat: chat, message: message)
         }
     }
     
@@ -127,7 +147,17 @@ final class ChatRoomViewModel: ViewModelType {
     func configure(participatedChatRoom: ParticipatedChatRoom, user: VFUser) {
         self.participatedChatRoom = participatedChatRoom
         self.user = user
-        requestMessagesFromServer()
+//        setupNavigationTitle()
+//        requestMessagesFromServer()
+    }
+    
+    private func updateLastReadIndex() {
+        Task { [weak self] in
+            guard let participatedChatRoom = participatedChatRoom else { return }
+            guard let messagesCount = self?.chat?.messages?.count else { return }
+            guard let user = self?.user else { return }
+            try await FirebaseManager.shared.updateLastReadIndex(user: user, participatedChatRoom: participatedChatRoom, index: messagesCount - 1)
+        }
     }
 }
 

@@ -134,12 +134,21 @@ class ChatRoomTableViewCell: UITableViewCell {
     }
     
     func configure(with data: TempChatModel) {
-        roomImageView.image = UIImage(named: data.imageName)
+        roomImageView.setImage(kind: "groupCoverBasicImage", with: data.imageURL)
         titleLabel.text = data.title
-        currentUserCountLabel.text = data.currentNumer.description
+        currentUserCountLabel.text = data.currentNumer?.description ?? ""
         latestChatLabel.text = data.latestChat
         latestChatDateLabel.text = convertDate(lastChatDate: data.latestChatDate)
-        unreadChatCountLabel.text = data.unreadChatCount.description
+        unreadChatCountLabel.text = data.unreadChatCount?.description
+        if let count = data.unreadChatCount, count > 0 {
+            changeUnreadChatCountLabelColor(isUnreadStatus: true)
+        } else {
+            changeUnreadChatCountLabelColor(isUnreadStatus: false)
+        }
+    }
+    
+    private func changeUnreadChatCountLabelColor(isUnreadStatus: Bool) {
+        backgroundUnreadChatView.backgroundColor = isUnreadStatus ? .vfYellow1 : .vfGray4
     }
 
     private func convertDate(lastChatDate: Date) -> String {
