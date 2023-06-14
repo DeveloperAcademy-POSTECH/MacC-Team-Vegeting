@@ -19,9 +19,9 @@ jobs:
       - name: Swift Package Manager caches
         uses: actions/cache@v3
         with: 
-          path: .build
+          path: /Users/runner/Library/Developer/Xcode/DerivedData/Vegeting-fkdmmwaapsqspfbjrlrrtzavpeoh/SourcePackages/
           key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }} 
           restore-keys: |
             ${{ runner.os }}-spm-
       - name: Set Scheme and Build Xcode 
-        run: xcodebuild test -project Vegeting.xcodeproj -scheme "Vegeting" -destination "platform=iOS Simulator,name=iPhone 13 Pro,OS=16.1" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO
+        run: xcodebuild test -project Vegeting.xcodeproj -scheme "Vegeting"  -clonedSourcePackagesDirPath SourcePackages -destination "platform=iOS Simulator,name=iPhone 13 Pro,OS=16.1" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO
